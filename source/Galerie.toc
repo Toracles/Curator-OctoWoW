@@ -1,0 +1,5 @@
+## Interface: 11200
+## Title: Curator - Galerie OctoWoW
+## Notes: Apercu des cartes OctoWoW
+Catalogue.lua
+Galerie.lua

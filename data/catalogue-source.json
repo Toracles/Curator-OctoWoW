@@ -1,0 +1,8129 @@
+[
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60596,
+    "name": "Runic Construct",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60597,
+    "name": "Maddened Vault Guard",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60598,
+    "name": "Black Blood of the Demented",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60599,
+    "name": "Soulless Husk",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60601,
+    "name": "Grellkin Sorcerer",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60602,
+    "name": "Grellkin Scorcher",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60603,
+    "name": "Manacrazed Grell",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 60604,
+    "name": "Wicked Skitterer",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 80850,
+    "name": "Black Bride",
+    "level": "62",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 80851,
+    "name": "Volkan Cruelblade",
+    "level": "62",
+    "rank": 1,
+    "rarity": 6
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 80852,
+    "name": "Tham'Grarr",
+    "level": "62",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 80853,
+    "name": "Aszosh Grimflame",
+    "level": "62",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 80854,
+    "name": "Damian",
+    "level": "62",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 93105,
+    "name": "Shadow Creeper",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Stormwind Vault",
+    "area": 5087,
+    "npc": 93107,
+    "name": "Arc'tiras",
+    "level": "62",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 10116,
+    "name": "Slave",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60712,
+    "name": "Decoy Dragonling",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60715,
+    "name": "'Broody'",
+    "level": "52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60717,
+    "name": "Hateforge Chemist",
+    "level": "52-53",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60718,
+    "name": "Hateforge Cleric",
+    "level": "51-52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60719,
+    "name": "Hateforge Craftsman",
+    "level": "50-52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60720,
+    "name": "Hateforge Engineer",
+    "level": "51-52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60721,
+    "name": "Hateforge Miner",
+    "level": "49-50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60722,
+    "name": "Hateforge Overseer",
+    "level": "53",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60723,
+    "name": "Hateforge Taskmaster",
+    "level": "52-53",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60724,
+    "name": "Hateforge Warden",
+    "level": "53",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60725,
+    "name": "Twilight Fireblade",
+    "level": "54",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60726,
+    "name": "Twilight Shadowcaller",
+    "level": "54",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60734,
+    "name": "Hatereaver Annihilator",
+    "level": "55",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60735,
+    "name": "High Foreman Bargul Blackhammer",
+    "level": "54",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60736,
+    "name": "Engineer Figgles",
+    "level": "54",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60737,
+    "name": "Har'gesh Doomcaller",
+    "level": "57",
+    "rank": 1,
+    "rarity": 6
+  },
+  {
+    "album": "Hateforge Quarry",
+    "area": 5103,
+    "npc": 60829,
+    "name": "Corrosis",
+    "level": "52",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 620,
+    "name": "Chicken",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 721,
+    "name": "Rabbit",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1888,
+    "name": "Dalaran Watcher",
+    "level": "18-19",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1889,
+    "name": "Dalaran Wizard",
+    "level": "19-20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1891,
+    "name": "Pyrewood Watcher",
+    "level": "13-14",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1894,
+    "name": "Pyrewood Sentry",
+    "level": "14-15",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1895,
+    "name": "Pyrewood Elder",
+    "level": "14-15",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1923,
+    "name": "Bloodsnout Worg",
+    "level": "16-17",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1924,
+    "name": "Moonrage Bloodhowler",
+    "level": "15-16",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1933,
+    "name": "Sheep",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 1974,
+    "name": "Ravenclaw Drudger",
+    "level": "19-20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2053,
+    "name": "Haggard Refugee",
+    "level": "18-19",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2054,
+    "name": "Sickly Refugee",
+    "level": "19-20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2058,
+    "name": "Deathstalker Faerleia",
+    "level": "18",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2106,
+    "name": "Apothecary Berard",
+    "level": "16",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2173,
+    "name": "Reef Frenzy",
+    "level": "14-15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2214,
+    "name": "Deathstalker Lesh",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2265,
+    "name": "Hillsbrad Apprentice Blacksmith",
+    "level": "24-25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2266,
+    "name": "Hillsbrad Farmer",
+    "level": "23-24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2267,
+    "name": "Hillsbrad Peasant",
+    "level": "24-25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2268,
+    "name": "Hillsbrad Footman",
+    "level": "25-26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2269,
+    "name": "Hillsbrad Miner",
+    "level": "26-27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2270,
+    "name": "Hillsbrad Sentry",
+    "level": "27-28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2305,
+    "name": "Foreman Bonds",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2332,
+    "name": "Valdred Moray",
+    "level": "21",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2335,
+    "name": "Magistrate Burnside",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2349,
+    "name": "Giant Moss Creeper",
+    "level": "24-25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2350,
+    "name": "Forest Moss Creeper",
+    "level": "20-21",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2351,
+    "name": "Gray Bear",
+    "level": "21-22",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2354,
+    "name": "Vicious Gray Bear",
+    "level": "22-23",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2356,
+    "name": "Elder Gray Bear",
+    "level": "25-26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2360,
+    "name": "Hillsbrad Farmhand",
+    "level": "22-23",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2374,
+    "name": "Torn Fin Muckdweller",
+    "level": "28-29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2375,
+    "name": "Torn Fin Coastrunner",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2376,
+    "name": "Torn Fin Oracle",
+    "level": "30-31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2377,
+    "name": "Torn Fin Tidehunter",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2384,
+    "name": "Starving Mountain Lion",
+    "level": "23-24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2386,
+    "name": "Southshore Guard",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2387,
+    "name": "Hillsbrad Councilman",
+    "level": "25-26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2403,
+    "name": "Farmer Getz",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2404,
+    "name": "Blacksmith Verringtan",
+    "level": "26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2442,
+    "name": "Cow",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2448,
+    "name": "Clerk Horrace Whitesteed",
+    "level": "26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2449,
+    "name": "Citizen Wilkes",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2450,
+    "name": "Miner Hackett",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2451,
+    "name": "Farmer Kalaba",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2503,
+    "name": "Hillsbrad Foreman",
+    "level": "27-28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2529,
+    "name": "Son of Arugal",
+    "level": "24-25",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 2914,
+    "name": "Snake",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 3532,
+    "name": "Pyrewood Leatherworker",
+    "level": "14-15",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 3534,
+    "name": "Wallace the Blind",
+    "level": "19",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 4075,
+    "name": "Rat",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 5402,
+    "name": "Khan Hratha",
+    "level": "42",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 5682,
+    "name": "Dalin Forgewright",
+    "level": "20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 5758,
+    "name": "Leo Sarn",
+    "level": "18",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 6069,
+    "name": "Maraudine Khan Guard",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 6070,
+    "name": "Maraudine Khan Advisor",
+    "level": "38-39",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 6491,
+    "name": "Spirit Healer",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7068,
+    "name": "Condemned Acolyte",
+    "level": "57-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7069,
+    "name": "Condemned Monk",
+    "level": "58-59",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7070,
+    "name": "Condemned Cleric",
+    "level": "59-60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7071,
+    "name": "Cursed Paladin",
+    "level": "57-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7072,
+    "name": "Cursed Justicar",
+    "level": "59-60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7075,
+    "name": "Writhing Mage",
+    "level": "58-59",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7360,
+    "name": "Dun Garok Soldier",
+    "level": "28-29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7443,
+    "name": "Shardtooth Mauler",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7445,
+    "name": "Elder Shardtooth",
+    "level": "57-58",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 7446,
+    "name": "Rabid Shardtooth",
+    "level": "59-60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 10780,
+    "name": "Infected Deer",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 14276,
+    "name": "Scargil",
+    "level": "30",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 14279,
+    "name": "Creepthess",
+    "level": "24",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 40052,
+    "name": "Snarles Shadowpaw",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 40053,
+    "name": "Brunilda Wildstout",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 50009,
+    "name": "Suspicious Dalaran Wizard",
+    "level": "20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 50040,
+    "name": "Forworn Mule",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 51560,
+    "name": "White Stallion",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 60428,
+    "name": "Konrad Bardak",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 60890,
+    "name": "Zoltan Kork",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 60891,
+    "name": "Elizabeth Herby",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 60892,
+    "name": "Nobelke",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61227,
+    "name": "Duskpelt Prowler",
+    "level": "39-41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61228,
+    "name": "Duskpelt Stalker",
+    "level": "41-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61229,
+    "name": "Starving Duskpelt",
+    "level": "43-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61230,
+    "name": "Vilewing Batling",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61231,
+    "name": "Vilewing Bat",
+    "level": "42-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61232,
+    "name": "Hollow Web Spider",
+    "level": "42-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61233,
+    "name": "Hollow Web Venomspitter",
+    "level": "42-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61234,
+    "name": "Lingering Skeleton",
+    "level": "40-42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61235,
+    "name": "Shambling Dead",
+    "level": "39-41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61236,
+    "name": "Nighthowl Worgen",
+    "level": "41-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61237,
+    "name": "Nighthowl Alpha",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61238,
+    "name": "Nighthowl Shadowcaster",
+    "level": "42-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61239,
+    "name": "Ravenwood Spectre",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61240,
+    "name": "Ravenwood Apparition",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61241,
+    "name": "Custodian Mathias",
+    "level": "44",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61242,
+    "name": "Sergeant Gately",
+    "level": "46",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61243,
+    "name": "Brol'ok Ogre",
+    "level": "41-42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61244,
+    "name": "Brol'ok Mauler",
+    "level": "42-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61245,
+    "name": "Brol'ok Shaman",
+    "level": "42-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61246,
+    "name": "Brol'ok Smasher",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61247,
+    "name": "Chief Maulfist",
+    "level": "47",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61248,
+    "name": "Foulhide Basher",
+    "level": "43-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61249,
+    "name": "Foulhide Gnoll",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61250,
+    "name": "Foulhide Mystic",
+    "level": "39-41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61251,
+    "name": "Bloodclaw Worgen",
+    "level": "41-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61252,
+    "name": "Bloodclaw Alpha",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61253,
+    "name": "Bloodclaw Rager",
+    "level": "42-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61257,
+    "name": "Baron Caliban Silverlaine",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61258,
+    "name": "Elaroth Ranworth",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61259,
+    "name": "Lord Darius Ravenwood",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61260,
+    "name": "Moranna Rosenberg",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61261,
+    "name": "Ravenshire Guard",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61262,
+    "name": "Ravenshire Guard",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61265,
+    "name": "Sergeant Arbington",
+    "level": "52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61266,
+    "name": "Alexandra",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61267,
+    "name": "Perimus",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61268,
+    "name": "Valius",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61269,
+    "name": "Historian Samual Ravencrest",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61270,
+    "name": "Magistrate Carson",
+    "level": "37",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61271,
+    "name": "Magus Orelius",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61272,
+    "name": "Samantha Stewards",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61273,
+    "name": "Jacob Stewards",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61274,
+    "name": "Tanner Fralsh",
+    "level": "43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61275,
+    "name": "Dockwatcher Vorren",
+    "level": "39",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61276,
+    "name": "Larry Bolder",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61277,
+    "name": "Todd Bolder",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61278,
+    "name": "Narwick Everton",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61279,
+    "name": "Lance Everton",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61281,
+    "name": "Dark Bishop Mordren",
+    "level": "52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61282,
+    "name": "Deathstalker Alynna",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61283,
+    "name": "Deathstalker Vernon",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61284,
+    "name": "Dominic Larson",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61285,
+    "name": "Harlan Ballow",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61286,
+    "name": "Orvan Darkeye",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61287,
+    "name": "Harrison Blackheart",
+    "level": "43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61288,
+    "name": "Savenna Mosscage",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61289,
+    "name": "Tamara Gracefall",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61290,
+    "name": "Joshua Ebonmere",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61291,
+    "name": "Balgon Slin",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61362,
+    "name": "Foulhide Overseer",
+    "level": "41-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61363,
+    "name": "Greymane Preserver",
+    "level": "43-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61366,
+    "name": "Greymane Instigator",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61368,
+    "name": "Handon Blackhammer",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61369,
+    "name": "Anati Gapper",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61370,
+    "name": "Nolan Tanner",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61371,
+    "name": "Learic Veylon",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61372,
+    "name": "Adam Bonlay",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61373,
+    "name": "Mariette Shademore",
+    "level": "33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61375,
+    "name": "Blackthorn",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61376,
+    "name": "Livia Strongarm",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61377,
+    "name": "Luke Agamand",
+    "level": "43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61378,
+    "name": "Blackthorn Footpad",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61379,
+    "name": "Greta Longpike",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61380,
+    "name": "Odon Shademore",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61381,
+    "name": "Frell Rosewick",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61382,
+    "name": "Cook Harry",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61383,
+    "name": "Maxwell Givings",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61384,
+    "name": "Donald Rosewick",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61385,
+    "name": "Darrow Shademore",
+    "level": "47",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61386,
+    "name": "Father Oblen",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61387,
+    "name": "Brother Elias",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61392,
+    "name": "Foulhide Shaman",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61393,
+    "name": "Greymane Watcher",
+    "level": "40-41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61394,
+    "name": "Greymane Worker",
+    "level": "42-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61395,
+    "name": "Greymane Miner",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61396,
+    "name": "Greymane Taskmaster",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61397,
+    "name": "Greymane Enforcer",
+    "level": "41-42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61398,
+    "name": "Cannoneer Rileson",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61399,
+    "name": "Foulhide Miner",
+    "level": "39-40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61400,
+    "name": "Enslaved Worker",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61401,
+    "name": "Greater Vilewing Bat",
+    "level": "43-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61402,
+    "name": "Spitecrest Wavesinger",
+    "level": "44-45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61403,
+    "name": "Spitecrest Myrmidon",
+    "level": "44-46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61404,
+    "name": "Mistress Hesszha",
+    "level": "47",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61405,
+    "name": "Snarlclaw",
+    "level": "47",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61406,
+    "name": "Lord Zarsan",
+    "level": "47",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61407,
+    "name": "Spitecrest Naga",
+    "level": "43-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61408,
+    "name": "Spitecrest Netter",
+    "level": "43-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61409,
+    "name": "Spitecrest Murloc",
+    "level": "42-43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61447,
+    "name": "Mother Tanya",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61448,
+    "name": "Tess Greymane",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61449,
+    "name": "Mustang",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61450,
+    "name": "Demetreus",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61452,
+    "name": "Lurn Five-Pelts",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61454,
+    "name": "Levandra",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61455,
+    "name": "Avram Duskgarde",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61457,
+    "name": "Liam Greymane",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61458,
+    "name": "Liam Greymane",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61459,
+    "name": "Bearbane",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61460,
+    "name": "Ethan Ravencroft",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61481,
+    "name": "Shinban Four-Eyes",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61513,
+    "name": "Aliattan Anderson",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61534,
+    "name": "Councilor Ravencrest",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61535,
+    "name": "Camp Leader Gethenor",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61536,
+    "name": "Camp Chef Velden",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61537,
+    "name": "'Quaking' Kevin",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61538,
+    "name": "Vagrant Camp Refugee",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61539,
+    "name": "Clerk Ebonmere",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61540,
+    "name": "Corporal Ranworth",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61541,
+    "name": "Brigade Footman",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61542,
+    "name": "High Officer Osmark",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61543,
+    "name": "Guard Captain Marson",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61548,
+    "name": "Andana",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61549,
+    "name": "Maria Galwest",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61550,
+    "name": "Baron Perenolde",
+    "level": "45",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61551,
+    "name": "Maltimor's Prototype",
+    "level": "43",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61552,
+    "name": "Duskskitterer",
+    "level": "44",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61553,
+    "name": "Widow of the Woods",
+    "level": "40",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61554,
+    "name": "Dawnhowl",
+    "level": "40",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61555,
+    "name": "Bonecruncher",
+    "level": "44",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61558,
+    "name": "Firstborn of Arugal",
+    "level": "55",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61559,
+    "name": "Angered Phantom",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61566,
+    "name": "Captain Veller",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61570,
+    "name": "Parnabus",
+    "level": "62",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61574,
+    "name": "'Stickypaws'",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61602,
+    "name": "Matthew Beckett",
+    "level": "43",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61603,
+    "name": "Thunder",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61615,
+    "name": "Overlord Grigor",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61626,
+    "name": "Diane Cloverfield",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 61643,
+    "name": "Raven",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 62260,
+    "name": "Forest Boar",
+    "level": "23-25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas",
+    "area": 5179,
+    "npc": 62261,
+    "name": "Elder Forest Boar",
+    "level": "26-27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 4075,
+    "name": "Rat",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 22211,
+    "name": "Lovely Pink Fox",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61227,
+    "name": "Duskpelt Prowler",
+    "level": "39-41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61263,
+    "name": "Regent-Lady Celia Harlow",
+    "level": "47",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61264,
+    "name": "Regent-Lord Mortimer Harlow",
+    "level": "47",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61364,
+    "name": "Greymane Arbalest",
+    "level": "43-44",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61365,
+    "name": "Greymane Knight",
+    "level": "45-46",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61388,
+    "name": "Greymane Elite",
+    "level": "45-46",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61389,
+    "name": "Greymane Footman",
+    "level": "43-44",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61390,
+    "name": "Greymane Noble",
+    "level": "45-47",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61391,
+    "name": "Greymane Cleric",
+    "level": "45-46",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61394,
+    "name": "Greymane Worker",
+    "level": "42-44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61417,
+    "name": "Greymane Justicar",
+    "level": "47-48",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61418,
+    "name": "Genn Greymane",
+    "level": "49",
+    "rank": 1,
+    "rarity": 6
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61419,
+    "name": "Matthias Holtz",
+    "level": "44",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61420,
+    "name": "Packmaster Ragetooth",
+    "level": "44",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61421,
+    "name": "Judge Sutherland",
+    "level": "46",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61422,
+    "name": "Dustivan Blackcowl",
+    "level": "46",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61423,
+    "name": "Marshal Magnus Greystone",
+    "level": "47",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61424,
+    "name": "Darkpelt Rager",
+    "level": "44",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61425,
+    "name": "Darkpelt Alpha",
+    "level": "43",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61426,
+    "name": "Darkpelt Shadowcaster",
+    "level": "41-42",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61604,
+    "name": "Gilneas Stable Horse",
+    "level": "41",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61605,
+    "name": "Horsemaster Levvin",
+    "level": "47",
+    "rank": 1,
+    "rarity": 4
+  },
+  {
+    "album": "Gilneas City",
+    "area": 5208,
+    "npc": 61643,
+    "name": "Raven",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 803,
+    "name": "Quel'dorei Dragonhawk",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 883,
+    "name": "Deer",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1827,
+    "name": "Scarlet Sentinel",
+    "level": "55-56",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1832,
+    "name": "Scarlet Magus",
+    "level": "56-57",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1834,
+    "name": "Scarlet Paladin",
+    "level": "55-56",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1836,
+    "name": "Scarlet Cavalier",
+    "level": "57-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1838,
+    "name": "Scarlet Interrogator",
+    "level": "61",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1842,
+    "name": "Highlord Taelan Fordring",
+    "level": "63",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1843,
+    "name": "Foreman Jerris",
+    "level": "62",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1883,
+    "name": "Scarlet Worker",
+    "level": "55-57",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 1885,
+    "name": "Scarlet Smith",
+    "level": "59",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 4076,
+    "name": "Roach",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 6491,
+    "name": "Spirit Healer",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 7383,
+    "name": "Black Tabby",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 7385,
+    "name": "Bombay",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 7386,
+    "name": "White Kitten",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8523,
+    "name": "Scourge Soldier",
+    "level": "53-54",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8524,
+    "name": "Cursed Mage",
+    "level": "54-55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8525,
+    "name": "Scourge Warder",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8530,
+    "name": "Cannibal Ghoul",
+    "level": "54-55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8534,
+    "name": "Putrid Gargoyle",
+    "level": "54-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8540,
+    "name": "Torn Screamer",
+    "level": "53-55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8541,
+    "name": "Hate Shrieker",
+    "level": "55-57",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8543,
+    "name": "Stitched Horror",
+    "level": "57-58",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8547,
+    "name": "Death Cultist",
+    "level": "53-54",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8553,
+    "name": "Necromancer",
+    "level": "54-55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8555,
+    "name": "Crypt Fiend",
+    "level": "53-54",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8556,
+    "name": "Crypt Walker",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8557,
+    "name": "Crypt Horror",
+    "level": "57-58",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8558,
+    "name": "Crypt Slayer",
+    "level": "58-59",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8598,
+    "name": "Frenzied Plaguehound",
+    "level": "57-58",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8602,
+    "name": "Monstrous Plaguebat",
+    "level": "56-58",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 8605,
+    "name": "Carrion Devourer",
+    "level": "56-57",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 10608,
+    "name": "Scarlet Priest",
+    "level": "55-57",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 10826,
+    "name": "Lord Darkscythe",
+    "level": "57",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 11064,
+    "name": "Darrowshire Spirit",
+    "level": "56-57",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 11140,
+    "name": "Egan",
+    "level": "59",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12244,
+    "name": "Mark of Detonation (NW)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12247,
+    "name": "Scourge Structure",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12251,
+    "name": "Mark of Detonation (CLS)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12252,
+    "name": "Mark of Detonation (CRS)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12253,
+    "name": "Mark of Detonation (CSH)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12254,
+    "name": "Mark of Detonation (NESH)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12255,
+    "name": "Mark of Detonation (NE)",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12262,
+    "name": "Ziggurat Protector",
+    "level": "58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12263,
+    "name": "Slaughterhouse Protector",
+    "level": "58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 12384,
+    "name": "Augustus the Touched",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 14494,
+    "name": "Eris Havenfire",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 15705,
+    "name": "Winter's Little Helper",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 16016,
+    "name": "Anthion Harmon",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 16117,
+    "name": "Plagued Swine",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 17698,
+    "name": "<TXT>Plaguewood Capture Quest Doodad",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40012,
+    "name": "Enchanted Broom",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40013,
+    "name": "Thalassian Tender",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40019,
+    "name": "Dragonhawk Hatchling",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40020,
+    "name": "High Elf Orphan",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40043,
+    "name": "Armored Thalassian Unicorn",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40044,
+    "name": "Ornate Thalassian Unicorn",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 40045,
+    "name": "White Thalassian Unicorn",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 50661,
+    "name": "Frosty",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60434,
+    "name": "Moonwell Sentinel",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60435,
+    "name": "Moon Priestess Alunasha",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60436,
+    "name": "Alah'Thalas Citizen",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60437,
+    "name": "Alah'Thalas Citizen",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60438,
+    "name": "Alah'Thalas Citizen",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60439,
+    "name": "Alah'Thalas Citizen",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 60440,
+    "name": "Moonwell Sentinel",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61569,
+    "name": "High Judicator Frensworth",
+    "level": "63",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61689,
+    "name": "Young Thalassian Boar",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61690,
+    "name": "Young Crimson Lynx",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61691,
+    "name": "Forest Hawkstrider",
+    "level": "3-4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61692,
+    "name": "Thalassian Boar",
+    "level": "2-3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61693,
+    "name": "Crimson Lynx",
+    "level": "3-4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61694,
+    "name": "Thalassian Stag",
+    "level": "5-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61695,
+    "name": "Ivory Hawkstrider",
+    "level": "5-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61696,
+    "name": "Elder Thalassian Boar",
+    "level": "5-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61697,
+    "name": "Bright Lynx",
+    "level": "5-6",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61698,
+    "name": "Bright Lynx Matriarch",
+    "level": "6-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61699,
+    "name": "Shar'lan",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61700,
+    "name": "Elder Crimson Lynx",
+    "level": "6-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61701,
+    "name": "Thalassian Treant",
+    "level": "7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61702,
+    "name": "Farstride Netter",
+    "level": "6-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61703,
+    "name": "Farstride Coastrunner",
+    "level": "6-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61704,
+    "name": "Farstride Crawler",
+    "level": "6-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61705,
+    "name": "Deepmurk Oracle",
+    "level": "9",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61706,
+    "name": "Deepmurk Warrior",
+    "level": "9",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61707,
+    "name": "Deepmurk Darkhunter",
+    "level": "9",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61708,
+    "name": "Murkblood",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61709,
+    "name": "Reefscale Sorceress",
+    "level": "9-10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61710,
+    "name": "Reefscale Warrior",
+    "level": "9-10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61711,
+    "name": "Reefscale Sunderer",
+    "level": "9-11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61712,
+    "name": "Lord Vash'arj",
+    "level": "12",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61713,
+    "name": "Lady Renirja",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61714,
+    "name": "Autumnal Treant",
+    "level": "7-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61715,
+    "name": "Stallhorn Stag",
+    "level": "7-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61716,
+    "name": "Crimson Hawkstrider",
+    "level": "7-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61717,
+    "name": "Thalassian Fox",
+    "level": "7-8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61718,
+    "name": "Highborne Soulwraith",
+    "level": "9",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61719,
+    "name": "Vanthalir'il Theron",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61767,
+    "name": "Bonereaver Sentinel",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61770,
+    "name": "Thalassian Sentinel",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61771,
+    "name": "Alah'Thalas Sentinel",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61772,
+    "name": "Tenris Mirkblood",
+    "level": "60",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61773,
+    "name": "Withered Refugee",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61774,
+    "name": "Brilliant Mana Wyrm",
+    "level": "6-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61775,
+    "name": "Emerald Mana Wyrm",
+    "level": "6-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61776,
+    "name": "Lavender Mana Wyrm",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61777,
+    "name": "Malfunctioning Arcane Golem",
+    "level": "4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61778,
+    "name": "Defective Arcane Golem",
+    "level": "4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61779,
+    "name": "Arcane Pounder",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61780,
+    "name": "Blood Elf Ranger",
+    "level": "8-9",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61781,
+    "name": "Blood Elf Darkcaster",
+    "level": "8-10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61782,
+    "name": "Blood Elf Marauder",
+    "level": "8-10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61783,
+    "name": "Illidari Felhunter",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61784,
+    "name": "Gilaras Sunfury",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61785,
+    "name": "Ithirilen Shadewind",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61786,
+    "name": "Blood Elf Spy",
+    "level": "4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61787,
+    "name": "Veloren Brightstar",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61788,
+    "name": "Eldin Sunstrider",
+    "level": "11",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61789,
+    "name": "Moonfeather",
+    "level": "9",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61790,
+    "name": "Arcandir",
+    "level": "10",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61791,
+    "name": "Kal'mantir the Mad",
+    "level": "12",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61796,
+    "name": "Ordenal Owlmane",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61797,
+    "name": "Warden Sira Moonwarden",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61798,
+    "name": "Viz'neya Firefly",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61799,
+    "name": "Lor'themar Theron",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61800,
+    "name": "Grand Magister Rommath",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61801,
+    "name": "Halduron Brightwing",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61802,
+    "name": "Farenia Roseheart",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61803,
+    "name": "Astalor Sunsworn",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61804,
+    "name": "Voren'thal the Scryer",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61805,
+    "name": "Miralin Wavesinger",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61806,
+    "name": "Liadrin",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61807,
+    "name": "Aerthand Skyshield",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61808,
+    "name": "Amara Highbreeze",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61809,
+    "name": "Avenant",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61810,
+    "name": "Briella Brightsun",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61811,
+    "name": "Calhir Dawnchaser",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61812,
+    "name": "Celia Daywing",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61813,
+    "name": "Elenia Everdawn",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61814,
+    "name": "Edrion Ironstrike",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61815,
+    "name": "Fainriel Silverharp",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61816,
+    "name": "Taliren Lightborn",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61817,
+    "name": "Jolie Keenwit",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61818,
+    "name": "Kaelin Bladesong",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61819,
+    "name": "Lin Swiftblade",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61820,
+    "name": "Liris Fairlocks",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61821,
+    "name": "Maelor Steelguard",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61822,
+    "name": "Magister Sylvus Silkspinner",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61823,
+    "name": "Melanthe Shadesong",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61824,
+    "name": "Nirenia Swiftsun",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61825,
+    "name": "Othorion Whitelance",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61826,
+    "name": "Raelus Morninglight",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61827,
+    "name": "Saelyn Seastrider",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61828,
+    "name": "Thalion Noblewarden",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61829,
+    "name": "Phylas Hawkwing",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61830,
+    "name": "Niniel Snowgleam",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61831,
+    "name": "Tiriel Brightwater",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61832,
+    "name": "Vanudal Goldweaver",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61833,
+    "name": "Aelira Dawnhand",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61834,
+    "name": "Fenrion Rendall",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61835,
+    "name": "Telina Shadehand",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61836,
+    "name": "Velessa Brightstar",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61837,
+    "name": "Geherion Whitesnake",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61838,
+    "name": "Talvas Whitesnake",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61839,
+    "name": "Daemar Swiftstrike",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61840,
+    "name": "Shandlar Thethis",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61841,
+    "name": "Leshandra Fintri",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61842,
+    "name": "Delarion Featherwing",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61843,
+    "name": "Ancient of Arcane",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61844,
+    "name": "Sister of Autumn",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61845,
+    "name": "Rine",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61846,
+    "name": "John Fendi",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61848,
+    "name": "Silver Covenant Recruit",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61849,
+    "name": "Commander Braedin",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61850,
+    "name": "Ranathir",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61851,
+    "name": "Commander Anarileth",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61852,
+    "name": "Ka'zmir Somberwind",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61864,
+    "name": "Stormwind Volunteer",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61865,
+    "name": "Ironforge Volunteer",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61866,
+    "name": "Darnassus Volunteer",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61867,
+    "name": "Orik Greystone",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61868,
+    "name": "Lord Firian Northshire",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61869,
+    "name": "Denala Moonwind",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61870,
+    "name": "Yagon Grimbeard",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61871,
+    "name": "Lord Horghita Ironmane",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61872,
+    "name": "Captain Velari Shadelain",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61873,
+    "name": "Isilan Bearmane",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61874,
+    "name": "Withering Refugee",
+    "level": "7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61875,
+    "name": "Auctioneer Reilin",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61876,
+    "name": "Banker Shalanna",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61877,
+    "name": "Navanir Thedal",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61878,
+    "name": "Solenia Solarcrest",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61879,
+    "name": "Relaina Whiteshore",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61880,
+    "name": "Firalius Arrowstrike",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61881,
+    "name": "Dalicia Sweetsilver",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61882,
+    "name": "Brindel Morningsun",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61883,
+    "name": "Verrus Trueshine",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61884,
+    "name": "Eirwen Aniron",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61885,
+    "name": "Alah'Thalas Researcher",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61888,
+    "name": "Marrondra",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61894,
+    "name": "Sinodas Azuresky",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61895,
+    "name": "Aeltalor Flameshard",
+    "level": "12",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61915,
+    "name": "Panella Evercrest",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61916,
+    "name": "Ranellius Pureheart",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 61917,
+    "name": "Ethennar Somberfall",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62082,
+    "name": "Callon Sunsail",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62083,
+    "name": "Saeldor Dawnspark",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62084,
+    "name": "Thessalia Dawnspark",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62085,
+    "name": "Lyrei Silverbrook",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62086,
+    "name": "Meldor Swiftlance",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62087,
+    "name": "Faelon Brightwood",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62088,
+    "name": "Laithor Morningleaf",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62089,
+    "name": "Viessa Windseeker",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62090,
+    "name": "Elwion Windseeker",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62091,
+    "name": "Ravondir Valgwyn",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62092,
+    "name": "Oriel Dendalion",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62093,
+    "name": "Amathion Seawhisper",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62094,
+    "name": "Calaire Solarguard",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62095,
+    "name": "Calina Highwing",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62096,
+    "name": "Aira Starsworn",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 62337,
+    "name": "Scourge Soldier",
+    "level": "53-54",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80200,
+    "name": "Malvinah Sunblade",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80208,
+    "name": "High Elf Refugee",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80209,
+    "name": "High Elf Refugee",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80210,
+    "name": "Arisha Sunblade",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80213,
+    "name": "Magistrix Ishalah",
+    "level": "6-7",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80214,
+    "name": "Malanius Silvershine",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80215,
+    "name": "Alyssia Solar",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80216,
+    "name": "Ranger Protector",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80217,
+    "name": "Valanos Dawnfire",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80218,
+    "name": "Magister Ala'shor Sunblood",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80219,
+    "name": "Ranger Rubinah Sunsworn",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80220,
+    "name": "Lor'thas the Holy",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80221,
+    "name": "Priestess Maelah Sunsworn",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80222,
+    "name": "Melonius Silvershine",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80223,
+    "name": "Leela the Shadow",
+    "level": "8",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80227,
+    "name": "Ashanya Quel'belore",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80228,
+    "name": "Toranial Mishulas",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80231,
+    "name": "Arcanist Anu'delen",
+    "level": "62",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80232,
+    "name": "Ranger-Captain Nasuna Dawnbringer",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80234,
+    "name": "Alah'Thalas Magister",
+    "level": "57-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80235,
+    "name": "Alah'Thalas Citizen",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80236,
+    "name": "High Elf Child",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80237,
+    "name": "Teslinah",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80238,
+    "name": "Joalar Solar",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80243,
+    "name": "High Priest Raemoran Alah'belore",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80244,
+    "name": "Andalideth Suncaller",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80245,
+    "name": "Damilara Sunsorrow",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80246,
+    "name": "Grand Magistrix Merisa Dawnbreaker",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80247,
+    "name": "Larane Dawnbringer",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80248,
+    "name": "Loriel",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80249,
+    "name": "Ralonius Sundew",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80266,
+    "name": "Soalara Dawnstar",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80267,
+    "name": "Torial Dawnrise",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80268,
+    "name": "Melkolar Dawnrise",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80452,
+    "name": "Chaddus Suncarrier",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80453,
+    "name": "Vanira Quel'Belore",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80457,
+    "name": "Andrelas Thas'danil",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80459,
+    "name": "Alinerenah Sunsparrow",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80506,
+    "name": "Arcane Guardian",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80877,
+    "name": "Vereesa Windrunner",
+    "level": "63",
+    "rank": 3,
+    "rarity": 5
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 80966,
+    "name": "Shanala Sunsorrow",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Thalassian Highlands",
+    "area": 5225,
+    "npc": 93100,
+    "name": "Voryn Skystrider",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 68,
+    "name": "Stormwind City Guard",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 284,
+    "name": "Brown Riding Horse",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 308,
+    "name": "Black Stallion",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 620,
+    "name": "Chicken",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 656,
+    "name": "Wilder Thistlenettle",
+    "level": "20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 704,
+    "name": "Ragged Timber Wolf",
+    "level": "2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 705,
+    "name": "Ragged Young Wolf",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 706,
+    "name": "Frostmane Troll Whelp",
+    "level": "3-4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 707,
+    "name": "Rockjaw Trogg",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 708,
+    "name": "Small Crag Boar",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 721,
+    "name": "Rabbit",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 724,
+    "name": "Burly Rockjaw Trogg",
+    "level": "2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 786,
+    "name": "Grelin Whitebeard",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 808,
+    "name": "Grik'nir the Cold",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 883,
+    "name": "Deer",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 946,
+    "name": "Frostmane Novice",
+    "level": "3-4",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 957,
+    "name": "Dane Lindgren",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1354,
+    "name": "Apprentice Soren",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1412,
+    "name": "Squirrel",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1416,
+    "name": "Grimand Elmore",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1423,
+    "name": "Stormwind Guard",
+    "level": "23",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1440,
+    "name": "Milton Sheaf",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1472,
+    "name": "Morgg Stormshot",
+    "level": "53",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1747,
+    "name": "Anduin Wrynn",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1750,
+    "name": "Grand Admiral Jes-Tereth",
+    "level": "62",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1751,
+    "name": "Mithras Ironhill",
+    "level": "62",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1754,
+    "name": "Lord Gregor Lescovar",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 1756,
+    "name": "Stormwind Royal Guard",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 2439,
+    "name": "Major Samuelson",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 2504,
+    "name": "Donyal Tovald",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 2879,
+    "name": "Karrina Mekenda",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 4075,
+    "name": "Rat",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5384,
+    "name": "Brohann Caskbelly",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5403,
+    "name": "White Stallion",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5405,
+    "name": "Pinto",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5406,
+    "name": "Palomino",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5413,
+    "name": "Furen Longbeard",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5509,
+    "name": "Kathrum Axehand",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5510,
+    "name": "Thulman Flintcrag",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5511,
+    "name": "Therum Deepforge",
+    "level": "33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5512,
+    "name": "Kaita Deepforge",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5513,
+    "name": "Gelman Stonehand",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5514,
+    "name": "Brooke Stonebraid",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5515,
+    "name": "Einris Brightspear",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5516,
+    "name": "Ulfir Ironbeard",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5517,
+    "name": "Thorfin Stoneshield",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5518,
+    "name": "Lilliam Sparkspindle",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5519,
+    "name": "Billibub Cogspinner",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5840,
+    "name": "Dark Iron Steamsmith",
+    "level": "46-47",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5844,
+    "name": "Dark Iron Slaver",
+    "level": "45-46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5846,
+    "name": "Dark Iron Taskmaster",
+    "level": "47-48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5852,
+    "name": "Inferno Elemental",
+    "level": "47-49",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5854,
+    "name": "Heavy War Golem",
+    "level": "47-49",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5855,
+    "name": "Magma Elemental",
+    "level": "46-48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5858,
+    "name": "Greater Lava Spider",
+    "level": "47-49",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5860,
+    "name": "Twilight Dark Shaman",
+    "level": "47-48",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5861,
+    "name": "Twilight Fire Guard",
+    "level": "48-49",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 5862,
+    "name": "Twilight Geomancer",
+    "level": "49-50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 6491,
+    "name": "Spirit Healer",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 6579,
+    "name": "Shoni the Shilent",
+    "level": "17",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7028,
+    "name": "Blackrock Warlock",
+    "level": "56-57",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7042,
+    "name": "Flamescale Dragonspawn",
+    "level": "56-57",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7043,
+    "name": "Flamescale Wyrmkin",
+    "level": "57-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7046,
+    "name": "Searscale Drake",
+    "level": "56-58",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7049,
+    "name": "Flamescale Broodling",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7232,
+    "name": "Borgus Steelhand",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7381,
+    "name": "Silver Tabby",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7382,
+    "name": "Orange Tabby",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7385,
+    "name": "Bombay",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7410,
+    "name": "Thelman Slatefist",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7543,
+    "name": "Dark Whelpling",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7766,
+    "name": "Tyrion",
+    "level": "37",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7779,
+    "name": "Priestess Tyriona",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 7798,
+    "name": "Hank the Hammer",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8278,
+    "name": "Smoldar",
+    "level": "50",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8282,
+    "name": "Highlord Mastrogonde",
+    "level": "51",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8419,
+    "name": "Twilight Idolater",
+    "level": "49-51",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8436,
+    "name": "Zamael Lunthistle",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8837,
+    "name": "Muck Splash",
+    "level": "47-49",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8856,
+    "name": "Tyrion's Spybot",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8889,
+    "name": "Anvilrage Overseer",
+    "level": "48-49",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8890,
+    "name": "Anvilrage Warden",
+    "level": "49-50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8917,
+    "name": "Quarry Slave",
+    "level": "46-48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 8976,
+    "name": "Hematos",
+    "level": "60",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 9026,
+    "name": "Overmaster Pyron",
+    "level": "52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 9697,
+    "name": "Giant Ember Worg",
+    "level": "55-56",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 9699,
+    "name": "Fire Beetle",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 9700,
+    "name": "Lava Crab",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 11026,
+    "name": "Sprite Jumpsprocket",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 11069,
+    "name": "Jenova Stoneshield",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 12260,
+    "name": "Onyxian Drake",
+    "level": "1",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 12375,
+    "name": "Chestnut Mare",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 12738,
+    "name": "Nori Pridedrift",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14388,
+    "name": "Rogue Black Drake",
+    "level": "50-52",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14390,
+    "name": "Expeditionary Mountaineer",
+    "level": "36-40",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14393,
+    "name": "Expeditionary Priest",
+    "level": "37-42",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14436,
+    "name": "Mor'zul Bloodbringer",
+    "level": "61",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14437,
+    "name": "Gorzeeki Wildeyes",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14560,
+    "name": "Swift White Steed",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14881,
+    "name": "Spider",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14981,
+    "name": "Elfarran",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 14991,
+    "name": "League of Arathor Emissary",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 15008,
+    "name": "Lady Hoteshem",
+    "level": "61",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 15102,
+    "name": "Silverwing Emissary",
+    "level": "22-23",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 15103,
+    "name": "Stormpike Emissary",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 15351,
+    "name": "Alliance Brigadier General",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 15567,
+    "name": "Elder Ironband",
+    "level": "60",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 16075,
+    "name": "Kwee Q. Peddlefeet",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 16356,
+    "name": "Scourge Invasion Minion, finder",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 20121,
+    "name": "Blood Ring Gladiator",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 20123,
+    "name": "Sunnyglade Emissary",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 33000,
+    "name": "Black Tournament Charger",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 50040,
+    "name": "Forworn Mule",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 50542,
+    "name": "Sikko Nitroblast",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 50543,
+    "name": "Miralda Nitroblast",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 51560,
+    "name": "White Stallion",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 51561,
+    "name": "Palomino",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60550,
+    "name": "Josh Bauer",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60559,
+    "name": "Cheyenne Reynolds",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60561,
+    "name": "Nick Ford",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60562,
+    "name": "Docks Crier",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60569,
+    "name": "Dave \"Ozy\" Norton",
+    "level": "60",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60573,
+    "name": "Dock Worker",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60574,
+    "name": "Dock Fisher",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60575,
+    "name": "Dock Fisher",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60576,
+    "name": "Dock Logger",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60587,
+    "name": "Andrew Bigglesell",
+    "level": "22",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60594,
+    "name": "Blair",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60595,
+    "name": "Logger",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60802,
+    "name": "Mushu",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60803,
+    "name": "Tyrion Bouden",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60804,
+    "name": "Dragonsworn Lookout",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60805,
+    "name": "Blackwing Guard",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60926,
+    "name": "Commando Harwall",
+    "level": "51",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60927,
+    "name": "Darwin Holdfall",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60928,
+    "name": "Kelly Vaulstone",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60929,
+    "name": "Petty Officer Milldough",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60930,
+    "name": "Quartermaster Alden",
+    "level": "52",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60931,
+    "name": "Sailor Borus",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60932,
+    "name": "Sailor Shalwynd",
+    "level": "41",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60933,
+    "name": "Sailor Valia",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60934,
+    "name": "Vice Admiral Renhoff",
+    "level": "60",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60935,
+    "name": "Marine Dalus",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60936,
+    "name": "Marine Hornby",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60937,
+    "name": "Marine Larwell",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 60938,
+    "name": "Deckmaster Javin",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 61014,
+    "name": "Sailor Capewind",
+    "level": "12",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 61991,
+    "name": "Archibald Earlwake",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62113,
+    "name": "Crackling Arcane Minion",
+    "level": "28-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62114,
+    "name": "Defias Robber",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62115,
+    "name": "Defias Cutthroat",
+    "level": "30-31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62116,
+    "name": "Defias Arcanist",
+    "level": "30-31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62117,
+    "name": "Red Jenny",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62118,
+    "name": "Defias Shadow Wizard",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62119,
+    "name": "Defias Infiltrator",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62120,
+    "name": "Edward Paddley",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62121,
+    "name": "Goldbristle Boar",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62122,
+    "name": "Burly Goldbristle Boar",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62123,
+    "name": "Goldpelt Bear",
+    "level": "28-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62124,
+    "name": "Goldpelt Grizzly",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62125,
+    "name": "Elder Timber Wolf",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62126,
+    "name": "Timber Wolf Alpha",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62127,
+    "name": "Glumbo",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62128,
+    "name": "Mutt",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62129,
+    "name": "Northwind Quacker",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62130,
+    "name": "Northwind Duckling",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62131,
+    "name": "Amberpaw Gnoll",
+    "level": "28-29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62132,
+    "name": "Amberpaw Shaman",
+    "level": "29-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62133,
+    "name": "Amberpaw Scout",
+    "level": "28-29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62134,
+    "name": "Amberpaw Alpha",
+    "level": "30-31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62135,
+    "name": "Amberfin Murloc",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62136,
+    "name": "Amberfin Lakestalker",
+    "level": "32-33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62137,
+    "name": "Amberfin Tidecaller",
+    "level": "32-33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62138,
+    "name": "Bristlewhisker Digger",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62139,
+    "name": "Bristlewhisker Kobold",
+    "level": "30-31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62140,
+    "name": "Bristlewhisker Overseer",
+    "level": "31-32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62141,
+    "name": "Alison Swift",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62142,
+    "name": "Frederik Hewg",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62143,
+    "name": "Smith Martin",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62144,
+    "name": "Griselda Tilley",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62145,
+    "name": "Thomas Arello",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62146,
+    "name": "Marisa Arello",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62147,
+    "name": "Leonhart Hamel",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62148,
+    "name": "Wisteria Gallagher",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62149,
+    "name": "Lucia Gallagher",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62150,
+    "name": "Florette DeMure",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62151,
+    "name": "Ulrich Buckert",
+    "level": "34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62152,
+    "name": "Herbert Kent",
+    "level": "39",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62153,
+    "name": "Bailiff Lancaster",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62154,
+    "name": "Ignatz",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62155,
+    "name": "Mayor Birkton",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62156,
+    "name": "Henry",
+    "level": "28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62157,
+    "name": "Theresa",
+    "level": "28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62158,
+    "name": "Jarold Thorpe",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62159,
+    "name": "Beverly Gale",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62160,
+    "name": "Albert Russell",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62161,
+    "name": "Leander Hering",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62162,
+    "name": "Duke Sherwood",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62163,
+    "name": "Lady Mildenhall",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62164,
+    "name": "Sir Amberwood",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62165,
+    "name": "Lord Amberwood",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62166,
+    "name": "Northwind Guard",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62167,
+    "name": "Amberwood Trainee",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62168,
+    "name": "Meredith Rutland",
+    "level": "42",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62169,
+    "name": "Dark Iron Demolisher",
+    "level": "32-33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62170,
+    "name": "Dark Iron Firecaller",
+    "level": "32-33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62171,
+    "name": "Dark Iron Golem",
+    "level": "33-34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62172,
+    "name": "Dark Iron Supervisor",
+    "level": "33-34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62173,
+    "name": "Dark Iron Slave Driver",
+    "level": "33-34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62174,
+    "name": "Overseer Bragordi",
+    "level": "33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62175,
+    "name": "Blackrock Marauder",
+    "level": "33-34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62176,
+    "name": "Blackrock Invader",
+    "level": "28-29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62177,
+    "name": "Blackrock Conjurer",
+    "level": "34-35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62178,
+    "name": "Blackrock Centurion",
+    "level": "34-35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62179,
+    "name": "Blackrock Poacher",
+    "level": "33-34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62180,
+    "name": "Ozuk Doomspike",
+    "level": "35",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62181,
+    "name": "Shuni Steeltooth",
+    "level": "35",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62182,
+    "name": "Overlord Throkk",
+    "level": "35",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62183,
+    "name": "Horsekeeper Geringt",
+    "level": "45",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62184,
+    "name": "Nadia Geringt",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62185,
+    "name": "Stablehand Jorg",
+    "level": "26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62186,
+    "name": "Mitchell Huckabee",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62187,
+    "name": "Mariah Huckabee",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62188,
+    "name": "Friar Montero",
+    "level": "35",
+    "rank": 2,
+    "rarity": 4
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62189,
+    "name": "Grimmen Thresher",
+    "level": "34",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62190,
+    "name": "Bruno",
+    "level": "34",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62191,
+    "name": "Goldtusk",
+    "level": "34",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62192,
+    "name": "Lieutenant Grimefang",
+    "level": "33",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62193,
+    "name": "Quistis the Malign",
+    "level": "33",
+    "rank": 4,
+    "rarity": 3
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62265,
+    "name": "Stormreaver Tracker",
+    "level": "34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62266,
+    "name": "Burnt Monk",
+    "level": "30-33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62267,
+    "name": "Restless Sister",
+    "level": "30-33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62268,
+    "name": "The Wailing Nun",
+    "level": "33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62269,
+    "name": "Twitching Corpse",
+    "level": "30-33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62270,
+    "name": "Wandering Carcass",
+    "level": "30-33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62271,
+    "name": "Young Goldbristle Boar",
+    "level": "26-28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62272,
+    "name": "Young Timber Wolf",
+    "level": "26-28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62273,
+    "name": "Triston Lancaster",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62274,
+    "name": "Dul Wolfsnarl",
+    "level": "40",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62275,
+    "name": "Guard Gaspar",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62276,
+    "name": "Guard Mike",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62277,
+    "name": "Guard Ellington",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62278,
+    "name": "Leon Cassidy",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62279,
+    "name": "Ingvild Ellerian",
+    "level": "26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62280,
+    "name": "Groundskeeper Clive",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62281,
+    "name": "Jacqueline Marlowe",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62282,
+    "name": "Linus Huxley",
+    "level": "36",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62283,
+    "name": "Servant Becca",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62284,
+    "name": "Servant Robert",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62285,
+    "name": "Custodian Lambert",
+    "level": "20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62286,
+    "name": "Pinky Tosslehouse",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62287,
+    "name": "Fidel Prescott",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62288,
+    "name": "Rohlof Bergard",
+    "level": "28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62289,
+    "name": "Argor Smugshield",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62290,
+    "name": "Enchantress Magilou",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62291,
+    "name": "Thronda",
+    "level": "35",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62292,
+    "name": "Old Hamilton",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62293,
+    "name": "Mirabelle Hamilton",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62294,
+    "name": "Arnold",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62295,
+    "name": "Trevor Melain",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62296,
+    "name": "Sister Argent",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62297,
+    "name": "Brother Graham",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62298,
+    "name": "Cutpurse Warren",
+    "level": "34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62299,
+    "name": "The Witch of Northwind",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62300,
+    "name": "Lloyd",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62301,
+    "name": "Ellie",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62302,
+    "name": "Randolph",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62303,
+    "name": "Tio",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62304,
+    "name": "Estelle",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62305,
+    "name": "Joshua",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62306,
+    "name": "General Bright",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62307,
+    "name": "Barbara Lee",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62308,
+    "name": "Inquisitor Abbadon",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62309,
+    "name": "Old Man Crawford",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62310,
+    "name": "Jeremiah Crawford",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62311,
+    "name": "Gregory Crawford",
+    "level": "24",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62312,
+    "name": "Christine Crawford",
+    "level": "34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62313,
+    "name": "Margaret Crawford",
+    "level": "48",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62367,
+    "name": "Thromli Embercast",
+    "level": "28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62368,
+    "name": "Gardim Goldilocks",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62369,
+    "name": "Burdened Ram",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62370,
+    "name": "Maener Owlgarden",
+    "level": "27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62371,
+    "name": "Steria Owlgarden",
+    "level": "27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62372,
+    "name": "Olga Forgewarmth",
+    "level": "27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62373,
+    "name": "Alastair Murray",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62374,
+    "name": "Bogdan Novak",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62375,
+    "name": "Simon Poppyfield",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62376,
+    "name": "Hathor Ashenforge",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62377,
+    "name": "Brick",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62378,
+    "name": "Mark Gallagher",
+    "level": "27",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62379,
+    "name": "Sebastian Gallagher",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62380,
+    "name": "Mia Hazelsprout",
+    "level": "25",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62381,
+    "name": "Barry Springberry",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62382,
+    "name": "Logan Fuller",
+    "level": "28",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62383,
+    "name": "Custodian Abellas",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62384,
+    "name": "Minty",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62443,
+    "name": "Cheese Wizard",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62444,
+    "name": "Bobby Joe",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62445,
+    "name": "Misty",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62446,
+    "name": "Monkey",
+    "level": "3",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62447,
+    "name": "Charlie",
+    "level": "12",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62448,
+    "name": "Jeremiah",
+    "level": "11",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62449,
+    "name": "Beatrice",
+    "level": "10",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62450,
+    "name": "Derek Wilson",
+    "level": "15",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62451,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62452,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62472,
+    "name": "Alessa Farwind",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62473,
+    "name": "Boris Farwind",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62474,
+    "name": "Lieutenant Bravestorm",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62475,
+    "name": "Bremen Hartford",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62476,
+    "name": "Heidi Livingstone",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62477,
+    "name": "Commander Leder",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62478,
+    "name": "Malleville Graeme",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62479,
+    "name": "Arielle Cotton",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62480,
+    "name": "First Mate Levoy",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62481,
+    "name": "Huey Stafford",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62482,
+    "name": "Agnese Newbery",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62483,
+    "name": "Magistrate Modera",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62484,
+    "name": "Colonel Driscol",
+    "level": "46",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62485,
+    "name": "The Dark Knight",
+    "level": "31",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62486,
+    "name": "Injured Lumberjack",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62487,
+    "name": "Recuperating Contestant",
+    "level": "30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62488,
+    "name": "Operative Baltimore Hawthorne",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62489,
+    "name": "Judith Flenning",
+    "level": "38",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62490,
+    "name": "Sara Flenning",
+    "level": "22",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62491,
+    "name": "Bristlewhisker Slave",
+    "level": "28-30",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62492,
+    "name": "Mangled Corpse",
+    "level": "32",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62493,
+    "name": "Injured Northwind Quacker",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62494,
+    "name": "Gertrud Selind",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62513,
+    "name": "Elenar Dewblade",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62514,
+    "name": "Aladrel Dewblade",
+    "level": "44",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62515,
+    "name": "Rutherford Justino",
+    "level": "55",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62516,
+    "name": "Sheena Justino",
+    "level": "49",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62517,
+    "name": "Count Femur",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62518,
+    "name": "Bristlebelly",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62553,
+    "name": "Grrblga",
+    "level": "33",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62554,
+    "name": "Wiggles",
+    "level": "50",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62555,
+    "name": "Blackrock Pyremaster",
+    "level": "33",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62567,
+    "name": "Pebbles",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62576,
+    "name": "Russel",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62577,
+    "name": "Bentley",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62578,
+    "name": "Lissie",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62579,
+    "name": "Noa",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62580,
+    "name": "Sir Hans Dale",
+    "level": "34",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62583,
+    "name": "Operative Simmons",
+    "level": "40",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62685,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62686,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62687,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62688,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62689,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62690,
+    "name": "Jousting Spectator",
+    "level": "29",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62697,
+    "name": "Udo Keller",
+    "level": "26",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62701,
+    "name": "Bruford of Stormwind",
+    "level": "50",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 62709,
+    "name": "Guffer",
+    "level": "20",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 80163,
+    "name": "Steelwing",
+    "level": "55",
+    "rank": 1,
+    "rarity": 2
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 80236,
+    "name": "High Elf Child",
+    "level": "5",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 83106,
+    "name": "Kul Tiran Warhorse",
+    "level": "1",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 90975,
+    "name": "Armored Dalaran Warhorse",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  },
+  {
+    "album": "Northwind",
+    "area": 5581,
+    "npc": 90976,
+    "name": "Armored Knight's Warhorse",
+    "level": "1-2",
+    "rank": 0,
+    "rarity": 1
+  }
+]
