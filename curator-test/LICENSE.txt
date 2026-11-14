@@ -1,0 +1,42 @@
+Curator
+Copyright (c) 2026 Clément Hudson. Tous droits réservés. All rights reserved.
+
+
+FRANÇAIS
+
+Curator (son code, ses images, ses textes) est l'œuvre de Clément Hudson.
+
+Vous pouvez le télécharger depuis ses canaux officiels et l'utiliser pour jouer, gratuitement.
+
+Sans l'accord écrit de l'auteur, il est interdit de le copier, de le modifier, de le republier ou
+de le distribuer, en tout ou en partie, y compris dans un autre addon ou sous un autre nom.
+
+Le code reste lisible, comme le demande la charte des addons de Blizzard : pouvoir le lire ne donne
+pas le droit de le réutiliser.
+
+Exception : le dossier Data, généré à partir de QuestieDB et de la base CMaNGOS classic-db, est
+distribué sous la licence GNU GPL version 3 (voir Data/LICENSE.txt et Data/NOTICE.txt).
+
+World of Warcraft et tout ce qui en vient (noms, créatures, lieux, sons et images du jeu)
+appartiennent à Blizzard Entertainment. Curator n'est ni affilié à Blizzard Entertainment ni
+approuvé par Blizzard Entertainment.
+
+
+ENGLISH
+
+Curator (its code, its images, its texts) is the work of Clément Hudson.
+
+You may download it from its official channels and use it to play, free of charge.
+
+Without the written permission of the author, you may not copy, modify, republish or distribute
+it, in whole or in part, including in another addon or under another name.
+
+The code stays readable, as the add-on policy of Blizzard asks: being able to read it gives no
+right to reuse it.
+
+Exception: the Data folder, generated from QuestieDB and the CMaNGOS classic-db database, is
+distributed under the GNU GPL version 3 (see Data/LICENSE.txt and Data/NOTICE.txt).
+
+World of Warcraft and everything that comes from it (names, creatures, places, sounds and images of
+the game) belong to Blizzard Entertainment. Curator is not affiliated with or endorsed by Blizzard
+Entertainment.

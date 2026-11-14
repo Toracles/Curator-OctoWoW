@@ -1,0 +1,11 @@
+## Interface: 11200
+## Title: Curator OctoWoW
+## Notes: Albums de cartes et boosters pour OctoWoW
+## Version: 0.2.0-alpha.1
+## SavedVariables: CuratorOctoDB
+Catalogue.lua
+Art.lua
+Collection.lua
+Rewards.lua
+Opening.lua
+Album.lua

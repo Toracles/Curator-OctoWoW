@@ -1,16 +1,18 @@
-## Curator OctoWoW — Première galerie
+## Curator OctoWoW 1.12.1
 
-- 259 cartes illustrées dans six albums : Gilneas, Gilneas City, Northwind, Thalassian Highlands, Hateforge Quarry et Stormwind Vault.
-- Cadres, gemmes et cadrages repris de Curator 1.14.3.
-- Catalogue de 903 cartes issu de Questie-Octo, avec raretés et identifiants de modèle disponibles.
-- Correspondances de zones OctoWoW et WoW Forever documentées.
+Première préversion de test fondée sur le code original de Curator 1.14.3.
+
+- Six albums OctoWoW et 903 cartes issues de Questie-Octo. Zephras Isle a été retiré.
+- Moteur d’origine pour les albums, les tirages de boosters et la sauvegarde locale. Les scripts originaux de la scène d’ouverture et des cinématiques sont inclus.
+- Adaptations Lua 5.0 pour le chargement, les événements, les effets d’interface, les temporisations et les messages entre addons.
+- Sources exactes du ZIP, outils de reconstruction, tests et suivi du portage dans le dépôt.
 
 ### Installation
 
-Télécharger Curator-OctoWoW-Galerie.zip, placer le dossier CuratorOctoGalerie dans Interface/AddOns, activer la galerie puis taper /curatorgalerie. Vérifier l'affichage, la navigation entre albums et pages, et la fermeture avec Échap.
+Télécharger **Curator-OctoWoW-test-1.12.1.zip**, extraire le dossier Curator dans Interface/AddOns, redémarrer OctoWoW et taper `/curator`.
 
-### État de la préversion
+### Vérification
 
-L'archive et les textures ont été vérifiées sur disque. Le test en jeu sur le client 1.12.1 et l'intégration des boosters, des animations et de la sauvegarde de collection restent à faire. 644 cartes du catalogue attendent un portrait au niveau de qualité de Curator.
+Les 226 scripts passent la compilation Lua 5.0.3. Un banc de test a vérifié les tirages et une ouverture complète avec les API du jeu simulées. Le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges en jeu restent à valider sur OctoWoW. La révision du reste du catalogue Forever se poursuit.
 
-Curator-OctoWoW-Catalogue.zip contient les données et les textures disponibles pour le portage.
+L’installation est manuelle, avec sauvegarde locale. La synchronisation en ligne et la Bourse officielle relèvent de l’application compagnon, hors périmètre.

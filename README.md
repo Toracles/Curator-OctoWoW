@@ -1,11 +1,25 @@
 # Curator OctoWoW
 
-Galerie expérimentale de cartes pour le client OctoWoW 1.12.1, inspirée de Curator 1.14.3 par Clément Hudson. Les cadres, gemmes et portraits repris de Curator conservent leurs droits d'origine. Les notices des données Questie-Octo figurent dans data/OctoQuestDatabase.
+Portage de Curator 1.14.3, créé par Clément Hudson, vers OctoWoW et Turtle WoW 1.18.1 sur le client 1.12.1. Cette version de test reprend le moteur original de collection et d’ouverture des boosters. Elle s’installe manuellement et utilise une sauvegarde locale.
 
-![Galerie de cartes](docs/Apercu.png)
+## Installation de la version de test
 
-Télécharger Curator-OctoWoW-Galerie.zip depuis les Releases, extraire CuratorOctoGalerie dans Interface/AddOns, activer la galerie et lancer `/curatorgalerie`.
+1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
+2. Quitter le jeu. Extraire le dossier Curator dans Interface/AddOns. Vérifier que Curator.toc se trouve directement dans Interface/AddOns/Curator. Si ce dossier existe déjà, sauvegarder l’ancienne copie avant de la remplacer.
+3. Relancer le jeu, activer **Curator** à la sélection des personnages et taper `/curator`.
 
-La galerie présente 259 cartes statiques sur six albums. Le catalogue de travail recense 903 cartes. L'affichage reste à valider en jeu sur le client 1.12.1. Le système de boosters, la sauvegarde de collection et les animations restent à intégrer.
+Les tests hors jeu couvrent les 226 fichiers Lua, le chargement, la connexion simulée, les tirages d’origine et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.
 
-Le dossier source contient la galerie et les scripts de production. Ils utilisent des données et médias locaux, avec les chemins de la machine de production à adapter. Les ZIP de la release contiennent les ressources prêtes à utiliser.
+Le port ajoute six albums OctoWoW et 903 cartes. Zephras Isle a été retiré. Le reste du catalogue Forever doit encore être comparé aux données d’OctoWoW. La synchronisation en ligne et la Bourse officielle reposent sur l’application compagnon, hors périmètre de ce portage.
+
+## Sources et archives
+
+- [curator-test](curator-test) contient les scripts exacts de la version de test, avec le fichier TOC et les licences. Les textures et les sons sont inclus dans le ZIP de la préversion.
+- [full-port](full-port) et [tools](tools) contiennent les adaptations et les outils de construction et de test.
+- [docs/PORTAGE-COMPLET.md](docs/PORTAGE-COMPLET.md) décrit le suivi par fonctionnalité.
+- [data](data) contient le catalogue issu de Questie-Octo et ses notices.
+- [addon/CuratorOcto](addon/CuratorOcto) conserve le prototype de collection et d’ouverture. La galerie statique reste disponible dans la première préversion.
+
+Les médias et le code d’origine de Curator conservent les droits indiqués dans les licences incluses.
+
+![Aperçu de la galerie initiale](docs/Apercu.png)

@@ -1,0 +1,25 @@
+Curator: the Data folder / le dossier Data
+
+ENGLISH
+
+The files of this folder (the albums, their creatures and their names in every language of the
+game, the elites of the dungeons and the raids, the entrances of the legendary and mythic cards)
+are generated from:
+- QuestieDB, the database of Questie (GNU GPL version 3): https://github.com/Questie/Questie
+- the CMaNGOS classic-db database (GNU GPL): https://github.com/cmangos/classic-db
+- the tables of the game client.
+
+These files are distributed under the GNU GPL version 3 (see LICENSE.txt in this folder). The rest
+of Curator is not: see LICENSE.txt at the root of Curator.
+
+FRANÇAIS
+
+Les fichiers de ce dossier (les albums, leurs créatures et leurs noms dans toutes les langues du
+jeu, les élites des donjons et des raids, les entrées en scène des cartes légendaires et mythiques)
+sont générés à partir de :
+- QuestieDB, la base de données de Questie (GNU GPL version 3) : https://github.com/Questie/Questie
+- la base CMaNGOS classic-db (GNU GPL) : https://github.com/cmangos/classic-db
+- les tables du client du jeu.
+
+Ces fichiers sont distribués sous la licence GNU GPL version 3 (voir LICENSE.txt dans ce dossier).
+Le reste de Curator ne l'est pas : voir LICENSE.txt à la racine de Curator.

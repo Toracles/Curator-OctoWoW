@@ -1,0 +1,10 @@
+local _, ns = "Curator", CuratorOctoFull
+
+-- (1.8.0) The public key of the website of Curator: what signs the news of the front (Front.lua). The
+-- setup of the website makes the pair (npm run setup: its private half stays with the website, this
+-- half comes here, exports\FeedKey.lua). n: the modulus, r2: R² mod n (R = 2^(16 x its limbs)),
+-- hexadecimal. None: the news of the front are not read.
+ns.FEED_KEY = {
+	n = "cc3991aa5ce469b10a33b6d210408f8c09cfbbe4432c5a7832b27b034b277c5238923336bc0730c03e00a6806536666622f41ae8e8662ffc4b48a507406cbd30fd452f95958109c72167579aa85114bbe5a40be201f9fc2f6ea8ba634cb57b856462ddfb374a9b7069b638cb4e8e808e15f1f3173de1dadd47d5c9bc0651fa33d1b9afcce4b313ec321e252b80f6c7bc2e480276ff93684b08deb80e11affcb1dcb823dda8f7e3fc1058c74d720405c81634a83d7fbc63dad8f3577e8dac199e17daaf4bc95c3b2ec2b8bea37052b19bab38311b469bde9ed238889f2d0edc1b60164e6b9fb3a07f8a87e5176bb330810c9083afd0fecba1e0cc81a24c820837",
+	r2 = "03dc16f30f200b48a4dd26fcedbad08c0c40a079c95fe5876a91aa2653e5fed8d1877f5c9c22b2bd22faaf6840a0559a84358d68976c3338895f630a4640e46e1bb1400517663e54534b386e211fa68600f2b0e95770efa2b7d8ab8b5d1c8e879879388a12177db1647cc03fcd80b55ce6d8976b60a899677bbc66a8fc00bf0cb2107183fd821cae884594b282bd284aed10d0511882f0c415f02bffc999e42029e7e50e20d98c9cc9008213109eccb4f259c21788e2160ff25c3dcd8c7daf0164fd2ac453b7e2cf2046325e88c216ee9fd68817a9edcadfab05add081457b2236b03fcc9a48718efa5c6a1a474f332a95d199fa30518d61c1692056253f0c5f",
+}

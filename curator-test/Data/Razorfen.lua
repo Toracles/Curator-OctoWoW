@@ -1,0 +1,79 @@
+-- AUTO GENERATED. Creatures and names: QuestieDB (Forever build). Models and sounds: CMaNGOS classic-db, client data.
+local _, ns = "Curator", CuratorOctoFull
+ns.Series = ns.Series or {}
+ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
+	key = "razorfen", kind = "dungeon", instance = 47, area = 491,
+	levels = { 29, 38 }, side = "C",
+	-- bosses (a kill fills the gauge), the last one completes the dungeon
+	bosses = { 4424, 4428, 4420, 4422, 4421 }, final = 4421,
+	name = "Razorfen Kraul",
+	title = { frFR = "Kraal de Tranchebauge", deDE = "Der Kral von Razorfen", esES = "Horado Rajacieno", esMX = "Horado Rajacieno", ptBR = "Urzal dos Tuscos", ruRU = "Лабиринты Иглошкурых", koKR = "가시덩굴 우리", zhCN = "剃刀沼泽" },
+	tint = { 0.34, 0.20, 0.12 }, glow = { 0.96, 0.66, 0.42 },
+	-- studio backdrop (card window and booster scene), pack, set mark
+	studio = "StudioRazorfen", pack = "PackRazorfen", set = "SetRazorfen",
+	-- { npcID, rarity 1-6, creature type, family, min level, max level, displayID, sound kit, character }
+	cards = {
+		{ 4625, 1, 7, 0, 15, 15, 6101, 1181, false }, -- Death's Head Ward Keeper
+		{ 4511, 1, 1, 5, 24, 25, 4713, 379, false }, -- Agam'ar
+		{ 4435, 1, 7, 0, 24, 25, 6109, 1181, false }, -- Razorfen Warrior
+		{ 4514, 1, 1, 5, 25, 26, 2453, 379, false }, -- Raging Agam'ar
+		{ 4520, 1, 7, 0, 25, 25, 4647, 1181, false }, -- Razorfen Geomancer
+		{ 4530, 1, 7, 0, 25, 26, 1963, 1181, false }, -- Razorfen Handler
+		{ 4436, 1, 7, 0, 25, 26, 6108, 1181, false }, -- Razorfen Quilguard
+		{ 4437, 1, 7, 0, 25, 26, 4758, 1181, false }, -- Razorfen Warden
+		{ 4517, 1, 7, 0, 26, 27, 6096, 1181, false }, -- Death's Head Priest
+		{ 4541, 1, 10, 0, 27, 27, 4754, 724, false }, -- Blood of Agamaggan
+		{ 4516, 1, 7, 0, 27, 28, 6098, 1181, false }, -- Death's Head Adept
+		{ 4442, 1, 7, 0, 27, 28, 6103, 1181, false }, -- Razorfen Defender
+		{ 4523, 1, 7, 0, 27, 28, 6111, 1181, false }, -- Razorfen Groundshaker
+		{ 4515, 1, 7, 0, 28, 29, 6093, 1181, false }, -- Death's Head Acolyte
+		{ 4519, 1, 7, 0, 28, 29, 6100, 1181, false }, -- Death's Head Seer
+		{ 4531, 1, 7, 0, 28, 29, 4453, 1181, false }, -- Razorfen Beast Trainer
+		{ 4522, 1, 7, 0, 28, 29, 6110, 1181, false }, -- Razorfen Dustweaver
+		{ 4512, 1, 1, 5, 28, 28, 4714, 379, false }, -- Rotting Agam'ar
+		{ 4525, 1, 7, 0, 30, 31, 4647, 1181, false }, -- Razorfen Earthbreaker
+		{ 6035, 2, 7, 0, 28, 29, 6106, 1181, false }, -- Razorfen Stalker
+		{ 4518, 2, 7, 0, 29, 30, 6099, 1181, false }, -- Death's Head Sage
+		{ 4440, 2, 7, 0, 29, 29, 6112, 1181, false }, -- Razorfen Totemic
+		{ 4538, 2, 1, 24, 30, 31, 1955, 3369, false }, -- Kraul Bat
+		{ 4623, 2, 7, 0, 30, 31, 6103, 1181, false }, -- Quilguard Champion
+		{ 4532, 2, 7, 0, 30, 31, 6105, 1181, false }, -- Razorfen Beastmaster
+		{ 4427, 2, 7, 0, 31, 31, 6104, 1181, false }, -- Ward Guardian
+		{ 4539, 2, 1, 24, 32, 32, 1954, 3369, false }, -- Greater Kraul Bat
+		{ 4510, 3, 7, 0, 25, 25, 2596, 5989, true }, -- Heralath Fallowbrook
+		{ 4508, 3, 7, 0, 27, 27, 7155, 5958, true }, -- Willix the Importer
+		{ 6168, 3, 7, 0, 28, 28, 6110, 1181, false }, -- Roogug
+		{ 4438, 3, 7, 0, 29, 30, 6078, 1181, false }, -- Razorfen Spearhide
+		{ 4425, 3, 1, 24, 32, 32, 4735, 3369, false }, -- Blind Hunter
+		{ 4842, 3, 7, 0, 32, 32, 6102, 1181, false }, -- Earthcaller Halmgar
+		{ 4424, 4, 7, 0, 30, 30, 6097, 1181, false }, -- Aggem Thorncurse
+		{ 4428, 4, 7, 0, 30, 30, 4644, 1181, false }, -- Death Speaker Jargba
+		{ 4420, 4, 7, 0, 32, 32, 4652, 1181, false }, -- Overlord Ramtusk
+		{ 4422, 5, 1, 0, 33, 33, 2450, 379, false }, -- Agathelos the Raging
+		{ 4421, 6, 7, 0, 33, 33, 4642, 1181, false }, -- Charlga Razorflank
+	},
+	names = {
+		enUS = {[4625] = "Death's Head Ward Keeper", [4511] = "Agam'ar", [4435] = "Razorfen Warrior", [4514] = "Raging Agam'ar", [4520] = "Razorfen Geomancer", [4530] = "Razorfen Handler", [4436] = "Razorfen Quilguard", [4437] = "Razorfen Warden", [4517] = "Death's Head Priest", [4541] = "Blood of Agamaggan", [4516] = "Death's Head Adept", [4442] = "Razorfen Defender", [4523] = "Razorfen Groundshaker", [4515] = "Death's Head Acolyte", [4519] = "Death's Head Seer", [4531] = "Razorfen Beast Trainer", [4522] = "Razorfen Dustweaver", [4512] = "Rotting Agam'ar", [4525] = "Razorfen Earthbreaker", [6035] = "Razorfen Stalker", [4518] = "Death's Head Sage", [4440] = "Razorfen Totemic", [4538] = "Kraul Bat", [4623] = "Quilguard Champion", [4532] = "Razorfen Beastmaster", [4427] = "Ward Guardian", [4539] = "Greater Kraul Bat", [4510] = "Heralath Fallowbrook", [4508] = "Willix the Importer", [6168] = "Roogug", [4438] = "Razorfen Spearhide", [4425] = "Blind Hunter", [4842] = "Earthcaller Halmgar", [4424] = "Aggem Thorncurse", [4428] = "Death Speaker Jargba", [4420] = "Overlord Ramtusk", [4422] = "Agathelos the Raging", [4421] = "Charlga Razorflank"},
+		frFR = {[4625] = "Gardien de la Tête de Mort", [4511] = "Agam'ar", [4435] = "Guerrier de Tranchebauge", [4514] = "Agam'ar enragé", [4520] = "Géomancienne de Tranchebauge", [4530] = "Dresseur de Tranchebauge", [4436] = "Garde-huran de Tranchebauge", [4437] = "Gardien de Tranchebauge", [4517] = "Prêtre de la Tête de Mort", [4541] = "Sang d'Agamaggan", [4516] = "Adepte de la Tête de Mort", [4442] = "Défenseur de Tranchebauge", [4523] = "Tremble-terre de Tranchebauge", [4515] = "Acolyte de la Tête de Mort", [4519] = "Prophète de la Tête de Mort", [4531] = "Maître des bêtes de Tranchebauge", [4522] = "Lève-poussière de Tranchebauge", [4512] = "Agam'ar décrépi", [4525] = "Brise-terre de Tranchebauge", [6035] = "Traqueur de Tranchebauge", [4518] = "Sage de la Tête de Mort", [4440] = "Totémique de Tranchebauge", [4538] = "Chauve-souris du kraal", [4623] = "Champion garde-huran", [4532] = "Belluaire de Tranchebauge", [4427] = "Gardien du sceau", [4539] = "Grande chauve-souris du kraal", [4510] = "Heralath Fallowbrook", [4508] = "Willix l’Importateur", [6168] = "Roogug", [4438] = "Lanceur de Tranchebauge", [4425] = "Chasseur aveugle", [4842] = "Implorateur de la terre Halmgar", [4424] = "Aggem Mantépine", [4428] = "Nécrorateur Jargba", [4420] = "Seigneur Brusquebroche", [4422] = "Agathelos l'Enragé", [4421] = "Charlga Trancheflanc"},
+		deDE = {[4625] = "Zauberschutzbewahrer der Totenköpfe", [4511] = "Agam'ar", [4435] = "Krieger von Razorfen", [4514] = "Tobender Agam'ar", [4520] = "Geomant von Razorfen", [4530] = "Tierführer von Razorfen", [4436] = "Stachelwache von Razorfen", [4437] = "Aufseher von Razorfen", [4517] = "Priester der Totenköpfe", [4541] = "Blut von Agammagan", [4516] = "Adept der Totenköpfe", [4442] = "Verteidiger von Razorfen", [4523] = "Bodenrüttler von Razorfen", [4515] = "Akolyt der Totenköpfe", [4519] = "Seher der Totenköpfe", [4531] = "Bestienausbilder von Razorfen", [4522] = "Staubwirker von Razorfen", [4512] = "Faulender Agam'ar", [4525] = "Erdenbrecher von Razorfen", [6035] = "Pirscher von Razorfen", [4518] = "Weiser der Totenköpfe", [4440] = "Totemiker von Razorfen", [4538] = "Kral-Fledermaus", [4623] = "Stachelwache-Champion", [4532] = "Bestienmeister von Razorfen", [4427] = "Zauberschutzwächter", [4539] = "Große Kral-Fledermaus", [4510] = "Heralath Fallowbrook", [4508] = "Willix der Importeur", [6168] = "Roogug", [4438] = "Speerbalg von Razorfen", [4425] = "Blinder Jäger", [4842] = "Erdenrufer Halmgar", [4424] = "Aggem Dornfluch", [4428] = "Todessprecher Jargba", [4420] = "Oberanführer Rammhauer", [4422] = "Agathelos der Tobende", [4421] = "Charlga Razorflank"},
+		esES = {[4625] = "Guarda Caramuerte", [4511] = "Agam'ar", [4435] = "Guerrero de Rajacieno", [4514] = "Agam'ar enfurecido", [4520] = "Geomántico Rajacieno", [4530] = "Controlador Rajacieno", [4436] = "Jabaguardia Rajacieno", [4437] = "Alcaide Rajacieno", [4517] = "Sacerdote Caramuerte", [4541] = "Sangre de Agamaggan", [4516] = "Adepto Caramuerte", [4442] = "Defensor de Rajacieno", [4523] = "Terremoto de Rajacieno", [4515] = "Acólito Caramuerte", [4519] = "Profeta Caramuerte", [4531] = "Instructor de bestias Rajacieno", [4522] = "Tejepolvo Rajacieno", [4512] = "Agam'ar putrefacto", [4525] = "Rompesuelos de Rajacieno", [6035] = "Acechador Rajacieno", [4518] = "Sabio Caramuerte", [4440] = "Totémico de Rajacieno", [4538] = "Murciélago del Horado", [4623] = "Campeón Jabaguardia", [4532] = "Maestro de bestias Rajacieno", [4427] = "Guardabalí", [4539] = "Murciélago del Horado mayor", [4510] = "Heralath Arroyobarbecho", [4508] = "Willix el Importador", [6168] = "Roogug", [4438] = "Cuerolanza de Rajacieno", [4425] = "Cazador ciego", [4842] = "Clamatierras Halmgar", [4424] = "Aggem Malaespina", [4428] = "Médium Jargba", [4420] = "Señor Supremo Colmicarnero", [4422] = "Agathelos el Furioso", [4421] = "Charlga Filonavaja"},
+		esMX = {[4625] = "Guarda Caramuerte", [4511] = "Agam'ar", [4435] = "Guerrero de Rajacieno", [4514] = "Agam'ar enfurecido", [4520] = "Geomántico Rajacieno", [4530] = "Controlador Rajacieno", [4436] = "Jabaguardia Rajacieno", [4437] = "Alcaide Rajacieno", [4517] = "Sacerdote Caramuerte", [4541] = "Sangre de Agamaggan", [4516] = "Adepto Caramuerte", [4442] = "Defensor de Rajacieno", [4523] = "Terremoto de Rajacieno", [4515] = "Acólito Caramuerte", [4519] = "Profeta Caramuerte", [4531] = "Instructor de bestias Rajacieno", [4522] = "Tejepolvo Rajacieno", [4512] = "Agam'ar putrefacto", [4525] = "Rompesuelos de Rajacieno", [6035] = "Acechador Rajacieno", [4518] = "Sabio Caramuerte", [4440] = "Totémico de Rajacieno", [4538] = "Murciélago del Horado", [4623] = "Campeón Jabaguardia", [4532] = "Maestro de bestias Rajacieno", [4427] = "Guardabalí", [4539] = "Murciélago del Horado superior", [4510] = "Heralath Arroyobarbecho", [4508] = "Willix el Importador", [6168] = "Roogug", [4438] = "Cuerolanza de Rajacieno", [4425] = "Cazador ciego", [4842] = "Clamatierras Halmgar", [4424] = "Aggem Malaespina", [4428] = "Médium Jargba", [4420] = "Señor Supremo Colmicarnero", [4422] = "Agathelos el Furioso", [4421] = "Charlga Filonavaja"},
+		ptBR = {[4625] = "Guardião da Cabeça da Morte", [4511] = "Agam'ar", [4435] = "Guerreiro do Urzal", [4514] = "Agam'ar Furioso", [4520] = "Geomante do Urzal", [4530] = "Tratador do Urzal", [4436] = "Guardatusco do Urzal", [4437] = "Guardião do Urzal", [4517] = "Sacerdote da Cabeça da Morte", [4541] = "Sangue de Agamaggan", [4516] = "Adepto da Cabeça da Morte", [4442] = "Defensor do Urzal", [4523] = "Treme-terra do Urzal", [4515] = "Acólito da Cabeça da Morte", [4519] = "Vidente da Cabeça da Morte", [4531] = "Adestrador de Feras do Urzal", [4522] = "Poeirento do Urzal", [4512] = "Agam'ar Pútrido", [4525] = "Arranca-Toco do Urzal", [6035] = "Espreitador do Urzal", [4518] = "Sábio da Cabeça da Morte", [4440] = "Totemista do Urzal", [4538] = "Morcego do Urzal", [4623] = "Campeão Guardatusco", [4532] = "Senhor das Feras do Urzal", [4427] = "Guarda da Passagem", [4539] = "Grande Morcego do Urzal", [4510] = "Heralath Corregofulvo", [4508] = "Importador Willix", [6168] = "Rugug", [4438] = "Couriço do Urzal", [4425] = "Caçador Cego", [4842] = "Arauto da Terra Halmgar", [4424] = "Aggem Pragacardo", [4428] = "Morta-voz Jargba", [4420] = "Lorde Supremo Marretusco", [4422] = "Agathelos, o Furioso", [4421] = "Charlga Talhaflanco"},
+		ruRU = {[4625] = "Хранительница чертогов Мертвой Головы", [4511] = "Агам'ар", [4435] = "Воин племени Иглошкурых", [4514] = "Разъяренный Агам'ар", [4520] = "Геомант племени Иглошкурых", [4530] = "Укротитель из племени Иглошкурых", [4436] = "Свиностраж племени Иглошкурых", [4437] = "Страж-смотритель из племени Иглошкурых", [4517] = "Жрица из племени Мертвой Головы", [4541] = "Кровь Агамаггана", [4516] = "Адепт из племени Мертвой Головы", [4442] = "Защитник из племени Иглошкурых", [4523] = "Землетряска из племени Иглошкурых", [4515] = "Послушница из племени Мертвой Головы", [4519] = "Ясновидица из племени Мертвой Головы", [4531] = "Дрессировщик из племени Иглошкурых", [4522] = "Пылеткач из племени Иглошкурых", [4512] = "Гниющий вурдалак", [4525] = "Землеломка из племени Иглошкурых", [6035] = "Ловчий из племени Иглошкурых", [4518] = "Ведунья из племени Мертвой Головы", [4440] = "Тотемист племени Иглошкурых", [4538] = "Лабиринтовый нетопырь", [4623] = "Воитель Иглостраж", [4532] = "Повелитель зверей из племени Иглошкурых", [4427] = "Страж чертогов", [4539] = "Большой лабиринтовый нетопырь", [4510] = "Гералат Бурый Ручей", [4508] = "Импортер Вилликс", [6168] = "Ругуг", [4438] = "Копьешкур из племени Иглошкурых", [4425] = "Слепой охотник", [4842] = "Заклинательница земли Халмгар", [4424] = "Аггем Терновое Проклятие", [4428] = "Вестник смерти Джаргба", [4420] = "Властитель Таранный Клык", [4422] = "Агателос Свирепый", [4421] = "Чарлга Остробок"},
+		koKR = {[4625] = "죽음의 머리교 문지기", [4511] = "아가마르", [4435] = "가시덩굴일족 전사", [4514] = "흉포한 아가마르", [4520] = "가시덩굴일족 흙점쟁이", [4530] = "가시덩굴일족 조련사", [4436] = "가시덩굴일족 가시경비병", [4437] = "가시덩굴일족 문지기", [4517] = "죽음의 머리교 사제", [4541] = "아감마간의 핏덩이", [4516] = "죽음의 머리교 상급마술사", [4442] = "가시덩굴일족 파수병", [4523] = "가시덩굴일족 지진술사", [4515] = "죽음의 머리교 수행사제", [4519] = "죽음의 머리교 예언자", [4531] = "가시덩굴일족 사냥꾼", [4522] = "가시덩굴일족 먼지술사", [4512] = "썩어가는 아가마르", [4525] = "가시덩굴일족 대지술사", [6035] = "가시덩굴일족 추종자", [4518] = "죽음의 머리교 현자", [4440] = "가시덩굴일족 토템술사", [4538] = "동굴박쥐", [4623] = "가시멧돼지 용사", [4532] = "가시덩굴일족 야수조련사", [4427] = "보호실 수호병", [4539] = "거대한 동굴박쥐", [4510] = "헤랄라스 팰로우브룩", [4508] = "수입업자 윌릭스", [6168] = "루구그", [4438] = "가시덩굴일족 가시근위병", [4425] = "눈먼사냥꾼", [4842] = "대지의주술사 함가르", [4424] = "저주의가시 아겜", [4428] = "죽음의예언자 잘그바", [4420] = "대군주 램터스크", [4422] = "흉포한 아가테로스", [4421] = "서슬깃 차를가"},
+		zhCN = {[4625] = "亡首结界守护者", [4511] = "阿迦玛", [4435] = "剃刀沼泽战士", [4514] = "暴怒的阿迦玛", [4520] = "剃刀沼泽地占师", [4530] = "剃刀沼泽训练师", [4436] = "剃刀沼泽卫兵", [4437] = "剃刀沼泽守卫", [4517] = "亡首祭司", [4541] = "阿迦玛甘之血", [4516] = "亡首专家", [4442] = "剃刀沼泽防御者", [4523] = "剃刀沼泽震地者", [4515] = "亡首侍僧", [4519] = "亡首先知", [4531] = "剃刀沼泽驯兽师", [4522] = "剃刀沼泽织尘者", [4512] = "腐烂的阿迦玛", [4525] = "剃刀沼泽裂地者", [6035] = "剃刀沼泽捕猎者", [4518] = "亡首圣贤", [4440] = "剃刀沼泽图腾师", [4538] = "沼泽蝙蝠", [4623] = "野猪人勇士", [4532] = "剃刀沼泽兽王", [4427] = "结界卫士", [4539] = "巨型沼泽蝙蝠", [4510] = "赫尔拉斯·静水", [4508] = "进口商威利克斯", [6168] = "鲁古格", [4438] = "剃刀沼泽刺鬃守卫", [4425] = "盲眼猎手", [4842] = "唤地者哈穆加", [4424] = "阿格姆", [4428] = "亡语者贾格巴", [4420] = "主宰拉姆塔斯", [4422] = "暴怒的阿迦赛罗斯", [4421] = "卡尔加·刺肋"},
+		zhTW = {[4625] = "亡首結界守護者", [4511] = "阿迦瑪", [4435] = "剃刀沼澤戰士", [4514] = "暴怒的阿迦瑪", [4520] = "剃刀沼澤地卜師", [4530] = "剃刀沼澤訓練師", [4436] = "剃刀沼澤野豬人", [4437] = "剃刀沼澤衛兵", [4517] = "亡首祭司", [4541] = "阿迦瑪甘之血", [4516] = "亡首專家", [4442] = "剃刀沼澤防衛者", [4523] = "剃刀沼澤震地者", [4515] = "亡首侍僧", [4519] = "亡首先知", [4531] = "剃刀沼澤野獸訓練師", [4522] = "剃刀沼澤織塵者", [4512] = "腐爛的阿迦瑪", [4525] = "剃刀沼澤裂地者", [6035] = "剃刀沼澤捕獵者", [4518] = "亡首聖賢", [4440] = "剃刀沼澤圖騰師", [4538] = "沼澤蝙蝠", [4623] = "野豬人勇士", [4532] = "剃刀沼澤獸王", [4427] = "結界衛士", [4539] = "巨型沼澤蝙蝠", [4510] = "赫爾拉斯·靜水", [4508] = "進口商威利克斯", [6168] = "魯古格", [4438] = "剃刀沼澤刺鬃守衛", [4425] = "盲眼獵手", [4842] = "喚地者哈穆加", [4424] = "阿格姆", [4428] = "亡語者賈格巴", [4420] = "拉姆塔斯主宰", [4422] = "暴怒的阿迦賽羅斯", [4421] = "卡爾加·刺肋"},
+	},
+	subs = {
+		enUS = {[4424] = "Death's Head Prophet", [4428] = "Death's Head Captain", [4421] = "The Crone"},
+		frFR = {[4424] = "Prophète de la Tête de mort", [4428] = "Capitaine des Têtes de mort", [4421] = "La mégère"},
+		deDE = {[4424] = "Prophet der Totenköpfe", [4428] = "Captain der Totenköpfe", [4421] = "Die Greisin"},
+		esES = {[4424] = "Profeta de los Caramuerte", [4428] = "Capitán Caramuerte", [4421] = "La bruja"},
+		esMX = {[4424] = "Profeta de los Caramuerte", [4428] = "Capitán Caramuerte", [4421] = "La bruja"},
+		ptBR = {[4424] = "Profeta da Cabeça da Morte", [4428] = "Capitão da Cabeça da Morte", [4421] = "Bruxa Má"},
+		ruRU = {[4424] = "Пророк племени Мертовой Головы", [4428] = "Капитан племени Мертвой Головы", [4421] = "Ведьма"},
+		koKR = {[4424] = "죽음의 머리교 예언자", [4428] = "죽음의 머리교 우두머리", [4421] = "대모"},
+		zhCN = {[4424] = "亡首预言者", [4428] = "亡首队长", [4421] = "长者"},
+		zhTW = {[4424] = "亡首預言者", [4428] = "亡首隊長", [4421] = "長者"},
+	},
+}
