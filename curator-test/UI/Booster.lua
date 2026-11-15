@@ -3365,7 +3365,7 @@ function B:CheckDone()
 		s.album:SetLabel(L[(self.opts and B.BACK_LABEL[self.opts.from or ""]) or "Album"])
 		FadeIn(s.album, 0.3, self)
 		FadeIn(s.close, 0.3, self)
-		s.again:Show()
+		CuratorOctoFull.SetShown(s.again, not self.opts.test)
 		s.again:SetAlpha(left > 0 and 1 or 0.45)
 		self:OfferRedraw()
 		if self.autoAll then
@@ -3604,6 +3604,7 @@ function B:Showing()
 end
 
 function B:Again()
+    if self.opts and self.opts.test then return end
 	if self.mode == "contract" then
 		self.frame:Hide()
 		return ns.Album:Open("contract")

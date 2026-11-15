@@ -1,9 +1,8 @@
-## Affichage des cartes dans les albums
+## Bouton de test dans la page des boosters
 
-- Correction du blocage dans la grille des cartes quand le client ne dispose pas de `SetPortraitZoom` ou des autres réglages facultatifs de caméra et d’animation.
-- Les cartes sans identifiant de modèle s’affichent avec leur cadre. Le jeu conserve le cadrage par défaut lorsque les réglages de caméra sont indisponibles.
-- Le retournement standard reste disponible quand la cinématique de créature ne peut pas démarrer.
+- **Tester** lance l’animation du booster affiché, même lorsque le stock est vide.
+- L’aperçu ne dépense aucun booster et ne rapporte ni cartes ni XP. Le bouton de retour rouvre la page des boosters.
 
-Les 221 scripts compilent en Lua 5.0. Les tests simulés couvrent les 57 cartes de Balor, la première page de chaque album et l’ouverture standard des boosters. Le rendu en jeu reste à vérifier.
+Les tests simulés sous Lua 5.0 couvrent le clic, le retournement des huit cartes et le retour vers la page, avec un stock vide ou positif. Le rendu en jeu reste à vérifier.
 
 Installer [le ZIP de base alpha.2](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), puis appliquer ce correctif cumulatif dans `Interface/AddOns`. Si Curator est déjà installé depuis le ZIP de base, appliquer directement ce correctif et taper `/reload`.

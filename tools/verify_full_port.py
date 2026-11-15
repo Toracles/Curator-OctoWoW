@@ -193,16 +193,41 @@ assert(table.getn(cards)==5)
 print("Upstream draw engine verified on two OctoWoW albums")
 lua.execute(r"""
 local ns = CuratorOctoFull
-ns.Booster:Open(ns.SeriesByKey("northwind"), {test = true})
-assert(ns.Booster.frame and ns.Booster.frame.pack)
-ns.Booster:Tear()
-assert(table.getn(ns.Booster.picks)==8)
-ns.Booster:Burst()
-stepFrames(100)
-assert(ns.Booster.state == "cards", tostring(ns.Booster.state) .. " landed=" .. tostring(ns.Booster.landed) .. " card=" .. tostring(ns.Booster.cards[1].pick) .. " scale=" .. tostring(ns.Booster.timeK))
-ns.Booster:RevealAll()
-stepFrames(480)
-assert(ns.Booster.state == "done", ns.Booster.state)
+local booster, album = ns.Booster, ns.Album
+local series = ns.SeriesByKey("northwind")
+zone = "Northwind"
+album:ShowBoosters()
+local function click(button)
+    this, arg1 = button, "LeftButton"
+    button:GetScript("OnClick")()
+end
+for _, stock in ipairs({0, 2}) do
+    ns.db.packs[series.key] = stock
+    local collection = ns.Seal({ cards = ns.db.cards })
+    local xp = ns.Level:XP()
+    local featured = album.frame.boost.feat
+    assert(album.frame:IsShown() and featured.series == series and featured.test:IsShown())
+    click(featured.test)
+    assert(booster:Showing() and booster.series == series and booster.opts.test)
+    assert(not album.frame:IsShown())
+    booster:Tear()
+    assert(table.getn(booster.picks) == 8)
+    booster:Burst()
+    stepFrames(100)
+    assert(booster.state == "cards", booster.state)
+    booster:RevealAll()
+    stepFrames(480)
+    assert(booster.state == "done", booster.state)
+    assert(not booster.frame.again:IsShown())
+    booster:Again()
+    assert(booster.state == "done" and booster.opts.test)
+    assert(ns.Packs(series) == stock and ns.Level:XP() == xp)
+    assert(ns.Seal({ cards = ns.db.cards }) == collection)
+    click(booster.frame.album)
+    assert(not booster:Showing() and album.frame:IsShown() and album.mode == "boosters")
+end
+ns.db.packs[series.key] = nil
+album:Hide()
 """)
 
 
@@ -215,7 +240,7 @@ local ns = CuratorOctoFull
 ns.Wire:Raw("WHISPER", "Collector", "probe")
 assert(lastMessage[2] == "probe" and lastMessage[3] == "WHISPER" and lastMessage[4] == "Collector")
 """)
-print("Original booster opening reached done; legacy addon message routed in mock")
+print("Test button opens and returns from a preview at zero or positive stock; legacy addon message routed in mock")
 
 
 lua.execute(r"""

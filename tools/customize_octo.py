@@ -61,9 +61,47 @@ function BB:SetWidth(w)""")
         db.barAt, db.barHide, db.barWidth, db.barScale = nil, nil, nil, nil''')
 
 
+def booster_test_button(text):
+    text = replace(text, "\t-- (the pack opens one too)", '''    ft.test = S.Button(ft, ns.locale == "frFR" and "Tester" or "Test", 80, 22)
+    ft.test:SetPoint("TOPLEFT", 12, -36)
+    CuratorOctoFull.SetScript(ft.test, "OnClick", function()
+        local series = ft.series
+        if not series or series.limited then return end
+        local booster = ns.Booster
+        if booster:Showing() and booster.state ~= "done" then return end
+        ns.Play(ns.SND.click)
+        GameTooltip:Hide()
+        A:Hide()
+        ns.OpenBooster({ series = series, test = true, from = "boosters" })
+    end)
+    CuratorOctoFull.SetScript(ft.test, "OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+        GameTooltip:AddLine(L["Test booster"])
+        GameTooltip:AddLine(ns.locale == "frFR"
+            and "Essaie l’ouverture sans dépenser de booster ni gagner de cartes."
+            or "Preview the opening without using a booster or adding cards.", 1, 1, 1, true)
+        GameTooltip:Show()
+    end)
+    CuratorOctoFull.SetScript(ft.test, "OnLeave", function() GameTooltip:Hide() end)
+\t-- (the pack opens one too)''')
+    return replace(text, "\tft.series = s\n", '''\tft.series = s
+    CuratorOctoFull.SetShown(ft.test, s and not s.limited)
+''')
+
+
+def booster_preview(text):
+    text = replace(text, "function B:Again()\n", '''function B:Again()
+    if self.opts and self.opts.test then return end
+''')
+    return replace(text, '\t\ts.again:Show()\n\t\ts.again:SetAlpha(left > 0 and 1 or 0.45)',
+                   '\t\tCuratorOctoFull.SetShown(s.again, not self.opts.test)\n\t\ts.again:SetAlpha(left > 0 and 1 or 0.45)')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
+        "UI/Boosters.lua": booster_test_button,
+        "UI/Booster.lua": booster_preview,
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")

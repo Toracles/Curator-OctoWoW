@@ -315,6 +315,27 @@ function A:BuildBoosters()
 	ft.info = Info(ft, 26)
 	ft.info:SetPoint("CENTER", ft.pack, "TOPRIGHT", 22, -8)
 	ft.info:SetFrameLevel(ft:GetFrameLevel() + 8)
+    ft.test = S.Button(ft, ns.locale == "frFR" and "Tester" or "Test", 80, 22)
+    ft.test:SetPoint("TOPLEFT", 12, -36)
+    CuratorOctoFull.SetScript(ft.test, "OnClick", function()
+        local series = ft.series
+        if not series or series.limited then return end
+        local booster = ns.Booster
+        if booster:Showing() and booster.state ~= "done" then return end
+        ns.Play(ns.SND.click)
+        GameTooltip:Hide()
+        A:Hide()
+        ns.OpenBooster({ series = series, test = true, from = "boosters" })
+    end)
+    CuratorOctoFull.SetScript(ft.test, "OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+        GameTooltip:AddLine(L["Test booster"])
+        GameTooltip:AddLine(ns.locale == "frFR"
+            and "Essaie l’ouverture sans dépenser de booster ni gagner de cartes."
+            or "Preview the opening without using a booster or adding cards.", 1, 1, 1, true)
+        GameTooltip:Show()
+    end)
+    CuratorOctoFull.SetScript(ft.test, "OnLeave", function() GameTooltip:Hide() end)
 	-- (the pack opens one too)
 	ft.hit = CreateFrame("Button", nil, ft)
 	ft.hit:SetAllPoints(ft.pack)
@@ -841,6 +862,7 @@ function A:PaintFeatured(s, place)
 	local ft = self.frame.boost.feat
 	local R = ns.Rewards
 	ft.series = s
+    CuratorOctoFull.SetShown(ft.test, s and not s.limited)
 	if not s then
 		return
 	end
