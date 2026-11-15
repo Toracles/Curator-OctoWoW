@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.31](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.31/Curator-OctoWoW-correctif-alpha.31.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.32](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.32/Curator-OctoWoW-correctif-alpha.32.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.

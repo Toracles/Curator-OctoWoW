@@ -1584,7 +1584,7 @@ function Card:SetCard(card, opts)
 		pt:Hide()
 	end
 	if self.see3D then
-		CuratorOctoFull.SetShown(self.see3D, por ~= nil and owned and ns.Can3D())
+		CuratorOctoFull.SetShown(self.see3D, por ~= nil and owned and not self.openingModel and ns.Can3D())
 		self.see3D:SetText(L[self.live3D and "See the card" or "See in 3D"])
 	end
 	-- the creature

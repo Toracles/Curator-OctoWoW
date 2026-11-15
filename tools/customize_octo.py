@@ -881,6 +881,7 @@ end""")
 	self.openingModel = opts.opening3D and owned and not card.art and card.display and card.display > 0""")
     text = replace(text, "CuratorOctoFull.SetShown(pt, not self.live3D)", "CuratorOctoFull.SetShown(pt, self.openingModel or not self.live3D)")
     text = replace(text, "(not por or self.live3D) and card.display", "(not por or self.live3D or self.openingModel) and card.display")
+    text = replace(text, "por ~= nil and owned and ns.Can3D()", "por ~= nil and owned and not self.openingModel and ns.Can3D()")
     text = replace(text, """	if m.actor then
 		Load(m)
 	elseif m.display and m.SetDisplayInfo then
@@ -1101,11 +1102,97 @@ def opening_case_contract_models(text):
     return replace(text, '\tDress(c, res.rec)', '\tDress(c, res.rec, nil, true)')
 
 
+def booster_inspection(text):
+    text = replace(text, "\tlocal o = self:BuildInspect()\n\to.pick = pick",
+                   "\tlocal o = self:BuildInspect()\n\tns.CancelOwner(o)\n\to.pick = pick")
+    text = replace(text, "\tlocal card = o.card\n\t-- (31 October", "\tlocal card = o.card\n\to:SetAlpha(0)\n\to:Show()\n\t-- (31 October")
+    text = replace(text, "owned = true, finish = pick.finish,", "owned = true, opening3D = c.openingModel, finish = pick.finish,")
+    text = replace(text, '\to:SetAlpha(0)\n\to:Show()\n\tif not (InCombatLockdown', '\tif not (InCombatLockdown')
+    text = replace(text, """	self.inspecting = nil
+	self:ShowOthers()
+	self:CornerAside(false)
+	if not (o and o:IsShown()) then
+		return
+	end""", """	local function gone()
+		if o then
+			o:Hide()
+			o:SetAlpha(1)
+		end
+		self.inspecting = nil
+		self:ShowOthers()
+		self:CornerAside(false)
+	end
+	if not (o and o:IsShown()) then
+		gone()
+		return
+	end""")
+    text = replace(text, "\tif quick then\n\t\to:Hide()", "\tif quick then\n\t\tgone()")
+    return replace(text, "\tend, function()\n\t\to:Hide()\n\t\to:SetAlpha(1)\n\tend, Ease.outQuad, o)",
+                   "\tend, gone, Ease.outQuad, o)")
+
+
+def crate_inspection(text):
+    text = replace(text, """	ins.pick, ins.won = pick, won
+	local col, ink""", """	ns.CancelOwner(ins)
+	ins.pick, ins.won = pick, won
+	ins.restorePreview = not won and f.panel:IsShown()
+	if ins.restorePreview then
+		f.panel:Hide()
+	end
+	if won then
+		f.reveal.card:Hide()
+	end
+	ins:SetAlpha(0)
+	ins:Show()
+	if ns.Inspect and ins.card.turn then
+		ns.Inspect:Reset(ins.card, 0, 1)
+	end
+	local col, ink""")
+    text = replace(text, """	if ns.Inspect and ins.card.turn then
+		ns.Inspect:Reset(ins.card, 0, 1)
+	end
+	ins.glow:SetVertexColor""", "\tins.glow:SetVertexColor")
+    text = replace(text, """	if won then
+		f.reveal.card:Hide()
+	end
+	ins:SetAlpha(0)
+	ins:Show()
+	ns.Play(ns.SND.cardFlip)""", "\tns.Play(ns.SND.cardFlip)")
+    text = replace(text, """	local won = ins.won
+	ins.won = nil
+	if won then
+		local rv, win = f.reveal, self.win
+		rv.card:Show()
+		if win and not now then
+			rv.card:Set({ opening3D = true, tier = win.tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
+			rv.card:SetLive(true)
+		end
+	end
+	local function gone()
+		ins:Hide()
+		ins.card:SetScale(1)""", """	if ins.card.turn then ins.card.turn.dragging = false end
+	local function gone()
+		ins:Hide()
+		ins.card:SetScale(1)
+		local won, restorePreview = ins.won, ins.restorePreview
+		ins.won, ins.restorePreview = nil, nil
+		if f:IsShown() and won and self.state == "out" and self.win then
+			local original = f.reveal.card
+			original:Show()
+			original:Set(original.pick, self.RANKS)
+			original:SetLive(true)
+		elseif f:IsShown() and restorePreview and self.state == "case" then
+			f.panel:Show()
+		end""")
+    return text
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
         "UI/Card.lua": opening_card_models,
+        "UI/Inspect.lua": booster_inspection,
         "UI/Booster.lua": lambda text: opening_booster_models(contract_booster_layout(text)),
         "UI/Contract.lua": lambda text: replace(replace(contract_ceremony(text),
             'c:SetCard(ns.Cards[key], { owned = true,', 'c:SetCard(ns.Cards[key], { owned = true, opening3D = true,'),
@@ -1115,7 +1202,7 @@ def apply(root: Path):
         "UI/Inns.lua": inns_panel,
         "UI/Tavern.lua": tavern_bet_modal,
         "UI/Gossip.lua": gossip_panel,
-        "UI/Crate.lua": lambda text: opening_crate_models(crate_art_layers(text)),
+        "UI/Crate.lua": lambda text: crate_inspection(opening_crate_models(crate_art_layers(text))),
         "UI/CrateCard.lua": opening_crate_card_models,
         "Cases.lua": case_capacity,
         "UI/CaseFilm.lua": case_film_speed,

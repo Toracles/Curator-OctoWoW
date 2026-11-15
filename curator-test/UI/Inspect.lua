@@ -565,14 +565,17 @@ function B:Inspect(c)
 		return
 	end
 	local o = self:BuildInspect()
+	ns.CancelOwner(o)
 	o.pick = pick
 	self.inspecting = c
 	self:HideOthers(o.card)
 	self:CornerAside(true)
 	GameTooltip:Hide()
 	local card = o.card
+	o:SetAlpha(0)
+	o:Show()
 	-- (31 October, his word: the very copy that came out, its wear and its corruption on it, as in the scene)
-	card:SetCard(pick.card, { owned = true, finish = pick.finish, count = pick.count, new = pick.new and not (self.opts and self.opts.test), facing = 0.4,
+	card:SetCard(pick.card, { owned = true, opening3D = c.openingModel, finish = pick.finish, count = pick.count, new = pick.new and not (self.opts and self.opts.test), facing = 0.4,
 		pattern = pick.pt, corrupt = pick.corrupt, wear = pick.wear })
 	card:ShowSide("front")
 	card.phase = c.phase
@@ -582,8 +585,6 @@ function B:Inspect(c)
 	local r = pick.card.rarity
 	o.halo:SetAlpha(0.18 + 0.05 * r)
 	o.rays:SetAlpha(r >= 3 and (0.1 + 0.06 * (r - 3)) or 0)
-	o:SetAlpha(0)
-	o:Show()
 	if not (InCombatLockdown and InCombatLockdown()) then
 		o:EnableKeyboard(true)
 		if o.SetPropagateKeyboardInput then
@@ -606,10 +607,17 @@ end
 -- Back to the cards (quick: at once, the scene resets or closes).
 function B:CloseInspect(quick)
 	local o = self.frame and self.frame.inspect
-	self.inspecting = nil
-	self:ShowOthers()
-	self:CornerAside(false)
+	local function gone()
+		if o then
+			o:Hide()
+			o:SetAlpha(1)
+		end
+		self.inspecting = nil
+		self:ShowOthers()
+		self:CornerAside(false)
+	end
 	if not (o and o:IsShown()) then
+		gone()
 		return
 	end
 	o.card.turn.dragging = false
@@ -618,15 +626,12 @@ function B:CloseInspect(quick)
 	end
 	ns.CancelOwner(o)
 	if quick then
-		o:Hide()
+		gone()
 		return
 	end
 	ns.Play(ns.SND.close)
 	local from = o:GetAlpha()
 	ns.Tween(0.15, function(e)
 		o:SetAlpha(from * (1 - e))
-	end, function()
-		o:Hide()
-		o:SetAlpha(1)
-	end, Ease.outQuad, o)
+	end, gone, Ease.outQuad, o)
 end

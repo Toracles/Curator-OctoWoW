@@ -287,6 +287,28 @@ for _, stock in ipairs({0, 2}) do
         end
     end
     assert(shownModels > 0)
+    if stock == 0 then
+        local source
+        for _, card in ipairs(booster.cards) do
+            if card.revealed and card.openingModel then source = card; break end
+        end
+        assert(source and source.model:IsShown())
+        local display = source.pick.card.display
+        local portrait = ns.Portraits[display]
+        ns.Portraits[display] = {0, 1, 0, 1}
+        booster:Inspect(source)
+        stepFrames(45)
+        local inspect = booster.frame.inspect
+        assert(inspect:IsShown() and inspect.info.name:GetText() ~= "")
+        assert(inspect.card.model.testDisplay == display and inspect.card.model:IsShown())
+        assert(inspect.card.model.allPointsTarget == inspect.card.art and not inspect.card.see3D:IsShown())
+        assert(not source.model:IsShown())
+        click(inspect.back)
+        assert(inspect:IsShown() and not source.model:IsShown())
+        stepFrames(12)
+        assert(not inspect:IsShown() and source.model:IsShown() and source.model.testDisplay == display)
+        ns.Portraits[display] = portrait
+    end
     assert(not booster.frame.again:IsShown())
     booster:Again()
     assert(booster.state == "done" and booster.opts.test)
@@ -1238,6 +1260,18 @@ click(crate.frame.open)
 assert(ns.GetTimeScale(crate) == 1)
 stepFrames(240)
 assert(observed == 1)
+local prize, inspector = crate.frame.reveal, crate.frame.inspect
+for i = 1, 80 do
+    if prize.inspect:IsShown() then break end
+    stepFrames(10)
+end
+assert(prize.inspect:IsShown())
+click(prize.inspect)
+assert(inspector:IsShown() and inspector.pick == crate.win and not prize.card:IsShown())
+click(inspector.back)
+assert(not prize.card:IsShown())
+stepFrames(12)
+assert(prize.card:IsShown() and not inspector:IsShown())
 crate:Back()
 stepFrames(70)
 start = GetTime()
@@ -1376,6 +1410,7 @@ assert(card.art.portrait:IsShown() and not card.model:IsShown())
 
 local crate = ns.CrateUI
 crate:Show("paladin1")
+stepFrames(40)
 local npc, npcTile
 for row = 0, crate.itemRows - 1 do
     for _, tile in ipairs(crate.frame.items) do
@@ -1390,6 +1425,31 @@ for row = 0, crate.itemRows - 1 do
     crate:ScrollItems(1)
 end
 assert(npc and npcTile)
+this, arg1 = npcTile, "LeftButton"
+npcTile:GetScript("OnMouseUp")()
+local inspect = crate.frame.inspect
+assert(inspect:IsShown() and inspect.pick == npcTile.pick and not crate.frame.panel:IsShown())
+assert(inspect.name:GetText() ~= "" and inspect.card.scene.testDisplay == npc.display)
+assert(inspect.card.scene.allPointsTarget == inspect.card.win)
+local hold = inspect.card.turn
+this, arg1 = inspect, 1
+inspect:GetScript("OnMouseWheel")()
+stepFrames(12)
+assert(hold.zoom > 1)
+this, arg1 = inspect.card, "LeftButton"
+inspect.card:GetScript("OnMouseDown")()
+inspect.card:GetScript("OnMouseUp")()
+stepFrames(35)
+assert(inspect.card.facing == "back" and not inspect.card.win:IsShown())
+this, arg1 = inspect.back, "LeftButton"
+inspect.back:GetScript("OnClick")()
+assert(inspect:IsShown() and not crate.frame.panel:IsShown())
+stepFrames(12)
+assert(not inspect:IsShown() and crate.frame.panel:IsShown())
+this, arg1 = npcTile, "LeftButton"
+npcTile:GetScript("OnMouseUp")()
+assert(inspect:IsShown() and inspect.card.scene.testDisplay == npc.display and inspect.card.win:IsShown())
+crate:CloseInspect(true)
 npcTile:Hide()
 assert(not npcTile.creature:IsShown() and not npcTile.creature.testDisplay)
 crate.frame:Hide()

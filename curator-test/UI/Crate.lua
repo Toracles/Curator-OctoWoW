@@ -1589,16 +1589,26 @@ function CR:Inspect(pick)
 	end
 	GameTooltip:Hide()
 	local ins = f.inspect
+	ns.CancelOwner(ins)
 	ins.pick, ins.won = pick, won
+	ins.restorePreview = not won and f.panel:IsShown()
+	if ins.restorePreview then
+		f.panel:Hide()
+	end
+	if won then
+		f.reveal.card:Hide()
+	end
+	ins:SetAlpha(0)
+	ins:Show()
+	if ns.Inspect and ins.card.turn then
+		ns.Inspect:Reset(ins.card, 0, 1)
+	end
 	local col, ink = Colour(pick.tier), Ink(pick.tier)
 	local weapon = won and pick.weapon or nil
 	ins.card:Set({ opening3D = true, tier = pick.tier, card = pick.card, entry = pick.entry, weapon = weapon, secret = pick.secret and not weapon,
 		wear = won and pick.wear or nil, finish = won and pick.finish or nil, pt = won and pick.pt or nil, def = pick.def or (self.own and self.own.def) }, self.RANKS)
 	ins.card:SetLive(true)
 	ins.card:SetBack(self.own and self.own.def.art and self.own.def.art.back or nil)
-	if ns.Inspect and ins.card.turn then
-		ns.Inspect:Reset(ins.card, 0, 1)
-	end
 	ins.glow:SetVertexColor(col[1], col[2], col[3], 0.5)
 	ns.CancelOwner(ins.card)
 	local CI = ns.CrateItems
@@ -1634,11 +1644,6 @@ function CR:Inspect(pick)
 	ins.from:SetPoint("TOP", extra and ins.extra or ins.rank, "BOTTOM", 0, extra and -8 or -10)
 	ins.name:SetTextColor(ink[1], ink[2], ink[3])
 	ins.rank:SetTextColor(col[1], col[2], col[3])
-	if won then
-		f.reveal.card:Hide()
-	end
-	ins:SetAlpha(0)
-	ins:Show()
 	ns.Play(ns.SND.cardFlip)
 	ns.Tween(0.25, function(e, raw)
 		ins:SetAlpha(raw)
@@ -1655,19 +1660,20 @@ function CR:CloseInspect(now)
 	ns.CancelOwner(ins)
 	ns.CancelOwner(ins.card)
 	-- (the card that came out back in its place, its creature, its armour or its weapon loaded again)
-	local won = ins.won
-	ins.won = nil
-	if won then
-		local rv, win = f.reveal, self.win
-		rv.card:Show()
-		if win and not now then
-			rv.card:Set({ opening3D = true, tier = win.tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
-			rv.card:SetLive(true)
-		end
-	end
+	if ins.card.turn then ins.card.turn.dragging = false end
 	local function gone()
 		ins:Hide()
 		ins.card:SetScale(1)
+		local won, restorePreview = ins.won, ins.restorePreview
+		ins.won, ins.restorePreview = nil, nil
+		if f:IsShown() and won and self.state == "out" and self.win then
+			local original = f.reveal.card
+			original:Show()
+			original:Set(original.pick, self.RANKS)
+			original:SetLive(true)
+		elseif f:IsShown() and restorePreview and self.state == "case" then
+			f.panel:Show()
+		end
 		if CR.PaintCertButton then
 			CR:PaintCertButton(ins, nil)
 		end

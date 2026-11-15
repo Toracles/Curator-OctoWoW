@@ -16,7 +16,7 @@ Hoard is optional and only used for legacy save migration. DXVK, HD packs, Super
 ## Install or update
 
 1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.
-2. Close OctoWoW before applying the [cumulative alpha.31 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.31/Curator-OctoWoW-correctif-alpha.31.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
+2. Close OctoWoW before applying the [cumulative alpha.32 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.32/Curator-OctoWoW-correctif-alpha.32.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
 3. Launch OctoWoW, enable **Curator** on the character selection screen, and enter `/curator`. Set English or French in `/curator options`.
 
 For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
