@@ -544,7 +544,7 @@ local function NewTile(parent)
 	t.gold:SetTexCoord(0, 0.5, 128 / 256, 224 / 256)
 	-- (1.14.0, the Paladin collection redone) a card with its picture: the part of it the case shows, all the tile, the
 	-- light of its rank rising over it
-	t.art = t:CreateTexture(nil, "BACKGROUND", nil, 1)
+	t.art = t:CreateTexture(nil, "BORDER")
 	t.art:SetPoint("TOPLEFT", 1, -1)
 	t.art:SetPoint("BOTTOMRIGHT", -1, 1)
 	t.art:Hide()
@@ -589,6 +589,7 @@ local function DressTile(t, pick, w, h, blind)
 	CuratorOctoFull.ColorTexture(t.bar, col[1], col[2], col[3], 1)
 	t.bar:SetHeight(math.max(3, math.floor(h / 32)))
 	local secret = pick.secret and true or false
+	t.light:SetDrawLayer("BORDER")
 	t.blind:Hide()
 	t.q:SetPoint("CENTER", 0, 1)
 	t.q:SetTextColor(1, 0.95, 0.72)
@@ -643,6 +644,8 @@ local function DressTile(t, pick, w, h, blind)
 		local CI = ns.CrateItems
 		local art = CI:Pic(e)
 		if art then
+            -- The 1.12 client can draw equal-layer textures in either order.
+            t.light:SetDrawLayer("ARTWORK")
 			t.art:SetTexture(art)
 			t.art:SetTexCoord(CI.TileCoords(e.tile, w, h, e.kind == "spell"))
 			t.art:Show()

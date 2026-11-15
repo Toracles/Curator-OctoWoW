@@ -46,7 +46,13 @@ local methods = {
  GetHighlightTexture = function() return widget() end,
  GetParent = function(self) return self.parent end,
  SetParent = function(self, parent) self.parent = parent end,
- CreateTexture = function(self) return widget(self, true) end,
+ CreateTexture = function(self, _, layer)
+  local texture = widget(self, true)
+  texture.drawLayer = layer or "ARTWORK"
+  return texture
+ end,
+ SetDrawLayer = function(self, layer) self.drawLayer = layer end,
+ SetTexture = function(self, file) self.textureFile = file end,
  CreateFontString = function(self) return widget(self, true) end,
  GetWidth = function() return 1024 end,
  GetHeight = function() return 768 end,
@@ -465,3 +471,28 @@ gossip.NpcId, GetServerTime = oldNpcId, nil
 GossipFrame = nil
 """)
 print("Allison: legacy texture flight, dates, stamp, bet and side-by-side window anchors verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local crate = ns.CrateUI
+local before = ns.Cases:Count("paladin1")
+crate:Show("paladin1")
+local spells = { PalArtHolyLight = true, PalArtLayOnHands = true,
+    PalArtKings = true, PalArtHolyShield = true }
+for row = 0, crate.itemRows - 1 do
+    for _, tile in ipairs(crate.frame.items) do
+        local entry = tile.pick and tile.pick.entry
+        if tile:IsShown() and entry and spells[entry.pic] then
+            assert(tile.art:IsShown() and tile.art.textureFile == ns.MEDIA .. entry.pic)
+            assert(tile.ground.drawLayer == "BACKGROUND" and tile.art.drawLayer == "BORDER")
+            assert(tile.light.drawLayer == "ARTWORK" and tile.edge.drawLayer == "OVERLAY")
+            spells[entry.pic] = nil
+        end
+    end
+    crate:ScrollItems(1)
+end
+assert(next(spells) == nil)
+assert(ns.Cases:Count("paladin1") == before)
+crate.frame:Hide()
+""")
+print("Paladin case: all four affected previews load over their backgrounds")

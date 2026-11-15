@@ -178,6 +178,17 @@ def gossip_panel(text):
 ''')
 
 
+def crate_art_layers(text):
+    text = replace(text, 't.art = t:CreateTexture(nil, "BACKGROUND", nil, 1)',
+                   't.art = t:CreateTexture(nil, "BORDER")')
+    text = replace(text, '\tlocal secret = pick.secret and true or false\n\tt.blind:Hide()',
+                   '\tlocal secret = pick.secret and true or false\n\tt.light:SetDrawLayer("BORDER")\n\tt.blind:Hide()')
+    return replace(text, '\t\tif art then\n\t\t\tt.art:SetTexture(art)', '''\t\tif art then
+            -- The 1.12 client can draw equal-layer textures in either order.
+            t.light:SetDrawLayer("ARTWORK")
+\t\t\tt.art:SetTexture(art)''')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
@@ -187,6 +198,7 @@ def apply(root: Path):
         "UI/Inns.lua": inns_panel,
         "UI/Tavern.lua": tavern_bet_modal,
         "UI/Gossip.lua": gossip_panel,
+        "UI/Crate.lua": crate_art_layers,
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")
