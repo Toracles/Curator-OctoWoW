@@ -29,12 +29,17 @@ with (ROOT / "data" / "Catalogue.csv").open(encoding="utf-8-sig", newline="") as
             groups[area].append(row)
 
 zones, units, parents, raids, extra_bosses = expand(CONFIG, groups)
+with (ROOT / "data" / "OctoDisplayIDs.tsv").open(encoding="utf8", newline="") as source:
+    official_displays = {int(row["NPCID"]): int(row["DisplayID"])
+                         for row in csv.DictReader(source, delimiter="\t")}
+assert all(npc > 0 and display > 0 for npc, display in official_displays.items())
 removed = sum(filter_classic(path, units) for path in (WORK / "Data").glob("*.lua")
               if path.stem not in (*EXCLUDED, "OctoAlbums"))
 lines = [
     "-- OctoWoW supplemental series, generated from the local Questie-Octo catalogue.",
     "local ns = CuratorOctoFull",
 ]
+with_display = 0
 for area, (key, name, studio, minimum, maximum, final) in CONFIG.items():
     rows = groups[area]
     assert rows
@@ -60,8 +65,11 @@ for area, (key, name, studio, minimum, maximum, final) in CONFIG.items():
     lines.append("    cards = {")
     for row in rows:
         levels = [int(token) for token in re.findall(r"\d+", row["Niveau"])] or [minimum]
-        fields = [int(row["NPCID"]), int(row["RareteID"]), 0, 0,
-                  levels[0], levels[-1], int(row["DisplayID"] or 0), 0, "false"]
+        npc = int(row["NPCID"])
+        display = int(row["DisplayID"] or 0) or official_displays.get(npc, 0)
+        with_display += display > 0
+        fields = [npc, int(row["RareteID"]), 0, 0,
+                  levels[0], levels[-1], display, 0, "false"]
         lines.append("        { " + ", ".join(map(str, fields)) + " },")
     lines.append("    }, names = { enUS = {")
     for row in rows:
@@ -88,7 +96,8 @@ if "OctoZones.lua" not in toc:
     toc = toc.replace("Rewards.lua\n", "Rewards.lua\nOctoZones.lua\n", 1)
 (WORK / "OctoZones.lua").write_bytes((ROOT / "full-port" / "OctoZones.lua").read_bytes())
 toc_path.write_text(toc, encoding="utf8")
-print(f"Added {sum(map(len, groups.values()))} cards over {len(groups)} OctoWoW albums; filtered {removed} unmatched classic cards")
+print(f"Added {sum(map(len, groups.values()))} cards over {len(groups)} OctoWoW albums "
+      f"({with_display} with a display ID); filtered {removed} unmatched classic cards")
 
 
 from customize_octo import apply as customize_octo

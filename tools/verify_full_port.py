@@ -352,7 +352,13 @@ local function countCards()
     end
     return count
 end
-album:ShowSeries(ns.SeriesByKey("balor"))
+local balor = ns.SeriesByKey("balor")
+local harelyss
+for _, card in ipairs(balor.list) do
+    if card.npc == 62317 then harelyss = card end
+end
+assert(harelyss and harelyss.display == 2737)
+album:ShowSeries(balor)
 assert(album.page == 1 and countCards() > 0)
 local first = countCards()
 local total = first
