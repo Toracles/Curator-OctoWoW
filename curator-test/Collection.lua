@@ -1805,7 +1805,7 @@ end
 
 -- (1.14.0) Copies back in the collection, a trade that did not happen (Trade.lua): a line each (how "p", with whom it
 -- was), the copies keeping how they came first (no stamp, Copies.lua). The website then knows where they come from:
--- a copy put aside by a trade before the release of WoW Forever, back after it (lib/watch.ts). True when the journal
+-- a copy put aside by a trade before the release of OctoWoW, back after it (lib/watch.ts). True when the journal
 -- took it.
 function C:LogBack(card, finish, who)
 	if ns.Guard and not ns.Guard:CardOk(card) then

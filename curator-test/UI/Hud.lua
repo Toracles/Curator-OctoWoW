@@ -482,7 +482,9 @@ function H.ClaimButton(parent, width, height, label)
 	CuratorOctoFull.SetScript(b, "OnMouseUp", function(self)
 		self.text:SetPoint("CENTER", 0, 1)
 	end)
-	local enable = b.SetEnabled
+	local enable = b.SetEnabled or function(button, on)
+        if on then button:Enable() else button:Disable() end
+    end
 	function b:SetEnabled(on)
 		enable(self, on)
 		self.bg:SetDesaturated(not on)

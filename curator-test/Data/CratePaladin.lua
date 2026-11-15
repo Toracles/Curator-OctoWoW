@@ -1,5 +1,5 @@
--- Spells: the client data of WoW Forever (1.60.1.70245). Creatures and names: QuestieDB (Forever build); the figures of
--- another time of the game: their names in each language of the game. Pictures: the collection of Clément Hudson.
+-- Spells: the client data of OctoWoW (1.60.1.70245). Creatures and names: QuestieDB (Forever build); the figures of
+-- another time of the game: their names in each language of the game. Pictures: the collection of CloudNine_Ex.
 local _, ns = "Curator", CuratorOctoFull
 ns.Crates = ns.Crates or {}
 

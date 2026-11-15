@@ -1,7 +1,7 @@
 -- Zone text fallback for stock Vanilla and for zones whose map ID differs from Forever.
 local ns = CuratorOctoFull
 local rewards = ns.Rewards
-local originalZoneSeries = rewards.ZoneSeries
+local originalInstanceSeries = rewards.InstanceSeries
 
 local function zoneKey(name)
     return string.lower(string.gsub(name or "", "^%s*(.-)%s*$", "%1"))
@@ -20,15 +20,48 @@ local function find(name, dungeon)
     end
 end
 
+local areasByName = {}
+for id, name in pairs(ns.OctoAreaNames or {}) do
+    local key = zoneKey(name)
+    if not areasByName[key] then areasByName[key] = id end
+end
+
+local function byArea(id, dungeon)
+    local parents = ns.OctoAreaParents or {}
+    for _ = 1, 8 do
+        if not id then return end
+        for _, series in ipairs(ns.Series) do
+            if series.area == id and (series.kind == "dungeon") == dungeon then
+                return series
+            end
+        end
+        id = parents[id]
+    end
+end
+
+function rewards:InstanceSeries()
+    if GetInstanceInfo then
+        local name, kind, _, _, _, _, _, id = GetInstanceInfo()
+        if kind == "pvp" or kind == "arena" then return end
+        if kind == "party" or kind == "raid" then
+            local match = find(name, true) or byArea(id, true)
+            if match then return match end
+        end
+    end
+    return find(GetRealZoneText(), true) or find(GetZoneText(), true) or originalInstanceSeries(self)
+end
+
 function rewards:ZoneSeries()
-    local instance, kind
-    if GetInstanceInfo then instance, kind = GetInstanceInfo() end
-    if kind == "pvp" or kind == "arena" then return end
-    local dungeon = find(instance, true) or find(GetRealZoneText(), true) or find(GetZoneText(), true)
+    local dungeon = self:InstanceSeries()
     if dungeon then return dungeon end
-    local existing = originalZoneSeries(self)
-    if existing or kind == "party" or kind == "raid" then return existing end
-    return find(GetRealZoneText(), false) or find(GetZoneText(), false)
+    if IsInInstance and IsInInstance() then return end
+    local real, zone = GetRealZoneText(), GetZoneText()
+    local match = find(real, false) or find(zone, false)
+        or byArea(areasByName[zoneKey(real)], false) or byArea(areasByName[zoneKey(zone)], false)
+    if match then return match end
+    if C_Map and C_Map.GetBestMapForUnit then
+        return byArea(C_Map.GetBestMapForUnit("player"), false)
+    end
 end
 
 local function chatPattern(format)

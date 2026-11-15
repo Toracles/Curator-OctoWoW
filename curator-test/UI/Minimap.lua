@@ -113,15 +113,6 @@ function M:Build()
 		elseif BT and BT:Suspended() then
 			GameTooltip:AddLine(L["Curator suspended"], 1, 0.3, 0.3)
 		end
-		-- (a beta build: how long it still works, or that it is over)
-		if BT and BT.BETA then
-			local left = BT:Left()
-			if left then
-				GameTooltip:AddLine(string.format(L["Beta: %s left"], ns.Duration(left)), 1, 0.55, 0.25)
-			else
-				GameTooltip:AddLine(L["Beta over"], 1, 0.4, 0.3)
-			end
-		end
 		local owned, total = ns.Collection:Overall()
 		GameTooltip:AddLine(string.format(L["%d / %d cards"], owned, total), 0.9, 0.9, 0.95)
 		local packs = ns.TotalPacks()
@@ -198,7 +189,7 @@ function M:Build()
 		if ns.Admin then
 			ns.Admin:Tooltip(GameTooltip)
 		end
-		GameTooltip:AddLine(string.format(L["By %s"], "Clément Hudson"), 0.5, 0.5, 0.55)
+		GameTooltip:AddLine(string.format("OctoWoW: %s", "CloudNine_Ex"), 0.5, 0.5, 0.55)
 		GameTooltip:Show()
 	end)
 	CuratorOctoFull.SetScript(b, "OnLeave", function()

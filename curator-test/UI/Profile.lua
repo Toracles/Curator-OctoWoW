@@ -1415,7 +1415,7 @@ function A:PaintTrack()
 		tr.sub:SetTextColor(octoConstants.DIM[1], octoConstants.DIM[2], octoConstants.DIM[3])
 	end
 	CuratorOctoFull.SetShown(tr.claimAll, waiting > 0 or offers > 0)
-	tr.claimAll:SetEnabled(waiting > 0 or offers > 0)
+	CuratorOctoFull.SetEnabled(tr.claimAll, waiting > 0 or offers > 0)
 	tr.claimAll:SetLabel((waiting > 1 and L["Claim all"]) or (waiting == 1 and L["Claim"]) or string.format(L["Choose (%d)"], offers))
 	tr.claimAll:SetPulse(true)
 	-- this rank, the next one

@@ -29,7 +29,7 @@ local CH = {
 	-- (1.13.1) The characters of the author of Curator, by their GUID (the game gives it with each line of a
 	-- channel, and no other player can take it): [ADMIN] before what they say there.
 	AUTHOR = {
-		["Player-4620-00DFCE57"] = true, -- Clément Hudson
+		["Player-4620-00DFCE57"] = true,
 	},
 	ADMIN_TAG = "|cffff8000[ADMIN]|r ",
 }

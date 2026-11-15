@@ -3,7 +3,7 @@ local L = setmetatable({}, { __index = function(_, k) return ns.L[k] end })
 local MEDIA = ns.MEDIA
 
 -- (1.14.0, after the test of the Paladin collection by its author) The film of a card of a case (its entry: film,
--- Data/Crate*.lua): the entrance of Arthas, the film of Clément Hudson. Its images in textures of the addon (28 to a
+-- Data/Crate*.lua): the entrance of Arthas, the film of CloudNine_Ex. Its images in textures of the addon (28 to a
 -- texture of 2048 x 2048, 7 across and 4 down: pal2/make_pal_film.py), one after the other in their time (the time of its
 -- sound: none waits for another), its sound with them, as it is. Over the scene of the case gone dark: the film in its
 -- middle, as tall as most of it, its light spilling round it (its image again, large and dim, behind it). At its end its

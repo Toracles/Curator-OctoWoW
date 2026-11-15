@@ -906,7 +906,7 @@ local function PaintRow(r, x)
 		r.line:SetTextColor(DIM[1], DIM[2], DIM[3])
 	end
 	r.case:SetText(x.casedDisplays == 0 and "" or (x.casedDisplays == 1 and L["1 display in its case"] or string.format(L["%d displays in their case"], x.casedDisplays)))
-	r.open:SetEnabled(x.displays > 0)
+	CuratorOctoFull.SetEnabled(r.open, x.displays > 0)
 	r.open:SetPulse(x.displays > 0)
 end
 
@@ -1321,7 +1321,7 @@ function DU:PaintCases()
 		else
 			ok = D:CanUncase(sel, b.kind)
 		end
-		b:SetEnabled(ok and true or false)
+		CuratorOctoFull.SetEnabled(b, ok and true or false)
 		if not ok then
 			b.armed = nil
 		end
@@ -1679,7 +1679,7 @@ function DU:PaintSale()
 	end
 	v.have:SetText(have > 0 and string.format(L["Yours already, to open: %d"], have) or "")
 	local ok = D:CanBuy(sel)
-	v.buy:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(v.buy, ok and true or false)
 	if not ok then
 		v.buy.armed = nil
 	end

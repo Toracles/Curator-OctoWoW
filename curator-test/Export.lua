@@ -10,7 +10,7 @@ local _, ns = "Curator", CuratorOctoFull
 -- one first). A number is an unsigned LEB128 varint (7 bits a byte, the low ones first, the high bit
 -- set while more follow); a string is its length in bytes (a varint), then its bytes (UTF-8).
 --   format (1) · version of the addon · flags (1: a beta build, 2: a test collection, 4: a save edited
---     outside the game, 8: a tester of the beta, 16 (1.14.0): through the release of WoW Forever, its levels
+--     outside the game, 8: a tester of the beta, 16 (1.14.0): through the release of OctoWoW, its levels
 --     started again) · server time of the code · id of the collector
 --   the character: name · realm · GUID · region · faction (1 Alliance, 2 Horde, 0 other) · race id ·
 --     class id · level
@@ -290,7 +290,7 @@ function E:Build(now)
 	if db.ach and db.ach.beta then
 		flags = flags + 8
 	end
-	-- (1.14.0: the collection went through the release of WoW Forever: its levels started again from 1, Reroll.lua. The
+	-- (1.14.0: the collection went through the release of OctoWoW: its levels started again from 1, Reroll.lua. The
 	-- website takes its experience lower than the one it kept from before, and ranks it on the leaderboard of the
 	-- release)
 	if type(db.forever) == "table" then

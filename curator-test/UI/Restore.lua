@@ -589,7 +589,7 @@ function RU:Paint()
 		b.armed = nil
 		b:SetLabel(L["Pick it up"])
 		b.why = (not ready) and "ready" or nil
-		b:SetEnabled(ready and true or false)
+		CuratorOctoFull.SetEnabled(b, ready and true or false)
 		b:Show()
 		last = b
 	else
@@ -660,7 +660,7 @@ function RU:Paint()
 			else
 				b:SetLabel(L["Ask for a quote"] .. " · " .. qp)
 			end
-			b:SetEnabled(okQ and true or false)
+			CuratorOctoFull.SetEnabled(b, okQ and true or false)
 			b:Show()
 			last = b
 			can = false
@@ -721,7 +721,7 @@ function RU:Paint()
 			else
 				b:SetLabel(L["Restore"] .. " · " .. price)
 			end
-			b:SetEnabled(ok and true or false)
+			CuratorOctoFull.SetEnabled(b, ok and true or false)
 			b:Show()
 			last = b
 		elseif not asking then
@@ -2783,7 +2783,7 @@ function RU:RetShown()
 	end
 	f.quote:SetAlpha(1)
 	f.close:Show()
-	f.close:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(f.close, true)
 	ns.Tween(0.4, function(e)
 		for _, t in ipairs({ f.beforeLabel, f.beforeFlaws, f.afterLabel, f.afterFlaws, f.sum, f.hint }) do
 			t:SetAlpha(e)
@@ -2947,7 +2947,7 @@ function RU:EndReturn(quick)
 		return
 	end
 	ns.Play(ns.SND.close)
-	f.close:SetEnabled(false)
+	CuratorOctoFull.SetEnabled(f.close, false)
 	ns.Tween(0.3, function(e)
 		f:SetAlpha(1 - e)
 	end, Gone, Ease.outQuad, RET)
@@ -3094,7 +3094,7 @@ function RU:PaintPanel()
 	else
 		f.pick:SetLabel(string.format(L["Pick up a card (%d ready)"], ready))
 	end
-	f.pick:SetEnabled(away > 0 and R:AtEnchanter() and not self:Returning())
+	CuratorOctoFull.SetEnabled(f.pick, away > 0 and R:AtEnchanter() and not self:Returning())
 	-- (its height: what it says)
 	local h = 58 + (f.text:GetStringHeight() or 30) + 6 + (f.count:GetStringHeight() or 14) + 6 + (self.said and ((f.say:GetStringHeight() or 14) + 6) or 0) + 80
 	f:SetHeight(math.max(176, math.floor(h)))

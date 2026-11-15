@@ -75,8 +75,6 @@ ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
 		{ 9449, 2, 7, 0, 54, 55, 10387, 1328, false }, -- Scarlet Cleric
 		{ 12384, 2, 7, 0, 55, 55, 12470, 6666, true }, -- Augustus the Touched
 		{ 16361, 2, 7, 0, 55, 55, 16132, 5977, true }, -- Commander Thomas Helleran
-		{ 17072, 2, 7, 0, 55, 55, 16806, 6021, true }, -- Emmisary Gormok
-		{ 17069, 2, 7, 0, 55, 55, 16793, 5904, true }, -- Emmisary Whitebeard
 		{ 12636, 2, 7, 0, 55, 55, 12569, 6046, true }, -- Georgia
 		{ 12617, 2, 7, 0, 55, 55, 12549, 5916, true }, -- Khaelyn Steelwing
 		{ 9451, 2, 7, 0, 55, 57, 10413, 1328, false }, -- Scarlet Archmage

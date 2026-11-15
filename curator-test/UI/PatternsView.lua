@@ -212,8 +212,8 @@ function V:ShowWear()
 	end
 	local r = ns.RARITY[self.rarityN]
 	f.rarity:SetLabel(string.format(L["Rarity: %s"], L[r.label]))
-	f.prev:SetEnabled(false)
-	f.next:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(f.prev, false)
+	CuratorOctoFull.SetEnabled(f.next, true)
 	if not f:IsShown() then
 		f:Show()
 		ns.Play(ns.SND.open or ns.SND.cardFlip)
@@ -303,8 +303,8 @@ function V:Show(from)
 			c:Hide()
 		end
 	end
-	f.prev:SetEnabled(from > 1)
-	f.next:SetEnabled(last < max)
+	CuratorOctoFull.SetEnabled(f.prev, from > 1)
+	CuratorOctoFull.SetEnabled(f.next, last < max)
 	if not f:IsShown() then
 		f:Show()
 		ns.Play(ns.SND.open or ns.SND.cardFlip)

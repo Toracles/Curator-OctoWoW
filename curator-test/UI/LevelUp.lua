@@ -398,7 +398,7 @@ function LU:PaintReward()
 	if self.claimed then
 		f.rewardText:SetText(L["Choose your reward among three."])
 		f.claim:SetLabel(L["Choose"])
-		f.claim:SetEnabled(LV:OfferCount() > 0)
+		CuratorOctoFull.SetEnabled(f.claim, LV:OfferCount() > 0)
 		f.claim:SetPulse(true)
 	elseif n > 0 then
 		f.rewardText:SetText(n == 1 and L["1 reward to choose"] or string.format(L["%d rewards to choose"], n))
@@ -422,12 +422,12 @@ function LU:PaintReward()
 			f.rewardText:SetText(f.rewardText:GetText() .. "\n+ " .. table.concat(more, "   "))
 		end
 		f.claim:SetLabel(L["Claim"])
-		f.claim:SetEnabled(true)
+		CuratorOctoFull.SetEnabled(f.claim, true)
 		f.claim:SetPulse(true)
 	else
 		f.rewardText:SetText(L["Claimed"])
 		f.claim:SetLabel(L["Choose"])
-		f.claim:SetEnabled(LV:OfferCount() > 0)
+		CuratorOctoFull.SetEnabled(f.claim, LV:OfferCount() > 0)
 		f.claim:SetPulse(false)
 	end
 	-- the icon and its text, side by side, in the middle

@@ -416,7 +416,7 @@ function UI:Paint()
 			local miss = self:Missing(s)
 			b.miss:SetText(miss and string.format(L["Missing: %s"], miss) or L["Nothing missing in epic or better"])
 			CuratorOctoFull.SetShown(b.sel, self.choice == s.key)
-			b:SetEnabled(state == "ready" and self.here)
+			CuratorOctoFull.SetEnabled(b, state == "ready" and self.here)
 			b:Show()
 		else
 			b:Hide()
@@ -430,10 +430,10 @@ function UI:Paint()
 	f.warn:SetText("")
 	-- the buttons: take it, turn it in, give it up
 	f.go:Show()
-	f.go:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(f.go, true)
 	if state == "offer" then
 		f.go:SetLabel(self.armed and L["Accept anyway"] or L["Accept"])
-		f.go:SetEnabled(self.here)
+		CuratorOctoFull.SetEnabled(f.go, self.here)
 		if self.armed then
 			f.warn:SetText(string.format(L["Only %s left before the reset: the quest is lost if you do not turn it in in time."], ns.Duration(left)))
 		elseif not self.here then
@@ -442,7 +442,7 @@ function UI:Paint()
 		end
 	elseif state == "ready" then
 		f.go:SetLabel(L["Turn in"])
-		f.go:SetEnabled(self.here and self.choice ~= nil)
+		CuratorOctoFull.SetEnabled(f.go, self.here and self.choice ~= nil)
 		if not self.here then
 			f.warn:SetText(string.format(L["Go back to %s in his city to turn it in."], GQ:LeaderName(l)))
 			f.warn:SetTextColor(DIM[1], DIM[2], DIM[3])

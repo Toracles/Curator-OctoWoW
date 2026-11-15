@@ -98,7 +98,7 @@ function G:Me()
 	if UnitFullName then
 		name, realm = UnitFullName("player")
 	end
-	-- (1.13.1: kept once the game told both, the name and the realm (on WoW Forever, the surname): it does not change)
+	-- (1.13.1: kept once the game told both, the name and the realm (on OctoWoW, the surname): it does not change)
 	local whole = type(name) == "string" and name ~= "" and type(realm) == "string" and realm ~= ""
 	name = name or UnitName("player")
 	if (not realm or realm == "") and GetNormalizedRealmName then
@@ -114,11 +114,11 @@ function G:Me()
 	return name
 end
 
--- (1.13.1) WoW Forever: a character has a first name and a surname, and no realm in its name. The game writes
+-- (1.13.1) OctoWoW: a character has a first name and a surname, and no realm in its name. The game writes
 -- "First Surname" in the names of its messages, of its chat and of its lists, gives the two apart (UnitFullName,
 -- UnitName: the surname where the realm was), and reaches a character as "First-Surname" as well as "First
 -- Surname". Curator names every player "First-Surname", whatever way the game wrote them: the same player under
--- one name, a message to them that reaches them. True on WoW Forever (the surname of mine is no realm), known
+-- one name, a message to them that reaches them. True on OctoWoW (the surname of mine is no realm), known
 -- once the game tells my name.
 function G:Surnames()
 	if self.surnames == nil and UnitFullName and (GetNormalizedRealmName or GetRealmName) then
@@ -134,7 +134,7 @@ function G:Surnames()
 end
 
 -- (1.13.1) The character of a game account of Battle.net (C_BattleNet), as Curator names players: "Name-Realm";
--- on WoW Forever, "First-Surname" (its surname from its GUID, when the game knows it), else its first name alone.
+-- on OctoWoW, "First-Surname" (its surname from its GUID, when the game knows it), else its first name alone.
 function G:BNName(g)
 	if type(g) ~= "table" or Secret(g) or type(g.characterName) ~= "string" or g.characterName == "" or Secret(g.characterName) then
 		return nil
@@ -187,7 +187,7 @@ function G:IsRealm(s)
 	return keys[RealmKey(s)] == true
 end
 
--- (1.13.1) WoW Forever: the first name of a name Curator 1.13.0 made with my realm after it ("Brindille-ClassicBetaPvE2":
+-- (1.13.1) OctoWoW: the first name of a name Curator 1.13.0 made with my realm after it ("Brindille-ClassicBetaPvE2":
 -- a friend of Battle.net, a first name typed, a menu), which reaches nobody by whisper; else nil.
 function G:RealmForm(name)
 	if type(name) ~= "string" or not self:Surnames() then
@@ -197,7 +197,7 @@ function G:RealmForm(name)
 	return (f and self:IsRealm(suffix)) and f or nil
 end
 
--- (1.13.1) WoW Forever: a name with no surname nor realm (a first name alone), or as 1.13.0 made it: no whisper reaches
+-- (1.13.1) OctoWoW: a name with no surname nor realm (a first name alone), or as 1.13.0 made it: no whisper reaches
 -- it for sure; only Battle.net, when it says whose it is.
 function G:Unsure(name)
 	if type(name) ~= "string" or not self:Surnames() then
@@ -206,7 +206,7 @@ function G:Unsure(name)
 	return not string.find(name, "-", 1, true) or self:RealmForm(name) ~= nil
 end
 
--- (1.13.1) WoW Forever: the other names a player of now ("First-Surname") had in what Curator 1.13.0 kept: their first
+-- (1.13.1) OctoWoW: the other names a player of now ("First-Surname") had in what Curator 1.13.0 kept: their first
 -- name alone, and their first name with my realm.
 function G:Aliases(name)
 	local first = type(name) == "string" and self:Surnames() and CuratorOctoFull.Match(name, "^([^%s%-]+)%-") or nil
@@ -221,7 +221,7 @@ function G:Aliases(name)
 	return out
 end
 
--- "Name-Realm" for the same realm shows as "Name"; (1.13.1) on WoW Forever, "First-Surname" as the game writes
+-- "Name-Realm" for the same realm shows as "Name"; (1.13.1) on OctoWoW, "First-Surname" as the game writes
 -- it, "First Surname".
 function G:Short(sender)
 	if type(sender) ~= "string" or Secret(sender) then
@@ -257,11 +257,11 @@ function G:Full(name, realm)
 		return nil
 	end
 	if string.find(name, "-", 1, true) then
-		-- (WoW Forever: a name of 1.13.0 with my realm after a first name alone stays as it is until it is made over,
+		-- (OctoWoW: a name of 1.13.0 with my realm after a first name alone stays as it is until it is made over,
 		-- G:FixRealms: it says whom it was for; nothing goes to it by whisper, G:Send, Wire.lua)
 		return name
 	end
-	-- (on WoW Forever, a surname after the first name; my realm there never: it is no part of a name)
+	-- (on OctoWoW, a surname after the first name; my realm there never: it is no part of a name)
 	if type(realm) == "string" and realm ~= "" and not Secret(realm) and not (self:Surnames() and self:IsRealm(realm)) then
 		return name .. "-" .. string.gsub(realm, "[%s%-]", "")
 	end
@@ -315,7 +315,7 @@ function G:IsMe(name)
 	if type(name) ~= "string" or Secret(name) then
 		return false
 	end
-	-- (1.13.1: WoW Forever, "First Surname" as the game writes it: "First-Surname", as I am)
+	-- (1.13.1: OctoWoW, "First Surname" as the game writes it: "First-Surname", as I am)
 	name = self:Full(name) or name
 	local me = self:Me()
 	if not me then
@@ -367,7 +367,7 @@ function G:Send(msg, channel, target)
 	if not (api and api.SendAddonMessage) or CuratorOctoFull.Length(msg) > MAX_LEN or Secret(target) then
 		return false
 	end
-	-- (1.13.1: WoW Forever: a whisper to the name as Curator makes it, First-Surname)
+	-- (1.13.1: OctoWoW: a whisper to the name as Curator makes it, First-Surname)
 	if channel == "WHISPER" and type(target) == "string" and self:Surnames() then
 		target = self:Full(target) or target
 	end
@@ -378,7 +378,7 @@ function G:Send(msg, channel, target)
 			return ns.Trade:SendBN(id, PREFIX, msg)
 		end
 	end
-	-- (1.13.1: WoW Forever: a name of 1.13.0 with my realm after it reaches nobody by whisper)
+	-- (1.13.1: OctoWoW: a name of 1.13.0 with my realm after it reaches nobody by whisper)
 	if channel == "WHISPER" and self:RealmForm(target) then
 		return false
 	end
@@ -919,7 +919,7 @@ function G:Player(name)
 		return nil
 	end
 	local m = ns.db.guild[name] or ns.db.met[name]
-	-- (1.13.1: WoW Forever: "First Surname" as the game writes it, kept as "First-Surname")
+	-- (1.13.1: OctoWoW: "First Surname" as the game writes it, kept as "First-Surname")
 	if m == nil and type(name) == "string" and string.find(name, " ", 1, true) then
 		local full = self:Full(name)
 		if full and full ~= name then
@@ -930,7 +930,7 @@ function G:Player(name)
 end
 
 -- The name a player is known by, whatever the case of the letters typed. (1.13.1) loose: a name typed in a command,
--- on WoW Forever a first name alone that one player known has (never for a menu nor a trade: it could be another one).
+-- on OctoWoW a first name alone that one player known has (never for a menu nor a trade: it could be another one).
 function G:Canon(name, loose)
 	if not (name and ns.db) then
 		return name
@@ -949,7 +949,7 @@ function G:Canon(name, loose)
 			end
 		end
 	end
-	-- (1.13.1: WoW Forever: a first name alone, as a player types it: the one player known by it)
+	-- (1.13.1: OctoWoW: a first name alone, as a player types it: the one player known by it)
 	if loose and self:Surnames() and not string.find(name, "-", 1, true) then
 		local found
 		for _, db in ipairs({ ns.db.guild, ns.db.met }) do
@@ -1231,7 +1231,7 @@ function G:OnMessage(text, channel, sender, localID, channelName)
 	if type(text) ~= "string" or type(sender) ~= "string" then
 		return
 	end
-	-- (1.13.1: WoW Forever: who sent it as Curator names them, "First-Surname"; the game writes "First Surname")
+	-- (1.13.1: OctoWoW: who sent it as Curator names them, "First-Surname"; the game writes "First Surname")
 	sender = self:Full(sender) or sender
 	if self:IsMe(sender) then
 		return
@@ -1552,7 +1552,7 @@ end)
 ns.On("CASE_OPENED", function(case, rec)
 	G:AnnounceCase(case, rec)
 end)
--- (1.13.1) WoW Forever: the players Curator 1.13.0 and before kept as the game wrote them ("First Surname"), or
+-- (1.13.1) OctoWoW: the players Curator 1.13.0 and before kept as the game wrote them ("First Surname"), or
 -- as they made them for a message ("First Surname-Realm", which reached nobody), kept under the name Curator gives
 -- them now ("First-Surname"); two names of the same player made one (what each holds kept, the latest first). In
 -- the players known, the trades and the duels, the wire, the collections looked at and the partners counted.
@@ -1672,7 +1672,7 @@ function G:FixNames(db)
 	return n
 end
 
--- (1.13.1) WoW Forever: the names Curator 1.13.0 made with my realm after a first name alone (a friend of Battle.net, a
+-- (1.13.1) OctoWoW: the names Curator 1.13.0 made with my realm after a first name alone (a friend of Battle.net, a
 -- first name typed, a menu: "Brindille-ClassicBetaPvE2"), which reach nobody by whisper, made over once the game told
 -- my surname: the name of the same player now, from Battle.net (bn: the name 1.13.0 gave each friend playing now, and
 -- the one of now, Trade.lua) or from the number of their collection (a character of that first name: the others of the
@@ -1746,7 +1746,7 @@ function G:FixRealms(db, bn)
 	return n
 end
 
--- (1.13.1) Once the game told my surname (at the login, or a little later): on WoW Forever, the friends of Battle.net
+-- (1.13.1) Once the game told my surname (at the login, or a little later): on OctoWoW, the friends of Battle.net
 -- named again, the names of 1.13.0 with my realm made over, my own characters forgotten among the players known.
 function G:Settle()
 	if self.settled or not self.ready then
@@ -1775,7 +1775,7 @@ ns.On("LOADED", function()
 	G.settled = nil
 end)
 
--- (1.13.1) WoW Forever: myself, as Curator 1.13.0 kept me from my own messages (it did not know them for mine),
+-- (1.13.1) OctoWoW: myself, as Curator 1.13.0 kept me from my own messages (it did not know them for mine),
 -- forgotten among the players known.
 function G:ForgetMe()
 	local me = self:Me()

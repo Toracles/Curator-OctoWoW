@@ -277,7 +277,7 @@ function MUI.Badges(it)
 	return out
 end
 
--- (the week of the release of WoW Forever: from Wednesday 4 November 2026, 5:00 in Paris, seven days)
+-- (the week of the release of OctoWoW: from Wednesday 4 November 2026, 5:00 in Paris, seven days)
 MUI.LAUNCH = 1793764800
 function MUI.LaunchWeek(t)
 	t = tonumber(t) or 0
@@ -1902,11 +1902,11 @@ function MUI:PaintBuy()
 		self.chosen, sel = now, now
 	end
 	CuratorOctoFull.SetShown(p.star, sel ~= nil)
-	p.sheetBtn:SetEnabled(sel ~= nil)
+	CuratorOctoFull.SetEnabled(p.sheetBtn, sel ~= nil)
 	if not sel then
 		S.Fit(p.info, L["Choose a thing in the list (right click: its sheet)."], 290, 12, 9)
 		Color(p.info, DIM)
-		p.buy:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(p.buy, false)
 		p.buy:SetLabel(L["Buy"])
 		local ok, why, extra = MK:CanUse()
 		self:Why(p.why, (not ok and why ~= "closed") and why or nil, extra)
@@ -1916,7 +1916,7 @@ function MUI:PaintBuy()
 	S.Fit(p.info, MUI.Name(sel.it), 290, 12, 9)
 	Color(p.info, MUI.Color(sel.it))
 	local why, extra = self:CanBuy(sel)
-	p.buy:SetEnabled(why == nil)
+	CuratorOctoFull.SetEnabled(p.buy, why == nil)
 	p.buy:SetLabel(sel.price and string.format(L["Buy: %s"], Rubies(sel.price, 11)) or L["Barter"])
 	if why then
 		self:Why(p.why, why, extra)
@@ -2262,7 +2262,7 @@ function MUI:PaintSheet()
 	CuratorOctoFull.SetShown(w.buy, sel ~= nil)
 	if sel then
 		local why, extra = self:CanBuy(sel)
-		w.buy:SetEnabled(why == nil)
+		CuratorOctoFull.SetEnabled(w.buy, why == nil)
 		w.buy:SetLabel(sel.price and string.format(L["Buy: %s"], Rubies(sel.price, 11)) or L["Barter"])
 		if why then
 			self:Why(w.why, why, extra)
@@ -2912,7 +2912,7 @@ function MUI:PaintForm()
 	end
 	S.Fit(fm.ref, refText, FW, 10, 7.5)
 	fm.price:SetAlpha(F.only and 0.4 or 1)
-	fm.price.eb:SetEnabled(not F.only)
+	CuratorOctoFull.SetEnabled(fm.price.eb, not F.only)
 	local base = (not F.only and F.p) or ref
 	-- (the fee of each duration told in its menu: said again when the price changes)
 	Sync(fm.days, tostring(F.d) .. ":" .. tostring(base))
@@ -2948,7 +2948,7 @@ function MUI:PaintForm()
 	end
 	fm.get:SetText(table.concat(get, "  ·  "))
 	local _, why, extra, fee2 = self:FormOpts(g)
-	fm.list:SetEnabled(why == nil)
+	CuratorOctoFull.SetEnabled(fm.list, why == nil)
 	local label = count > 1 and string.format(L["Put %d on sale"], count) or L["Put on sale"]
 	fm.list:SetLabel(label .. "  (" .. Rubies((fee2 or fee) * count, 10) .. ")")
 	if why and FORM_WHY[why] then
@@ -3032,7 +3032,7 @@ function MUI:PaintFill()
 	if ok and not give then
 		ok, why = false, "give"
 	end
-	fo.go:SetEnabled(ok)
+	CuratorOctoFull.SetEnabled(fo.go, ok)
 	self:Why(fo.why, not ok and why or nil, extra)
 end
 
@@ -3437,9 +3437,9 @@ function MUI:PaintMine()
 	if deposit then
 		local x = chosen
 		local can = x ~= nil and x.state ~= "withdraw" and MK.at
-		p.withdraw:SetEnabled(can and true or false)
+		CuratorOctoFull.SetEnabled(p.withdraw, can and true or false)
 		local v = p.newPrice:Get()
-		p.lower:SetEnabled((can and x.price and x.state ~= "price" and v and v < x.price) and true or false)
+		CuratorOctoFull.SetEnabled(p.lower, (can and x.price and x.state ~= "price" and v and v < x.price) and true or false)
 		CuratorOctoFull.SetShown(p.newPrice, x ~= nil and x.price ~= nil)
 		CuratorOctoFull.SetShown(p.lower, x ~= nil and x.price ~= nil)
 		if not MK.at then
@@ -3452,7 +3452,7 @@ function MUI:PaintMine()
 		end
 	else
 		local g = chosen and chosen.h and (chosen.h.k == "back" or chosen.h.k == "refused") and self:BackThing(chosen.h) or nil
-		p.again:SetEnabled(g ~= nil and ok)
+		CuratorOctoFull.SetEnabled(p.again, g ~= nil and ok)
 		self:Why(p.why, (not ok and why ~= "closed") and why or nil, extra)
 	end
 end
@@ -3661,7 +3661,7 @@ function MUI:PaintBought()
 		CuratorOctoFull.SetShown(x, orderTab)
 	end
 	CuratorOctoFull.SetShown(p.withdraw, orderTab and chosen ~= nil)
-	p.withdraw:SetEnabled(chosen ~= nil and chosen.state ~= "withdraw" and MK.at and true or false)
+	CuratorOctoFull.SetEnabled(p.withdraw, chosen ~= nil and chosen.state ~= "withdraw" and MK.at and true or false)
 	local ok, why, extra = MK:CanUse()
 	if orderTab then
 		local o = self.order
@@ -3685,7 +3685,7 @@ function MUI:PaintBought()
 			ok = false
 			why = nil
 		end
-		p.place:SetEnabled(ok)
+		CuratorOctoFull.SetEnabled(p.place, ok)
 		p.place:ClearAllPoints()
 		p.place:SetPoint("LEFT", p.days, "RIGHT", 8, 0)
 		self:Why(p.why, (not ok and why ~= "closed") and why or nil, extra)
@@ -3966,7 +3966,7 @@ function MUI:PaintPicker()
 	local a = spec and MK.ReadAsk(spec)
 	pk.choice:SetText(a and MUI.AskText(a) or L["Choose in the list."])
 	pk.ref:SetText(a and string.format(L["Its value of reference: %s"], Rubies(MK:RefAsk(a), 10)) or "")
-	pk.ok:SetEnabled(a ~= nil)
+	CuratorOctoFull.SetEnabled(pk.ok, a ~= nil)
 end
 
 -------------------------------------------------------------------------------

@@ -896,10 +896,10 @@ function A:PaintFeatured(s, place)
 	-- (1.14.0, after its test, his word: a reroll opens none)
 	local blocked = ns.Reroll ~= nil and ns.Reroll:NoOpening()
 	ft.blocked = blocked
-	ft.open:SetEnabled(packs > 0 and not blocked)
+	CuratorOctoFull.SetEnabled(ft.open, packs > 0 and not blocked)
 	ft.open:SetPulse(packs > 0 and not blocked)
 	-- (1.14.0) all of them, two at least; the cards of its album found
-	ft.all:SetEnabled(packs >= 2 and not blocked)
+	CuratorOctoFull.SetEnabled(ft.all, packs >= 2 and not blocked)
 	ft.all:SetLabel(packs >= 2 and string.format(L["All (%d)"], math.min(10, packs)) or L["All"])
 	local owned, total = C:Progress(s)
 	ft.prog:SetProgress(total > 0 and owned / total or 0)
@@ -1095,7 +1095,7 @@ function A:PaintStock(counts)
 				s.count:SetTextColor(0.5, 0.5, 0.52)
 			end
 		end
-		st.go:SetEnabled(n > 0 and not blocked)
+		CuratorOctoFull.SetEnabled(st.go, n > 0 and not blocked)
 		st.go:SetPulse(n > 0 and not blocked)
 		st.go:SetLabel((blocked and string.format(L["Locked until level %d"], ns.Reroll.LEVEL)) or (n > 0 and string.format(L["Choose (%d)"], n)) or L["Choose"])
 		local note
@@ -1200,7 +1200,7 @@ function A:PaintPicker()
 		if ns.TextWidth(b.text) > room then
 			S.Fit(b.text, text, room, 12, 7.5)
 		end
-		b:SetEnabled(n > 0)
+		CuratorOctoFull.SetEnabled(b, n > 0)
 		b:SetSelected(b.kind == kind)
 	end
 	-- (1.14.0: what a golden booster holds, which albums can get one)
@@ -1231,9 +1231,9 @@ function A:PaintPicker()
 	local n = kind and LV:Choices(kind) or 0
 	-- (1.14.0, after its test, his word: a reroll puts none in an album)
 	local ok = s ~= nil and not ChoiceBlocked()
-	pk.addOne:SetEnabled(ok and n > 0)
+	CuratorOctoFull.SetEnabled(pk.addOne, ok and n > 0)
 	pk.addOne:SetPulse(ok and n > 0)
-	pk.addAll:SetEnabled(ok and n > 1)
+	CuratorOctoFull.SetEnabled(pk.addAll, ok and n > 1)
 	pk.addAll:SetLabel(n > 1 and (L["Add all"] .. " (" .. n .. ")") or L["Add all"])
 	if LV:Choices() == 0 then
 		pk.empty:SetText(L["No booster to choose"])

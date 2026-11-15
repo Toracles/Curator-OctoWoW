@@ -17,7 +17,7 @@ ns.Pvp = P
 P.RANKS = 14
 P.FACTION = 2800 -- the faction of the ranks of PvP of the game (its renown: the rank, 0 to 14)
 P.SEEN_KEEP = 600 -- the seconds a player seen is remembered for his kill
--- the classes of each race of each faction, as WoW Forever made them: the classic ones, its new ones (the human
+-- the classes of each race of each faction, as OctoWoW made them: the classic ones, its new ones (the human
 -- hunter, the dwarf shaman, the gnome priest, the orc mage, the undead paladin, the troll warlock), and the Skyborne
 -- (race 95: the High-Order of the Alliance, the Windshapers of the Horde, each their classes)
 P.SKYBORNE = 95
@@ -41,7 +41,7 @@ P.RACE_CLASSES = {
 P.FEATS, P.FEAT_BY = {}, {}
 -- the races of each faction (the races of the enemy: those of the other one; the Skyborne in both)
 P.RACES = { Alliance = { 1, 3, 4, 7, 95 }, Horde = { 2, 5, 6, 8, 95 } }
--- the classes of each faction (in WoW Forever, every class in both: the paladins of the undead, the shamans
+-- the classes of each faction (in OctoWoW, every class in both: the paladins of the undead, the shamans
 -- of the dwarves)
 P.CLASSES = { Alliance = { 1, 2, 3, 4, 5, 7, 8, 9, 11 }, Horde = { 1, 2, 3, 4, 5, 7, 8, 9, 11 } }
 -- the battlegrounds (their instance)
@@ -143,7 +143,7 @@ local function Short(name)
 end
 P.Short = Short
 
--- (1.13.1) The first name of a player, to know them by it: "Name" of "Name-Realm"; on WoW Forever, "First" of
+-- (1.13.1) The first name of a player, to know them by it: "Name" of "Name-Realm"; on OctoWoW, "First" of
 -- "First-Surname" and of "First Surname", as the game writes it in its lines and its score.
 local function First(name)
 	return type(name) == "string" and (CuratorOctoFull.Match(name, "^%s*([^%s%-]+)") or name) or name

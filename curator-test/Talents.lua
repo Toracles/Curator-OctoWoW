@@ -1,7 +1,7 @@
 local _, ns = "Curator", CuratorOctoFull
 local L = setmetatable({}, { __index = function(_, k) return ns.L[k] end })
 
--- (1.14.0, the release of WoW Forever) The talents of the collector, redone: one tree for the account, among five new
+-- (1.14.0, the release of OctoWoW) The talents of the collector, redone: one tree for the account, among five new
 -- ones (none of the talents of before stays: the release starts every collection over): the Cartographer (the places,
 -- the gathering, the inns and their rumors, the albums of the zones), the Bounty Hunter (the elites, the rares, the
 -- bosses, the dungeons, the raids, the enemies), the Gambler (the boosters, the displays, the bets of the innkeepers, the

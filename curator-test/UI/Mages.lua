@@ -355,7 +355,7 @@ function MU:Paint()
 		b.armed = nil
 		b.why = nil
 		b:SetLabel(L["See the certificate"])
-		b:SetEnabled(true)
+		CuratorOctoFull.SetEnabled(b, true)
 	else
 		-- (its number, the master's to tell)
 		v.line:SetText(L["Not certified"])
@@ -370,7 +370,7 @@ function MU:Paint()
 		else
 			b:SetLabel(L["Have it certified"] .. " · " .. price)
 		end
-		b:SetEnabled(ok and true or false)
+		CuratorOctoFull.SetEnabled(b, ok and true or false)
 	end
 	v.note:SetTextColor(0.8, 0.8, 0.86)
 	Wide(b, 200)

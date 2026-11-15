@@ -1461,13 +1461,13 @@ function B:BatchButtons(fade)
 			nx:SetScale(self.uiK or 1)
 		end
 		At(nx, "CENTER", s, "CENTER", 0, y)
-		nx:SetEnabled(true)
+		CuratorOctoFull.SetEnabled(nx, true)
 		s.again:Hide()
 		main = nx
 	else
 		-- (one left: opened as any booster; none: the button greyed)
 		nx:Hide()
-		s.again:SetEnabled(left > 0)
+		CuratorOctoFull.SetEnabled(s.again, left > 0)
 		s.again:SetLabel(L["Open another"] .. " (" .. left .. ")")
 		At(s.again, "CENTER", s, "CENTER", 0, y)
 		main = s.again

@@ -15,7 +15,7 @@ local _, ns = "Curator", CuratorOctoFull
 -- What is kept (db.hallow): day (the day of the last treat), earn (the boosters earned toward the next bonus),
 -- treats, tricks, bonus (how many of each), told (the start of the event told), welcome (the window of the event
 -- whose gift came).
--- (1.12.0, later) Generous: the beta of WoW Forever ends on October 21, in the middle of it. A gift of welcome
+-- (1.12.0, later) Generous: the beta of OctoWoW ends on October 21, in the middle of it. A gift of welcome
 -- (H.WELCOME boosters, once), H.TREAT_PACKS boosters for a treat, the bonus every H.BONUS_EVERY boosters, the cards
 -- found twice as often on their creatures, and quests aplenty (Quests.lua: each one claimed gives way to another).
 -------------------------------------------------------------------------------

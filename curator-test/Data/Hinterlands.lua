@@ -92,7 +92,6 @@ ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
 		{ 8210, 3, 7, 0, 44, 44, 5927, 5361, false }, -- Razortalon
 		{ 14741, 3, 7, 0, 45, 45, 14773, 5946, true }, -- Huntsman Markhor
 		{ 8218, 3, 7, 0, 45, 45, 6479, 1034, false }, -- Witherheart the Stalker
-		{ 9660, 3, 7, 0, 47, 47, 8929, 5907, true }, -- Agnar Beastamer
 		{ 7977, 3, 1, 0, 48, 48, 7114, 1464, false }, -- Gammerita
 		{ 8216, 3, 7, 0, 48, 48, 6512, 1034, false }, -- Retherokk the Berserker
 		{ 8214, 3, 7, 0, 49, 49, 4731, 7014, true }, -- Jalinde Summerdrake

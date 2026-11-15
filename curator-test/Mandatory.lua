@@ -24,7 +24,7 @@ M.MINE = { v = "1.14.3", c = "f9a3cc3894486971f2b0e310b6bcde934c1d02cb06309faf53
 -- it that have a fingerprint, and makes them obsolete. 1.13.0 too: the secret of 1.12.0 joins those of
 -- before, written when it is armed. 1.12.1 never came out: all it brought went into 1.13.0. 1.13.1, a small version,
 -- is not mandatory: it carries its own fingerprint, and the secrets of before as 1.13.0 did; 1.13.0 keeps working.)
--- (1.13.2 closed Curator at the end of the beta of WoW Forever and made 1.13.0 and 1.13.1 obsolete. 1.14.0, when it
+-- (1.13.2 closed Curator at the end of the beta of OctoWoW and made 1.13.0 and 1.13.1 obsolete. 1.14.0, when it
 -- is armed: the secrets of 1.13.0, 1.13.1 and 1.13.2 join those of before, so that every copy of the beta is told to update.)
 M.REVEALS = {
 	["1.4.1"] = "a5c14083a597fbfa1c4425251323c2615be9d16953e16c3c5e43c3f7732747d4",

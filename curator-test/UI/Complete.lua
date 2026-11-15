@@ -429,7 +429,7 @@ function AD:PaintReward(xp)
 	else
 		f.gift:SetText("")
 	end
-	f.claim:SetEnabled(waiting and true or false)
+	CuratorOctoFull.SetEnabled(f.claim, waiting and true or false)
 	f.claim:SetPulse(waiting and true or false)
 	f.claim:SetLabel(waiting and L["Claim"] or L["Claimed"])
 end
@@ -446,7 +446,7 @@ function AD:OnClaim()
 	local xp = AC:Claim({ a })
 	ns.Play(ns.SND.claim)
 	self:PaintReward(x0)
-	f.claim:SetEnabled(false)
+	CuratorOctoFull.SetEnabled(f.claim, false)
 	f.claim:SetPulse(false)
 	-- (1.14.0: its golden booster gone to the boosters to choose, a spark of gold on its line)
 	if AC:AlbumKind(a) and AC:Claimed(a) then

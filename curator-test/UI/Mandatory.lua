@@ -7,7 +7,7 @@ local S = ns.Skin
 -- The window of a mandatory update (1.4, Mandatory.lua): the version that is out, why this one no
 -- longer works, and that the collection waits, nothing lost. It comes at the login and whenever
 -- something is asked of the locked copy (the album, a booster), at most once every ten minutes (1.14.2). (1.14.0) The same window says that Curator works on
--- WoW Forever only (Beta.lua, B:Elsewhere). (1.14.3) Below it, the window of the news of an update (ns.NewsWindow).
+-- OctoWoW only (Beta.lua, B:Elsewhere). (1.14.3) Below it, the window of the news of an update (ns.NewsWindow).
 -------------------------------------------------------------------------------
 local W = {}
 ns.MandatoryWindow = W
@@ -55,6 +55,7 @@ function W:Build()
 		f:SetPortraitToAsset(MEDIA .. "Icon")
 	end
 	f:SetTitle(L["Mandatory update"])
+    f.body:SetText(string.format(L["This update is mandatory: your version (%s) no longer works. Update Curator, then come back: your collection is waiting for you, nothing is lost."], ns.version or "?"))
 	f.drag = S.DragBar(f, 22)
 	if f.CloseButton then
 		CuratorOctoFull.SetScript(f.CloseButton, "OnClick", function()
@@ -91,9 +92,6 @@ function W:Show(by)
 	local f = self:Build()
 	f:SetTitle(L["Mandatory update"])
 	f.head:SetText(by and string.format(L["Curator %s is out"], by) or L["A new version of Curator is out"])
-	local beta = ns.Beta and ns.Beta.BETA
-	f.body:SetText(string.format((beta and L["This update is mandatory: your version (%s) no longer works. Get the new one in the beta channel: your collection is waiting for you, nothing is lost."]
-		or L["This update is mandatory: your version (%s) no longer works. Update Curator, then come back: your collection is waiting for you, nothing is lost."]), ns.version or "?"))
 	if f:IsShown() then
 		f:Raise()
 	elseif self:Due() then
@@ -101,12 +99,12 @@ function W:Show(by)
 	end
 end
 
--- (1.14.0) Shown: this game is not WoW Forever, where Curator works only.
+-- (1.14.0) Shown: this game is not OctoWoW, where Curator works only.
 function W:ShowElsewhere()
 	local f = self:Build()
-	f:SetTitle(L["Only on WoW Forever"])
-	f.head:SetText(L["Curator is made for WoW Forever"])
-	f.body:SetText(L["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."])
+	f:SetTitle(L["Only on OctoWoW"])
+	f.head:SetText(L["Curator is made for OctoWoW"])
+	f.body:SetText(L["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."])
 	if f:IsShown() then
 		f:Raise()
 	elseif self:Due() then
@@ -125,7 +123,7 @@ end
 -- l'essentiel des correctif et nouveauté ») The window of the news of an update: at the first login after an update, once
 -- for the collection, what is new and what is fixed in it, in short. Its lines in English here, in the tables of each
 -- language in the Locale files (Locale114.lua for 1.14.3). A new collection learns nothing of it (the next update tells
--- its own); one that is suspended, banned, locked by a mandatory update or out of WoW Forever neither. Never in a fight:
+-- its own); one that is suspended, banned, locked by a mandatory update or out of OctoWoW neither. Never in a fight:
 -- after it. Seen once shown (db.newsSeen: the version; sealed with the rest, so that a version of before reads the save
 -- as it was written). /curator news shows it again.
 -------------------------------------------------------------------------------

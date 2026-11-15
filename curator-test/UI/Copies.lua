@@ -834,7 +834,7 @@ function CU:PaintPicker()
 	f.pos:SetText(CuratorOctoFull.Length(items) > ROWS and string.format(("%d-%d / %d"), p.top + 1, math.min(CuratorOctoFull.Length(items), p.top + ROWS), CuratorOctoFull.Length(items)) or "")
 	f.count:SetText(string.format(L["Chosen: %d / %d"], count, p.n))
 	f.count:SetTextColor(count == p.n and 0.4 or 1, count == p.n and 1 or 0.82, count == p.n and 0.4 or 0.3)
-	f.ok:SetEnabled(count == p.n)
+	CuratorOctoFull.SetEnabled(f.ok, count == p.n)
 end
 
 function CU:PickDone()

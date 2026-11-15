@@ -43,7 +43,7 @@ local methods = {
 }
 widget = function()
  local frame = setmetatable({}, {__index=function(_, key)
-     return methods[key] or (key ~= "SetWordWrap" and key ~= "SetMaxLines" and key ~= "Low" and key ~= "High" and key ~= "Text" and key ~= "CreateMaskTexture" and key ~= "AddMaskTexture" and string.find(key, "^[A-Z]") and noop or nil)
+     return methods[key] or (key ~= "SetEnabled" and key ~= "SetWordWrap" and key ~= "SetMaxLines" and key ~= "Low" and key ~= "High" and key ~= "Text" and key ~= "CreateMaskTexture" and key ~= "AddMaskTexture" and string.find(key, "^[A-Z]") and noop or nil)
  end})
  scripts[frame] = {}
  registrations[frame] = {}
@@ -232,3 +232,24 @@ SlashCmdList.CURATOR("")
 assert(ns.Album.frame and ns.Album.frame:IsShown())
 """)
 print("Hearthstone message, options panel and /curator verified with legacy APIs")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+zone = "Windrock Cliffs"
+assert(ns.Rewards:ZoneSeries().key == "balor")
+for _, key in ipairs({"zephras", "dalaran", "thanes", "lordaeron", "excavation", "hardcup"}) do
+    assert(not ns.SeriesByKey(key), key)
+end
+for _, id in ipairs({"beta", "pioneer"}) do
+    assert(not ns.Achievements:Shown(ns.Achievements.byId[id], {[id]=true}))
+end
+assert(not ns.SiteWindow.TellBetaEnd and not ns.Album.BetaMark)
+local seal = ns.Seal(ns.db)
+SlashCmdList.CURATOR("bar width 240")
+assert(ns.db.barWidth == 240 and ns.BoosterBar:DisplayWidth() == 240)
+assert(ns.Seal(ns.db) == seal)
+SlashCmdList.CURATOR("bar reset")
+assert(not ns.db.barWidth)
+ns.Album:ShowBoosters()
+""")
+print("Balor, catalogue exclusions, retired achievements and adjustable bar verified")

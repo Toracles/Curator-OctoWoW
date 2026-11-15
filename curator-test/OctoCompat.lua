@@ -240,3 +240,8 @@ function ns.IsOctoClient()
     return tonumber(interface) == 11200 or tonumber(build) == 5875
         or version == "1.12.1" or version == "1.18.1"
 end
+
+function ns.SetEnabled(button, enabled)
+    if button.SetEnabled then return button:SetEnabled(enabled) end
+    if enabled then button:Enable() else button:Disable() end
+end

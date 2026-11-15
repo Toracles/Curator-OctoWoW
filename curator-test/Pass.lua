@@ -10,7 +10,7 @@ local L = setmetatable({}, { __index = function(_, k) return ns.L[k] end })
 -- A mark (PS.Mark): the first PS.HEX hexadecimal digits of the SHA-256 of "<c or n>:<salt>:<what>". The other side
 -- of a trade reads a pass, and finds in it only what it knows already (the first name of who trades with it): the
 -- other characters of the player and his collections stay his own.
--- What asks for it, from the release of WoW Forever on (as the rules of the rerolls, Reroll.lua: RR:Active):
+-- What asks for it, from the release of OctoWoW on (as the rules of the rerolls, Reroll.lua: RR:Active):
 -- * the trades and the duels for a stake (Trade.lua: T:CanTrade; Duel.lua), the cards sold to the reseller
 --   (Reseller.lua), and the market to come: this collection must be in a pass the website made less than PS.DAYS days
 --   ago (the app makes it again every quarter of an hour while it runs); for a trade or a duel, this character too
@@ -91,7 +91,7 @@ function PS.HasName(p, first)
 	return h
 end
 
--- Does Curator ask for a pass now? From the release of WoW Forever (the author's test, PS.test: true, or false never).
+-- Does Curator ask for a pass now? From the release of OctoWoW (the author's test, PS.test: true, or false never).
 function PS:Required()
 	if self.test ~= nil then
 		return self.test == true
@@ -267,7 +267,7 @@ function PS:Came(sender, text, sig)
 	return ok
 end
 
--- The pass of this player holds (none asked before the release of WoW Forever).
+-- The pass of this player holds (none asked before the release of OctoWoW).
 function PS:Holds(sender)
 	if not self:Required() then
 		return true
@@ -279,13 +279,13 @@ end
 -------------------------------------------------------------------------------
 -- The test of the author (his build: /curator test pass)
 -------------------------------------------------------------------------------
--- The pass asked for now, as from the release of WoW Forever, on the true collection (nothing changes in it), until
+-- The pass asked for now, as from the release of OctoWoW, on the true collection (nothing changes in it), until
 -- asked again; what the pass of this collection holds said.
 local FR = {
-	["(Test: the pass of the app asked for now, as after the release of WoW Forever: for the trades and the sales to the reseller, on your side and on the other one. /curator test pass again: back to normal.)"] =
-		"(Test : le laissez-passer de l'appli est demandé dès maintenant, comme après la sortie de WoW Forever : pour les échanges et les ventes au revendeur, de ton côté comme de celui de l'autre joueur. Retape /curator test pass pour revenir à la normale.)",
-	["(Test over: the pass of the app is asked for again only from the release of WoW Forever.)"] =
-		"(Test terminé : le laissez-passer de l'appli n'est de nouveau demandé qu'à partir de la sortie de WoW Forever.)",
+	["(Test: the pass of the app asked for now, as after the release of OctoWoW: for the trades and the sales to the reseller, on your side and on the other one. /curator test pass again: back to normal.)"] =
+		"(Test : le laissez-passer de l'appli est demandé dès maintenant, comme après la sortie de OctoWoW : pour les échanges et les ventes au revendeur, de ton côté comme de celui de l'autre joueur. Retape /curator test pass pour revenir à la normale.)",
+	["(Test over: the pass of the app is asked for again only from the release of OctoWoW.)"] =
+		"(Test terminé : le laissez-passer de l'appli n'est de nouveau demandé qu'à partir de la sortie de OctoWoW.)",
 	["(Your pass: made by the website %d h ago; this collection and this character are in it.)"] =
 		"(Ton laissez-passer : fait par le site il y a %d h ; cette collection et ce personnage y sont.)",
 	["(Your pass: made by the website %d h ago; this collection is in it, not this character yet.)"] =
@@ -299,12 +299,12 @@ PS.TEST_TEXT = FR
 function PS:Test()
 	if self.test then
 		self.test = nil
-		ns.Print(TT("(Test over: the pass of the app is asked for again only from the release of WoW Forever.)"))
+		ns.Print(TT("(Test over: the pass of the app is asked for again only from the release of OctoWoW.)"))
 		ns.Fire("CHANGED")
 		return
 	end
 	self.test = true
-	ns.Print(TT("(Test: the pass of the app asked for now, as after the release of WoW Forever: for the trades and the sales to the reseller, on your side and on the other one. /curator test pass again: back to normal.)"))
+	ns.Print(TT("(Test: the pass of the app asked for now, as after the release of OctoWoW: for the trades and the sales to the reseller, on your side and on the other one. /curator test pass again: back to normal.)"))
 	local mine, why = self:Mine()
 	if not mine then
 		ns.Print(self:Text(why))

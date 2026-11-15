@@ -214,7 +214,7 @@ function GU:Read()
 	if not code then
 		f.result:SetText(string.find(text, "%S") and L[WHY.damaged] or "")
 		f.result:SetTextColor(RED[1], RED[2], RED[3])
-		f.redeem:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(f.redeem, false)
 		self:Layout()
 		return
 	end
@@ -243,7 +243,7 @@ function GU:Read()
 		f.note:SetText(string.format(L["A word from the author: %s"], g.note))
 	end
 	f.redeem:SetLabel(L["Redeem"])
-	f.redeem:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(f.redeem, ok and true or false)
 	f.redeem:SetPulse(ok and true or false)
 	self:Layout()
 end
@@ -275,7 +275,7 @@ function GU:Redeem()
 		ns.Play(ns.SND.close)
 		f.result:SetText(why == "other" and For(g.to) or L[WHY[why] or WHY.damaged])
 		f.result:SetTextColor(RED[1], RED[2], RED[3])
-		f.redeem:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(f.redeem, false)
 		self:Layout()
 		return
 	end
@@ -297,7 +297,7 @@ function GU:Redeem()
 		end
 	end
 	f.redeem:SetLabel((CardsAlbum(g) and L["See the album"]) or (boosters and L["See my boosters"]) or L["Close"])
-	f.redeem:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(f.redeem, true)
 	f.redeem:SetPulse(false)
 	self:Layout()
 end

@@ -132,7 +132,7 @@ function UI:PaintAsk()
 	f.make:Show()
 	f.note:SetText("")
 	if not r:Active() then
-		f.text:SetText(L["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."])
+		f.text:SetText(L["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."])
 		f.keep:SetLabel(L["Close"])
 		f.make:Hide()
 	elseif r:IsMain() then
@@ -156,7 +156,7 @@ function UI:PaintAsk()
 		else
 			f.make:SetLabel(L["Make it my main"])
 		end
-		f.make:SetEnabled(ok and true or false)
+		CuratorOctoFull.SetEnabled(f.make, ok and true or false)
 		if not ok and left > 0 then
 			local more = string.format(L["Your main changes once a month at most: again in %s."], ns.Duration(left))
 			local was = f.note:GetText()
@@ -356,7 +356,7 @@ function UI:ShowChest(small)
 	end
 	if not r:IsReroll() then
 		if not r:Active() then
-			ns.Print(L["The chests of the rerolls come with the release of WoW Forever."])
+			ns.Print(L["The chests of the rerolls come with the release of OctoWoW."])
 		else
 			ns.Print(L["This character has no chest: it earns everything as it comes."])
 		end
@@ -816,7 +816,7 @@ function CP:Paint(A)
 	lf.togo:SetText(left == 1 and L["1 level to go"] or string.format(L["%d levels to go"], left))
 	lf.main:SetText(r:MainName() ~= "" and r:MainName() or "?")
 	local ok, wait = r:CanChange()
-	lf.make:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(lf.make, ok and true or false)
 	lf.make:SetLabel(self.armed and L["Confirm: my main"] or L["Make it my main"])
 	if not ok and wait > 0 then
 		lf.note:SetText(string.format(L["Your main changes once a month at most: again in %s."], ns.Duration(wait)))
@@ -989,8 +989,8 @@ local FR = {
 	["(Test: this character as a reroll under level 15, on a copy of your collection: nothing is kept. Kill, loot, quest: a quarter of everything goes into its chest. /curator test coffre opens it; /curator test reroll again: back to your collection.)"] =
 		"(Test : ce perso fait comme un reroll de moins de 15, sur une copie de ta collection : rien n'est gardé. Tue, ramasse, fais des quêtes : un quart de tout va dans son coffre. /curator test coffre l'ouvre ; retape /curator test reroll pour revenir à ta collection.)",
 	["(Test over: your own collection is back.)"] = "(Test terminé : ta vraie collection est revenue.)",
-	["(Test: the collection as the release of WoW Forever makes it, on a copy: only its Hallow's End and Hardcup cards kept. /curator test sortie again: back to your collection.)"] =
-		"(Test : la collection telle que la sortie de WoW Forever la fait, sur une copie : seules ses cartes de la Sanssaint et de la Hardcup restent. Retape /curator test sortie pour revenir à ta collection.)",
+	["(Test: the collection as the release of OctoWoW makes it, on a copy: only its Hallow's End and Hardcup cards kept. /curator test sortie again: back to your collection.)"] =
+		"(Test : la collection telle que la sortie de OctoWoW la fait, sur une copie : seules ses cartes de la Sanssaint et de la Hardcup restent. Retape /curator test sortie pour revenir à ta collection.)",
 	["(Test: a chest made up for the show, nothing is kept.)"] = "(Test : un coffre inventé pour l'aperçu, rien n'est gardé.)",
 	["(Another test runs already: end it first.)"] = "(Un autre test est déjà en cours : termine-le d'abord.)",
 	["(Test: the window of a new reroll, as it shows at its first login.)"] = "(Test : la fenêtre d'un nouveau reroll, telle qu'elle s'affiche à sa première connexion.)",
@@ -1061,8 +1061,8 @@ function UI:Test(kind)
 			r:Migrate()
 			r:Bind()
 			r:SetMain(true)
-			ns.Print(T("(Test: the collection as the release of WoW Forever makes it, on a copy: only its Hallow's End and Hardcup cards kept. /curator test sortie again: back to your collection.)"))
-			ns.Print(L["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."])
+			ns.Print(T("(Test: the collection as the release of OctoWoW makes it, on a copy: only its Hallow's End and Hardcup cards kept. /curator test sortie again: back to your collection.)"))
+
 		end
 		ns.Fire("CHANGED")
 		return

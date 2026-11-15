@@ -3349,7 +3349,7 @@ function B:CheckDone()
 			self:FillXP()
 		end
 		if self.mode == "contract" then
-			s.again:SetEnabled(true)
+			CuratorOctoFull.SetEnabled(s.again, true)
 			s.again:SetLabel(L["New contract"])
 			s.album:SetLabel(L["Album"])
 			FadeIn(s.album, 0.3, self)
@@ -3360,7 +3360,7 @@ function B:CheckDone()
 			return
 		end
 		local left = self:Left()
-		s.again:SetEnabled(left > 0)
+		CuratorOctoFull.SetEnabled(s.again, left > 0)
 		s.again:SetLabel(L["Open another"] .. " (" .. left .. ")")
 		s.album:SetLabel(L[(self.opts and B.BACK_LABEL[self.opts.from or ""]) or "Album"])
 		FadeIn(s.album, 0.3, self)

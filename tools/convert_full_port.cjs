@@ -104,7 +104,7 @@ function convert(source, file) {
             edit(node.base.range, "CuratorOctoFull." + ({select:"Select",GetServerTime:"ServerTime",wipe:"Wipe"})[node.base.name]);
         if (node.type === "CallExpression" && node.base.type === "MemberExpression" &&
                 node.base.indexer === ":" && ["SetScript", "SetSize", "SetColorTexture", "SetShown", "SetClipsChildren",
-                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "SetRotation", "GetRotation", "SetWordWrap", "SetMaxLines",
+                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "SetRotation", "GetRotation", "SetEnabled", "SetWordWrap", "SetMaxLines",
                  "byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "sub", "upper"].includes(node.base.identifier.name)) {
             // Keep script signatures in the upstream code; pass legacy event globals through at the boundary.
             const base = node.base.base;
@@ -161,6 +161,11 @@ function convert(source, file) {
         result = result.replace("elseif m.display then\n\t\tm:ClearModel()", "elseif m.display and m.SetDisplayInfo then\n\t\tm:ClearModel()");
     if (file === "UI\\Cinematic.lua" || file === "UI/Cinematic.lua")
         result = result.replace("local f = self.frame\n\tns.CancelOwner(self)\n\tself:HideCards()", "local f = self.frame\n\tif not (f.scene or f.model.SetDisplayInfo) then return false end\n\tns.CancelOwner(self)\n\tself:HideCards()");
+    if (file === "UI\\Hud.lua" || file === "UI/Hud.lua") {
+        result = result.replace("local enable = b.SetEnabled", `local enable = b.SetEnabled or function(button, on)
+        if on then button:Enable() else button:Disable() end
+    end`);
+    }
     if (constants.size) result = "local octoConstants = {}\n" + result;
     try { parser.parse(result, {luaVersion:"5.1"}); } catch (error) {
         throw new Error(file + ": " + error.message + "\n" + result.split("\n")[error.line-1]);

@@ -999,7 +999,7 @@ end
 -- The collection of another player (a guild member, or a player met): the contents of their
 -- albums, from what they send when asked. (1.14.3, his word: on their inventory, Everything, its first page.)
 function A:ShowPlayer(name)
-	-- (1.13.1: the name as Curator keeps it, whatever way it came: on WoW Forever, "First-Surname")
+	-- (1.13.1: the name as Curator keeps it, whatever way it came: on OctoWoW, "First-Surname")
 	name = ns.Guild:Canon(ns.Guild:Full(name) or name)
 	if not name then
 		return
@@ -1560,7 +1560,7 @@ function A:RefreshFooter(mine)
 	local packs = ns.Packs(s)
 	f.boosters:SetText(string.format(L["Boosters: %d"], packs))
 	-- (1.14.0, after its test, his word: a reroll opens none, the button off, why in its tooltip)
-	f.open:SetEnabled(packs > 0 and not (ns.Reroll and ns.Reroll:NoOpening()))
+	CuratorOctoFull.SetEnabled(f.open, packs > 0 and not (ns.Reroll and ns.Reroll:NoOpening()))
 	f.open:SetLabel(packs > 0 and L["Open a booster"] or L["No booster to open"])
 	if inst then
 		return self:PaintFarm(inst)
@@ -2358,7 +2358,7 @@ function A:ShowDetail(card, e)
 	d.rar:SetTextColor(r.text[1], r.text[2], r.text[3])
 	-- (1.13.0: a card of a picture, the Hardcup Saison 3, has no entrance to play again)
 	CuratorOctoFull.SetShown(d.replay, card.rarity >= 5 and not (card.art and card.art.fill))
-	d.replay:SetEnabled(not (ns.Cinematic and ns.Cinematic:IsPlaying()))
+	CuratorOctoFull.SetEnabled(d.replay, not (ns.Cinematic and ns.Cinematic:IsPlaying()))
 	d.line:SetText(C:Line(card))
 	d.set:SetTexture(MEDIA .. (s.set or "SetElwynn"))
 	local g = s.glow or GOLD
@@ -3654,7 +3654,7 @@ function A:RefreshContents()
 	f.boosters:SetText(string.format(L["Boosters: %d"], packs))
 	f.gauge:Hide()
 	CuratorOctoFull.SetShown(f.open, not member)
-	f.open:SetEnabled(packs > 0 and not (ns.Reroll and ns.Reroll:NoOpening()))
+	CuratorOctoFull.SetEnabled(f.open, packs > 0 and not (ns.Reroll and ns.Reroll:NoOpening()))
 	f.open:SetLabel(packs > 0 and L["Open a booster"] or L["No booster to open"])
 	-- every new card seen at once, while there are some (mine)
 	CuratorOctoFull.SetShown(f.seeAll, not member and C:FreshCount() > 0)
@@ -3706,49 +3706,12 @@ function A:ClaimsPage()
 end
 
 -- Shows the album as it is set (mode, series), or refreshes it when it is already open.
--- A beta build says so, in the title bar of the album (and how long it still works): made the first
--- time the album shows.
-function A:BetaMark()
-	local f = self.frame
-	local beta = ns.Beta and ns.Beta.BETA
-	if f.betaMark or not beta then
-		if f.betaMark then
-			CuratorOctoFull.SetShown(f.betaMark, beta and true or false)
-		end
-		return
-	end
-	local b = CreateFrame("Frame", nil, f)
-	CuratorOctoFull.SetSize(b, 90, 18)
-	b:SetPoint("TOPRIGHT", -30, -3)
-	b:SetFrameLevel(f:GetFrameLevel() + 20)
-	b:EnableMouse(true)
-	b.text = S.Text(b, "GameFontNormalSmall", "RIGHT")
-	b.text:SetAllPoints()
-	b.text:SetText(L["BETA"])
-	b.text:SetTextColor(1, 0.55, 0.25)
-	CuratorOctoFull.SetScript(b, "OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-		GameTooltip:AddLine(string.format(L["Curator %s, by %s"], ns.Beta:VersionText(), "Clément Hudson"), 1, 0.84, 0.48)
-		local left = ns.Beta:Left()
-		if left then
-			GameTooltip:AddLine(string.format(L["This version still works for %s."], ns.Duration(left)), 0.85, 0.85, 0.85)
-		end
-		GameTooltip:AddLine(L["At the release, you keep your collection and your Beta tester achievement."], 0.75, 0.75, 0.8, true)
-		GameTooltip:Show()
-	end)
-	CuratorOctoFull.SetScript(b, "OnLeave", function()
-		GameTooltip:Hide()
-	end)
-	f.betaMark = b
-end
-
 function A:Reveal()
 	-- (a beta build past its day: no album)
 	if ns.Beta and ns.Beta:Blocked() then
 		self:Hide()
 		return
 	end
-	self:BetaMark()
 	if self.frame:IsShown() then
 		self:Refresh()
 	else

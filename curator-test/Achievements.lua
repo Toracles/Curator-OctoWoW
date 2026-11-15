@@ -253,9 +253,7 @@ end)
 -- The testers of the closed beta (0.23, then 1.1 to 1.7): earned by playing it (the mark of the save, Beta.lua),
 -- kept when the collection starts over.
 Later(function()
-	Def({ id = "beta", cat = "feats", pts = 10, name = "Beta tester", icon = { "Beta" }, goal = 1, onlyEarned = true,
-		value = function(_, db) return db.beta and 1 or 0 end,
-		desc = function() return L["Played the closed beta of Curator."] end })
+	Def({ id = "beta", gone = true })
 end)
 
 -------------------------------------------------------------------------------
@@ -1512,9 +1510,7 @@ After1131(function()
 end)
 After1130(function()
 	-- (its players: the cards of the event brought from WoW Classic with the gift code of the website, Gifts.lua)
-	Def({ id = "hardcup", cat = "feats", pts = 10, name = "Hardcup Survivor", icon = { "SetHardcup" }, goal = 1, onlyEarned = true,
-		value = function(_, db) return (type(db.stats) == "table" and tonumber(db.stats.hardcup) or 0) > 0 and 1 or 0 end,
-		desc = function() return L["Took part in the Hardcup Saison 3, on WoW Classic: its cards came with the gift code of the website."] end })
+	Def({ id = "hardcup", gone = true })
 end)
 
 -- The titles of prestige: each one comes with an achievement. Chosen (db.title), it shows instead of the
@@ -1548,7 +1544,7 @@ AC.SPECIAL = {
 	{ key = "tycoon", ach = "tTycoon", name = "Tycoon" },
 	{ key = "fate", ach = "tFate", name = "Fatebinder" },
 	-- (1.13.0: the players of the Hardcup Saison 3)
-	{ key = "hardcup", ach = "hardcup", name = "Hardcup Survivor" },
+	
 	-- (1.14.0: the summits of the five trees of the talents)
 	{ key = "pathfinder", ach = "tTerra", name = "Pathfinder" },
 	{ key = "expedition", ach = "tExped", name = "Expedition Leader" },
@@ -1629,9 +1625,7 @@ function AC:Build()
 	end
 	-- (1.8.0) the pioneers, after every achievement of 1.8.0: the collectors who played Curator before WoW
 	-- Forever came out (the mark of the save, Beta.lua), kept when the collection starts over
-	Def({ id = "pioneer", cat = "feats", pts = 10, name = "Pioneer", icon = { "Pioneer" }, goal = 1, onlyEarned = true,
-		value = function(_, db) return db.pioneer and 1 or 0 end,
-		desc = function() return L["Played Curator before WoW Forever came out."] end })
+	Def({ id = "pioneer", gone = true })
 	for _, s in ipairs(ns.Series) do
 		if s.since and Version(s.since) >= AFTER_180 and Version(s.since) < AFTER_190 then
 			AlbumAch(s)

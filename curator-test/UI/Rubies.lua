@@ -516,7 +516,7 @@ function RUI:PaintShop()
 			local price = RB:PackPrice(r.kind) or 0
 			r.name:SetText(L[KIND_NAME[r.kind]])
 			r.price:SetText(price > 0 and RB.Text(price, 13) or ("|cff60ff60" .. L["Free"] .. "|r"))
-			r.buy:SetEnabled(ok)
+			CuratorOctoFull.SetEnabled(r.buy, ok)
 			r.buy.why = why
 			r.icon:SetDesaturated(not ok)
 			r.name:SetTextColor(ok and 1 or 0.6, ok and 1 or 0.6, ok and 1 or 0.6)

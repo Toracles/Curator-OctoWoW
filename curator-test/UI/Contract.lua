@@ -1612,8 +1612,8 @@ function A:PaintRegister(page)
 	reg.empty:SetText(CuratorOctoFull.Length(log) == 0 and L["No contract signed yet. The register keeps your last twenty."] or "")
 	S.Fit(reg.note, CuratorOctoFull.Length(log) > 0 and L["* a card of the clause of the collection"] or "", octoConstants.DRAW_W - 20, 10, 8)
 	reg.pages:SetText(string.format(("%d / %d"), self.regPage, pages))
-	reg.prev:SetEnabled(self.regPage > 1)
-	reg.next:SetEnabled(self.regPage < pages)
+	CuratorOctoFull.SetEnabled(reg.prev, self.regPage > 1)
+	CuratorOctoFull.SetEnabled(reg.next, self.regPage < pages)
 end
 
 -------------------------------------------------------------------------------
@@ -1917,16 +1917,16 @@ function A:PaintDeed(page, ct, cap, size, up, finish)
 	local most = K:MaxCount(ct, keep, self.ctAlbum)
 	local mult = deed.mult
 	mult.text:SetText("x" .. ct.n)
-	mult.prev:SetEnabled(ct.n > 1)
-	mult.next:SetEnabled(ct.n < (K:Single(ct) and 1 or K:Max()))
+	CuratorOctoFull.SetEnabled(mult.prev, ct.n > 1)
+	CuratorOctoFull.SetEnabled(mult.next, ct.n < (K:Single(ct) and 1 or K:Max()))
 	local any = CuratorOctoFull.Length(K:Eligible(ct.rarity, ct.finish, keep, self.ctAlbum)) > 0
-	mult.max:SetEnabled(any and (most > 1 or ct.count < cap))
+	CuratorOctoFull.SetEnabled(mult.max, any and (most > 1 or ct.count < cap))
 	-- the talents of the Merchant, Sign
 	self:PaintContractActives()
 	local confirming = full and not rr and self.ctConfirm and GetTime() - self.ctConfirm < 4
 	page.sign:SetLabel(confirming and L["Confirm?"] or (ct.n > 1 and string.format(L["Sign the %d contracts"], ct.n) or L["Sign the contract"]))
 	local signs = full and not rr
-	page.sign:SetEnabled(signs)
+	CuratorOctoFull.SetEnabled(page.sign, signs)
 	page.sign:SetPulse(signs)
 	page.sign.quill:SetDesaturated(not signs)
 	page.sign.quill:SetAlpha(signs and 1 or 0.6)
@@ -1990,11 +1990,11 @@ function A:PaintDrawer(page, ct, keep, finish)
 		dr.empty:SetText("")
 	end
 	dr.pages:SetText(string.format(("%d / %d"), self.ctPage, pages))
-	dr.prev:SetEnabled(self.ctPage > 1)
-	dr.next:SetEnabled(self.ctPage < pages)
+	CuratorOctoFull.SetEnabled(dr.prev, self.ctPage > 1)
+	CuratorOctoFull.SetEnabled(dr.next, self.ctPage < pages)
 	local cap = K:Capacity(ct)
-	dr.tools.fill:SetEnabled(ct.count < cap and CuratorOctoFull.Length(list) > 0)
-	dr.tools.clear:SetEnabled(ct.count > 0)
+	CuratorOctoFull.SetEnabled(dr.tools.fill, ct.count < cap and CuratorOctoFull.Length(list) > 0)
+	CuratorOctoFull.SetEnabled(dr.tools.clear, ct.count > 0)
 end
 
 function A:RefreshContract()
@@ -3022,15 +3022,15 @@ function A:PaintDesk(page, ct, cap, size, up, finish)
 	local most = K:MaxCount(ct, keep, self.ctAlbum)
 	local mult = deed.mult
 	mult.text:SetText("x" .. ct.n)
-	mult.prev:SetEnabled(ct.n > 1)
-	mult.next:SetEnabled(ct.n < (K:Single(ct) and 1 or K:Max()))
+	CuratorOctoFull.SetEnabled(mult.prev, ct.n > 1)
+	CuratorOctoFull.SetEnabled(mult.next, ct.n < (K:Single(ct) and 1 or K:Max()))
 	local any = CuratorOctoFull.Length(K:Eligible(ct.rarity, ct.finish, keep, self.ctAlbum)) > 0
-	mult.max:SetEnabled(any and (most > 1 or ct.count < cap))
+	CuratorOctoFull.SetEnabled(mult.max, any and (most > 1 or ct.count < cap))
 	self:PaintContractActives()
 	local confirming = full and not rr and self.ctConfirm and GetTime() - self.ctConfirm < 4
 	page.sign:SetLabel(confirming and L["Confirm?"] or (ct.n > 1 and string.format(L["Sign the %d contracts"], ct.n) or L["Sign the contract"]))
 	local signs = full and not rr
-	page.sign:SetEnabled(signs)
+	CuratorOctoFull.SetEnabled(page.sign, signs)
 	page.sign:SetPulse(signs)
 	page.sign.quill:SetDesaturated(not signs)
 	page.sign.quill:SetAlpha(signs and 1 or 0.6)
@@ -3095,11 +3095,11 @@ function A:PaintDeskDrawer(page, ct, keep, finish)
 		dr.empty:SetText("")
 	end
 	dr.pages:SetText(string.format(("%d / %d"), self.ctPage, pages))
-	dr.prev:SetEnabled(self.ctPage > 1)
-	dr.next:SetEnabled(self.ctPage < pages)
+	CuratorOctoFull.SetEnabled(dr.prev, self.ctPage > 1)
+	CuratorOctoFull.SetEnabled(dr.next, self.ctPage < pages)
 	local cap = K:Capacity(ct)
-	dr.tools.fill:SetEnabled(ct.count < cap and CuratorOctoFull.Length(list) > 0)
-	dr.tools.clear:SetEnabled(ct.count > 0)
+	CuratorOctoFull.SetEnabled(dr.tools.fill, ct.count < cap and CuratorOctoFull.Length(list) > 0)
+	CuratorOctoFull.SetEnabled(dr.tools.clear, ct.count > 0)
 end
 
 -------------------------------------------------------------------------------

@@ -802,7 +802,7 @@ function SU:Paint()
 			word = word .. " (" .. SL.Roman(seen) .. ")"
 		end
 		sb:SetLabel(word .. " · " .. price)
-		sb:SetEnabled(ok and true or false)
+		CuratorOctoFull.SetEnabled(sb, ok and true or false)
 	else
 		sb.armed = nil
 	end
@@ -820,12 +820,12 @@ function SU:Paint()
 		pb.why = why
 		local price = RB.Text(SL:PurifyPrice(card, chosen), 13)
 		pb:SetLabel(((pb.armed and GetTime() - pb.armed < ARM) and L["Confirm"] or L["Purify"]) .. " · " .. price)
-		pb:SetEnabled(ok and true or false)
+		CuratorOctoFull.SetEnabled(pb, ok and true or false)
 	elseif any then
 		pb.why = kept
 		pb.armed = nil
 		pb:SetLabel(L["Purify"])
-		pb:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(pb, false)
 	else
 		pb.armed = nil
 	end
@@ -838,7 +838,7 @@ function SU:Paint()
 	if loupe then
 		v.loupe:ClearAllPoints()
 		v.loupe:SetPoint("TOPLEFT", sb, "BOTTOMLEFT", 0, -6)
-		v.loupe:SetEnabled(TL:Ready("glance") and SL:AtMaster("warlock") and true or false)
+		CuratorOctoFull.SetEnabled(v.loupe, TL:Ready("glance") and SL:AtMaster("warlock") and true or false)
 		last = v.loupe
 	end
 	-- what comes under it: its album

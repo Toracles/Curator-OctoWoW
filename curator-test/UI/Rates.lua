@@ -719,8 +719,8 @@ function Sections.boosters(page, lay)
 		end
 	end
 	page.album:SetText(ns.Collection:SeriesName(s) .. "  |cff9d9d9d" .. string.format(L["(%d / %d)"], at, CuratorOctoFull.Length(list)) .. "|r")
-	page.prev:SetEnabled(CuratorOctoFull.Length(list) > 1)
-	page.next:SetEnabled(CuratorOctoFull.Length(list) > 1)
+	CuratorOctoFull.SetEnabled(page.prev, CuratorOctoFull.Length(list) > 1)
+	CuratorOctoFull.SetEnabled(page.next, CuratorOctoFull.Length(list) > 1)
 	lay:Gap(26)
 	local b = RT:Booster(s, { hot = UI.ctx.hot })
 	-- each card

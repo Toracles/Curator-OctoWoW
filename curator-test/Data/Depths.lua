@@ -2,7 +2,7 @@
 local _, ns = "Curator", CuratorOctoFull
 ns.Series = ns.Series or {}
 ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
-	key = "depths", kind = "dungeon", instance = 230, area = 1585,
+	key = "depths", kind = "dungeon", instance = 230, area = 1584,
 	levels = { 52, 60 }, side = "C",
 	-- bosses (a kill fills the gauge), the last one completes the dungeon
 	bosses = { 9025, 9018, 9319, 9016, 9156, 9033, 8983, 9938, 9017, 8929, 9019 }, final = 9019,

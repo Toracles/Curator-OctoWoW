@@ -125,7 +125,7 @@ function S.Window(name, width, height)
 	if not f then
 		f = CreateFrame("Frame", name, UIParent, CuratorOctoFull.BackdropTemplate())
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 32,
 			insets = { left = 11, right = 12, top = 12, bottom = 11 },
@@ -474,8 +474,8 @@ function S.Pager(parent)
 	p.text:SetPoint("RIGHT", p.prev, "LEFT", -11, 0)
 	function p:Set(page, pages, label)
 		self.text:SetText(label)
-		self.prev:SetEnabled(page > 1)
-		self.next:SetEnabled(page < pages)
+		CuratorOctoFull.SetEnabled(self.prev, page > 1)
+		CuratorOctoFull.SetEnabled(self.next, page < pages)
 	end
 	return p
 end

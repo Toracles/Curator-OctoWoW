@@ -406,7 +406,7 @@ end
 local UNSEALED = { seal = true, guild = true, met = true, minimap = true, announce = true, keepOne = true,
 	plain = true, cam = true, zoom = true, version = true, farm = true, cinematic = true, entrances = true, fresh = true,
 	strangers = true, presence = true, seen = true, scan = true, scanRef = true, scanMap = true,
-	compact = true, compactAt = true, compactW = true, tour = true, barAt = true, barHide = true }
+	compact = true, compactAt = true, compactW = true, tour = true, barAt = true, barHide = true, barWidth = true }
 -- (scanRef, scanMap: left by a tool of the admin build of 0.23.2, out of the seal for good)
 
 -- The seal of a collection (the keys in the order of their bytes; old: in the order of the game, as
@@ -434,7 +434,7 @@ function ns.Seal(db, old)
 	return Hash(table.concat(parts, ";"))
 end
 
--- (1.14.1) A number that is not whole, as WoW Forever writes it: 16 digits, not all those it holds
+-- (1.14.1) A number that is not whole, as OctoWoW writes it: 16 digits, not all those it holds
 -- (0.04316672109740049... is written 0.0431667210974005). Read back, it is another number, and its 14
 -- digits (tostring, what the seal reads) may be other ones when it lay on the edge between two: the seal
 -- no longer matched, and the save was taken for one edited outside the game (Lodging.lua: the rest and
@@ -617,7 +617,7 @@ function ns.EmptyCollection(db, full)
 	if full and type(db.golden) == "table" then
 		db.golden = { doneWeek = db.golden.doneWeek }
 	end
-	-- (1.14.0: the main goes with the characters, their chests with them; the release of WoW Forever stays gone
+	-- (1.14.0: the main goes with the characters, their chests with them; the release of OctoWoW stays gone
 	-- through: Reroll.lua)
 	if full then
 		db.main = nil
@@ -636,7 +636,7 @@ end
 -- their boosters, their bars, their cases, their rewards to choose.) Its cards, its boosters to open and its bars, its
 -- rewards to choose, its displays, its cases and their cards, its albums unlocked, its level, its achievements, its
 -- rubies, its talents, its quests, its trades, its characters and their chests: all go (Reroll.lua: RR:EmptyRest, as
--- at the release of WoW Forever); the achievements Beta tester and Pioneer stay (not on a save edited outside the
+-- at the release of OctoWoW); the achievements Beta tester and Pioneer stay (not on a save edited outside the
 -- game), the gift codes taken stay taken, the release stays gone through; the boosters of welcome of a new collection
 -- come again at the next login. An edited one was suspended (Beta.lua): Curator works again.
 function ns.ResetCollection()
@@ -651,7 +651,7 @@ function ns.ResetCollection()
 	end
 	db.title = nil
 	db.welcomed, db.welcomePacks = false, nil
-	-- (1.14.0, later: started over on a realm of WoW Forever before its release went through: it goes through now)
+	-- (1.14.0, later: started over on a realm of OctoWoW before its release went through: it goes through now)
 	if suspended and ns.Reroll and ns.Reroll.StartedOver then
 		ns.Reroll:StartedOver()
 	end
@@ -886,7 +886,7 @@ CuratorOctoFull.SetScript(events, "OnEvent", function(_, event, arg1)
 		if ns.Collection then
 			ns.Collection:Init()
 		end
-		-- (1.14.0) the release of WoW Forever, before anything reads the collection: what the beta leaves of it (Reroll.lua)
+		-- (1.14.0) the release of OctoWoW, before anything reads the collection: what the beta leaves of it (Reroll.lua)
 		if ns.Reroll then
 			ns.Reroll:Release()
 		end
@@ -990,7 +990,7 @@ end)
 -------------------------------------------------------------------------------
 local function Help()
 	local L = ns.L
-	ns.Print(L["Curator %s, by %s"], ns.Beta and ns.Beta:VersionText() or ns.version, "Clément Hudson")
+	ns.Print("Curator %s | OctoWoW: %s", ns.Beta and ns.Beta:VersionText() or ns.version, "CloudNine_Ex")
 	ns.Print(L["/curator: open the inventory, on your boosters"])
 	ns.Print(L["/curator album: the album of the place you are in"])
 	ns.Print(L["/curator open: open a booster"])
@@ -1110,7 +1110,7 @@ local TEST_CORRUPT = {
 -- of that rank of the cases (their own: rare, restricted, classified, covert, priceless; by their words or their
 -- colours), thunderforged or titanforged; a priceless card of that weapon (its words: CR.WEAPONS; a class for Atiesh)
 local TEST_CRATE = { caisse = true, crate = true, case = true }
--- (1.14.0) /curator test reroll | coffre | principal | sortie: the rerolls and the release of WoW Forever (UI/Reroll.lua)
+-- (1.14.0) /curator test reroll | coffre | principal | sortie: the rerolls and the release of OctoWoW (UI/Reroll.lua)
 local TEST_REROLL = {
 	reroll = "reroll", rerolls = "reroll", coffre = "chest", chest = "chest", principal = "main", main = "main",
 	sortie = "release", release = "release", forever = "release",
@@ -1234,7 +1234,7 @@ local function Test(arg)
 		ns.CrateUI:Test(tier, finish, line, class, CuratorOctoFull.Length(words) > 0 and table.concat(words, " ") or nil)
 		return
 	end
-	-- (1.14.0) the rerolls and the release of WoW Forever (UI/Reroll.lua): this character as a reroll under level 15,
+	-- (1.14.0) the rerolls and the release of OctoWoW (UI/Reroll.lua): this character as a reroll under level 15,
 	-- on a copy of the collection; its chest opened; the window of the main; the collection as the release makes it,
 	-- on a copy. Nothing kept: again, back to the true one.
 	if TEST_REROLL[first] and ns.RerollUI then
@@ -1281,7 +1281,7 @@ local function Test(arg)
 		ns.MarketUI:Test()
 		return
 	end
-	-- (1.14.0) /curator test pass: the pass of the app asked for now, as from the release of WoW Forever, on the true
+	-- (1.14.0) /curator test pass: the pass of the app asked for now, as from the release of OctoWoW, on the true
 	-- collection (nothing changes in it); again, back to normal (Pass.lua)
 	if (first == "pass" or first == "passe" or first == "laissezpasser") and ns.Pass then
 		ns.Pass:Test()

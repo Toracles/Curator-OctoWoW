@@ -647,7 +647,7 @@ function OU:Paint(deal)
 			end
 			local ok = LV:OptionOk(o)
 			s.ok = ok and not why
-			s.take:SetEnabled(ok and not why)
+			CuratorOctoFull.SetEnabled(s.take, ok and not why)
 			s.take:SetPulse(ok and not why)
 			s.k = ok and 1 or 0.35
 			ShowArt(s, o, deal and o.k == "card")
@@ -765,7 +765,7 @@ function OU:Take(i)
 	Said(offer and offer.lv, o, got)
 	f.sparks:Burst(s.x0 or 0, cy, c, 40, 280, 0.9, 18)
 	f.stars:Burst(s.x0 or 0, cy, { 1, 0.95, 0.8 }, 14, 200, 1.1, 22)
-	s.take:SetEnabled(false)
+	CuratorOctoFull.SetEnabled(s.take, false)
 	s.take:SetPulse(false)
 	-- the one taken: its light swells, then it goes up and fades
 	ns.Tween(0.7, function(e, raw)
@@ -776,7 +776,7 @@ function OU:Take(i)
 	-- the others: down and away
 	for j, other in ipairs(f.slots) do
 		local j, other = j, other; if j ~= i and other:IsShown() then
-			other.take:SetEnabled(false)
+			CuratorOctoFull.SetEnabled(other.take, false)
 			other.take:SetPulse(false)
 			ns.Tween(0.4, function(e)
 				other:SetAlpha(1 - e)

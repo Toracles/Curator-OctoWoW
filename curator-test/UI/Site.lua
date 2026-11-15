@@ -11,15 +11,11 @@ local S = ns.Skin
 -- Not when the app is linked to an account on this computer (it says so where it writes the news of
 -- the front, Feed.lua: ns.APP), nor on a Mac (the app is for Windows), nor on a collection suspended
 -- or obsolete; not in a fight nor while the studio takes its photos (later, when they end).
--- (1.12.0, later) The end of the beta of WoW Forever (W.BETA_END): until then, once a day at a login, the same window
--- tells what becomes of the collection, with the app or without it; with the app linked here, a line in the chat.
--------------------------------------------------------------------------------
 local W = {}
 ns.SiteWindow = W
 
 W.URL = "curator-wow.com/download"
--- (the end of the beta of WoW Forever: October 21, the end of that day in Paris, by the time of the server)
-W.BETA_END = 1792620000
+-- (the end of the beta of OctoWoW: October 21, the end of that day in Paris, by the time of the server)
 W.DELAY = 8 -- seconds after the login, for the loading and the alerts of the login to pass
 W.WIDTH = 520
 local LEFT, RIGHT, ICON, GAP = 24, 24, 18, 8
@@ -215,97 +211,3 @@ function W:Offer()
 end
 
 -------------------------------------------------------------------------------
--- (1.12.0, later) The end of the beta of WoW Forever
--------------------------------------------------------------------------------
--- Before it (now: the time of the server).
-function W:BetaOn(now)
-	now = now or ((GetServerTime and CuratorOctoFull.ServerTime()) or time())
-	return now < self.BETA_END
-end
-
--- What becomes of the collection: without the app, lost with the beta; with it, kept online.
-local function BetaLines()
-	return {
-		{ MEDIA .. "Cross", L["Your collection lives only in the files of the game, on this computer: when the beta ends, it does not follow you into WoW Forever."] },
-		{ MEDIA .. "Check", L["The Curator app saves it online: your page on the website keeps it, with a backup of your save to put back on your computer."] },
-	}
-end
-
--- The window of the end of the beta.
-function W:ShowBetaEnd()
-	local f = self:Build()
-	f:SetTitle(L["The beta of WoW Forever ends"])
-	f.head:SetText(L["The beta of WoW Forever ends on October 21. Without the Curator app, your collection and all the rest will be lost."])
-	local lines = BetaLines()
-	for i, row in ipairs(f.rows) do
-		local l = lines[i]
-		CuratorOctoFull.SetShown(row.icon, l ~= nil)
-		CuratorOctoFull.SetShown(row.text, l ~= nil)
-		if l then
-			row.icon:SetTexture(l[1])
-			row.text:SetText(l[2])
-		end
-	end
-	f.cta:SetText(L["Before October 21: install the app of Curator (Windows) from the website, sign in with Battle.net, then log out of the game once."])
-	f.hint:SetText(L["Ctrl+C (Cmd+C on a Mac) copies the address: paste it in your browser."])
-	f.edit:SetText(self.URL)
-	self:Layout()
-	if not f:IsShown() then
-		ns.Play(ns.SND.open)
-	end
-	f:Show()
-	f:Raise()
-	f.edit:SetFocus()
-	f.edit:HighlightText()
-end
-
--- Said by itself, once a day until the beta ends: the window without the app here, a line in the chat with it. True
--- when it was said now.
-function W:TellBetaEnd()
-	local db = ns.db
-	if not db or not self:BetaOn() or (ns.Beta and ns.Beta:Over()) then
-		return false
-	end
-	local day = (ns.Inns and ns.Inns.Today) and ns.Inns:Today() or math.floor(((GetServerTime and CuratorOctoFull.ServerTime()) or time()) / 86400)
-	if db.betaEndTold == day then
-		return false
-	end
-	if InCombatLockdown and InCombatLockdown() then
-		self.afterFight = true
-		return false
-	end
-	db.betaEndTold = day
-	if ns.APP or (IsMacClient and IsMacClient()) then
-		-- (1.12.1: or the save at hand, UI/Save.lua)
-		ns.Print(L["The beta of WoW Forever ends on October 21: the Curator app keeps your collection online. Before the end, save once (the scroll of the album, or /curator save) or log out of the game, so that the last of it goes."])
-		return true
-	end
-	-- (the window of the app said at the same time: this one says it all)
-	db.siteTold = db.siteTold or ((GetServerTime and CuratorOctoFull.ServerTime()) or time())
-	ns.Print(L["The beta of WoW Forever ends on October 21. Without the Curator app, your collection and all the rest will be lost: curator-wow.com/download"])
-	self:ShowBetaEnd()
-	return true
-end
-
-ns.On("LOGIN", function()
-	ns.Delay(W.DELAY, function()
-		-- (1.12.0, later: the end of the beta of WoW Forever first; the app is said in it)
-		if not W:TellBetaEnd() then
-			W:Offer()
-		end
-	end, W)
-end)
-
--- (in a fight at the moment it was due: when the fight ends)
-local ev = CreateFrame("Frame")
-ev:RegisterEvent("PLAYER_REGEN_ENABLED")
-CuratorOctoFull.SetScript(ev, "OnEvent", function()
-	if W.afterFight then
-		W.afterFight = nil
-		ns.Delay(2, function()
-			if not W:TellBetaEnd() then
-				W:Offer()
-			end
-		end, W)
-	end
-end)

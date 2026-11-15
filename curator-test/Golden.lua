@@ -117,7 +117,7 @@ function GQ:PlayerLevel()
 	return type(lv) == "number" and lv or 1
 end
 
--- (1.14.0) The level the tranche of a quest taken now follows: from the release of WoW Forever, the highest character
+-- (1.14.0) The level the tranche of a quest taken now follows: from the release of OctoWoW, the highest character
 -- of the account (a reroll kept in a low tranche gives no easier golden quest: Reroll.lua); before, this one.
 function GQ:TakerLevel()
 	local RR = ns.Reroll

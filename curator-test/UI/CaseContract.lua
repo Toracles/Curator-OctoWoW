@@ -1302,7 +1302,7 @@ function A:CctDeed(page, st, byId)
 	local ok = full and CS:CanContract(st.ids) and true or false
 	local confirming = ok and self.ctConfirm and GetTime() - self.ctConfirm < 4
 	page.sign:SetLabel(confirming and L["Confirm?"] or L["Sign the contract"])
-	page.sign:SetEnabled(ok)
+	CuratorOctoFull.SetEnabled(page.sign, ok)
 	page.sign:SetPulse(ok)
 	page.sign.quill:SetDesaturated(not ok)
 	page.sign.quill:SetAlpha(ok and 1 or 0.6)
@@ -1371,16 +1371,16 @@ function A:CctDrawer(page, st, won)
 	end
 	dr.empty:SetText(CuratorOctoFull.Length(list) == 0 and L["No card of this rank yet: they come out of the cases."] or "")
 	dr.pages:SetText(string.format(("%d / %d"), self.cctPage, pages))
-	dr.prev:SetEnabled(self.cctPage > 1)
-	dr.next:SetEnabled(self.cctPage < pages)
+	CuratorOctoFull.SetEnabled(dr.prev, self.cctPage > 1)
+	CuratorOctoFull.SetEnabled(dr.next, self.cctPage < pages)
 	local free = false
 	for _, it in ipairs(list) do
 		for _, w in ipairs(it.list) do
 			free = free or (not inside[w.i] and not w.f)
 		end
 	end
-	dr.tools.fill:SetEnabled(CuratorOctoFull.Length(st.ids) < CS.CONTRACT and free)
-	dr.tools.clear:SetEnabled(CuratorOctoFull.Length(st.ids) > 0)
+	CuratorOctoFull.SetEnabled(dr.tools.fill, CuratorOctoFull.Length(st.ids) < CS.CONTRACT and free)
+	CuratorOctoFull.SetEnabled(dr.tools.clear, CuratorOctoFull.Length(st.ids) > 0)
 end
 
 function A:RefreshCaseContract()
@@ -1992,7 +1992,7 @@ function B:CaseDone()
 	s.ct.wonHit:Show()
 	s.summary:SetText(res.new and L["New card!"] or string.format(L["Copies: %d"], res.copies or 1))
 	B.U.FadeIn(s.summary, 0.3, self)
-	s.again:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(s.again, true)
 	s.again:SetLabel(L["New contract"])
 	s.album:SetLabel(L["Album"])
 	B.U.FadeIn(s.album, 0.3, self)

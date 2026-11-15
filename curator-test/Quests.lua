@@ -3,7 +3,7 @@ local _, ns = "Curator", CuratorOctoFull
 -- The quests of the collector: ten of the day, five of the week and three of the month, then those of
 -- the dungeons (two of the day, one of the week), of the raids (one of the week, one of the month) and
 -- of PvP (five of the day, three of the week, two of the month). They are the account's, as the
--- collection: each one counts what any of its characters does (1.14.0, from the release of WoW Forever: but a
+-- collection: each one counts what any of its characters does (1.14.0, from the release of OctoWoW: but a
 -- reroll, which does none and claims none, Reroll.lua: RR:Blocks), and they come for what those characters
 -- can do (no dungeon before level 15, no raid before the highest level, no battleground before level 10,
 -- no gathering without a gathering profession). (1.9.0) New ones come every day at 5:00 in Paris, the
@@ -176,7 +176,7 @@ local PVP = { "hk", "bgWin", "bgPlay", "bgWinIn", "bgHk", "worldHk", "pvpClass",
 -- while the event lasts)
 local HALLOW_DAY = { "hallowTreat", "hallowKill", "hallowUndead", "hallowOpen", "hallowCards", "stamp", "bet" }
 local HALLOW_WEEK = { "hallowKill", "hallowUndead", "hallowOpen", "hallowCards", "hallowFind", "hallowCorrupt" }
--- (1.12.0, later) Generous, the beta of WoW Forever ending on October 21 in the middle of it: each quest claimed gives
+-- (1.12.0, later) Generous, the beta of OctoWoW ending on October 21 in the middle of it: each quest claimed gives
 -- way to another (chain: so many quests in a period at most, those shown first included), drawn from more (what can be
 -- done again the same day: not the treat, nor the stamp, nor the bet); two boosters for a quest of the day, five for
 -- one of the week.

@@ -18,7 +18,7 @@ ns.BoosterBar = BB
 -- (1.14.0, a player's word) Its size (60 % to 130 %), its picture (the booster on its left end) and its lights (the
 -- light that passes over it, its spark, the talents that breathe), set in the options (UI/Options.lua). The lights off,
 -- the bar stays still: only a booster that comes lights it up.
-BB.SCALE_MIN, BB.SCALE_MAX, BB.SCALE_STEP = 0.6, 1.3, 0.05
+BB.SCALE_MIN, BB.SCALE_MAX, BB.SCALE_STEP = 0.4, 1.3, 0.05
 
 function BB:Scale()
 	local k = tonumber(ns.db and ns.db.barScale) or 1
@@ -68,7 +68,7 @@ function BB:Refresh()
 end
 
 local HEIGHT = 13
-local MIN_W, MAX_W, FREE_W = 300, 1100, 560
+local MIN_W, MAX_W, FREE_W = 120, 1100, 560
 local ICON = 34
 local GAP = 3
 local TINT = { 1, 0.74, 0.25 }
@@ -184,6 +184,15 @@ function BB:Build()
 	end
 	b:RegisterForClicks("LeftButtonUp")
 	b:RegisterForDrag("LeftButton")
+    b:EnableMouseWheel(true)
+    CuratorOctoFull.SetScript(b, "OnMouseWheel", function(_, delta)
+        if not delta or delta == 0 then return end
+        if IsControlKeyDown and IsControlKeyDown() then
+            BB:SetScale(BB:Scale() + (delta > 0 and BB.SCALE_STEP or -BB.SCALE_STEP))
+        else
+            BB:SetCustomWidth(BB:DisplayWidth() + (delta > 0 and 30 or -30))
+        end
+    end)
 	b:Hide()
 	self.frame = b
 	b.bar = Hud.XPBar(b, FREE_W, HEIGHT, TINT)
@@ -298,9 +307,12 @@ function BB:Build()
 		BB:AddLines(GameTooltip)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(L["Click: your boosters. Shift-drag: move the bar. /curator bar: hide it."], GOLD[1], GOLD[2], GOLD[3], true)
-		GameTooltip:Show()
-	end)
-	CuratorOctoFull.SetScript(b, "OnLeave", function()
+		GameTooltip:AddLine(ns.locale == "frFR"
+            and "Molette : largeur. Ctrl + molette : échelle."
+            or "Mouse wheel: width. Ctrl + wheel: scale.", 1, .84, .48, true)
+        GameTooltip:Show()
+    end)
+    CuratorOctoFull.SetScript(b, "OnLeave", function()
 		BB.over = false
 		GameTooltip:Hide()
 	end)
@@ -310,8 +322,24 @@ end
 -- Its width: the button and the bar that fills it, together. (The bar is anchored to all the points of the
 -- button: the game draws it as wide as the button, whatever width it is given. Its ticks, its light and
 -- its spark go by the width it is given: the button must have the same, or they leave its frame.)
+-- The custom width stays independent of the position and of the height scale.
+function BB:DisplayWidth()
+    local b = self.frame
+    local scale = self:Scale()
+    return math.floor((b and b.bar.w or FREE_W) * scale + 0.5)
+end
+
+function BB:SetCustomWidth(width)
+    if not ns.db or type(width) ~= "number" then return end
+    ns.db.barWidth = math.floor(math.max(MIN_W, math.min(MAX_W, width)) + 0.5)
+    self:Place()
+    self:Paint()
+end
+
 function BB:SetWidth(w)
 	local b = self.frame
+	local custom = ns.db and tonumber(ns.db.barWidth)
+	if custom then w = custom / self:Scale() end
 	w = math.max(20, math.floor((tonumber(w) or FREE_W) + 0.5))
 	b:SetWidth(w)
 	b.bar:SetBarWidth(w)
@@ -754,8 +782,13 @@ function BB:Command(arg)
 		return
 	end
 	arg = string.lower((arg or ""))
-	if arg == "reset" then
-		db.barAt, db.barHide = nil, nil
+	local _, _, amount = string.find(arg, "^width%s+(%d+)$")
+    if amount then
+        self:SetCustomWidth(tonumber(amount))
+        ns.Print((ns.locale == "frFR" and "Largeur de la barre : " or "Booster bar width: ") .. db.barWidth)
+        return
+    elseif arg == "reset" then
+        db.barAt, db.barHide, db.barWidth, db.barScale = nil, nil, nil, nil
 		ns.Print(L["Booster bar: back over the experience bar."])
 	else
 		db.barHide = not db.barHide or nil

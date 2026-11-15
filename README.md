@@ -1,20 +1,24 @@
 # Curator OctoWoW
 
-Portage de Curator 1.14.3, créé par Clément Hudson, vers OctoWoW et Turtle WoW 1.18.1 sur le client 1.12.1. Cette version de test reprend le moteur original de collection et d’ouverture des boosters. Elle s’installe manuellement et utilise une sauvegarde locale.
+Portage de Curator 1.14.3, adapté par CloudNine_Ex pour OctoWoW 1.18.1 sur le client 1.12.1. Cette version de test reprend le moteur original de collection et d’ouverture des boosters. Elle s’installe manuellement et utilise une sauvegarde locale.
 
 ## Installation de la version de test
 
 1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
-2. Télécharger [le correctif alpha.3](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.3). Quitter le jeu. Extraire le dossier Curator dans Interface/AddOns. Vérifier que Curator.toc se trouve directement dans Interface/AddOns/Curator. Si ce dossier existe déjà, sauvegarder l’ancienne copie avant de la remplacer. Extraire ensuite le ZIP du correctif au même emplacement et accepter le remplacement des fichiers.
-3. Appliquer [le correctif client alpha.4](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.4) de la même façon. Relancer le jeu, activer **Curator** à la sélection des personnages et taper `/curator`.
+2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.5](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.5) au même emplacement.
+3. Relancer le jeu, activer **Curator OctoWoW** à la sélection des personnages et taper `/curator`.
 
-Les tests hors jeu couvrent les 226 fichiers Lua, le chargement, la connexion simulée, les tirages d’origine et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.
+Les tests hors jeu couvrent les 221 fichiers Lua, le chargement, la connexion simulée, les tirages d’origine et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.
 
-Le port ajoute six albums OctoWoW et 903 cartes. Zephras Isle a été retiré. Le reste du catalogue Forever doit encore être comparé aux données d’OctoWoW. La synchronisation en ligne et la Bourse officielle reposent sur l’application compagnon, hors périmètre de ce portage.
+Le port intègre 20 albums OctoWoW et 1 269 cartes associées, en plus des albums Vanilla vérifiés avec Questie-Octo. La synchronisation et la Bourse officielle restent hors périmètre.
+
+## Barre de boosters
+
+Survoler la barre et tourner la molette pour modifier sa largeur. Ctrl + molette règle son échelle. Maj + glisser déplace la barre. Utiliser `/curator bar width 240` pour une largeur précise et `/curator bar reset` pour rétablir les réglages par défaut.
 
 ## Sources et archives
 
-- [curator-test](curator-test) contient les scripts exacts de la version de test, avec le fichier TOC et les licences. Les textures et les sons sont inclus dans le ZIP de la préversion.
+- [curator-test](curator-test) contient les scripts exacts de la version corrigée, avec le fichier TOC et les licences. Les textures et les sons sont inclus dans le ZIP de base alpha.2.
 - [full-port](full-port) et [tools](tools) contiennent les adaptations et les outils de construction et de test.
 - [docs/PORTAGE-COMPLET.md](docs/PORTAGE-COMPLET.md) décrit le suivi par fonctionnalité.
 - [data](data) contient le catalogue issu de Questie-Octo et ses notices.

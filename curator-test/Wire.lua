@@ -266,7 +266,7 @@ function W:Routes(to)
 	if T and T.BNTarget and T:BNTarget(to) then
 		out[CuratorOctoFull.Length(out) + 1] = "BN"
 	end
-	-- (1.13.1: WoW Forever: a first name alone, or a name of 1.13.0 with my realm: Battle.net only, when it says whose
+	-- (1.13.1: OctoWoW: a first name alone, or a name of 1.13.0 with my realm: Battle.net only, when it says whose
 	-- it is; no whisper reaches it for sure, it waits until then)
 	if ns.Guild and ns.Guild.Unsure and ns.Guild:Unsure(to) then
 		return out
@@ -520,7 +520,7 @@ end
 function W:Acked(sender, s)
 	local w = self:DB()
 	local q = w and w.out[sender]
-	-- (1.13.1: WoW Forever: what waited for them under a name of 1.13.0 (their first name alone, or with my realm),
+	-- (1.13.1: OctoWoW: what waited for them under a name of 1.13.0 (their first name alone, or with my realm),
 	-- theirs now that they say it came: under their name, the first in line)
 	if w and not Holds(q, s) and ns.Guild and ns.Guild.Aliases then
 		for _, alias in ipairs(ns.Guild:Aliases(sender)) do

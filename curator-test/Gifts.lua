@@ -150,7 +150,7 @@ function G:ForMe(to)
 		if Fold(name) ~= Fold(me) then
 			return false
 		end
-		-- (its realm; 1.13.1: on WoW Forever, its surname, where the game gives the realm of other characters)
+		-- (its realm; 1.13.1: on OctoWoW, its surname, where the game gives the realm of other characters)
 		local _, surname = UnitName("player")
 		if UnitFullName then
 			local ok, _, second = pcall(UnitFullName, "player")

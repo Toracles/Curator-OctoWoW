@@ -1282,7 +1282,7 @@ function A:PaintTradeBox()
 	box.strangers:SetChecked(ns.db.strangers and true or false)
 	-- (1.14.0: without the pass of the collection, the trade window opens all the same, and says why: Pass.lua)
 	local ok, why = T:CanTrade()
-	box.new:SetEnabled((ok or why == "pass") and true or false)
+	CuratorOctoFull.SetEnabled(box.new, (ok or why == "pass") and true or false)
 end
 
 -- The members: whether they are there, a trade with them (their Curator trades: 0.22 and later).
@@ -1295,7 +1295,7 @@ function A:PaintGuildRows()
 			local okT, whyT = T:CanTrade()
 			local can = T:CanReach(r.member) ~= false and (okT or whyT == "pass")
 			CuratorOctoFull.SetShown(r.trade, not G:IsMe(r.member))
-			r.trade:SetEnabled(can and true or false)
+			CuratorOctoFull.SetEnabled(r.trade, can and true or false)
 			r.trade:SetAlpha(can and 1 or 0.4)
 		end
 	end
@@ -1597,8 +1597,8 @@ function A:RefreshWishes()
 		st.title:SetText(st.kind == "mine" and string.format(L["You look for (%d)"], CuratorOctoFull.Length(list)) or string.format(L["Your guild looks for (%d)"], CuratorOctoFull.Length(list)))
 		CuratorOctoFull.SetShown(st.prev, pages > 1)
 		CuratorOctoFull.SetShown(st.next, pages > 1)
-		st.prev:SetEnabled(p > 1)
-		st.next:SetEnabled(p < pages)
+		CuratorOctoFull.SetEnabled(st.prev, p > 1)
+		CuratorOctoFull.SetEnabled(st.next, p < pages)
 		st.pages:SetText(pages > 1 and string.format(L["Page %d / %d"], p, pages) or "")
 		for i, b in ipairs(st.cards) do
 			local card = list[(p - 1) * WISH_COLS + i]
@@ -2190,7 +2190,7 @@ function A:PaintMembers(gd, members, first)
 				end
 			end
 			local can = T:CanReach(m.name) ~= false and (okT or whyT == "pass")
-			r.trade:SetEnabled(can and true or false)
+			CuratorOctoFull.SetEnabled(r.trade, can and true or false)
 			r.trade:SetAlpha(can and 1 or 0.4)
 			r:SetSelected(false)
 		end
@@ -2279,7 +2279,7 @@ function A:PaintWanted(gd, wanted, first)
 				.. Colour(string.format(L["To spare: %d"], w.spare), GREEN), r.info:GetWidth(), 10, 7.5)
 			r.dot:SetOnline(T:Online(w.who))
 			local can = T:CanReach(w.who) ~= false and (okT or whyT == "pass")
-			r.go:SetEnabled(can and true or false)
+			CuratorOctoFull.SetEnabled(r.go, can and true or false)
 			local label = L["Propose a trade"]
 			r.go:SetText(label)
 			if ns.TextWidth(r.go.label) > r.go:GetWidth() - 12 then
@@ -2636,7 +2636,7 @@ function A:TradeButtons(main, alt1, alt2)
 	if main then
 		ed.main:SetLabel(main.label)
 		ed.main.action = main.action
-		ed.main:SetEnabled(main.enabled ~= false)
+		CuratorOctoFull.SetEnabled(ed.main, main.enabled ~= false)
 		ed.main:SetPulse(main.pulse and main.enabled ~= false)
 		ed.main.tip = main.tip
 	end
@@ -2650,7 +2650,7 @@ function A:TradeButtons(main, alt1, alt2)
 			-- (wider for a long label, in some languages)
 			b:SetWidth(math.max(160, math.min(230, ns.TextWidth(b.label) + 30)))
 			b.action = a.action
-			b:SetEnabled(a.enabled ~= false)
+			CuratorOctoFull.SetEnabled(b, a.enabled ~= false)
 			shown[CuratorOctoFull.Length(shown) + 1] = b
 		end
 	end
@@ -3723,7 +3723,7 @@ function A:RefreshChooser()
 				from = from .. "  ·  " .. title .. (i2.xp and ("  ·  " .. string.format(L["Level %d"], ns.Level.Of(i2.xp))) or "")
 			end
 			r.from:SetText(from)
-			r:SetEnabled(not old)
+			CuratorOctoFull.SetEnabled(r, not old)
 			r.name:SetTextColor(old and 0.5 or 1, old and 0.5 or 0.82, old and 0.5 or 0)
 			CuratorOctoFull.SetShown(r.go, not old)
 		end

@@ -470,8 +470,8 @@ function RUI:PaintSale()
 	local shownN = math.max(0, math.min(per, n - first))
 	CuratorOctoFull.SetShown(f.sale.prev, pages > 1)
 	CuratorOctoFull.SetShown(f.sale.next, pages > 1)
-	f.sale.prev:SetEnabled(self.salePage > 1)
-	f.sale.next:SetEnabled(self.salePage < pages)
+	CuratorOctoFull.SetEnabled(f.sale.prev, self.salePage > 1)
+	CuratorOctoFull.SetEnabled(f.sale.next, self.salePage < pages)
 	CuratorOctoFull.SetShown(f.sale.page, pages > 1)
 	f.sale.page:SetText(string.format(L["Page %d / %d"], self.salePage, pages))
 	local total = shownN * CARD_W + (shownN - 1) * CARD_GAP
@@ -528,7 +528,7 @@ function RUI:PaintSale()
 				slot.armed = nil
 				slot.buy:SetLabel(bought and L["Bought"] or RB.Text(RV:Price(card, finish), 12))
 			end
-			slot.buy:SetEnabled(ok)
+			CuratorOctoFull.SetEnabled(slot.buy, ok)
 			-- (1.14.0, Baron of Booty Bay: a card rare at most, while the talent is ready)
 			local TL = ns.Talents
 			local baron = TL ~= nil and TL:Has("baron") and card.rarity <= 3 and not bought
@@ -538,7 +538,7 @@ function RUI:PaintSale()
 					slot.baronArmed = nil
 					slot.baron:SetLabel(string.format(L["Baron: %s"], RB.Text(RV:BaronPrice(i) or 0, 11)))
 				end
-				slot.baron:SetEnabled(RV:CanBaron(i) and true or false)
+				CuratorOctoFull.SetEnabled(slot.baron, RV:CanBaron(i) and true or false)
 			end
 		end
 	end
@@ -628,7 +628,7 @@ function RUI:PaintBuy()
 		b.guard:SetText(RUBI and RUBI.GuardLine and RUBI:GuardLine() or "")
 		b.guard:SetTextColor(0.8, 0.8, 0.84)
 	end
-	b.open:SetEnabled(IU ~= nil and IU.OpenSeller ~= nil and not (ns.Beta and ns.Beta:Over()))
+	CuratorOctoFull.SetEnabled(b.open, IU ~= nil and IU.OpenSeller ~= nil and not (ns.Beta and ns.Beta:Over()))
 end
 
 -- (1.13.0, after its first test) The inventory as he sees it (UI/Inventory.lua): over his window.
@@ -1073,17 +1073,17 @@ function RUI:PaintCounter()
 			bm.price:SetText(RB.Text(price, 13))
 			local armed = self.bmArmed and GetTime() - self.bmArmed < ARM
 			bm.btn:SetLabel(armed and L["Confirm"] or L["Buy it"])
-			bm.btn:SetEnabled(RB:Has(price))
+			CuratorOctoFull.SetEnabled(bm.btn, RB:Has(price))
 		elseif TL:Ready("blackmarket") then
 			bm.text:SetText(L["\"I may have something you are missing, rare or epic. For you, a price.\""])
 			bm.crate:SetDesaturated(false)
 			bm.btn:SetLabel(L["Ask him"])
-			bm.btn:SetEnabled(true)
+			CuratorOctoFull.SetEnabled(bm.btn, true)
 		else
 			bm.text:SetText(L["Nothing under his counter for now."])
 			bm.crate:SetDesaturated(true)
 			bm.btn:SetLabel(string.format(L["Again in %s"], ns.Duration(TL:Left("blackmarket"))))
-			bm.btn:SetEnabled(false)
+			CuratorOctoFull.SetEnabled(bm.btn, false)
 		end
 	end
 	-- the Special Order
@@ -1098,7 +1098,7 @@ function RUI:PaintCounter()
 		od.text:SetText(L["Once a day, a card you are missing, epic at most, of the albums he sells: at its full price."])
 		od.seal:SetDesaturated(not ready)
 		od.btn:SetLabel(ready and L["Choose a card"] or string.format(L["Again in %s"], ns.Duration(TL:Left("order"))))
-		od.btn:SetEnabled(ready)
+		CuratorOctoFull.SetEnabled(od.btn, ready)
 	else
 		od.text:SetText("")
 	end
@@ -1140,8 +1140,8 @@ function RUI:PaintPicking()
 		s = list[1]
 		self.pickAlbum = s
 	end
-	pk.prev:SetEnabled(CuratorOctoFull.Length(list) > 1)
-	pk.next:SetEnabled(CuratorOctoFull.Length(list) > 1)
+	CuratorOctoFull.SetEnabled(pk.prev, CuratorOctoFull.Length(list) > 1)
+	CuratorOctoFull.SetEnabled(pk.next, CuratorOctoFull.Length(list) > 1)
 	CuratorOctoFull.SetShown(pk.empty, s == nil)
 	pk.empty:SetText(L["No card you are missing in the albums he sells."])
 	local cards = s and by[s] or {}
@@ -1153,8 +1153,8 @@ function RUI:PaintPicking()
 	CuratorOctoFull.SetShown(pk.page, pages > 1)
 	CuratorOctoFull.SetShown(pk.pprev, pages > 1)
 	CuratorOctoFull.SetShown(pk.pnext, pages > 1)
-	pk.pprev:SetEnabled(self.pickPage > 1)
-	pk.pnext:SetEnabled(self.pickPage < pages)
+	CuratorOctoFull.SetEnabled(pk.pprev, self.pickPage > 1)
+	CuratorOctoFull.SetEnabled(pk.pnext, self.pickPage < pages)
 	local TL = ns.Talents
 	for i, r in ipairs(pk.rows) do
 		local card = cards[(self.pickPage - 1) * per + i]

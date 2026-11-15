@@ -34,7 +34,7 @@ function P:UnitName(unit)
 	if not name or Secret(name) or Secret(realm) then
 		return nil
 	end
-	-- (1.13.1: WoW Forever: the surname where the realm was; the game writes the whole name when it does not
+	-- (1.13.1: OctoWoW: the surname where the realm was; the game writes the whole name when it does not
 	-- give it apart)
 	if ns.Guild:Surnames() and (realm == nil or realm == "") and GetUnitName then
 		local ok, whole = pcall(GetUnitName, unit, true)
@@ -135,7 +135,7 @@ function P:AddLines(tooltip, i, showcase)
 	if beta then
 		tooltip:AddLine("|T" .. ns.MEDIA .. "Beta:14:14|t " .. L["Beta tester"], 1, 0.55, 0.25)
 	end
-	-- (1.8.0: a pioneer, there before WoW Forever came out: its achievement, among the bits they sent)
+	-- (1.8.0: a pioneer, there before OctoWoW came out: its achievement, among the bits they sent)
 	local pioneer = i.pioneer
 	if pioneer == nil and i.bits and i.bits ~= "" then
 		pioneer = ns.Achievements:FromBits(i.bits).pioneer == true
@@ -241,8 +241,8 @@ local function Typed(arg)
 	return G:Full(name, realm ~= "" and realm or nil)
 end
 
--- The player a command names: the one known by that name (1.13.1: on WoW Forever, a first name alone finds the one
--- player known by it, or the one friend of Battle.net), else the name as typed. nil: on WoW Forever, a first name alone
+-- The player a command names: the one known by that name (1.13.1: on OctoWoW, a first name alone finds the one
+-- player known by it, or the one friend of Battle.net), else the name as typed. nil: on OctoWoW, a first name alone
 -- that says nobody for sure (the chat says to type the surname too).
 function P:Named(arg)
 	local G = ns.Guild
@@ -251,7 +251,7 @@ function P:Named(arg)
 		known = Typed(arg)
 	end
 	if known and G:Unsure(known) and not (ns.Trade and ns.Trade:BNTarget(known)) then
-		ns.Print(L["On WoW Forever, type the first name and the surname of the player: /curator view Brindille Dupont."])
+		ns.Print(L["On OctoWoW, type the first name and the surname of the player: /curator view Brindille Dupont."])
 		return nil
 	end
 	return known
@@ -313,7 +313,7 @@ function P:BNName(contextData)
 	if WOW_PROJECT_ID and g.wowProjectID and g.wowProjectID ~= WOW_PROJECT_ID then
 		return nil
 	end
-	-- (1.13.1: WoW Forever: "First-Surname", no realm in a name, Comm.lua)
+	-- (1.13.1: OctoWoW: "First-Surname", no realm in a name, Comm.lua)
 	local name = ns.Guild:BNName(g)
 	if not name then
 		return nil
@@ -346,7 +346,7 @@ function P:MenuName(contextData)
 	if type(name) ~= "string" or Secret(name) or name == "" then
 		return nil
 	end
-	-- (1.13.1: WoW Forever: the surname of the character after its first name, never a realm: ns.Guild:Full
+	-- (1.13.1: OctoWoW: the surname of the character after its first name, never a realm: ns.Guild:Full
 	-- leaves mine out)
 	local G = ns.Guild
 	local server = contextData.server or contextData.surname

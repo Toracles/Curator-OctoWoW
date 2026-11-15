@@ -2119,8 +2119,8 @@ function IU:PaintSell()
 	end
 	ft.sell:SetLabel(armed and string.format(L["Confirm: %s"], ns.Rubies.Text(rubies, 13)) or string.format(L["Sell: %s"], ns.Rubies.Text(rubies, 13)))
 	Width(ft.sell)
-	ft.sell:SetEnabled(n > 0)
-	ft.untick:SetEnabled(n > 0)
+	CuratorOctoFull.SetEnabled(ft.sell, n > 0)
+	CuratorOctoFull.SetEnabled(ft.untick, n > 0)
 	Width(ft.untick)
 	-- (the copies shown he takes: every page of the filter, of the rarity, of the card)
 	local shown, left = 0, 0
@@ -2134,7 +2134,7 @@ function IU:PaintSell()
 	end
 	ft.all:SetLabel(string.format(L["Tick all (%d)"], shown))
 	Width(ft.all)
-	ft.all:SetEnabled(left > 0)
+	CuratorOctoFull.SetEnabled(ft.all, left > 0)
 	-- (1.14.0: those of the page shown)
 	local onPage, pageLeft = 0, 0
 	local lines = self.lines or {}
@@ -2150,7 +2150,7 @@ function IU:PaintSell()
 	end
 	ft.pageTick:SetLabel(string.format(L["Tick the page (%d)"], onPage))
 	Width(ft.pageTick)
-	ft.pageTick:SetEnabled(pageLeft > 0)
+	CuratorOctoFull.SetEnabled(ft.pageTick, pageLeft > 0)
 	Width(ft.back)
 	-- (the line of what is ticked, short of the buttons)
 	local room = (ft:GetWidth() or 762) - 12 - ft.sell:GetWidth() - ft.untick:GetWidth() - ft.all:GetWidth() - ft.pageTick:GetWidth() - ft.back:GetWidth() - 36

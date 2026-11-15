@@ -10,7 +10,7 @@
 ## Notes-koKR: 아제로스 생물 카드를 수집하세요: 부스터를 열고, 지역별로 앨범을 채우고, 자랑하세요.
 ## Notes-zhCN: 收集艾泽拉斯生物卡牌：打开补充包，按区域填满收藏册，向大家炫耀。
 ## Notes-zhTW: 收集艾澤拉斯生物卡牌：開啟補充包，依區域填滿收藏冊，向大家炫耀。
-## Author: Clément Hudson
+## Author: CloudNine_Ex
 ## Version: 1.14.3
 ## X-License: All Rights Reserved (Data: GPL-3.0)
 ## Category: Collections
@@ -113,12 +113,7 @@ Data\Ahnqiraj.lua
 Data\Naxxramas.lua
 Data\Elites.lua
 Data\Cinematic.lua
-Data\Thanes.lua
-Data\Lordaeron.lua
-Data\Excavation.lua
-Data\Dalaran.lua
 Data\Hallow.lua
-Data\Hardcup.lua
 Data\Golden.lua
 Data\Rares.lua
 Data\Places.lua

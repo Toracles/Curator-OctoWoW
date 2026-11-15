@@ -626,7 +626,7 @@ function A:PaintAppraise()
 	end
 	CuratorOctoFull.SetShown(gl, can and true or false)
 	if can then
-		gl:SetEnabled(TL:Ready("glance") and E:AtBank())
+		CuratorOctoFull.SetEnabled(gl, TL:Ready("glance") and E:AtBank())
 		ap.line:SetWidth(d.textW - 296)
 	end
 	b:Show()
@@ -643,7 +643,7 @@ function A:PaintAppraise()
 	else
 		b:SetLabel(L["Appraise"] .. " · " .. price)
 	end
-	b:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(b, ok and true or false)
 end
 
 -- (1.14.0) Glance: what it does, why it cannot now.

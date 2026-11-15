@@ -67,7 +67,7 @@ local NOTES = {
 	pvp = "Every character of your account counts. An enemy counts for his class, his race or his level once the game has shown him to you: your target, your mouse, his nameplate.",
 }
 Q.NOTES = NOTES
--- (1.14.0, after its test, his word: from the release of WoW Forever, a reroll does no quest; the main counts, and the
+-- (1.14.0, after its test, his word: from the release of OctoWoW, a reroll does no quest; the main counts, and the
 -- other characters from level 15, Reroll.lua)
 local FOREVER_COUNT = "Your main character counts, and your other characters from level %d. The creatures that give no experience do not count."
 local NOTES_FOREVER = {
@@ -801,7 +801,7 @@ function A:PaintBoard()
 	-- (1.14.0, after its test, his word: a reroll claims none, its padlock in the place of the buttons)
 	local rr = Locked()
 	CuratorOctoFull.SetShown(bd.claimAll, waiting >= 2 and not rr)
-	bd.claimAll:SetEnabled(waiting >= 2 and not rr)
+	CuratorOctoFull.SetEnabled(bd.claimAll, waiting >= 2 and not rr)
 	bd.claimAll:SetPulse(true)
 	self:PaintReroll()
 	local none = CuratorOctoFull.Length(rows) == 0
@@ -816,7 +816,7 @@ function A:PaintBoard()
 	end
 	bd.note:ClearAllPoints()
 	local note = NOTES[sec.key] and L[NOTES[sec.key]] or ""
-	-- (1.14.0: from the release of WoW Forever, the main and the characters of level 15 or more count, Reroll.lua)
+	-- (1.14.0: from the release of OctoWoW, the main and the characters of level 15 or more count, Reroll.lua)
 	local RR = ns.Reroll
 	if RR and RR:Active() and NOTES_FOREVER[sec.key] then
 		note = string.format(L[NOTES_FOREVER[sec.key]], RR.LEVEL)
@@ -941,7 +941,7 @@ function A:PaintCard(r)
 	r.locked = rr
 	CuratorOctoFull.SetShown(r.claim, waiting)
 	r.claim:SetAlpha(1)
-	r.claim:SetEnabled(waiting and not rr)
+	CuratorOctoFull.SetEnabled(r.claim, waiting and not rr)
 	r.claim:SetPulse(waiting and not rr)
 	CuratorOctoFull.SetShown(r.claimed, claimed)
 	r.claimed:SetAlpha(1)

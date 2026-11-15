@@ -47,11 +47,11 @@ local frFR = {
 	["The golden booster waits with your boosters to choose."] = "Le booster en or t'attend avec tes boosters à choisir.",
 	["Its experience: the whole level you are at when you claim it."] = "Son expérience : le niveau entier où tu es quand tu la réclames.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "La récompense d'un album complet ou d'une quête en or : 5 cartes, toutes épiques ou mieux. Un clic en ouvre un.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator est fait pour WoW Forever : il ne marche pas dans cette version du jeu, et on n'y gagne rien.",
-	["Only on WoW Forever"] = "Seulement sur WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "Ta collection t'attend sur WoW Forever.",
-	["Curator is made for WoW Forever"] = "Curator est fait pour WoW Forever",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "Il ne marche pas dans cette version du jeu : on n'y gagne rien. Ta collection t'attend sur WoW Forever, rien n'est perdu.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator est fait pour OctoWoW : il ne marche pas dans cette version du jeu, et on n'y gagne rien.",
+	["Only on OctoWoW"] = "Seulement sur OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "Ta collection t'attend sur OctoWoW.",
+	["Curator is made for OctoWoW"] = "Curator est fait pour OctoWoW",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "Il ne marche pas dans cette version du jeu : on n'y gagne rien. Ta collection t'attend sur OctoWoW, rien n'est perdu.",
 }
 Add("frFR", frFR)
 
@@ -84,11 +84,11 @@ local deDE = {
 	["The golden booster waits with your boosters to choose."] = "Der goldene Booster wartet bei deinen Boostern zur Wahl.",
 	["Its experience: the whole level you are at when you claim it."] = "Seine Erfahrung: die ganze Stufe, auf der du bist, wenn du sie abholst.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "Die Belohnung eines vollständigen Albums oder einer goldenen Quest: 5 Karten, jede episch oder besser. Ein Klick öffnet einen.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator ist für WoW Forever gemacht: In dieser Version des Spiels funktioniert es nicht, und hier gibt es nichts zu verdienen.",
-	["Only on WoW Forever"] = "Nur in WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "Deine Sammlung wartet in WoW Forever auf dich.",
-	["Curator is made for WoW Forever"] = "Curator ist für WoW Forever gemacht",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "In dieser Version des Spiels funktioniert es nicht: Hier gibt es nichts zu verdienen. Deine Sammlung wartet in WoW Forever auf dich, nichts geht verloren.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator ist für OctoWoW gemacht: In dieser Version des Spiels funktioniert es nicht, und hier gibt es nichts zu verdienen.",
+	["Only on OctoWoW"] = "Nur in OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "Deine Sammlung wartet in OctoWoW auf dich.",
+	["Curator is made for OctoWoW"] = "Curator ist für OctoWoW gemacht",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "In dieser Version des Spiels funktioniert es nicht: Hier gibt es nichts zu verdienen. Deine Sammlung wartet in OctoWoW auf dich, nichts geht verloren.",
 }
 Add("deDE", deDE)
 
@@ -121,11 +121,11 @@ local esES = {
 	["The golden booster waits with your boosters to choose."] = "El sobre de oro te espera con tus sobres a elegir.",
 	["Its experience: the whole level you are at when you claim it."] = "Su experiencia: el nivel entero en el que estés cuando la reclames.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "La recompensa de un álbum completo o de una misión de oro: 5 cartas, todas épicas o mejores. Un clic abre uno.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator está hecho para WoW Forever: no funciona en esta versión del juego y aquí no se gana nada.",
-	["Only on WoW Forever"] = "Solo en WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "Tu colección te espera en WoW Forever.",
-	["Curator is made for WoW Forever"] = "Curator está hecho para WoW Forever",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "No funciona en esta versión del juego: aquí no se gana nada. Tu colección te espera en WoW Forever, no se pierde nada.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator está hecho para OctoWoW: no funciona en esta versión del juego y aquí no se gana nada.",
+	["Only on OctoWoW"] = "Solo en OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "Tu colección te espera en OctoWoW.",
+	["Curator is made for OctoWoW"] = "Curator está hecho para OctoWoW",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "No funciona en esta versión del juego: aquí no se gana nada. Tu colección te espera en OctoWoW, no se pierde nada.",
 }
 Add("esES", esES)
 Add("esMX", esES)
@@ -159,11 +159,11 @@ local ptBR = {
 	["The golden booster waits with your boosters to choose."] = "O pacote de ouro espera por você com seus pacotes à escolha.",
 	["Its experience: the whole level you are at when you claim it."] = "Sua experiência: o nível inteiro em que você estiver ao resgatá-la.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "A recompensa de um álbum completo ou de uma missão de ouro: 5 cartas, todas épicas ou melhores. Um clique abre um.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "O Curator é feito para WoW Forever: ele não funciona nesta versão do jogo, e aqui não se ganha nada.",
-	["Only on WoW Forever"] = "Só em WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "Sua coleção espera por você em WoW Forever.",
-	["Curator is made for WoW Forever"] = "O Curator é feito para WoW Forever",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "Ele não funciona nesta versão do jogo: aqui não se ganha nada. Sua coleção espera por você em WoW Forever, nada se perde.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "O Curator é feito para OctoWoW: ele não funciona nesta versão do jogo, e aqui não se ganha nada.",
+	["Only on OctoWoW"] = "Só em OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "Sua coleção espera por você em OctoWoW.",
+	["Curator is made for OctoWoW"] = "O Curator é feito para OctoWoW",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "Ele não funciona nesta versão do jogo: aqui não se ganha nada. Sua coleção espera por você em OctoWoW, nada se perde.",
 }
 Add("ptBR", ptBR)
 
@@ -196,11 +196,11 @@ local ruRU = {
 	["The golden booster waits with your boosters to choose."] = "Золотой бустер ждёт вас среди бустеров на выбор.",
 	["Its experience: the whole level you are at when you claim it."] = "Опыт: весь уровень, на котором вы будете, когда заберёте награду.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "Награда за собранный альбом или золотое задание: 5 карт, все эпические или лучше. Нажмите, чтобы открыть один.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator создан для WoW Forever: в этой версии игры он не работает, и здесь ничего не заработать.",
-	["Only on WoW Forever"] = "Только в WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "Ваша коллекция ждёт вас в WoW Forever.",
-	["Curator is made for WoW Forever"] = "Curator создан для WoW Forever",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "В этой версии игры он не работает: здесь ничего не заработать. Ваша коллекция ждёт вас в WoW Forever, ничего не потеряно.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator создан для OctoWoW: в этой версии игры он не работает, и здесь ничего не заработать.",
+	["Only on OctoWoW"] = "Только в OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "Ваша коллекция ждёт вас в OctoWoW.",
+	["Curator is made for OctoWoW"] = "Curator создан для OctoWoW",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "В этой версии игры он не работает: здесь ничего не заработать. Ваша коллекция ждёт вас в OctoWoW, ничего не потеряно.",
 }
 Add("ruRU", ruRU)
 
@@ -233,11 +233,11 @@ local koKR = {
 	["The golden booster waits with your boosters to choose."] = "황금 부스터는 선택 부스터와 함께 기다립니다.",
 	["Its experience: the whole level you are at when you claim it."] = "경험치: 보상을 받을 때 현재 레벨 하나를 통째로 받습니다.",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "앨범 완성이나 황금 퀘스트의 보상: 카드 5장, 모두 영웅 이상. 클릭하면 하나를 엽니다.",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator는 WoW Forever 전용입니다: 이 버전의 게임에서는 작동하지 않으며, 여기서는 아무것도 얻을 수 없습니다.",
-	["Only on WoW Forever"] = "WoW Forever 전용",
-	["Your collection waits for you on WoW Forever."] = "수집품은 WoW Forever에서 기다리고 있습니다.",
-	["Curator is made for WoW Forever"] = "Curator는 WoW Forever 전용입니다",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "이 버전의 게임에서는 작동하지 않습니다: 여기서는 아무것도 얻을 수 없습니다. 수집품은 WoW Forever에서 기다리고 있으며, 잃는 것은 없습니다.",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator는 OctoWoW 전용입니다: 이 버전의 게임에서는 작동하지 않으며, 여기서는 아무것도 얻을 수 없습니다.",
+	["Only on OctoWoW"] = "OctoWoW 전용",
+	["Your collection waits for you on OctoWoW."] = "수집품은 OctoWoW에서 기다리고 있습니다.",
+	["Curator is made for OctoWoW"] = "Curator는 OctoWoW 전용입니다",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "이 버전의 게임에서는 작동하지 않습니다: 여기서는 아무것도 얻을 수 없습니다. 수집품은 OctoWoW에서 기다리고 있으며, 잃는 것은 없습니다.",
 }
 Add("koKR", koKR)
 
@@ -270,11 +270,11 @@ local zhCN = {
 	["The golden booster waits with your boosters to choose."] = "黄金补充包和你的自选补充包放在一起，等你选择。",
 	["Its experience: the whole level you are at when you claim it."] = "经验值：领取时你所在等级的一整级经验。",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "集齐收藏册或黄金任务的奖励：5 张卡牌，全部为史诗或更好。点击打开一个。",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator 专为 WoW Forever 打造：在此版本的游戏中无法使用，在这里也得不到任何东西。",
-	["Only on WoW Forever"] = "仅限 WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "你的收藏在 WoW Forever 等着你。",
-	["Curator is made for WoW Forever"] = "Curator 专为 WoW Forever 打造",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "在此版本的游戏中无法使用：在这里得不到任何东西。你的收藏在 WoW Forever 等着你，什么都不会丢失。",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator 专为 OctoWoW 打造：在此版本的游戏中无法使用，在这里也得不到任何东西。",
+	["Only on OctoWoW"] = "仅限 OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "你的收藏在 OctoWoW 等着你。",
+	["Curator is made for OctoWoW"] = "Curator 专为 OctoWoW 打造",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "在此版本的游戏中无法使用：在这里得不到任何东西。你的收藏在 OctoWoW 等着你，什么都不会丢失。",
 }
 Add("zhCN", zhCN)
 
@@ -307,10 +307,10 @@ local zhTW = {
 	["The golden booster waits with your boosters to choose."] = "黃金補充包和你的自選補充包放在一起，等你選擇。",
 	["Its experience: the whole level you are at when you claim it."] = "經驗值：領取時你所在等級的一整級經驗。",
 	["The reward of an album complete or of a golden quest: 5 cards, every one epic or better. A click opens one."] = "集齊收藏冊或黃金任務的獎勵：5 張卡牌，全部為史詩或更好。點擊開啟一個。",
-	["Curator is made for WoW Forever: it does not work in this version of the game, and nothing is earned here."] = "Curator 專為 WoW Forever 打造：在此版本的遊戲中無法使用，在這裡也得不到任何東西。",
-	["Only on WoW Forever"] = "僅限 WoW Forever",
-	["Your collection waits for you on WoW Forever."] = "你的收藏在 WoW Forever 等著你。",
-	["Curator is made for WoW Forever"] = "Curator 專為 WoW Forever 打造",
-	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on WoW Forever, nothing is lost."] = "在此版本的遊戲中無法使用：在這裡得不到任何東西。你的收藏在 WoW Forever 等著你，什麼都不會遺失。",
+	["Curator is made for OctoWoW: it does not work in this version of the game, and nothing is earned here."] = "Curator 專為 OctoWoW 打造：在此版本的遊戲中無法使用，在這裡也得不到任何東西。",
+	["Only on OctoWoW"] = "僅限 OctoWoW",
+	["Your collection waits for you on OctoWoW."] = "你的收藏在 OctoWoW 等著你。",
+	["Curator is made for OctoWoW"] = "Curator 專為 OctoWoW 打造",
+	["It does not work in this version of the game: nothing is earned here. Your collection waits for you on OctoWoW, nothing is lost."] = "在此版本的遊戲中無法使用：在這裡得不到任何東西。你的收藏在 OctoWoW 等著你，什麼都不會遺失。",
 }
 Add("zhTW", zhTW)

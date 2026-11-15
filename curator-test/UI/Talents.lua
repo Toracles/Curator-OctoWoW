@@ -317,8 +317,8 @@ function A:ScrollTree(to)
 	CuratorOctoFull.SetShown(bar, most > 0)
 	CuratorOctoFull.SetShown(tree.up, most > 0)
 	CuratorOctoFull.SetShown(tree.down, most > 0)
-	tree.up:SetEnabled(to > 0)
-	tree.down:SetEnabled(to < most)
+	CuratorOctoFull.SetEnabled(tree.up, to > 0)
+	CuratorOctoFull.SetEnabled(tree.down, to < most)
 end
 
 -- A bar of a way, from p to q: upright (v) or not, the line it runs along (c), from a to b along it.
@@ -1415,7 +1415,7 @@ function A:PaintTree(key, preview)
 	local pend = mine and TL:PendingCount() or 0
 	CuratorOctoFull.SetShown(foot.apply, mine)
 	CuratorOctoFull.SetShown(foot.cancel, mine)
-	foot.cancel:SetEnabled(pend > 0)
+	CuratorOctoFull.SetEnabled(foot.cancel, pend > 0)
 	CuratorOctoFull.SetShown(foot.back, preview)
 	if preview then
 		foot.note:SetText(string.format(L["A look at a tree (%s): nothing is placed."], TL:SpecName(key, TL:Female())))
@@ -1424,12 +1424,12 @@ function A:PaintTree(key, preview)
 		foot.note:SetText(confirm and ("|cffffd060" .. L["Applied points stay: only a reconversion contract frees them."] .. "|r")
 			or string.format(L["%d points placed: apply them to make them count."], pend))
 		foot.apply:SetLabel(confirm and L["Confirm"] or L["Apply changes"])
-		foot.apply:SetEnabled(true)
+		CuratorOctoFull.SetEnabled(foot.apply, true)
 	else
 		local free = TL:Points() - TL:Spent()
 		foot.note:SetText(free > 0 and L["Click: a point · Right click: take it back (before you apply them)"] or L["Every point is placed. Each collector level gives one more."])
 		foot.apply:SetLabel(L["Apply changes"])
-		foot.apply:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(foot.apply, false)
 	end
 end
 
@@ -1731,7 +1731,7 @@ function A:PaintRespec()
 		rs.worth:SetTextColor(0.62, 0.08, 0.05)
 	end
 	local confirm = self.talRespecOk and GetTime() - self.talRespecOk < CONFIRM
-	rs.sign:SetEnabled(enough)
+	CuratorOctoFull.SetEnabled(rs.sign, enough)
 	rs.sign:SetLabel(confirm and L["Confirm"] or L["Sign the contract"])
 	rs.sign:SetPulse(confirm and true or false)
 	rs.seal:SetDesaturated(not enough)

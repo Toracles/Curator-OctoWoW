@@ -754,7 +754,7 @@ function CD:PaintAppraise(d)
 	else
 		b:SetLabel(L["Appraise"] .. " · " .. price)
 	end
-	b:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(b, ok and true or false)
 end
 
 function CD:AppraiseTooltip(d, b)

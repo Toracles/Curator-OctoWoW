@@ -280,7 +280,7 @@ end
 -- (1.14.2) The week of the news, for the app. The app of Curator asks the website for its news (the pass of the player
 -- first, then the news of the Exchange and the bans of the week: Pass.lua, Market.lua, Bans.lua) only for the weeks of
 -- the front a save holds (launcher, front.ts: frontOfSave, CuratorDB.pvp.front.w). The PvP gone with 1.14.0 (Pvp.lua)
--- and emptied at the release of WoW Forever, no save held one any more, and no app asked: no pass, so no trade and no
+-- and emptied at the release of OctoWoW, no save held one any more, and no app asked: no pass, so no trade and no
 -- sale to the reseller, and no ban nor news of the Exchange in the game. At each logout, before the seal (Core.lua:
 -- LOGOUT), the week of now is written there again, and nothing else: { w = the next weekly reset, in tens of minutes },
 -- as the app and the website count the weeks (lib/front.ts). Not in a save edited outside the game: the app asks

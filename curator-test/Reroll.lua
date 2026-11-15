@@ -2,9 +2,9 @@ local _, ns = "Curator", CuratorOctoFull
 local L = setmetatable({}, { __index = function(_, k) return ns.L[k] end })
 
 -------------------------------------------------------------------------------
--- (1.14.0) The main character and the rerolls, from the release of WoW Forever. The collection is the account's,
+-- (1.14.0) The main character and the rerolls, from the release of OctoWoW. The collection is the account's,
 -- its characters are not all alike:
--- * the main character (db.main: its name, its GUID): the first one Curator meets on WoW Forever. It earns
+-- * the main character (db.main: its name, its GUID): the first one Curator meets on OctoWoW. It earns
 --   everything from level 1. Another character takes its place from that character, once in RR.CHANGE_EVERY at most
 --   (the first time whenever the player likes: the main chosen without asking may not be the right one).
 -- * a reroll: any other character, under level RR.LEVEL. A quarter of everything it earns by playing: the points of
@@ -22,13 +22,13 @@ local L = setmetatable({}, { __index = function(_, k) return ns.L[k] end })
 -- The quarters are whole things, never fractions in the save: each kind of thing keeps the quarters it is owed
 -- toward the next whole one (c.rq), so that one in four of them comes; the bars of a reroll keep hundredths of a point
 -- (whole numbers).
--- (1.14.0) The release of WoW Forever (RR:Release, RR:Migrate): the first session on a realm of WoW Forever (not one of
+-- (1.14.0) The release of OctoWoW (RR:Release, RR:Migrate): the first session on a realm of OctoWoW (not one of
 -- its beta). Its beta ended in chaos: Curator starts over for everyone, as a new collection. A collection of the beta
 -- keeps the cards of its limited editions (Hallow's End, the Hardcup Saison 3) and the boosters of Hallow's End not
 -- opened yet, the achievements Beta tester, Pioneer and Hardcup Survivor, and the codes of the website already used;
 -- all the rest starts again from zero (its level, its talents, its rubies, its other cards and boosters, its other
 -- achievements), the leaderboard of the website with it (the code of the collection says it, Export.lua). The
--- characters of the beta are forgotten (WoW Forever deleted them). A save of the beta put back after it stops Curator.
+-- characters of the beta are forgotten (OctoWoW deleted them). A save of the beta put back after it stops Curator.
 -------------------------------------------------------------------------------
 local RR = {}
 ns.Reroll = RR
@@ -76,7 +76,7 @@ end
 -------------------------------------------------------------------------------
 -- Who is who
 -------------------------------------------------------------------------------
--- The rules on: the save went through the release of WoW Forever (or the author tries them: RR.test).
+-- The rules on: the save went through the release of OctoWoW (or the author tries them: RR.test).
 function RR:Active()
 	local db = ns.db
 	if not db then
@@ -662,9 +662,9 @@ function RR:OnLevel(level)
 end
 
 -------------------------------------------------------------------------------
--- The release of WoW Forever
+-- The release of OctoWoW
 -------------------------------------------------------------------------------
--- A realm of WoW Forever (not one of its beta: "Classic Beta PvE 2"), once its beta is over (RR.AFTER, the time of the
+-- A realm of OctoWoW (not one of its beta: "Classic Beta PvE 2"), once its beta is over (RR.AFTER, the time of the
 -- server: no release before). (1.14.0, his word: on its client only, Beta.lua; a realm of Classic Era is no realm of WoW
 -- Forever, even for the author's build or the test build there: /curator test sortie shows the release on a copy.)
 RR.AFTER = 1792627200 -- 2026-10-22 00:00 UTC
@@ -882,7 +882,7 @@ function RR:Stale(db)
 end
 
 -- At the loading of the save (Core.lua: its cards made, before anything reads the collection): the release, once, on a
--- realm of WoW Forever; past it, a save of the beta put back in its place stops Curator. A save edited outside the
+-- realm of OctoWoW; past it, a save of the beta put back in its place stops Curator. A save edited outside the
 -- game stays as it is: suspended, it starts over from its window.
 function RR:Release()
 	local db = ns.db
@@ -900,7 +900,7 @@ function RR:Release()
 end
 
 -- (1.14.0, later) A collection started over from the window of a suspended Curator (Core.lua, ns.ResetCollection) on a
--- realm of WoW Forever, the release not gone through yet: it goes through now, keeping nothing, so that it does not
+-- realm of OctoWoW, the release not gone through yet: it goes through now, keeping nothing, so that it does not
 -- come again at the next login and take what this session gives.
 function RR:StartedOver()
 	local db = ns.db
@@ -956,7 +956,7 @@ function RR:OnLogin()
 	end
 	local c = self:Char()
 	if not self:Main() then
-		-- (the first character met on WoW Forever: the main, without asking)
+		-- (the first character met on OctoWoW: the main, without asking)
 		self:SetMain(true)
 		self.firstMain = true
 	elseif c and not c.asked and self:IsReroll() then
@@ -979,7 +979,7 @@ ns.On("LOGIN", function()
 			return
 		end
 		if RR.migrated then
-			ns.Print(L["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."])
+
 			RR.migrated = nil
 		end
 		if not RR:Active() then

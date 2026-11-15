@@ -780,7 +780,7 @@ function K:View(card, finish, author, pattern, wear, tc, rec)
 	else
 		f.replay:SetPoint("TOPLEFT", f.by, "BOTTOMLEFT", 0, -12)
 	end
-	f.replay:SetEnabled(not (ns.Cinematic and ns.Cinematic:IsPlaying()))
+	CuratorOctoFull.SetEnabled(f.replay, not (ns.Cinematic and ns.Cinematic:IsPlaying()))
 	local e = C:Entry(card)
 	if e and e.n > 0 then
 		f.mine:SetText(string.format(L["In your album: %d"], e.n))

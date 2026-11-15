@@ -22,8 +22,6 @@ ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
 		{ 2113, 1, 7, 0, 5, 5, 1574, 6667, true }, -- Archibald Kava
 		{ 2116, 1, 7, 0, 5, 5, 1575, 6667, true }, -- Blacksmith Rand
 		{ 5738, 1, 7, 0, 5, 5, 4116, 5904, true }, -- Caged Dwarf Male
-		{ 5735, 1, 7, 0, 5, 5, 3980, 5980, true }, -- Caged Human Female
-		{ 5736, 1, 7, 0, 5, 5, 3976, 5974, true }, -- Caged Human Male
 		{ 2307, 1, 7, 0, 5, 5, 3522, 6036, true }, -- Caretaker Caice
 		{ 1547, 1, 3, 0, 5, 6, 9021, 579, false }, -- Decrepit Darkhound
 		{ 2311, 1, 7, 0, 5, 5, 3529, 6046, true }, -- Doreen Beltis
@@ -295,7 +293,6 @@ ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
 		{ 4583, 2, 7, 0, 50, 50, 2639, 6042, true }, -- Miles Dexter
 		{ 4567, 2, 7, 0, 50, 50, 2644, 6042, true }, -- Pierce Shackleton
 		{ 11835, 2, 7, 0, 50, 50, 11756, 6036, true }, -- Theodore Griffs
-		{ 16096, 2, 7, 0, 55, 55, 10747, 5961, true }, -- Steamwheedle Bruiser
 		{ 2802, 2, 7, 0, 55, 55, 10563, 6049, true }, -- Susan Tillinghast
 		{ 12943, 2, 7, 0, 55, 55, 12975, 6021, true }, -- Werg Thickblade
 		{ 10856, 2, 7, 0, 58, 58, 10212, 5949, true }, -- Argent Quartermaster Hasana

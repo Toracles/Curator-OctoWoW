@@ -616,7 +616,7 @@ function UI:ShowChoose(npc)
 		b.noAlbum = not T:CanBet(npc, r)
 		b.can = n > 0 and not b.noAlbum
 		b:SetText(string.format(("%s (%d)"), RarityName(r), n))
-		b:SetEnabled(b.can)
+		CuratorOctoFull.SetEnabled(b, b.can)
 		if b.can and not first then
 			first = r
 		end
@@ -669,14 +669,14 @@ function UI:PaintStake()
 	local it = self.stakes and self.stakes[self.si]
 	if not it then
 		ch.stake:Hide()
-		ch.go:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(ch.go, false)
 		return
 	end
 	local e = C:Entry(it.card)
 	ch.stake:SetCard(it.card, { owned = true, count = e and e.n or nil })
 	ch.stake:ShowSide("front")
 	ch.stake:Show()
-	ch.other:SetEnabled(CuratorOctoFull.Length(self.stakes) > 1)
+	CuratorOctoFull.SetEnabled(ch.other, CuratorOctoFull.Length(self.stakes) > 1)
 	local up = T:Up(r)
 	-- (1.14.0, the Gambler: High Table, the card of the rarity above twice; Small Stake, a card more that wins nothing)
 	local TL = ns.Talents
@@ -717,7 +717,7 @@ function UI:PaintStake()
 	end
 	ch.copies:SetText(text)
 	CuratorOctoFull.SetShown(ch.copy, CU ~= nil)
-	ch.go:SetEnabled(true)
+	CuratorOctoFull.SetEnabled(ch.go, true)
 end
 
 -- (1.14.0) The copies a bet of this card takes now: those chosen (still free), then the least precious, two of them.
@@ -1352,7 +1352,7 @@ function UI:PaintPicker()
 	local have = RB:Balance()
 	f.have:SetText(string.format(L["Your rubies: %s"], RB.Text(have, 12)))
 	local ok = self.pickCard ~= nil and T:CanBuy(self.pickNpc, self.pickCard)
-	f.buy:SetEnabled(ok and true or false)
+	CuratorOctoFull.SetEnabled(f.buy, ok and true or false)
 	f.buy:SetPulse(ok and true or false)
 	if have < price then
 		f.have:SetTextColor(0.62, 0.08, 0.05)

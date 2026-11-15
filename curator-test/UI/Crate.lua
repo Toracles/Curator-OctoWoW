@@ -1762,8 +1762,8 @@ function CR:PaintReal(why)
 	end
 	local ok, lack = CS:CanOpen(case)
 	local busy = self.state ~= nil and self.state ~= "case" and self.state ~= "shutting"
-	f.open:SetEnabled((ok and not busy) and true or false)
-	key:SetEnabled((not busy and lack ~= "closed" and lack ~= "case") and true or false)
+	CuratorOctoFull.SetEnabled(f.open, (ok and not busy) and true or false)
+	CuratorOctoFull.SetEnabled(key, (not busy and lack ~= "closed" and lack ~= "case") and true or false)
 	-- (under them: what was refused, else what it lacks)
 	local say = why or (not ok and lack) or nil
 	local text = say and WHY[say]

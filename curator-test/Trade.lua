@@ -1407,7 +1407,7 @@ local function Unescrow(rec)
 	end
 end
 
--- (1.14.0, later) The release of WoW Forever (Reroll.lua, RR:Migrate): what I gave in the trades I accepted, held until
+-- (1.14.0, later) The release of OctoWoW (Reroll.lua, RR:Migrate): what I gave in the trades I accepted, held until
 -- their other side confirms, back to me (the same copies), before the collection starts over: quietly (nothing told, no
 -- line of the journal: it starts empty). The trades themselves go with the rest; what came to me, waiting, too.
 function T:GiveBackAll()
@@ -1454,7 +1454,7 @@ local function Mine(id, sender, uid)
 			rec.with = sender
 			return rec
 		end
-		-- (1.13.1, WoW Forever: a first name alone, or with my realm as 1.13.0 left it: the player of that first name who
+		-- (1.13.1, OctoWoW: a first name alone, or with my realm as 1.13.0 left it: the player of that first name who
 		-- writes about this very trade, unless their collection is another one)
 		local first = G:Surnames() and ((not string.find(rec.with, "-", 1, true) and rec.with) or G:RealmForm(rec.with))
 		if first and G.Fold(first) == G.Fold(CuratorOctoFull.Match(sender, "^([^%-]+)") or "") and not (uid and rec.wuid and rec.wuid ~= uid) then
@@ -2061,7 +2061,7 @@ local function BNAPI()
 	return B
 end
 
--- The name of the character of a game account of Battle.net, as Curator names players. (1.13.1: WoW Forever:
+-- The name of the character of a game account of Battle.net, as Curator names players. (1.13.1: OctoWoW:
 -- "First-Surname", never a realm after it, Comm.lua.)
 local function BNFull(g)
 	return G:BNName(g)
@@ -2126,7 +2126,7 @@ function T:ScanBN()
 		if name and not G:IsMe(name) then
 			byName[name] = g.gameAccountID
 			byID[g.gameAccountID] = name
-			-- (1.13.1: the name 1.13.0 gave them, "First-Realm" on WoW Forever: theirs while it is theirs alone)
+			-- (1.13.1: the name 1.13.0 gave them, "First-Realm" on OctoWoW: theirs while it is theirs alone)
 			local old = OldName(g)
 			if old ~= name then
 				byOld[old] = (byOld[old] == nil or byOld[old] == g.gameAccountID) and g.gameAccountID or false
@@ -2136,7 +2136,7 @@ function T:ScanBN()
 	-- (1.12.0: a friend who comes into the game gets at once what waits for them on the wire)
 	local was = self.bnByName or {}
 	self.bnByName, self.nameByBN, self.bnByOld = byName, byID, byOld
-	-- (1.13.1: WoW Forever: the names of 1.13.0 still to make over, now that a friend may have come, Comm.lua)
+	-- (1.13.1: OctoWoW: the names of 1.13.0 still to make over, now that a friend may have come, Comm.lua)
 	if G.settled and G.realmsLeft then
 		G:FixRealms(ns.db, self:OldBNNames())
 	end
@@ -2159,7 +2159,7 @@ function T:BNTarget(name)
 	if id or type(name) ~= "string" or not G:Surnames() then
 		return id
 	end
-	-- (1.13.1, WoW Forever: the name 1.13.0 gave a friend playing now, "First-Realm": that friend, theirs alone)
+	-- (1.13.1, OctoWoW: the name 1.13.0 gave a friend playing now, "First-Realm": that friend, theirs alone)
 	if G:RealmForm(name) then
 		local old = self.bnByOld and self.bnByOld[name]
 		return old or nil

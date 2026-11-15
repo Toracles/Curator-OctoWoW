@@ -128,7 +128,7 @@ ns.On("PACK_EARNED", function(s, n, reason, _, chest)
 	elseif reason == "welcome" then
 		-- (1.12.0, later: the gift of welcome, once in the event)
 		title = string.format(L["A gift for Hallow's End: %d boosters!"], n)
-		line = L["The beta of WoW Forever ends on October 21: open them while it lasts."]
+		line = string.format(L["Boosters: %d"], ns.Packs(s))
 	else
 		title = n > 1 and string.format(L["Bonus: %d boosters of Hallow's End!"], n) or L["Bonus: a booster of Hallow's End!"]
 		line = string.format(L["One for every %d boosters earned while it lasts."], H and H.BONUS_EVERY or 3)

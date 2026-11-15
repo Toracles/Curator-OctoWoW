@@ -216,7 +216,6 @@ ns.Series[CuratorOctoFull.Length(ns.Series) + 1] = {
 		{ 14912, 2, 7, 0, 60, 60, 11221, 5940, true }, -- Captured Hakkari Zealot
 		{ 2464, 2, 7, 0, 60, 60, 1735, 6018, true }, -- Commander Aggro'gosh
 		{ 14910, 2, 7, 0, 60, 60, 15003, 5946, true }, -- Exzhal
-		{ 17249, 2, 7, 0, 60, 60, 16941, 0, false }, -- Landro
 		{ 14875, 2, 7, 0, 60, 60, 14993, 5946, true }, -- Molthor
 		{ 15080, 2, 7, 0, 60, 60, 15210, 5943, true }, -- Servant of the Hand
 		{ 14911, 2, 7, 0, 60, 60, 15004, 5940, true }, -- Zandalar Enforcer

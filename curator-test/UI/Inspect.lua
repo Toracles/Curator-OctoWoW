@@ -553,7 +553,7 @@ function B:PaintInspect(pick)
 	f.link:SetPoint("TOPLEFT", new and f.new or f.copies, "BOTTOMLEFT", -2, -16)
 	-- (1.13.0: a card of a picture, the Hardcup Saison 3, has no entrance to play again)
 	CuratorOctoFull.SetShown(f.replay, card.rarity >= 5 and not (card.art and card.art.fill))
-	f.replay:SetEnabled(not (ns.Cinematic and ns.Cinematic:IsPlaying()))
+	CuratorOctoFull.SetEnabled(f.replay, not (ns.Cinematic and ns.Cinematic:IsPlaying()))
 	o.halo:SetVertexColor(r.glow[1], r.glow[2], r.glow[3])
 	o.rays:SetVertexColor(r.glow[1], r.glow[2], r.glow[3])
 end

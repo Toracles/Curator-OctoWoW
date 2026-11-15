@@ -661,7 +661,7 @@ function O:Paint()
 	local k = self:AlbumScale()
 	p.scale:SetValue(math.floor(k * 100 + 0.5))
 	p.scaleValue:SetText(string.format(("%d%%"), math.floor(k * 100 + 0.5)))
-	p.scaleReset:SetEnabled(math.abs(k - 1) > 0.001)
+	CuratorOctoFull.SetEnabled(p.scaleReset, math.abs(k - 1) > 0.001)
 	for _, c in ipairs(p.checks) do
 		c:SetChecked(c.sw.get() and true or false)
 	end
@@ -677,7 +677,7 @@ function O:Paint()
 		local on = not ns.db.barHide
 		for _, w in ipairs({ p.barScale, p.barArt, p.barLights }) do
 			if w.SetEnabled then
-				w:SetEnabled(on)
+				CuratorOctoFull.SetEnabled(w, on)
 			end
 		end
 		local g = on and 1 or 0.5
@@ -693,7 +693,7 @@ function O:Paint()
 		local on = ns.db.live ~= false
 		p.liveEpic:SetChecked(ns.db.liveEpic and true or false)
 		if p.liveEpic.SetEnabled then
-			p.liveEpic:SetEnabled(on)
+			CuratorOctoFull.SetEnabled(p.liveEpic, on)
 		end
 		if p.liveEpic.Text then
 			p.liveEpic.Text:SetTextColor(on and 1 or 0.5, on and 0.82 or 0.5, on and 0 or 0.5)

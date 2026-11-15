@@ -15,8 +15,8 @@ local function Add(locale, words)
 end
 
 Add("frFR", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever est là ! Curator recommence pour tout le monde : tes cartes de la Sanssaint et de la Hardcup restent, avec les boosters de la Sanssaint que tu n'avais pas encore ouverts, et tes hauts faits Bêta testeur, Pionnier et Survivant de la Hardcup si tu les as. Tout le reste repart de zéro, ton niveau de collectionneur et le classement du site avec lui.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW est là ! Curator recommence pour tout le monde : tes cartes de la Sanssaint et de la Hardcup restent, avec les boosters de la Sanssaint que tu n'avais pas encore ouverts, et tes hauts faits Bêta testeur, Pionnier et Survivant de la Hardcup si tu les as. Tout le reste repart de zéro, ton niveau de collectionneur et le classement du site avec lui.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"Ton personnage principal : %s. Il gagne tout dès le niveau 1. Tes autres personnages sont des rerolls : jusqu'au niveau %d, ils gagnent un quart de tout, gardé dans leur coffre (/curator principal pour changer de personnage principal).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -29,8 +29,8 @@ Add("frFR", {
 	["Make it my main"] = "En faire mon personnage principal",
 	["Confirm: my main"] = "Confirmer : mon personnage principal",
 	["Your main changes once a month at most: again in %s."] = "Ton personnage principal change une fois par mois au plus : à nouveau dans %s.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"Le personnage principal et les rerolls arrivent avec la sortie de WoW Forever. D'ici là, chaque personnage gagne tout.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"Le personnage principal et les rerolls arrivent avec la sortie de OctoWoW. D'ici là, chaque personnage gagne tout.",
 	["%s is your main character: it earns everything from level 1."] = "%s est ton personnage principal : il gagne tout dès le niveau 1.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"Tes autres personnages sous le niveau %d sont des rerolls : un quart de tout, gardé dans leur coffre jusqu'au niveau %d.",
@@ -44,7 +44,7 @@ Add("frFR", {
 	["and %d more albums"] = "et %d autres albums",
 	["Cards found: %d"] = "Cartes trouvées : %d",
 	["Collector experience: %s XP"] = "Expérience de collectionneur : %s XP",
-	["The chests of the rerolls come with the release of WoW Forever."] = "Les coffres des rerolls arrivent avec la sortie de WoW Forever.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "Les coffres des rerolls arrivent avec la sortie de OctoWoW.",
 	["This character has no chest: it earns everything as it comes."] = "Ce personnage n'a pas de coffre : il gagne tout au fur et à mesure.",
 	["The chest of %s"] = "Le coffre de %s",
 	["Opens at level %d"] = "S'ouvre au niveau %d",
@@ -61,8 +61,8 @@ Add("frFR", {
 })
 
 Add("deDE", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever ist da! Curator beginnt für alle von vorn: Deine Karten der Schlotternächte und der Hardcup bleiben, mit den Boostern der Schlotternächte, die du noch nicht geöffnet hattest, und deinen Erfolgen Betatester, Pionier und Hardcup-Überlebender, falls du sie hast. Alles andere beginnt wieder bei null, deine Sammlerstufe und die Rangliste der Website mit ihr.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW ist da! Curator beginnt für alle von vorn: Deine Karten der Schlotternächte und der Hardcup bleiben, mit den Boostern der Schlotternächte, die du noch nicht geöffnet hattest, und deinen Erfolgen Betatester, Pionier und Hardcup-Überlebender, falls du sie hast. Alles andere beginnt wieder bei null, deine Sammlerstufe und die Rangliste der Website mit ihr.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"Dein Hauptcharakter: %s. Er erhält alles ab Stufe 1. Deine anderen Charaktere sind Nebencharaktere: bis Stufe %d erhalten sie ein Viertel von allem, aufbewahrt in ihrer Truhe (/curator main, um den Hauptcharakter zu wechseln).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -75,8 +75,8 @@ Add("deDE", {
 	["Make it my main"] = "Zum Hauptcharakter machen",
 	["Confirm: my main"] = "Bestätigen: mein Hauptcharakter",
 	["Your main changes once a month at most: again in %s."] = "Dein Hauptcharakter wechselt höchstens einmal im Monat: wieder in %s.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"Hauptcharakter und Nebencharaktere kommen mit dem Start von WoW Forever. Bis dahin erhält jeder Charakter alles.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"Hauptcharakter und Nebencharaktere kommen mit dem Start von OctoWoW. Bis dahin erhält jeder Charakter alles.",
 	["%s is your main character: it earns everything from level 1."] = "%s ist dein Hauptcharakter: Er erhält alles ab Stufe 1.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"Deine anderen Charaktere unter Stufe %d sind Nebencharaktere: ein Viertel von allem, aufbewahrt in ihrer Truhe bis Stufe %d.",
@@ -90,7 +90,7 @@ Add("deDE", {
 	["and %d more albums"] = "und %d weitere Alben",
 	["Cards found: %d"] = "Gefundene Karten: %d",
 	["Collector experience: %s XP"] = "Sammlererfahrung: %s EP",
-	["The chests of the rerolls come with the release of WoW Forever."] = "Die Truhen der Nebencharaktere kommen mit dem Start von WoW Forever.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "Die Truhen der Nebencharaktere kommen mit dem Start von OctoWoW.",
 	["This character has no chest: it earns everything as it comes."] = "Dieser Charakter hat keine Truhe: Er erhält alles sofort.",
 	["The chest of %s"] = "Die Truhe von %s",
 	["Opens at level %d"] = "Öffnet sich auf Stufe %d",
@@ -107,8 +107,8 @@ Add("deDE", {
 })
 
 local ES = {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"¡WoW Forever ya está aquí! Curator vuelve a empezar para todos: tus cartas de Halloween y de la Hardcup se quedan, con los sobres de Halloween que aún no habías abierto, y tus logros Probador de la beta, Pionero y Superviviente de la Hardcup si los tienes. Todo lo demás vuelve a empezar de cero, tu nivel de coleccionista y la clasificación de la web con él.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"¡OctoWoW ya está aquí! Curator vuelve a empezar para todos: tus cartas de Halloween y de la Hardcup se quedan, con los sobres de Halloween que aún no habías abierto, y tus logros Probador de la beta, Pionero y Superviviente de la Hardcup si los tienes. Todo lo demás vuelve a empezar de cero, tu nivel de coleccionista y la clasificación de la web con él.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"Tu personaje principal: %s. Lo gana todo desde el nivel 1. Tus otros personajes son secundarios: hasta el nivel %d ganan una cuarta parte de todo, guardada en su cofre (/curator main para cambiar de personaje principal).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -121,8 +121,8 @@ local ES = {
 	["Make it my main"] = "Hacerlo mi personaje principal",
 	["Confirm: my main"] = "Confirmar: mi personaje principal",
 	["Your main changes once a month at most: again in %s."] = "Tu personaje principal cambia una vez al mes como máximo: de nuevo en %s.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"El personaje principal y los secundarios llegan con el lanzamiento de WoW Forever. Hasta entonces, cada personaje lo gana todo.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"El personaje principal y los secundarios llegan con el lanzamiento de OctoWoW. Hasta entonces, cada personaje lo gana todo.",
 	["%s is your main character: it earns everything from level 1."] = "%s es tu personaje principal: lo gana todo desde el nivel 1.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"Tus otros personajes por debajo del nivel %d son secundarios: una cuarta parte de todo, guardada en su cofre hasta el nivel %d.",
@@ -136,7 +136,7 @@ local ES = {
 	["and %d more albums"] = "y %d álbumes más",
 	["Cards found: %d"] = "Cartas encontradas: %d",
 	["Collector experience: %s XP"] = "Experiencia de coleccionista: %s PE",
-	["The chests of the rerolls come with the release of WoW Forever."] = "Los cofres de los secundarios llegan con el lanzamiento de WoW Forever.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "Los cofres de los secundarios llegan con el lanzamiento de OctoWoW.",
 	["This character has no chest: it earns everything as it comes."] = "Este personaje no tiene cofre: lo gana todo a medida que llega.",
 	["The chest of %s"] = "El cofre de %s",
 	["Opens at level %d"] = "Se abre al nivel %d",
@@ -155,8 +155,8 @@ Add("esES", ES)
 Add("esMX", ES)
 
 Add("ptBR", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever chegou! O Curator recomeça para todos: suas cartas da Noturnália e da Hardcup ficam, com os pacotes da Noturnália que você ainda não tinha aberto, e suas conquistas Testador da beta, Pioneiro e Sobrevivente da Hardcup, se você as tiver. Todo o resto recomeça do zero, seu nível de colecionador e a classificação do site com ele.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW chegou! O Curator recomeça para todos: suas cartas da Noturnália e da Hardcup ficam, com os pacotes da Noturnália que você ainda não tinha aberto, e suas conquistas Testador da beta, Pioneiro e Sobrevivente da Hardcup, se você as tiver. Todo o resto recomeça do zero, seu nível de colecionador e a classificação do site com ele.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"Seu personagem principal: %s. Ele ganha tudo desde o nível 1. Seus outros personagens são secundários: até o nível %d eles ganham um quarto de tudo, guardado no baú deles (/curator main para trocar de personagem principal).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -169,8 +169,8 @@ Add("ptBR", {
 	["Make it my main"] = "Tornar meu personagem principal",
 	["Confirm: my main"] = "Confirmar: meu personagem principal",
 	["Your main changes once a month at most: again in %s."] = "Seu personagem principal muda no máximo uma vez por mês: de novo em %s.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"O personagem principal e os secundários chegam com o lançamento de WoW Forever. Até lá, cada personagem ganha tudo.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"O personagem principal e os secundários chegam com o lançamento de OctoWoW. Até lá, cada personagem ganha tudo.",
 	["%s is your main character: it earns everything from level 1."] = "%s é seu personagem principal: ele ganha tudo desde o nível 1.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"Seus outros personagens abaixo do nível %d são secundários: um quarto de tudo, guardado no baú deles até o nível %d.",
@@ -184,7 +184,7 @@ Add("ptBR", {
 	["and %d more albums"] = "e mais %d álbuns",
 	["Cards found: %d"] = "Cartas encontradas: %d",
 	["Collector experience: %s XP"] = "Experiência de colecionador: %s XP",
-	["The chests of the rerolls come with the release of WoW Forever."] = "Os baús dos secundários chegam com o lançamento de WoW Forever.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "Os baús dos secundários chegam com o lançamento de OctoWoW.",
 	["This character has no chest: it earns everything as it comes."] = "Este personagem não tem baú: ele ganha tudo na hora.",
 	["The chest of %s"] = "O baú de %s",
 	["Opens at level %d"] = "Abre no nível %d",
@@ -201,8 +201,8 @@ Add("ptBR", {
 })
 
 Add("ruRU", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever уже здесь! Curator начинается заново для всех: твои карты Тыквовина и Hardcup остаются, вместе с бустерами Тыквовина, которые ты ещё не открыл, и твоими достижениями «Бета-тестер», «Первопроходец» и «Выживший в Hardcup», если они у тебя есть. Всё остальное начинается с нуля, твой уровень коллекционера и таблица лидеров сайта вместе с ним.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW уже здесь! Curator начинается заново для всех: твои карты Тыквовина и Hardcup остаются, вместе с бустерами Тыквовина, которые ты ещё не открыл, и твоими достижениями «Бета-тестер», «Первопроходец» и «Выживший в Hardcup», если они у тебя есть. Всё остальное начинается с нуля, твой уровень коллекционера и таблица лидеров сайта вместе с ним.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"Твой основной персонаж: %s. Он получает все с 1 уровня. Твои другие персонажи твинки: до %d уровня они получают четверть всего, и она хранится в их сундуке (/curator main, чтобы сменить основного персонажа).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -215,8 +215,8 @@ Add("ruRU", {
 	["Make it my main"] = "Сделать основным",
 	["Confirm: my main"] = "Подтвердить: мой основной",
 	["Your main changes once a month at most: again in %s."] = "Основной персонаж меняется не чаще раза в месяц: снова через %s.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"Основной персонаж и твинки появятся с выходом WoW Forever. До тех пор каждый персонаж получает все.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"Основной персонаж и твинки появятся с выходом OctoWoW. До тех пор каждый персонаж получает все.",
 	["%s is your main character: it earns everything from level 1."] = "%s твой основной персонаж: он получает все с 1 уровня.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"Твои другие персонажи ниже %d уровня твинки: четверть всего, которая хранится в их сундуке до %d уровня.",
@@ -230,7 +230,7 @@ Add("ruRU", {
 	["and %d more albums"] = "и еще альбомов: %d",
 	["Cards found: %d"] = "Найдено карт: %d",
 	["Collector experience: %s XP"] = "Опыт коллекционера: %s",
-	["The chests of the rerolls come with the release of WoW Forever."] = "Сундуки твинков появятся с выходом WoW Forever.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "Сундуки твинков появятся с выходом OctoWoW.",
 	["This character has no chest: it earns everything as it comes."] = "У этого персонажа нет сундука: он получает все сразу.",
 	["The chest of %s"] = "Сундук: %s",
 	["Opens at level %d"] = "Откроется на %d уровне",
@@ -247,8 +247,8 @@ Add("ruRU", {
 })
 
 Add("koKR", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever가 시작되었습니다! Curator는 모두에게 처음부터 다시 시작됩니다: 할로윈 축제와 하드컵 카드는 남고, 아직 열지 않은 할로윈 축제 부스터와, 가지고 있다면 베타 테스터, 개척자, 하드컵 생존자 업적도 남습니다. 나머지는 모두 0부터 다시 시작되며, 수집가 레벨과 웹사이트 순위표도 함께 초기화됩니다.",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW가 시작되었습니다! Curator는 모두에게 처음부터 다시 시작됩니다: 할로윈 축제와 하드컵 카드는 남고, 아직 열지 않은 할로윈 축제 부스터와, 가지고 있다면 베타 테스터, 개척자, 하드컵 생존자 업적도 남습니다. 나머지는 모두 0부터 다시 시작되며, 수집가 레벨과 웹사이트 순위표도 함께 초기화됩니다.",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"주 캐릭터: %s. 1레벨부터 모든 것을 얻습니다. 다른 캐릭터는 부캐릭터입니다: %d레벨까지 모든 것의 4분의 1을 얻고, 그것은 상자에 보관됩니다 (/curator main 으로 주 캐릭터 변경).",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -261,8 +261,8 @@ Add("koKR", {
 	["Make it my main"] = "주 캐릭터로 지정",
 	["Confirm: my main"] = "확인: 내 주 캐릭터",
 	["Your main changes once a month at most: again in %s."] = "주 캐릭터는 한 달에 한 번만 바꿀 수 있습니다: %s 후에 다시 가능.",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"주 캐릭터와 부캐릭터는 WoW Forever 출시와 함께 시작됩니다. 그때까지는 모든 캐릭터가 모든 것을 얻습니다.",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"주 캐릭터와 부캐릭터는 OctoWoW 출시와 함께 시작됩니다. 그때까지는 모든 캐릭터가 모든 것을 얻습니다.",
 	["%s is your main character: it earns everything from level 1."] = "%s 캐릭터가 주 캐릭터입니다: 1레벨부터 모든 것을 얻습니다.",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"%d레벨 미만의 다른 캐릭터는 부캐릭터입니다: 모든 것의 4분의 1을 얻고, %d레벨까지 상자에 보관됩니다.",
@@ -276,7 +276,7 @@ Add("koKR", {
 	["and %d more albums"] = "외 앨범 %d개",
 	["Cards found: %d"] = "발견한 카드: %d",
 	["Collector experience: %s XP"] = "수집가 경험치: %s",
-	["The chests of the rerolls come with the release of WoW Forever."] = "부캐릭터의 상자는 WoW Forever 출시와 함께 시작됩니다.",
+	["The chests of the rerolls come with the release of OctoWoW."] = "부캐릭터의 상자는 OctoWoW 출시와 함께 시작됩니다.",
 	["This character has no chest: it earns everything as it comes."] = "이 캐릭터는 상자가 없습니다: 얻는 즉시 모든 것을 받습니다.",
 	["The chest of %s"] = "%s의 상자",
 	["Opens at level %d"] = "%d레벨에 열림",
@@ -293,8 +293,8 @@ Add("koKR", {
 })
 
 Add("zhCN", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever 来了！Curator 为所有人重新开始：你的万圣节和 Hardcup 卡牌保留，还有你尚未打开的万圣节补充包，以及你拥有的内测玩家、先驱者和 Hardcup 幸存者成就。其他一切从零开始，你的收藏家等级和网站的排行榜也随之重置。",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW 来了！Curator 为所有人重新开始：你的万圣节和 Hardcup 卡牌保留，还有你尚未打开的万圣节补充包，以及你拥有的内测玩家、先驱者和 Hardcup 幸存者成就。其他一切从零开始，你的收藏家等级和网站的排行榜也随之重置。",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"你的主角色：%s。它从 1 级起获得全部奖励。你的其他角色是小号：在 %d 级之前，它们获得一切的四分之一，保存在各自的宝箱中（/curator main 可更换主角色）。",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -307,8 +307,8 @@ Add("zhCN", {
 	["Make it my main"] = "设为主角色",
 	["Confirm: my main"] = "确认：设为主角色",
 	["Your main changes once a month at most: again in %s."] = "主角色每月最多更换一次：%s 后可再次更换。",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"主角色和小号的规则将随 WoW Forever 上线而开启。在此之前，每个角色都获得全部奖励。",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"主角色和小号的规则将随 OctoWoW 上线而开启。在此之前，每个角色都获得全部奖励。",
 	["%s is your main character: it earns everything from level 1."] = "%s 是你的主角色：从 1 级起获得全部奖励。",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"低于 %d 级的其他角色是小号：获得一切的四分之一，保存在宝箱中直到 %d 级。",
@@ -322,7 +322,7 @@ Add("zhCN", {
 	["and %d more albums"] = "以及另外 %d 本收藏册",
 	["Cards found: %d"] = "找到的卡牌：%d",
 	["Collector experience: %s XP"] = "收藏家经验：%s",
-	["The chests of the rerolls come with the release of WoW Forever."] = "小号的宝箱将随 WoW Forever 上线而开启。",
+	["The chests of the rerolls come with the release of OctoWoW."] = "小号的宝箱将随 OctoWoW 上线而开启。",
 	["This character has no chest: it earns everything as it comes."] = "这个角色没有宝箱：获得的一切即时到账。",
 	["The chest of %s"] = "%s 的宝箱",
 	["Opens at level %d"] = "%d 级时打开",
@@ -339,8 +339,8 @@ Add("zhCN", {
 })
 
 Add("zhTW", {
-	["WoW Forever is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
-		"WoW Forever 來了！Curator 為所有人重新開始：你的萬鬼節和 Hardcup 卡牌保留，還有你尚未打開的萬鬼節補充包，以及你擁有的封測玩家、先驅者和 Hardcup 倖存者成就。其他一切從零開始，你的收藏家等級和網站的排行榜也隨之重置。",
+	["OctoWoW is here! Curator starts over for everyone: your Hallow's End and Hardcup cards stay, with the Hallow's End boosters you had not opened yet, and your achievements Beta tester, Pioneer and Hardcup Survivor if you have them. Everything else starts again from zero, your collector level and the leaderboard of the website with it."] =
+		"OctoWoW 來了！Curator 為所有人重新開始：你的萬鬼節和 Hardcup 卡牌保留，還有你尚未打開的萬鬼節補充包，以及你擁有的封測玩家、先驅者和 Hardcup 倖存者成就。其他一切從零開始，你的收藏家等級和網站的排行榜也隨之重置。",
 	["Your main character: %s. It earns everything from level 1. Your other characters are rerolls: until level %d they earn a quarter of everything, kept in their chest (/curator main to change your main)."] =
 		"你的主角色：%s。它從 1 級起獲得全部獎勵。你的其他角色是分身：在 %d 級之前，它們獲得一切的四分之一，保存在各自的寶箱中（/curator main 可更換主角色）。",
 	["This character is a reroll: until level %d it earns a quarter of everything, kept in its chest (%d boosters, %d cards so far). /curator chest"] =
@@ -353,8 +353,8 @@ Add("zhTW", {
 	["Make it my main"] = "設為主角色",
 	["Confirm: my main"] = "確認：設為主角色",
 	["Your main changes once a month at most: again in %s."] = "主角色每月最多更換一次：%s 後可再次更換。",
-	["The main character and the rerolls come with the release of WoW Forever. Until then, every character earns everything."] =
-		"主角色和分身的規則將隨 WoW Forever 上線而開啟。在此之前，每個角色都獲得全部獎勵。",
+	["The main character and the rerolls come with the release of OctoWoW. Until then, every character earns everything."] =
+		"主角色和分身的規則將隨 OctoWoW 上線而開啟。在此之前，每個角色都獲得全部獎勵。",
 	["%s is your main character: it earns everything from level 1."] = "%s 是你的主角色：從 1 級起獲得全部獎勵。",
 	["Your other characters under level %d are rerolls: a quarter of everything, kept in their chest until level %d."] =
 		"低於 %d 級的其他角色是分身：獲得一切的四分之一，保存在寶箱中直到 %d 級。",
@@ -368,7 +368,7 @@ Add("zhTW", {
 	["and %d more albums"] = "以及另外 %d 本收藏冊",
 	["Cards found: %d"] = "找到的卡牌：%d",
 	["Collector experience: %s XP"] = "收藏家經驗：%s",
-	["The chests of the rerolls come with the release of WoW Forever."] = "分身的寶箱將隨 WoW Forever 上線而開啟。",
+	["The chests of the rerolls come with the release of OctoWoW."] = "分身的寶箱將隨 OctoWoW 上線而開啟。",
 	["This character has no chest: it earns everything as it comes."] = "這個角色沒有寶箱：獲得的一切即時到帳。",
 	["The chest of %s"] = "%s 的寶箱",
 	["Opens at level %d"] = "%d 級時打開",

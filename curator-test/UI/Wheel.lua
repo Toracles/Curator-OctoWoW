@@ -317,11 +317,11 @@ function WU:Paint()
 		f.say:SetText(L["\"Step right up, step right up! Once a day, the wheel of the Faire for you.\""])
 	end
 	if self.anim then
-		f.spin:SetEnabled(false)
+		CuratorOctoFull.SetEnabled(f.spin, false)
 		f.spin:SetPulse(false)
 		return
 	end
-	f.spin:SetEnabled(ready)
+	CuratorOctoFull.SetEnabled(f.spin, ready)
 	f.spin:SetPulse(ready)
 	if ready then
 		f.spin:SetLabel(L["Spin the wheel"])
