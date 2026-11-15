@@ -244,8 +244,13 @@ def apply(root: Path):
         background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -12, 11)
         CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
         local title = S.Text(f, "GameFontNormal")'''),
-        "Core.lua": lambda text: replace(text, "barAt = true, barHide = true }",
-                                         "barAt = true, barHide = true, barWidth = true }"),
+        "Core.lua": lambda text: replace(replace(text, "barAt = true, barHide = true }",
+            "barAt = true, barHide = true, barWidth = true }"),
+            '\telseif cmd == "boosters" or cmd == "booster"',
+            '\telseif cmd == "catchup" or cmd == "rattrapage" then\n\t\tns.Rewards:CatchUp(arg)\n'
+            '\telseif cmd == "boosters" or cmd == "booster"'),
+        "Rewards.lua": lambda text: replace(text, 'R:Add(R:WorldSeries(), POINTS.level, "level")',
+                                               'R:OctoLevelUp((unpack(arg, 1, arg.n)))'),
         "Achievements.lua": lambda text: re.sub(
             r'Def\(\{ id = "(beta|pioneer|hardcup)",[^\n]+\n[^\n]+\n[^\n]+\}\)',
             r'Def({ id = "\1", gone = true })', text, count=3).replace(

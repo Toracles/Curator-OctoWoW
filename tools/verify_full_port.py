@@ -577,3 +577,47 @@ ns.Rubies.Ledger = ledger
 shop:Hide()
 """)
 print("Ruby ledger: opaque background and valid elapsed times verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local rewards = ns.Rewards
+local character = rewards:Char()
+local baseLevel, baseMap, baseExploration = UnitLevel, C_Map, C_MapExplorationInfo
+UnitLevel = function() return 37 end
+zone = "Balor"
+local log = {}
+local add, fill = rewards.Add, rewards.Fill
+rewards.Fill = function(_, series, points, reason, daily, account)
+    table.insert(log, { series, points, reason, daily, account })
+end
+character.octoPlaces = { ["Windrock Cliffs"] = true }
+rewards:OctoLevelUp(37)
+assert(table.getn(log) == 1 and log[1][2] == 40)
+rewards:OctoLevelUp(37)
+assert(table.getn(log) == 1)
+C_Map = { GetAreaInfo = function(id)
+    return ({ [101] = "windrock cliffs", [102] = "Other Balor location", [103] = "Shared feature" })[id]
+end }
+C_MapExplorationInfo = { GetExploredMapTextures = function(id)
+    if id ~= 5561 then return {} end
+    return { { areaID = 101, areaIDs = {101} }, { areaID = 102, areaIDs = {102} },
+        { areaID = 102, areaIDs = {102} }, { areaID = 103, areaIDs = {103, 104} } }
+end }
+SlashCmdList.CURATOR("rattrapage 30")
+assert(table.getn(log) == 3)
+assert(log[2][1] == nil and log[2][2] == 240 and log[2][5] == true)
+assert(log[3][1].key == "balor" and log[3][2] == 10 and rewards:Visited(log[3][1]))
+SlashCmdList.CURATOR("rattrapage")
+assert(traceEvent("CHAT_MSG_SYSTEM", "Discovered: Other Balor location") == "")
+assert(table.getn(log) == 3)
+rewards.Add, rewards.Fill = add, fill
+ns.db.bar = 0
+local offers = ns.Level:OfferCount()
+UnitLevel = function() return 40 end
+SlashCmdList.CURATOR("rattrapage")
+assert(ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
+SlashCmdList.CURATOR("rattrapage")
+assert(ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
+UnitLevel, C_Map, C_MapExplorationInfo = baseLevel, baseMap, baseExploration
+""")
+print("Catch-up: level cutoff, officially explored areas and duplicate prevention verified")

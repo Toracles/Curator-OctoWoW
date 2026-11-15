@@ -1415,6 +1415,8 @@ SlashCmdList.CURATOR = function(msg)
 				end
 			end
 		end
+	elseif cmd == "catchup" or cmd == "rattrapage" then
+		ns.Rewards:CatchUp(arg)
 	elseif cmd == "boosters" or cmd == "booster" or cmd == "tirage" or cmd == "tirages" then
 		ns.Album:ShowBoosters()
 	elseif cmd == "compact" or cmd == "small" or cmd == "window" or cmd == "petit" or cmd == "reduit" or cmd == "réduit"

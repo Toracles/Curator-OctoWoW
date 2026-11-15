@@ -1153,7 +1153,7 @@ CuratorOctoFull.SetScript(f, "OnEvent", function(_, event, ...)
 		if ns.Reroll then
 			ns.Reroll:OnLevel((unpack(arg, 1, arg.n)))
 		end
-		R:Add(R:WorldSeries(), POINTS.level, "level")
+		R:OctoLevelUp((unpack(arg, 1, arg.n)))
 		ns.Fire("ACTIVITY", "level", 1)
 	else
 		-- a new place (zone, sub-zone, instance)
