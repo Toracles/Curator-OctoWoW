@@ -94,7 +94,8 @@ if "Data\\OctoAlbums.lua" not in toc:
     toc = toc.replace("Guard.lua\n", "Data\\OctoAlbums.lua\nGuard.lua\n", 1)
 if "OctoZones.lua" not in toc:
     toc = toc.replace("Rewards.lua\n", "Rewards.lua\nOctoZones.lua\n", 1)
-(WORK / "OctoZones.lua").write_bytes((ROOT / "full-port" / "OctoZones.lua").read_bytes())
+octo_sources = (ROOT / "full-port" / name for name in ("OctoZones.lua", "CatchUpPanel.lua"))
+(WORK / "OctoZones.lua").write_bytes(b"\n".join(path.read_bytes() for path in octo_sources))
 toc_path.write_text(toc, encoding="utf8")
 print(f"Added {sum(map(len, groups.values()))} cards over {len(groups)} OctoWoW albums "
       f"({with_display} with a display ID); filtered {removed} unmatched classic cards")

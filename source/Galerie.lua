@@ -2,6 +2,14 @@ local folder = "Interface\\AddOns\\CuratorOctoGalerie\\"
 local album = 1
 local page = 1
 local columns, slots = 4, 8
+local labels = {
+    enUS = { "Previous album", "Next album", "Previous page", "Next page", "Page %d / %d" },
+    frFR = { "Album précédent", "Album suivant", "Page précédente", "Page suivante", "Page %d / %d" },
+}
+local function language()
+    return labels[CuratorOctoGalleryLanguage] and CuratorOctoGalleryLanguage
+        or (GetLocale() == "frFR" and "frFR" or "enUS")
+end
 local frame = CreateFrame("Frame", "CuratorOctoGalerieFrame", UIParent)
 frame:SetWidth(785)
 frame:SetHeight(640)
@@ -28,6 +36,7 @@ pageText:SetPoint("BOTTOM", frame, "BOTTOM", 0, 24)
 local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -7, -7)
 local textures = {}
+local buttons = {}
 for i = 1, slots do
     local icon = frame:CreateTexture(nil, "ARTWORK")
     icon:SetWidth(183)
@@ -40,12 +49,15 @@ end
 local function refresh()
     local group = CuratorOctoGallery[album]
     local pages = math.ceil(table.getn(group.cards) / slots)
+    local locale = language()
+    local artwork = locale == "frFR" and "Cartes\\" or "Cartes-en\\"
     title:SetText(group.name)
-    pageText:SetText(page .. " / " .. pages)
+    pageText:SetText(string.format(labels[locale][5], page, pages))
+    for i, control in ipairs(buttons) do control:SetText(labels[locale][i]) end
     for i = 1, slots do
         local card = group.cards[(page - 1) * slots + i]
         if card then
-            textures[i]:SetTexture(folder .. "Cartes\\" .. group.path .. "\\" .. card .. ".tga")
+            textures[i]:SetTexture(folder .. artwork .. group.path .. "\\" .. card .. ".tga")
             textures[i]:Show()
         else
             textures[i]:Hide()
@@ -53,33 +65,43 @@ local function refresh()
     end
 end
 
-local function button(label, x, action)
+local function button(x, action)
     local control = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
     control:SetWidth(125)
     control:SetHeight(24)
     control:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", x, 16)
-    control:SetText(label)
     control:SetScript("OnClick", action)
+    table.insert(buttons, control)
 end
-button("Album precedent", 18, function()
+button(18, function()
     album = math.mod(album + table.getn(CuratorOctoGallery) - 2, table.getn(CuratorOctoGallery)) + 1
     page = 1
     refresh()
 end)
-button("Album suivant", 149, function()
+button(149, function()
     album = math.mod(album, table.getn(CuratorOctoGallery)) + 1
     page = 1
     refresh()
 end)
-button("Page precedente", 514, function()
+button(514, function()
     page = math.max(1, page - 1)
     refresh()
 end)
-button("Page suivante", 645, function()
+button(645, function()
     page = math.min(page + 1, math.ceil(table.getn(CuratorOctoGallery[album].cards) / slots))
     refresh()
 end)
+local toggle = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+toggle:SetWidth(110)
+toggle:SetHeight(22)
+toggle:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -17)
+toggle:SetText("English / Français")
+toggle:SetScript("OnClick", function()
+    CuratorOctoGalleryLanguage = language() == "frFR" and "enUS" or "frFR"
+    refresh()
+end)
 SLASH_CURATOROCTOGALERIE1 = "/curatorgalerie"
+SLASH_CURATOROCTOGALERIE2 = "/curatorgallery"
 SlashCmdList["CURATOROCTOGALERIE"] = function()
     if frame:IsShown() then frame:Hide() else refresh(); frame:Show() end
 end

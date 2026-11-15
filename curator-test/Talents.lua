@@ -1681,7 +1681,7 @@ function TL:BlackMarket()
 	if not card or not Missing(card) then
 		return nil
 	end
-	return card, tonumber(bm.p) or 0
+	return card, ns.Rubies.LocalPrice(tonumber(bm.p) or 0)
 end
 
 -- Used: a card drawn among those the collection misses, rare or epic, of the albums the reseller sells. The card, or
@@ -1736,7 +1736,7 @@ end
 -- false and why ("ready", "card", "here", "rubies").
 function TL:OrderPrice(card)
 	local RV = ns.Reseller
-	return card and RV and RV.PRICE[card.rarity] or 0
+	return ns.Rubies.LocalPrice(card and RV and RV.PRICE[card.rarity] or 0)
 end
 
 function TL:CanOrder(card)

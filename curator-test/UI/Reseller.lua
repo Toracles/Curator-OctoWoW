@@ -1123,7 +1123,7 @@ function RUI:PaintCounter()
 			r.name:SetText(C:Name(c) .. fin)
 			r.name:SetTextColor(rr[1], rr[2], rr[3])
 			local armed = r.armed and GetTime() - r.armed < ARM
-			r.sub:SetText(armed and L["Click again to confirm."] or string.format(L["%s · %s left"], RB.Text(x.p, 11), ns.Duration(RV.PAWN_TIME - (now - (tonumber(x.t) or 0)))))
+			r.sub:SetText(armed and L["Click again to confirm."] or string.format(L["%s · %s left"], RB.Text(RV:BuyBackPrice(x), 11), ns.Duration(RV.PAWN_TIME - (now - (tonumber(x.t) or 0)))))
 		end
 	end
 end
@@ -1267,7 +1267,7 @@ function RUI:PawnTooltip(r)
 	GameTooltip:SetOwner(r, "ANCHOR_RIGHT")
 	ns.Booster:CardTooltip(card, x.f)
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddLine(string.format(L["Buy it back: %s"], RB.Text(x.p, 13)), 1, 0.82, 0.25)
+	GameTooltip:AddLine(string.format(L["Buy it back: %s"], RB.Text(RV:BuyBackPrice(x), 13)), 1, 0.82, 0.25)
 	GameTooltip:AddLine(r.armed and GetTime() - r.armed < ARM and L["Click again to confirm."] or L["Click, then click again to confirm."], 0.3, 1, 0.3)
 	GameTooltip:Show()
 end
@@ -1280,7 +1280,7 @@ function RUI:BuyBackClick(r)
 	if not x then
 		return
 	end
-	if not RB:Has(x.p) then
+	if not RB:Has(RV:BuyBackPrice(x)) then
 		ns.Play(ns.SND.close)
 		return
 	end

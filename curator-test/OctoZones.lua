@@ -83,6 +83,8 @@ local function creditState(character)
     end
     local floor = math.max(tonumber(state.octoLevelFloor) or 1, tonumber(character.octoLevelFloor) or 1)
     state.octoLevelFloor, character.octoLevelFloor = floor, floor
+    local decided = state.octoCatchUpDecided or character.octoCatchUpDecided
+    state.octoCatchUpDecided, character.octoCatchUpDecided = decided, decided
     return state
 end
 
@@ -116,17 +118,17 @@ local function exploredPlaceName(area)
     return name
 end
 
-local function importPlaces(reward, state)
+local function scanPlaces(state)
     local api = C_MapExplorationInfo and C_MapExplorationInfo.GetExploredMapTextures
-    if not api then return nil end
-    local known, count, scanned = {}, 0, false
+    if not api then return {}, 0, false end
+    local known, seen, groups, count, scanned = {}, {}, {}, 0, false
     for name in pairs(state.octoPlaces) do known[zoneKey(name)] = true end
     for _, series in ipairs(ns.Series) do
         if series.kind == "zone" and series.area and (not ns.Guard or ns.Guard:Allow(series)) then
             local ok, overlays = pcall(api, series.area)
             if ok and type(overlays) == "table" then
                 scanned = true
-                local worked = 0
+                local places = {}
                 for _, overlay in ipairs(overlays) do
                     local area = overlay.areaID
                     -- A multi-area overlay can become visible after only one of its areas is explored.
@@ -134,40 +136,29 @@ local function importPlaces(reward, state)
                         local name = exploredPlaceName(area)
                         local key = zoneKey(name)
                         local alias = ns.OctoAreaNames and ns.OctoAreaNames[area]
-                        if key ~= "" and not known[key] and not known[zoneKey(alias)] and not state.octoExploredAreas[area] then
-                            state.octoExploredAreas[area] = true
-                            state.octoPlaces[name] = true
+                        if key ~= "" and not known[key] and not known[zoneKey(alias)]
+                            and not state.octoExploredAreas[area] and not seen[area] then
+                            seen[area] = true
                             known[key] = true
-                            if alias then
-                                state.octoPlaces[alias] = true
-                                known[zoneKey(alias)] = true
-                            end
-                            worked = worked + 1
+                            if alias then known[zoneKey(alias)] = true end
+                            table.insert(places, { area = area, name = name, alias = alias })
                         end
                     end
                 end
-                if worked > 0 then
-                    if not reward:Visited(series) then
-                        ns.db.visited[series.key] = true
-                        ns.Fire("VISITED", series)
-                    end
-                    reward:Add(series, worked * reward.POINTS.explore, "catchup")
-                    count = count + worked
+                if table.getn(places) > 0 then
+                    table.insert(groups, { series = series, places = places })
+                    count = count + table.getn(places)
                 end
             end
         end
     end
-    if scanned then return count end
+    return groups, count, scanned
 end
 
-function rewards:CatchUp(argument)
-    if not ns.db or (ns.Beta and ns.Beta:Over()) or (ns.Guard and not ns.Guard:AllowAll(true)) then return end
+function rewards:PlanCatchUp(argument)
+    if not ns.db or (ns.Beta and ns.Beta:Over()) then return end
     argument = argument or ""
-    local fr = ns.locale == "frFR"
-    if ns.Reroll and ns.Reroll:IsReroll() then
-        ns.Print(fr and "Le rattrapage est disponible sur un personnage hors défi de reroll." or "Catch-up is available outside the reroll challenge.")
-        return
-    end
+    if ns.Reroll and ns.Reroll:IsReroll() then return nil, "reroll" end
     local level = UnitLevel("player")
     if type(level) ~= "number" or level < 1 then return end
     local character = self:Char()
@@ -175,28 +166,57 @@ function rewards:CatchUp(argument)
     local floor = tonumber(argument)
     if argument == "" then floor = state.octoLevelFloor end
     if not floor or floor < 1 or floor > level or floor ~= math.floor(floor) then
-        ns.Print(fr and "Utilisation : /curator rattrapage [dernier niveau déjà crédité]" or "Usage: /curator catchup [last level already credited]")
-        return
+        return nil, "usage"
     end
     floor = math.max(state.octoLevelFloor, floor)
-    state.octoLevelFloor, character.octoLevelFloor = floor, floor
-    local credits, levels = state.octoLevelCredits, 0
+    local levels = {}
     for reached = floor + 1, level do
-        if not credits[reached] then
-            credits[reached] = true
-            levels = levels + 1
+        if not state.octoLevelCredits[reached] then table.insert(levels, reached) end
+    end
+    local groups, places, scanned = scanPlaces(state)
+    local levelPoints = table.getn(levels) * self.POINTS.level
+    local entryBar = self:Bar("world", true)
+    local bar = entryBar + levelPoints
+    local offers = math.floor(bar / ns.PACK_POINTS)
+    bar = ns.Mod(bar, ns.PACK_POINTS)
+    local packs = math.floor((bar + places * self.POINTS.explore) / ns.PACK_POINTS)
+    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ",") }
+    for _, group in ipairs(groups) do
+        for _, place in ipairs(group.places) do table.insert(signature, tostring(place.area)) end
+    end
+    return { floor = floor, levels = levels, places = places, groups = groups, scanned = scanned, decided = state.octoCatchUpDecided,
+        offers = offers, packs = packs, points = levelPoints + places * self.POINTS.explore,
+        bar = ns.Mod(bar + places * self.POINTS.explore, ns.PACK_POINTS), signature = table.concat(signature, ":") }
+end
+
+function rewards:ApplyCatchUp(plan, accepted)
+    if not ns.db or (ns.Beta and ns.Beta:Over()) or (ns.Guard and not ns.Guard:AllowAll(true)) then return false end
+    local character = self:Char()
+    local state = creditState(character)
+    state.octoLevelFloor, character.octoLevelFloor = plan.floor, plan.floor
+    state.octoCatchUpDecided, character.octoCatchUpDecided = true, true
+    for _, level in ipairs(plan.levels) do state.octoLevelCredits[level] = true end
+    if accepted and table.getn(plan.levels) > 0 then
+        -- The old level events have no zone. Full bars grant a booster choice.
+        self:Fill(nil, table.getn(plan.levels) * self.POINTS.level, "catchup", false, true)
+    end
+    for _, group in ipairs(plan.groups) do
+        for _, place in ipairs(group.places) do
+            state.octoExploredAreas[place.area] = true
+            state.octoPlaces[place.name] = true
+            if place.alias then state.octoPlaces[place.alias] = true end
+        end
+        local series = group.series
+        if accepted then
+            if not self:Visited(series) then
+                ns.db.visited[series.key] = true
+                ns.Fire("VISITED", series)
+            end
+            self:Add(series, table.getn(group.places) * self.POINTS.explore, "catchup")
         end
     end
-    if levels > 0 then
-        -- The old level events have no zone. Full bars grant a booster choice.
-        self:Fill(nil, levels * self.POINTS.level, "catchup", false, true)
-    end
-    local places = importPlaces(self, state)
-    ns.Print(string.format(fr and "Rattrapage : %d niveaux, %d lieux crédités." or "Catch-up: %d levels and %d discoveries credited.", levels, places or 0))
-    if not places then
-        ns.Print(fr and "La lecture des zones explorées nécessite une version de ClassicAPI qui expose ces données." or "Reading explored areas requires a version of ClassicAPI that exposes them.")
-    end
     ns.Fire("CHANGED")
+    return true
 end
 
 local function chatPattern(format)
@@ -252,3 +272,131 @@ messages:SetScript("OnEvent", function()
         if ns.Talents then ns.Talents:Explored(series) end
     end
 end)
+
+do
+    local labels = {
+        title = { "Progress catch-up", "Rattrapage de progression" },
+        intro = { "Claim rewards for levels reached and places explored before Curator tracked them.",
+            "Récupère les récompenses des niveaux atteints et des lieux découverts avant leur suivi par Curator." },
+        askTake = { "Confirm that you want to claim the rewards below.", "Confirme que tu veux récupérer les récompenses ci-dessous." },
+        askSkip = { "Confirm that you want to give up the rewards below. This choice is final for these rewards.",
+            "Confirme que tu veux renoncer aux récompenses ci-dessous. Ce choix est définitif pour ces récompenses." },
+        levels = { "Levels to credit", "Niveaux à créditer" },
+        places = { "Discoveries to credit", "Découvertes à créditer" },
+        points = { "Booster points", "Points de booster" },
+        offers = { "Rewards to choose", "Récompenses à choisir" },
+        packs = { "Zone boosters", "Boosters de zone" },
+        bar = { "Booster bar after claiming", "Barre de boosters après récupération" },
+        missing = { "Exploration data is unavailable for this session.", "Les données d’exploration sont indisponibles pour cette session." },
+        zero = { "There are no pending catch-up rewards.", "Il n’y a aucune récompense de rattrapage en attente." },
+        take = { "Claim rewards", "Récupérer" },
+        skip = { "Decline rewards", "Refuser" },
+        yesTake = { "Confirm claim", "Confirmer la récupération" },
+        yesSkip = { "Confirm refusal", "Confirmer le refus" },
+        back = { "Back", "Retour" },
+        close = { "Close", "Fermer" },
+        taken = { "Catch-up rewards claimed.", "Récompenses rétroactives récupérées." },
+        skipped = { "Catch-up rewards declined.", "Récompenses rétroactives refusées." },
+        changed = { "Your rewards changed. Review the updated totals.", "Tes récompenses ont changé. Vérifie les nouveaux totaux." },
+        usage = { "Usage: /curator catchup [last level already credited]", "Utilisation : /curator rattrapage [dernier niveau déjà crédité]" },
+        reroll = { "Catch-up is available outside the reroll challenge.", "Le rattrapage est disponible hors défi de reroll." },
+    }
+    local function text(key)
+        return labels[key][ns.locale == "frFR" and 2 or 1]
+    end
+
+    local rows = { "levels", "places", "points", "offers", "packs", "bar" }
+    local frame
+    local function paint(plan, decision, message)
+        frame.plan, frame.decision = plan, decision
+        local empty = plan.points == 0
+        frame:SetTitle(text("title"))
+        frame.intro:SetText(text(message or (empty and "zero") or (decision == "take" and "askTake")
+            or (decision == "skip" and "askSkip") or "intro"))
+        local values = { table.getn(plan.levels), plan.places, plan.points, plan.offers, plan.packs, ns.Num(plan.bar) .. "%" }
+        if not plan.scanned then values[2] = "—" end
+        for i, key in ipairs(rows) do
+            local row = frame.rows[i]
+            row.label:SetText(text(key))
+            row.value:SetText(values[i])
+        end
+        frame.note:SetText(plan.scanned and "" or text("missing"))
+        frame.left:SetLabel(text(empty and "close" or decision and "back" or "skip"))
+        frame.right:SetLabel(text(decision == "skip" and "yesSkip" or decision == "take" and "yesTake" or "take"))
+        ns.SetShown(frame.right, not empty)
+    end
+
+    local function build()
+        local skin = ns.Skin
+        frame = skin.Window("CuratorCatchUpPanel", 510, 348)
+        frame:SetPoint("CENTER", UIParent, "CENTER", 0, 45)
+        frame:SetFrameStrata("DIALOG")
+        frame:EnableMouse(true)
+        skin.DragBar(frame, 28)
+        table.insert(UISpecialFrames, "CuratorCatchUpPanel")
+        frame.intro = skin.Text(frame, "GameFontHighlight", "LEFT")
+        frame.intro:SetPoint("TOPLEFT", 28, -48)
+        frame.intro:SetWidth(454)
+        ns.SetWordWrap(frame.intro, true)
+        local summary = CreateFrame("Frame", nil, frame)
+        summary:SetPoint("TOPLEFT", 25, -100)
+        summary:SetPoint("BOTTOMRIGHT", -25, 86)
+        local background = summary:CreateTexture(nil, "BACKGROUND")
+        background:SetAllPoints()
+        ns.ColorTexture(background, .075, .08, .11, 1)
+        frame.rows = {}
+        for i, key in ipairs(rows) do
+            local label = skin.Text(summary, "GameFontHighlight", "LEFT")
+            local value = skin.Text(summary, "GameFontNormal", "RIGHT")
+            label:SetPoint("TOPLEFT", 16, -15 - (i - 1) * 24)
+            value:SetPoint("TOPRIGHT", -16, -15 - (i - 1) * 24)
+            frame.rows[i] = { label = label, value = value }
+        end
+        frame.note = skin.Text(frame, "GameFontHighlightSmall", "LEFT")
+        frame.note:SetPoint("BOTTOMLEFT", 28, 65)
+        frame.note:SetWidth(454)
+        frame.left = skin.Button(frame, "", 190, 30)
+        frame.left:SetPoint("BOTTOMLEFT", 26, 24)
+        frame.right = skin.Button(frame, "", 225, 30)
+        frame.right:SetPoint("BOTTOMRIGHT", -26, 24)
+        ns.SetScript(frame.left, "OnClick", function()
+            if frame.plan.points == 0 then frame:Hide()
+            elseif frame.decision then paint(frame.plan)
+            else paint(frame.plan, "skip") end
+        end)
+        ns.SetScript(frame.right, "OnClick", function()
+            if not frame.decision then paint(frame.plan, "take"); return end
+            local current, errorKey = rewards:PlanCatchUp(frame.argument)
+            if not current then
+                if errorKey then ns.Print(text(errorKey)) end
+                frame:Hide()
+                return
+            end
+            if frame.plan.signature ~= current.signature then paint(current, nil, "changed"); return end
+            local accepted = frame.decision == "take"
+            if rewards:ApplyCatchUp(current, accepted) then
+                frame:Hide()
+                ns.Print(text(accepted and "taken" or "skipped"))
+            end
+        end)
+        ns.SetScript(frame.CloseButton, "OnClick", function() frame:Hide() end)
+    end
+
+    function rewards:OpenCatchUp(argument, automatic)
+        if automatic and (frame and frame:IsShown() or InCombatLockdown and InCombatLockdown()) then return end
+        local plan, errorKey = self:PlanCatchUp(argument)
+        if not plan then
+            if errorKey and not automatic then ns.Print(text(errorKey)) end
+            return
+        end
+        if automatic and (plan.decided or plan.points == 0) then return end
+        if not frame then build() end
+        frame.argument = argument
+        paint(plan)
+        frame:Show()
+    end
+
+    ns.On("LOGIN", function()
+        ns.Delay(2, function() rewards:OpenCatchUp("", true) end)
+    end)
+end

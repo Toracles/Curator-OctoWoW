@@ -12,7 +12,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "Cartes-natives"
-OUT.mkdir(exist_ok=True)
 FONT = Path("C:/Windows/Fonts")
 ALBUMS = {
     "Gilneas": ("Duskwood", "gilneas"),
@@ -48,7 +47,7 @@ def read_texture(archive, name):
     return Image.open(BytesIO(archive.read("Curator/Media/" + name))).convert("RGBA")
 
 
-def render(row, studio, frame, body, gem, portrait, crop):
+def render(row, studio, frame, body, gem, portrait, crop, level_label="Niv."):
     card = body.copy()
     width, height = 318, 294
     background = ImageOps.fit(studio, (width, height), Image.Resampling.LANCZOS, centering=(.5, .48))
@@ -64,7 +63,7 @@ def render(row, studio, frame, body, gem, portrait, crop):
     fit_text(draw, row["Album"], 382, 284, 22, "georgia.ttf", "#39291d")
     fit_text(draw, row["Rarete"], 423, 276, 21, "georgiab.ttf", "#4b3225")
     if row["Niveau"]:
-        fit_text(draw, "Niv. " + row["Niveau"], 453, 270, 17, "georgia.ttf", "#5a4030")
+        fit_text(draw, level_label + " " + row["Niveau"], 453, 270, 17, "georgia.ttf", "#5a4030")
     return card
 
 
@@ -93,6 +92,7 @@ def export_comparison():
 
 
 def main():
+    OUT.mkdir(exist_ok=True)
     rows = read_csv(ROOT / "Pack/Catalogue.csv")
     models = json.loads((ROOT / "modeles-source.json").read_text(encoding="utf-8-sig"))
     picks = {}

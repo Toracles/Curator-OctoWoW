@@ -604,20 +604,20 @@ C_MapExplorationInfo = { GetExploredMapTextures = function(id)
     return { { areaID = 101, areaIDs = {101} }, { areaID = 102, areaIDs = {102} },
         { areaID = 102, areaIDs = {102} }, { areaID = 103, areaIDs = {103, 104} } }
 end }
-SlashCmdList.CURATOR("rattrapage 30")
+assert(rewards:ApplyCatchUp(rewards:PlanCatchUp("30"), true))
 assert(table.getn(log) == 3)
 assert(log[2][1] == nil and log[2][2] == 240 and log[2][5] == true)
 assert(log[3][1].key == "balor" and log[3][2] == 10 and rewards:Visited(log[3][1]))
-SlashCmdList.CURATOR("rattrapage")
+assert(rewards:ApplyCatchUp(rewards:PlanCatchUp(), true))
 assert(traceEvent("CHAT_MSG_SYSTEM", "Discovered: Other Balor location") == "")
 assert(table.getn(log) == 3)
 rewards.Add, rewards.Fill = add, fill
 ns.db.bar = 0
 local offers = ns.Level:OfferCount()
 UnitLevel = function() return 40 end
-SlashCmdList.CURATOR("rattrapage")
+assert(rewards:ApplyCatchUp(rewards:PlanCatchUp(), true))
 assert(ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
-SlashCmdList.CURATOR("rattrapage")
+assert(rewards:ApplyCatchUp(rewards:PlanCatchUp(), true))
 assert(ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
 UnitLevel, C_Map, C_MapExplorationInfo = baseLevel, baseMap, baseExploration
 """)
@@ -639,16 +639,93 @@ local function assertCredit()
     local saved = CuratorOctoCatchUpDB
     assert(saved.octoLevelCredits[2] and saved.octoLevelCredits[37] and saved.octoExploredAreas[5562])
 end
-SlashCmdList.CURATOR("rattrapage")
+assert(ns.Rewards:ApplyCatchUp(ns.Rewards:PlanCatchUp(), true))
 assertCredit()
 local saved = CuratorOctoCatchUpDB
 ns.db.chars = {}
-SlashCmdList.CURATOR("rattrapage")
+assert(ns.Rewards:ApplyCatchUp(ns.Rewards:PlanCatchUp(), true))
 assert(CuratorOctoCatchUpDB == saved)
 assertCredit()
 CuratorOctoCatchUpDB = nil
-SlashCmdList.CURATOR("rattrapage")
+assert(ns.Rewards:ApplyCatchUp(ns.Rewards:PlanCatchUp(), true))
 assertCredit()
 UnitLevel, C_Map, C_MapExplorationInfo = oldLevel, oldMap, oldExploration
 """)
 print("Catch-up: fresh level 37 receives 14 offers and the ledger survives loss of either copy")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local oldLocale, oldLanguage, oldLevel = ns.locale, ns.db.lang, UnitLevel
+local oldCache, oldChars = CuratorOctoCatchUpDB, ns.db.chars
+local function click(button)
+    this = button
+    button:GetScript("OnClick")()
+end
+local function configure()
+    CuratorOctoCatchUpDB, ns.db.chars, ns.db.bar = nil, {}, 0
+    SlashCmdList.CURATOR("rattrapage")
+    return CuratorCatchUpPanel
+end
+UnitLevel = function() return 4 end
+ns.db.lang = "frFR"
+ns.ApplyLanguage()
+assert(ns.locale == "frFR")
+local f = configure()
+assert(f:IsShown() and f.TitleText:GetText() == "Rattrapage de progression")
+assert(f.rows[1].value:GetText() == "3" and f.rows[3].value:GetText() == "120")
+assert(f.rows[4].value:GetText() == "1" and f.rows[6].value:GetText() == "20%")
+local offers = ns.Level:OfferCount()
+click(f.right)
+assert(f.decision == "take" and f.right:GetText() == "Confirmer la récupération")
+assert(ns.Level:OfferCount() == offers and ns.db.bar == 0)
+click(f.right)
+assert(not f:IsShown() and ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
+ns.db.lang = "enUS"
+ns.ApplyLanguage()
+assert(ns.locale == "enUS")
+f = configure()
+assert(f.TitleText:GetText() == "Progress catch-up")
+click(f.left)
+assert(f.decision == "skip" and f.right:GetText() == "Confirm refusal")
+click(f.left)
+assert(not f.decision)
+click(f.left)
+click(f.right)
+assert(not f:IsShown() and ns.Level:OfferCount() == offers + 1 and ns.db.bar == 0)
+SlashCmdList.CURATOR("rattrapage")
+assert(f.rows[1].value:GetText() == "0" and not f.right:IsShown())
+f:Hide()
+ns.SetLocale(oldLocale)
+ns.db.lang, UnitLevel = oldLanguage, oldLevel
+CuratorOctoCatchUpDB, ns.db.chars = oldCache, oldChars
+
+local rb, rates = ns.Rubies, ns.Talents.RubyDiscount
+ns.Talents.RubyDiscount = function() return 0 end
+assert(rb:Price(999, "key") == 250 and ns.Cases:KeyPrice() == 250)
+assert(rb:Price(999, "restore") == 500 and rb:Price(0, "pack") == 0)
+assert(ns.Displays:Price(ns.SeriesByKey("elwynn")) == 17500)
+assert(ns.Talents:OrderPrice({ rarity = 1 }) == 1000)
+assert(ns.Reseller:BuyBackPrice({ p = 50 }) == 25)
+assert(ns.Reseller:BuyBackPrice({ p = 25, octoPrice = true }) == 25)
+ns.Talents.RubyDiscount = function() return 0.15 end
+assert(ns.Cases:KeyPrice() == 212)
+ns.Talents.RubyDiscount = rates
+""")
+print("Catch-up panel: both languages, confirmation of claim/refusal and revised ruby prices verified")
+
+lua.execute(r"""
+local oldLocale = GetLocale
+CuratorOctoGallery = { { name = "Balor", path = "balor", cards = { 62317 } } }
+CuratorOctoGalleryLanguage = nil
+assert(loadfile("source/Galerie.lua"))()
+local gallery = CuratorOctoGalerieFrame
+GetLocale = function() return "enUS" end
+SlashCmdList.CURATOROCTOGALERIE()
+assert(string.find(gallery.textures[1].textureFile, "Cartes-en", 1, true))
+SlashCmdList.CURATOROCTOGALERIE()
+GetLocale = function() return "frFR" end
+SlashCmdList.CURATOROCTOGALERIE()
+assert(string.find(gallery.textures[1].textureFile, "Cartes\\", 1, true))
+GetLocale = oldLocale
+""")
+print("Gallery: French and English artworks selected correctly")

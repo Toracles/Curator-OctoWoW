@@ -1210,7 +1210,7 @@ RU.Named = Named
 
 -- (a price as the quote writes it: his prices lowered by the talents, to five)
 local function Rubies(x, k)
-	local n = math.floor((tonumber(x) or 0) * (k or 1) / 5 + 0.5) * 5
+	local n = math.floor((tonumber(x) or 0) * (k or 1) + 0.5)
 	return ns.Num(math.max(n, 0))
 end
 
@@ -1256,7 +1256,7 @@ local function SumLines(q, list, k)
 	if n > 0 then
 		lines[CuratorOctoFull.Length(lines) + 1] = { " ", "" }
 		lines[CuratorOctoFull.Length(lines) + 1] = { string.format(L["%d flaws to mend · about %s of them · %s"], n, R.Pct(odds / n), R.TimeText(q.secs or 0)), "", { 0.86, 0.86, 0.9 } }
-		lines[CuratorOctoFull.Length(lines) + 1] = { L["Everything"], RB.Text(math.floor((q.all or 0) * k / 5 + 0.5) * 5, 12), GOLD }
+		lines[CuratorOctoFull.Length(lines) + 1] = { L["Everything"], RB.Text(RB:Price(q.all, "restore"), 12), GOLD }
 		if q.titan then
 			lines[CuratorOctoFull.Length(lines) + 1] = { L["Titanforged: three times the price of its restoration."], "", { 1, 0.84, 0.5 } }
 		end
@@ -2146,7 +2146,7 @@ function RU:ViewLight(row)
 	if t then
 		GameTooltip:AddLine(L[t.name] .. "  ·  " .. string.format(L["his odds %s"], R.Pct(f.odds or 0)), ARCANE_HI[1], ARCANE_HI[2], ARCANE_HI[3])
 	end
-	GameTooltip:AddLine(string.format(L["Price: %s"], RB.Text(math.floor((f.price or 0) * (st.k or 1) / 5 + 0.5) * 5, 13)), 1, 0.82, 0.25)
+	GameTooltip:AddLine(string.format(L["Price: %s"], RB.Text(math.floor((f.price or 0) * (st.k or 1) + 0.5), 13)), 1, 0.82, 0.25)
 	GameTooltip:Show()
 end
 

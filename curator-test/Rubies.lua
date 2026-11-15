@@ -259,6 +259,13 @@ end
 
 -- A price in rubies after the talents (what: "reroll", "rumor", "pack", "expertise", "respec", "resell"): a price
 -- above 0 stays at 1 at least.
+function RB.LocalPrice(base, what)
+    base = tonumber(base) or 0
+    local divisor = what == "key" and 4 or 2
+    if base <= 0 then return 0 end
+    return math.max(1, math.floor(base / divisor + 0.5))
+end
+
 function RB:Price(base, what)
 	base = math.max(0, math.floor(tonumber(base) or 0))
 	if base == 0 then
@@ -267,7 +274,7 @@ function RB:Price(base, what)
 	local TL = ns.Talents
 	local k = (TL and TL.RubyDiscount) and TL:RubyDiscount(what) or 0
 	k = math.max(0, math.min(0.9, k))
-	return math.max(1, math.floor(base * (1 - k) + 0.5))
+	return RB.LocalPrice(base * (1 - k), what)
 end
 
 -- A count of rubies with their gem, for a text ("|T...|t 1 250"); size: of the gem.

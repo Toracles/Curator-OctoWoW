@@ -226,6 +226,65 @@ def ruby_ledger(text):
             r.when:SetText(ago and (ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago))) or "—")''')
 
 
+def friendly_prices(root):
+    changes = {
+        "Rubies.lua": [
+            ("function RB:Price(base, what)", """function RB.LocalPrice(base, what)
+    base = tonumber(base) or 0
+    local divisor = what == "key" and 4 or 2
+    if base <= 0 then return 0 end
+    return math.max(1, math.floor(base / divisor + 0.5))
+end
+
+function RB:Price(base, what)"""),
+            ("return math.max(1, math.floor(base * (1 - k) + 0.5))", "return RB.LocalPrice(base * (1 - k), what)"),
+        ],
+        "Reseller.lua": [
+            ('RV.CASE_ITEM = 30', 'RV.CASE_ITEM = 15'),
+            ('RV.KEY_ITEM = 250', 'RV.KEY_ITEM = 63'),
+            ('return math.floor(base + 1e-6)\nend\n\n-- (1.13.0, after its second test)',
+             'return ns.Rubies.LocalPrice(base)\nend\n\n-- (1.13.0, after its second test)'),
+            ('return math.floor(base + 1e-6)\nend\n\nfunction RV:CaseHeld',
+             'return ns.Rubies.LocalPrice(base)\nend\n\nfunction RV:CaseHeld'),
+            ('function RV:BuyBack(i)', '''function RV:BuyBackPrice(x)
+    -- New pawn receipts already contain the revised price.
+    return x.octoPrice and x.p or ns.Rubies.LocalPrice(x.p)
+end
+
+function RV:BuyBack(i)'''),
+            ('{ k = card.key, f = (finish ~= "normal" and finish) or nil, p =',
+             '{ k = card.key, f = (finish ~= "normal" and finish) or nil, octoPrice = true, p ='),
+            ('ns.Rubies:Spend(x.p, "resell")', 'ns.Rubies:Spend(self:BuyBackPrice(x), "resell")'),
+            ('return math.max(1, math.floor(base))\nend\n\nfunction RV:CanBaron',
+             'return ns.Rubies.LocalPrice(base)\nend\n\nfunction RV:CanBaron'),
+        ],
+        "UI/Reseller.lua": [
+            ("RB.Text(x.p, 11)", "RB.Text(RV:BuyBackPrice(x), 11)"),
+            ("RB.Text(x.p, 13)", "RB.Text(RV:BuyBackPrice(x), 13)"),
+            ("RB:Has(x.p)", "RB:Has(RV:BuyBackPrice(x))"),
+        ],
+        "Talents.lua": [
+            ('return card, tonumber(bm.p) or 0', 'return card, ns.Rubies.LocalPrice(tonumber(bm.p) or 0)'),
+            ('return card and RV and RV.PRICE[card.rarity] or 0',
+             'return ns.Rubies.LocalPrice(card and RV and RV.PRICE[card.rarity] or 0)'),
+        ],
+        "Rates.lua": [("key = CS.KEY_PRICE,", "key = CS:KeyPrice(),")],
+        "UI/Restore.lua": [
+            ('math.floor((tonumber(x) or 0) * (k or 1) / 5 + 0.5) * 5',
+             'math.floor((tonumber(x) or 0) * (k or 1) + 0.5)'),
+            ('RB.Text(math.floor((q.all or 0) * k / 5 + 0.5) * 5, 12)', 'RB.Text(RB:Price(q.all, "restore"), 12)'),
+            ('RB.Text(math.floor((f.price or 0) * (st.k or 1) / 5 + 0.5) * 5, 13)',
+             'RB.Text(math.floor((f.price or 0) * (st.k or 1) + 0.5), 13)'),
+        ],
+    }
+    for name, edits in changes.items():
+        path = root / name
+        text = path.read_text(encoding="utf8")
+        for old, new in edits:
+            text = replace(text, old, new)
+        path.write_bytes(text.encode("utf8"))
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
@@ -247,7 +306,7 @@ def apply(root: Path):
         "Core.lua": lambda text: replace(replace(text, "barAt = true, barHide = true }",
             "barAt = true, barHide = true, barWidth = true }"),
             '\telseif cmd == "boosters" or cmd == "booster"',
-            '\telseif cmd == "catchup" or cmd == "rattrapage" then\n\t\tns.Rewards:CatchUp(arg)\n'
+            '\telseif cmd == "catchup" or cmd == "rattrapage" then\n\t\tns.Rewards:OpenCatchUp(arg)\n'
             '\telseif cmd == "boosters" or cmd == "booster"'),
         "Rewards.lua": lambda text: replace(text, 'R:Add(R:WorldSeries(), POINTS.level, "level")',
                                                'R:OctoLevelUp((unpack(arg, 1, arg.n)))'),
@@ -271,6 +330,8 @@ def apply(root: Path):
         path = root / name
         text = path.read_text(encoding="utf8")
         path.write_bytes(transform(text).encode("utf8"))
+
+    friendly_prices(root)
 
     path = root / "Beta.lua"
     text = path.read_text(encoding="utf8")

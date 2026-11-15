@@ -83,6 +83,8 @@ local function creditState(character)
     end
     local floor = math.max(tonumber(state.octoLevelFloor) or 1, tonumber(character.octoLevelFloor) or 1)
     state.octoLevelFloor, character.octoLevelFloor = floor, floor
+    local decided = state.octoCatchUpDecided or character.octoCatchUpDecided
+    state.octoCatchUpDecided, character.octoCatchUpDecided = decided, decided
     return state
 end
 
@@ -116,17 +118,17 @@ local function exploredPlaceName(area)
     return name
 end
 
-local function importPlaces(reward, state)
+local function scanPlaces(state)
     local api = C_MapExplorationInfo and C_MapExplorationInfo.GetExploredMapTextures
-    if not api then return nil end
-    local known, count, scanned = {}, 0, false
+    if not api then return {}, 0, false end
+    local known, seen, groups, count, scanned = {}, {}, {}, 0, false
     for name in pairs(state.octoPlaces) do known[zoneKey(name)] = true end
     for _, series in ipairs(ns.Series) do
         if series.kind == "zone" and series.area and (not ns.Guard or ns.Guard:Allow(series)) then
             local ok, overlays = pcall(api, series.area)
             if ok and type(overlays) == "table" then
                 scanned = true
-                local worked = 0
+                local places = {}
                 for _, overlay in ipairs(overlays) do
                     local area = overlay.areaID
                     -- A multi-area overlay can become visible after only one of its areas is explored.
@@ -134,40 +136,29 @@ local function importPlaces(reward, state)
                         local name = exploredPlaceName(area)
                         local key = zoneKey(name)
                         local alias = ns.OctoAreaNames and ns.OctoAreaNames[area]
-                        if key ~= "" and not known[key] and not known[zoneKey(alias)] and not state.octoExploredAreas[area] then
-                            state.octoExploredAreas[area] = true
-                            state.octoPlaces[name] = true
+                        if key ~= "" and not known[key] and not known[zoneKey(alias)]
+                            and not state.octoExploredAreas[area] and not seen[area] then
+                            seen[area] = true
                             known[key] = true
-                            if alias then
-                                state.octoPlaces[alias] = true
-                                known[zoneKey(alias)] = true
-                            end
-                            worked = worked + 1
+                            if alias then known[zoneKey(alias)] = true end
+                            table.insert(places, { area = area, name = name, alias = alias })
                         end
                     end
                 end
-                if worked > 0 then
-                    if not reward:Visited(series) then
-                        ns.db.visited[series.key] = true
-                        ns.Fire("VISITED", series)
-                    end
-                    reward:Add(series, worked * reward.POINTS.explore, "catchup")
-                    count = count + worked
+                if table.getn(places) > 0 then
+                    table.insert(groups, { series = series, places = places })
+                    count = count + table.getn(places)
                 end
             end
         end
     end
-    if scanned then return count end
+    return groups, count, scanned
 end
 
-function rewards:CatchUp(argument)
-    if not ns.db or (ns.Beta and ns.Beta:Over()) or (ns.Guard and not ns.Guard:AllowAll(true)) then return end
+function rewards:PlanCatchUp(argument)
+    if not ns.db or (ns.Beta and ns.Beta:Over()) then return end
     argument = argument or ""
-    local fr = ns.locale == "frFR"
-    if ns.Reroll and ns.Reroll:IsReroll() then
-        ns.Print(fr and "Le rattrapage est disponible sur un personnage hors défi de reroll." or "Catch-up is available outside the reroll challenge.")
-        return
-    end
+    if ns.Reroll and ns.Reroll:IsReroll() then return nil, "reroll" end
     local level = UnitLevel("player")
     if type(level) ~= "number" or level < 1 then return end
     local character = self:Char()
@@ -175,28 +166,57 @@ function rewards:CatchUp(argument)
     local floor = tonumber(argument)
     if argument == "" then floor = state.octoLevelFloor end
     if not floor or floor < 1 or floor > level or floor ~= math.floor(floor) then
-        ns.Print(fr and "Utilisation : /curator rattrapage [dernier niveau déjà crédité]" or "Usage: /curator catchup [last level already credited]")
-        return
+        return nil, "usage"
     end
     floor = math.max(state.octoLevelFloor, floor)
-    state.octoLevelFloor, character.octoLevelFloor = floor, floor
-    local credits, levels = state.octoLevelCredits, 0
+    local levels = {}
     for reached = floor + 1, level do
-        if not credits[reached] then
-            credits[reached] = true
-            levels = levels + 1
+        if not state.octoLevelCredits[reached] then table.insert(levels, reached) end
+    end
+    local groups, places, scanned = scanPlaces(state)
+    local levelPoints = table.getn(levels) * self.POINTS.level
+    local entryBar = self:Bar("world", true)
+    local bar = entryBar + levelPoints
+    local offers = math.floor(bar / ns.PACK_POINTS)
+    bar = ns.Mod(bar, ns.PACK_POINTS)
+    local packs = math.floor((bar + places * self.POINTS.explore) / ns.PACK_POINTS)
+    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ",") }
+    for _, group in ipairs(groups) do
+        for _, place in ipairs(group.places) do table.insert(signature, tostring(place.area)) end
+    end
+    return { floor = floor, levels = levels, places = places, groups = groups, scanned = scanned, decided = state.octoCatchUpDecided,
+        offers = offers, packs = packs, points = levelPoints + places * self.POINTS.explore,
+        bar = ns.Mod(bar + places * self.POINTS.explore, ns.PACK_POINTS), signature = table.concat(signature, ":") }
+end
+
+function rewards:ApplyCatchUp(plan, accepted)
+    if not ns.db or (ns.Beta and ns.Beta:Over()) or (ns.Guard and not ns.Guard:AllowAll(true)) then return false end
+    local character = self:Char()
+    local state = creditState(character)
+    state.octoLevelFloor, character.octoLevelFloor = plan.floor, plan.floor
+    state.octoCatchUpDecided, character.octoCatchUpDecided = true, true
+    for _, level in ipairs(plan.levels) do state.octoLevelCredits[level] = true end
+    if accepted and table.getn(plan.levels) > 0 then
+        -- The old level events have no zone. Full bars grant a booster choice.
+        self:Fill(nil, table.getn(plan.levels) * self.POINTS.level, "catchup", false, true)
+    end
+    for _, group in ipairs(plan.groups) do
+        for _, place in ipairs(group.places) do
+            state.octoExploredAreas[place.area] = true
+            state.octoPlaces[place.name] = true
+            if place.alias then state.octoPlaces[place.alias] = true end
+        end
+        local series = group.series
+        if accepted then
+            if not self:Visited(series) then
+                ns.db.visited[series.key] = true
+                ns.Fire("VISITED", series)
+            end
+            self:Add(series, table.getn(group.places) * self.POINTS.explore, "catchup")
         end
     end
-    if levels > 0 then
-        -- The old level events have no zone. Full bars grant a booster choice.
-        self:Fill(nil, levels * self.POINTS.level, "catchup", false, true)
-    end
-    local places = importPlaces(self, state)
-    ns.Print(string.format(fr and "Rattrapage : %d niveaux, %d lieux crédités." or "Catch-up: %d levels and %d discoveries credited.", levels, places or 0))
-    if not places then
-        ns.Print(fr and "La lecture des zones explorées nécessite une version de ClassicAPI qui expose ces données." or "Reading explored areas requires a version of ClassicAPI that exposes them.")
-    end
     ns.Fire("CHANGED")
+    return true
 end
 
 local function chatPattern(format)

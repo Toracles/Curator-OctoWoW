@@ -590,7 +590,7 @@ function RT:Cases()
 		return Rate(p, reroll and RR:Points(p) or p, {})
 	end
 	local tiers, finishes, grades = CS:Odds()
-	local out = { kill = Drop(CS.KILL), quest = Drop(CS.QUEST), reroll = reroll, key = CS.KEY_PRICE, ranks = {}, finishes = {},
+	local out = { kill = Drop(CS.KILL), quest = Drop(CS.QUEST), reroll = reroll, key = CS:KeyPrice(), ranks = {}, finishes = {},
 		conditions = {} }
 	for _, t in ipairs(tiers) do
 		local row = Rate(t[2], t[2], {})

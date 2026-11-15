@@ -243,8 +243,8 @@ RV.FINISHES = { "normal", "shiny", "holo", "corrupt" }
 -- a card of a case, by its rank (Rare to Priceless; forged: RV.CASE_FINISH_X), a case closed, a key
 RV.CASE_BUY = { 15, 40, 120, 400, 2500 }
 RV.CASE_FINISH_X = { thunder = 2, titan = 3 }
-RV.CASE_ITEM = 30
-RV.KEY_ITEM = 250
+RV.CASE_ITEM = 15
+RV.KEY_ITEM = 63
 
 local function Now()
 	return (GetServerTime and CuratorOctoFull.ServerTime()) or time()
@@ -292,7 +292,7 @@ function RV:Offer(card, finish)
 	if TL and TL.ResellOffer then
 		base = base * TL:ResellOffer(finish)
 	end
-	return math.floor(base + 1e-6)
+	return ns.Rubies.LocalPrice(base)
 end
 
 -- (1.13.0, after its second test) What copies bringing n rubies at their full price pay now, the guard of the week taken
@@ -485,7 +485,7 @@ function RV:CaseOffer(w)
 	if TL and TL.ResellOffer then
 		base = base * TL:ResellOffer((w.f == "thunder" and "shiny") or (w.f == "titan" and "holo") or "normal")
 	end
-	return math.floor(base + 1e-6)
+	return ns.Rubies.LocalPrice(base)
 end
 
 function RV:CaseHeld(w)
@@ -652,7 +652,7 @@ function RV:Pawned(card, finish, paid)
 		return
 	end
 	local list = self:Pawns()
-	list[CuratorOctoFull.Length(list) + 1] = { k = card.key, f = (finish ~= "normal" and finish) or nil, p = math.max(0, math.floor(tonumber(paid) or 0)),
+	list[CuratorOctoFull.Length(list) + 1] = { k = card.key, f = (finish ~= "normal" and finish) or nil, octoPrice = true, p = math.max(0, math.floor(tonumber(paid) or 0)),
 		t = (GetServerTime and CuratorOctoFull.ServerTime()) or time() }
 	-- (the last 30 at most)
 	while CuratorOctoFull.Length(list) > 30 do
@@ -662,6 +662,11 @@ function RV:Pawned(card, finish, paid)
 end
 
 -- A copy bought back (its place in RV:Pawns). True and the card; false and why ("here", "card", "rubies").
+function RV:BuyBackPrice(x)
+    -- New pawn receipts already contain the revised price.
+    return x.octoPrice and x.p or ns.Rubies.LocalPrice(x.p)
+end
+
 function RV:BuyBack(i)
 	local list = self:Pawns()
 	local x = list[i or 0]
@@ -675,7 +680,7 @@ function RV:BuyBack(i)
 	if ns.Guard and not ns.Guard:Allow(card.series, card) then
 		return false, "guard"
 	end
-	local paid, why = ns.Rubies:Spend(x.p, "resell")
+	local paid, why = ns.Rubies:Spend(self:BuyBackPrice(x), "resell")
 	if not paid then
 		return false, why or "rubies"
 	end
@@ -694,7 +699,7 @@ function RV:BaronPrice(i)
 	end
 	local finish = self:StockFinish(i)
 	local base = (self.BUY[card.rarity or 1] or self.BUY[1]) * (self.FINISH_X[finish or "normal"] or 1)
-	return math.max(1, math.floor(base))
+	return ns.Rubies.LocalPrice(base)
 end
 
 function RV:CanBaron(i)
