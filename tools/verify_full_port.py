@@ -6,7 +6,7 @@ from lupa.lua51 import LuaRuntime
 lua = LuaRuntime()
 lua.execute(r"""
 math.mod = math.fmod
-time = os.time
+time, date = os.time, os.date
 tinsert, tremove, strlen, strfind, format = table.insert, table.remove, string.len, string.find, string.format
 local noop = function() end
 local widget
@@ -46,13 +46,14 @@ local methods = {
  GetHighlightTexture = function() return widget() end,
  GetParent = function(self) return self.parent end,
  SetParent = function(self, parent) self.parent = parent end,
- CreateTexture = function(self) return widget(self) end,
- CreateFontString = function(self) return widget(self) end,
+ CreateTexture = function(self) return widget(self, true) end,
+ CreateFontString = function(self) return widget(self, true) end,
  GetWidth = function() return 1024 end,
  GetHeight = function() return 768 end,
  GetFrameLevel = function() return 1 end,
- GetEffectiveScale = function() return 1 end,
- GetScale = function() return 1 end,
+ GetEffectiveScale = function(self) return self:GetScale() * (self.parent and self.parent:GetEffectiveScale() or 1) end,
+ GetScale = function(self) return self.scale or 1 end,
+ SetScale = function(self, scale) self.scale = scale end,
  GetAlpha = function() return 1 end,
  GetRotation = function() return 0 end,
  GetLeft = function() return 0 end,
@@ -63,8 +64,9 @@ local methods = {
  IsShown = function(self) return self.shown ~= false end,
  IsVisible = function(self) return self.shown ~= false end,
 }
-widget = function(parent)
+widget = function(parent, layeredRegion)
  local frame = setmetatable({parent=parent}, {__index=function(_, key)
+     if layeredRegion and (key == "GetScale" or key == "GetEffectiveScale") then return nil end
      return methods[key] or (not unavailable[key] and string.find(key, "^[A-Z]") and noop or nil)
  end})
  scripts[frame] = {}
@@ -397,3 +399,51 @@ for _, series in ipairs(ns.Series) do
 end
 """)
 print("All 57 Balor cards, every album's first page and optional model controls verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local inns, ui, gossip, tavern = ns.Inns, ns.InnsUI, ns.Gossip, ns.TavernUI
+local npc = 6740
+local parent = CreateFrame("Frame", nil, UIParent)
+parent:SetScale(.75)
+local icon = parent:CreateTexture()
+assert(ns.GetEffectiveScale(icon) == parent:GetEffectiveScale())
+local x, y = ns.Hud.Where(icon)
+assert(x == 384 and y == 288)
+local flight = false
+ns.Hud.Fly("test", icon, parent, 30, .25, function() flight = true end)
+stepFrames(20)
+assert(flight)
+
+GetServerTime = function() return 0 end
+assert(ns.IsCalendarTime(ns.ServerTime()))
+local state = inns:State()
+state.day = 24
+state.visas[npc] = { t = 0, p = "Stormwind City" }
+ui:PaintLine2(npc)
+assert(inns:StampedToday() and state.day == inns:Today())
+assert(not string.find(ui.panel.line2:GetText(), "1970", 1, true))
+state.day = nil
+state.visas[npc] = nil
+local oldNpcId = gossip.NpcId
+gossip.NpcId = function() return npc end
+assert(traceEvent("GOSSIP_SHOW") == "")
+stepFrames(8)
+assert(ui.panel:IsShown() and gossip.panel:IsShown())
+assert(ns.IsCalendarTime(state.visas[npc].t))
+assert(ui:Open(npc, true))
+stepFrames(120)
+assert(inns:StampedToday() and ns.IsCalendarTime(state.card[1].t))
+tavern:OpenBet(npc)
+assert(tavern:IsBetOpen() and not gossip.panel:IsShown() and not ui.panel:IsShown())
+gossip:Refresh()
+assert(not gossip.panel:IsShown())
+tavern.frame:Hide()
+assert(ui.panel:IsShown() and gossip.panel:IsShown())
+tavern:OpenBet(npc)
+gossip:Close()
+tavern.frame:Hide()
+assert(not ui.panel:IsShown() and not gossip.panel:IsShown())
+gossip.NpcId, GetServerTime = oldNpcId, nil
+""")
+print("Allison: legacy texture flight, new and saved dates, stamp and bet window verified")

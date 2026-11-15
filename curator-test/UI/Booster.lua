@@ -831,7 +831,7 @@ function B:SavePlace()
 	local s = self.frame
 	local x, y = s:GetCenter()
 	local pw, ph = UIParent:GetWidth(), UIParent:GetHeight()
-	local es, ps = s:GetEffectiveScale(), UIParent:GetEffectiveScale()
+	local es, ps = CuratorOctoFull.GetEffectiveScale(s), CuratorOctoFull.GetEffectiveScale(UIParent)
 	if not (x and y and pw and ph and es and ps and ps > 0) then
 		return
 	end
@@ -3660,7 +3660,7 @@ function B:PackTick(dt, t)
 	p.spotA = (p.spotA or 0) + ((p.hover and idle and 0.3 or 0) - (p.spotA or 0)) * math.min(1, dt * 8)
 	if p.spotA > 0.005 then
 		local cx, cy = GetCursorPosition()
-		local es = p:GetEffectiveScale()
+		local es = CuratorOctoFull.GetEffectiveScale(p)
 		local mx, my = p:GetCenter()
 		if cx and cy and es and es > 0 and mx and my then
 			spot:ClearAllPoints()
@@ -3718,7 +3718,7 @@ function B:CardTick(c, i, t, dt)
 	c.sheenA = (c.sheenA or 0) + (target - (c.sheenA or 0)) * math.min(1, dt * 10)
 	if c.hoverOn and not c.busy then
 		local cx, cy = GetCursorPosition()
-		local es = c:GetEffectiveScale()
+		local es = CuratorOctoFull.GetEffectiveScale(c)
 		local mx, my = c:GetCenter()
 		if cx and cy and es and es > 0 and mx and my then
 			c.lightX, c.lightY = (cx / es - mx) * 0.8, (cy / es - my) * 0.8
@@ -3815,7 +3815,7 @@ function B:Tick(elapsed)
 	local s = self.frame
 	-- the place behind follows the mouse a little, as far things do
 	local mx, my = GetCursorPosition()
-	local es, w, h = s:GetEffectiveScale(), s:GetWidth(), s:GetHeight()
+	local es, w, h = CuratorOctoFull.GetEffectiveScale(s), s:GetWidth(), s:GetHeight()
 	if mx and my and es and es > 0 and w and w > 0 and h and h > 0 then
 		local k = math.min(1, elapsed * 3)
 		-- (from the corner of the scene: the small window is not in the corner of the screen)

@@ -1466,8 +1466,8 @@ function RU:MarkPlace(m, elapsed)
 	m.t = (m.t or 0) + (elapsed or 0)
 	local close = math.min(1, m.t / 0.28)
 	local e = 1 - (1 - close) * (1 - close)
-	local es = c.GetEffectiveScale and c:GetEffectiveScale() or 1
-	local em = m.GetEffectiveScale and m:GetEffectiveScale() or 1
+	local es = c.GetEffectiveScale and CuratorOctoFull.GetEffectiveScale(c) or 1
+	local em = m.GetEffectiveScale and CuratorOctoFull.GetEffectiveScale(m) or 1
 	local k = (em > 0) and (es / em) or 1
 	-- (the brackets from a little wider, closing in)
 	local grow = 1 + 0.45 * (1 - e)
@@ -1663,8 +1663,8 @@ function RU:Look(k)
 	end
 	local c = d.card
 	-- (on the card as it is shown: its size now, zoomed or not)
-	local es = c.GetEffectiveScale and c:GetEffectiveScale() or 1
-	local ef = d.restFx.GetEffectiveScale and d.restFx:GetEffectiveScale() or 1
+	local es = c.GetEffectiveScale and CuratorOctoFull.GetEffectiveScale(c) or 1
+	local ef = d.restFx.GetEffectiveScale and CuratorOctoFull.GetEffectiveScale(d.restFx) or 1
 	local k = (ef > 0) and (es / ef) or 1
 	local x, y = ((tonumber(f.x) or 0.5) - 0.5) * c.W * k, (0.5 - (tonumber(f.y) or 0.5)) * c.H * k
 	local x0, y0 = cer.lx or 0, cer.ly or 0

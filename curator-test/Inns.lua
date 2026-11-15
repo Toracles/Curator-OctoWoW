@@ -323,9 +323,16 @@ function I:NextIn()
 end
 
 -- The stamp of the day taken already.
-function I:StampedToday()
-	local s = self:State()
-	return s ~= nil and s.day == self:Today()
+function I:StampedToday(today)
+    local s = self:State()
+    if not s then return false end
+    today = today or self:Today()
+    -- Keep the previous stamp locked through the first valid reset after an invalid clock.
+    if ns.Quests and ns.Quests.ResetPeriod and type(s.day) == "number" and s.day > 0
+        and ns.IsCalendarTime(today * 600) and not ns.IsCalendarTime(s.day * 600) then
+        s.day = today
+    end
+    return s.day == today
 end
 
 -- The stamps of the card now: { n = innkeeper, t = time }.
@@ -398,7 +405,7 @@ function I:Stamp(npc)
 		return nil, "unknown"
 	end
 	local today = self:Today()
-	if s.day == today then
+	if self:StampedToday(today) then
 		return nil, "done"
 	end
 	-- (1.14.0: the cards changed by another addon this session: no stamp today yet; Guard.lua)

@@ -198,7 +198,7 @@ end
 local function Offset(frame)
 	local x, y = GetCursorPosition()
 	local cx, cy = frame:GetCenter()
-	local s = frame:GetEffectiveScale()
+	local s = CuratorOctoFull.GetEffectiveScale(frame)
 	if not (x and cx and s and s > 0) then
 		return 0, 0
 	end

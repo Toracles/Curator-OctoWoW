@@ -51,8 +51,13 @@ function ns.SetScript(frame, handler, callback)
     return frame:SetScript(handler, function() return callback(this or frame) end)
 end
 
+function ns.IsCalendarTime(seconds)
+    return type(seconds) == "number" and seconds >= 946684800
+end
+
 function ns.ServerTime()
-    if GetServerTime then return GetServerTime() end
+    local server = GetServerTime and GetServerTime()
+    if ns.IsCalendarTime(server) then return server end
     return time()
 end
 
@@ -274,6 +279,16 @@ end
 function ns.GetSize(region)
     if region.GetSize then return region:GetSize() end
     return region:GetWidth(), region:GetHeight()
+end
+
+function ns.GetEffectiveScale(region)
+    local scale = 1
+    while region do
+        if region.GetEffectiveScale then return scale * region:GetEffectiveScale() end
+        if region.GetScale then scale = scale * region:GetScale() end
+        region = region.GetParent and region:GetParent()
+    end
+    return scale
 end
 
 function ns.GetRect(region)

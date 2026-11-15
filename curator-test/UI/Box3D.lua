@@ -965,7 +965,7 @@ local function Idle(self, elapsed)
 	local pitch = (self.basePitch or B3.PITCH) + math.sin(t * 0.33) * 0.035
 	if self.dragging then
 		local x, y = GetCursorPosition()
-		local s = self:GetEffectiveScale()
+		local s = CuratorOctoFull.GetEffectiveScale(self)
 		self.dragYaw = self.dragYaw0 + (x / s - self.dragX0) * 0.012
 		self.dragOff = math.max(-1.0, math.min(1.0, self.dragYaw))
 		yaw = yaw + self.dragOff
@@ -1031,9 +1031,9 @@ function M:SetDraggable(on, tilt)
 	CuratorOctoFull.SetScript(self, "OnMouseDown", function(b)
 		local x, y = GetCursorPosition()
 		b.dragging = true
-		b.dragX0 = x / b:GetEffectiveScale()
+		b.dragX0 = x / CuratorOctoFull.GetEffectiveScale(b)
 		b.dragYaw0 = b.dragOff or 0
-		b.dragY0 = y and y / b:GetEffectiveScale() or nil
+		b.dragY0 = y and y / CuratorOctoFull.GetEffectiveScale(b) or nil
 		b.dragTilt0 = b.tiltOff or 0
 	end)
 	CuratorOctoFull.SetScript(self, "OnMouseUp", function(b)

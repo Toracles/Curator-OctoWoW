@@ -551,6 +551,13 @@ function UI:Frame()
 		if UI.state == "flip" or UI.state == "dealing" then
 			UI.state = "done"
 		end
+        local counter = f.returnCounter
+        f.returnCounter = nil
+        local gossip = ns.Gossip
+        if gossip and gossip.open then
+            if counter and gossip.npc == counter.npc then counter:Show() end
+            gossip:Fallback()
+        end
 	end)
 	self.frame = f
 	return f
@@ -558,6 +565,10 @@ end
 
 -- The table of the bet, at this innkeeper: the choice of the duplicate, or the cards of a bet waiting. (1.14.0: in the
 -- middle of the screen, his counter beside his window.)
+function UI:IsBetOpen()
+    return self.frame and self.frame:IsShown()
+end
+
 function UI:OpenBet(npc)
 	local d = T:Deal()
 	if not d and T:BetToday() then
@@ -594,8 +605,14 @@ function UI:OpenBet(npc)
 	else
 		self:ShowChoose(npc)
 	end
-	f:Show()
-	ns.Play(ns.SND.open)
+    local counter = ns.InnsUI and ns.InnsUI.panel
+    if counter and counter:IsShown() then
+        f.returnCounter = counter
+        counter:Hide()
+    end
+    f:Show()
+    if ns.Gossip then ns.Gossip:Fallback() end
+    ns.Play(ns.SND.open)
 end
 
 function UI:ShowChoose(npc)

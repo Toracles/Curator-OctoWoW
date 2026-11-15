@@ -109,7 +109,7 @@ end
 -- A frame on the screen: its left, right, top and bottom, in points of the screen (nil: not placed yet).
 local function Box(f)
 	local ok, l, r, t, b, k = pcall(function()
-		return f:GetLeft(), f:GetRight(), f:GetTop(), f:GetBottom(), f:GetEffectiveScale()
+		return f:GetLeft(), f:GetRight(), f:GetTop(), f:GetBottom(), CuratorOctoFull.GetEffectiveScale(f)
 	end)
 	if ok and type(l) == "number" and type(r) == "number" and type(t) == "number" and type(b) == "number" and type(k) == "number" then
 		return l * k, r * k, t * k, b * k
@@ -358,7 +358,7 @@ function BB:Place()
 	if type(at) == "table" and tonumber(at.x) and tonumber(at.y) then
 		local kr = 1
 		local ok, r = pcall(function()
-			return b:GetEffectiveScale() / UIParent:GetEffectiveScale()
+			return CuratorOctoFull.GetEffectiveScale(b) / CuratorOctoFull.GetEffectiveScale(UIParent)
 		end)
 		if ok and type(r) == "number" and r > 0 then
 			kr = r
@@ -373,7 +373,7 @@ function BB:Place()
 	if a then
 		local w = a:GetWidth()
 		local ok, k = pcall(function()
-			return a:GetEffectiveScale() / b:GetEffectiveScale()
+			return CuratorOctoFull.GetEffectiveScale(a) / CuratorOctoFull.GetEffectiveScale(b)
 		end)
 		if ok and type(k) == "number" and k > 0 then
 			w = w * k
@@ -381,7 +381,7 @@ function BB:Place()
 		-- (as wide as the bar of the game whatever its size: its bounds on the screen)
 		local size = self:Scale()
 		self:SetWidth(math.max(MIN_W / size, math.min(MAX_W / size, w)))
-		local base = self:Base(a, (GAP + HEIGHT + 2) * (b:GetEffectiveScale() or 1))
+		local base = self:Base(a, (GAP + HEIGHT + 2) * (CuratorOctoFull.GetEffectiveScale(b) or 1))
 		b:SetPoint("BOTTOM", base, "TOP", 0, GAP)
 		self:Watch(a)
 		-- (a bar of buttons shown or hidden later: placed again)
@@ -426,7 +426,7 @@ function BB:SavePlace()
 	local b = self.frame
 	local x, y = b:GetCenter()
 	local cx, cy = UIParent:GetCenter()
-	local k = b:GetEffectiveScale() / UIParent:GetEffectiveScale()
+	local k = CuratorOctoFull.GetEffectiveScale(b) / CuratorOctoFull.GetEffectiveScale(UIParent)
 	if x and y and cx and cy then
 		ns.db.barAt = { x = math.floor(x * k - cx + 0.5), y = math.floor(y * k - cy + 0.5), w = b.bar.w }
 	end

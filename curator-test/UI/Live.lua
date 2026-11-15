@@ -739,7 +739,7 @@ function V:SaveMover()
 	if not (l and t and w) then
 		return
 	end
-	local k = m:GetEffectiveScale() / UIParent:GetEffectiveScale()
+	local k = CuratorOctoFull.GetEffectiveScale(m) / CuratorOctoFull.GetEffectiveScale(UIParent)
 	local x = math.floor((l + w / 2) * k - UIParent:GetWidth() / 2 + 0.5)
 	local y = math.floor(t * k - UIParent:GetHeight() + 0.5)
 	ns.db.alertsAt = { x = x, y = y }

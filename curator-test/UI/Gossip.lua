@@ -330,6 +330,10 @@ function G:ShowInterface()
 end
 
 function G:Fallback()
+    if ns.TavernUI and ns.TavernUI:IsBetOpen() then
+        if self.panel then self.panel:Hide() end
+        return
+    end
 	local f = rawget(_G, "GossipFrame")
 	local shown = f and f.IsShown and f:IsShown() and self.hooked
 	local lines = (not shown) and self.role and self:Lines() or {}
@@ -408,15 +412,15 @@ function G:Fallback()
 	-- (1.14.3) the scale of the interface; beside the window of another addon (Dialogue UI: on its left), else where it was
 	local ui = rawget(_G, "UIParent")
 	if ui and ui.GetEffectiveScale then
-		p:SetScale(ui:GetEffectiveScale())
+		p:SetScale(CuratorOctoFull.GetEffectiveScale(ui))
 	end
 	p:ClearAllPoints()
 	local other = self:Other()
 	if other then
 		-- (on its side toward the middle of the screen: Dialogue UI puts its own on the right, or on the left)
 		local ox = other.GetCenter and other:GetCenter()
-		local mid = ui and ui.GetWidth and ui:GetWidth() * ui:GetEffectiveScale() / 2
-		if ox and mid and ox * other:GetEffectiveScale() < mid then
+		local mid = ui and ui.GetWidth and ui:GetWidth() * CuratorOctoFull.GetEffectiveScale(ui) / 2
+		if ox and mid and ox * CuratorOctoFull.GetEffectiveScale(other) < mid then
 			p:SetPoint("TOPLEFT", other, "TOPRIGHT", 12, 0)
 		else
 			p:SetPoint("TOPRIGHT", other, "TOPLEFT", -12, 0)

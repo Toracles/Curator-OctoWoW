@@ -277,7 +277,7 @@ local function Calibrate(sc)
 		if xc > 0.4 and xc < 0.6 and yc > 0.4 and yc < 0.6 then
 			unit = 1 / h
 		elseif math.abs(xc) < 0.05 and math.abs(yc) < 0.05 then
-			unit = sc:GetEffectiveScale()
+			unit = CuratorOctoFull.GetEffectiveScale(sc)
 		elseif xc > 0 and yc > 0 then
 			local ux2, uy2 = xc / (w / 2), yc / (h / 2)
 			if math.abs(ux2 - uy2) / uy2 < 0.06 then

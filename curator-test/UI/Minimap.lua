@@ -89,7 +89,7 @@ function M:Build()
 		CuratorOctoFull.SetScript(self, "OnUpdate", function()
 			local mx, my = Minimap:GetCenter()
 			local px, py = GetCursorPosition()
-			local scale = Minimap:GetEffectiveScale()
+			local scale = CuratorOctoFull.GetEffectiveScale(Minimap)
 			if mx and px and scale and scale > 0 then
 				ns.db.minimap.angle = CuratorOctoFull.Mod(math.deg(math.atan2(py / scale - my, px / scale - mx)) , 360)
 				Place(self, ns.db.minimap.angle)

@@ -592,7 +592,7 @@ local function Where(r)
 		if not x then
 			return nil
 		end
-		local k = r:GetEffectiveScale() / UIParent:GetEffectiveScale()
+		local k = CuratorOctoFull.GetEffectiveScale(r) / CuratorOctoFull.GetEffectiveScale(UIParent)
 		return x * k, y * k
 	end
 	return r[1], r[2]

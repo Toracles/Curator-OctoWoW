@@ -507,7 +507,7 @@ local function Box(r)
 	if not (l and rr and bt and tp) then
 		return nil
 	end
-	local k = r:GetEffectiveScale() / UIParent:GetEffectiveScale()
+	local k = CuratorOctoFull.GetEffectiveScale(r) / CuratorOctoFull.GetEffectiveScale(UIParent)
 	return l * k, rr * k, bt * k, tp * k
 end
 
@@ -522,7 +522,7 @@ function T:Place(step)
 		return
 	end
 	-- (1.11.0) the album at its size (UI/Options.lua): its lengths in those of the screen
-	local s = f:GetEffectiveScale() / UIParent:GetEffectiveScale()
+	local s = CuratorOctoFull.GetEffectiveScale(f) / CuratorOctoFull.GetEffectiveScale(UIParent)
 	local tabsW = self:TabsWidth() * s
 	local tl, tr, tb, tt
 	if step.frame then

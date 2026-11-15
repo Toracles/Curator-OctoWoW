@@ -106,7 +106,7 @@ function convert(source, file) {
             edit(node.base.range, "CuratorOctoFull." + ({select:"Select",GetServerTime:"ServerTime",wipe:"Wipe"})[node.base.name]);
         if (node.type === "CallExpression" && node.base.type === "MemberExpression" &&
                 node.base.indexer === ":" && ["SetScript", "SetSize", "SetColorTexture", "SetShown", "SetClipsChildren",
-                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "HookScript", "GetSize", "GetRect", "GetStringHeight",
+                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "HookScript", "GetSize", "GetRect", "GetStringHeight", "GetEffectiveScale",
                  "SetMotionScriptsWhileDisabled", "SetClampedToScreen", "SetAutoFocus", "SetDesaturated", "SetRotation", "GetRotation", "SetEnabled", "SetWordWrap", "SetMaxLines",
                  "SetPortraitZoom", "SetCamDistanceScale", "SetParticlesEnabled", "SetPaused", "SetLight",
                  "byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "sub", "upper"].includes(node.base.identifier.name)) {

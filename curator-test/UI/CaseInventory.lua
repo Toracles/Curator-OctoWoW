@@ -394,7 +394,7 @@ function IU:CaseLean(lens, elapsed)
 	end
 	local x, y = GetCursorPosition()
 	local cx, cy = c:GetCenter()
-	local sc = c:GetEffectiveScale()
+	local sc = CuratorOctoFull.GetEffectiveScale(c)
 	local dx, dy = 0, 0
 	if x and cx and sc and sc > 0 then
 		local hw, hh = math.max(1, (c:GetWidth() or 1) / 2), math.max(1, (c:GetHeight() or 1) / 2)

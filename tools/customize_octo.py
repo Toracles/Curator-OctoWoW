@@ -97,11 +97,77 @@ def booster_preview(text):
                    '\t\tCuratorOctoFull.SetShown(s.again, not self.opts.test)\n\t\ts.again:SetAlpha(left > 0 and 1 or 0.45)')
 
 
+def inns_dates(text):
+    text = replace(text, 'local function Day(t)\n\tif not t then',
+                   'local function Day(t)\n\tif not CuratorOctoFull.IsCalendarTime(t) then')
+    text = replace(text, 'local function DayLong(t)\n\tif not t then\n\t\treturn ""',
+                   'local function DayLong(t)\n\tif not CuratorOctoFull.IsCalendarTime(t) then\n\t\treturn "—"')
+    return replace(text, 'if G and G.open and G.npc == npc then\n\t\t\tUI:Open(npc, false, true)',
+                   'if G and G.open and G.npc == npc and not (ns.TavernUI and ns.TavernUI:IsBetOpen()) then\n\t\t\tUI:Open(npc, false, true)')
+
+
+def inns_clock(text):
+    text = replace(text, 'function I:StampedToday()\n\tlocal s = self:State()\n\treturn s ~= nil and s.day == self:Today()\nend',
+                   '''function I:StampedToday(today)
+    local s = self:State()
+    if not s then return false end
+    today = today or self:Today()
+    -- Keep the previous stamp locked through the first valid reset after an invalid clock.
+    if ns.Quests and ns.Quests.ResetPeriod and type(s.day) == "number" and s.day > 0
+        and ns.IsCalendarTime(today * 600) and not ns.IsCalendarTime(s.day * 600) then
+        s.day = today
+    end
+    return s.day == today
+end''')
+    return replace(text, '\tlocal today = self:Today()\n\tif s.day == today then',
+                   '\tlocal today = self:Today()\n\tif self:StampedToday(today) then')
+
+
+def tavern_bet_modal(text):
+    text = replace(text, 'function UI:OpenBet(npc)', '''function UI:IsBetOpen()
+    return self.frame and self.frame:IsShown()
+end
+
+function UI:OpenBet(npc)''')
+    text = replace(text, '\tf:Show()\n\tns.Play(ns.SND.open)\nend\n\nfunction UI:ShowChoose(npc)', '''    local counter = ns.InnsUI and ns.InnsUI.panel
+    if counter and counter:IsShown() then
+        f.returnCounter = counter
+        counter:Hide()
+    end
+    f:Show()
+    if ns.Gossip then ns.Gossip:Fallback() end
+    ns.Play(ns.SND.open)
+end
+
+function UI:ShowChoose(npc)''')
+    return replace(text, '''\t\tif UI.state == "flip" or UI.state == "dealing" then
+\t\t\tUI.state = "done"
+\t\tend''', '''\t\tif UI.state == "flip" or UI.state == "dealing" then
+\t\t\tUI.state = "done"
+\t\tend
+        local counter = f.returnCounter
+        f.returnCounter = nil
+        local gossip = ns.Gossip
+        if gossip and gossip.open then
+            if counter and gossip.npc == counter.npc then counter:Show() end
+            gossip:Fallback()
+        end''')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
         "UI/Booster.lua": booster_preview,
+        "Inns.lua": inns_clock,
+        "UI/Inns.lua": inns_dates,
+        "UI/Tavern.lua": tavern_bet_modal,
+        "UI/Gossip.lua": lambda text: replace(text, 'function G:Fallback()\n', '''function G:Fallback()
+    if ns.TavernUI and ns.TavernUI:IsBetOpen() then
+        if self.panel then self.panel:Hide() end
+        return
+    end
+'''),
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")

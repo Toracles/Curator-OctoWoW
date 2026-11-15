@@ -641,7 +641,7 @@ local function ReadScene(m)
 	if xc > 0.4 and xc < 0.6 and yc > 0.4 and yc < 0.6 then
 		unit = 1 / h
 	elseif math.abs(xc) < 0.05 and math.abs(yc) < 0.05 then
-		unit = sc:GetEffectiveScale()
+		unit = CuratorOctoFull.GetEffectiveScale(sc)
 	elseif xc > 0 and yc > 0 then
 		local ux, uy = xc / (w / 2), yc / (h / 2)
 		if math.abs(ux - uy) / uy < 0.06 then
@@ -3246,7 +3246,7 @@ function CC.Light(self, t)
 	local left, top = self:GetLeft(), self:GetTop()
 	if GetCursorPosition and left and top then
 		local cx, cy = GetCursorPosition()
-		local scale = self:GetEffectiveScale()
+		local scale = CuratorOctoFull.GetEffectiveScale(self)
 		if scale and scale > 0 then
 			cx, cy = cx / scale, cy / scale
 			local dx, dy = (cx - (left + self.W / 2)) / (self.W / 2), (cy - (top - self.H / 2)) / (self.H / 2)

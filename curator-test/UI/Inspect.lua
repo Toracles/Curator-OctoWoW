@@ -176,7 +176,7 @@ function I:Update(card, elapsed)
 	if t.dragging then
 		local x, y = GetCursorPosition()
 		-- (points of the place it is in: closer, it does not turn slower)
-		local k = (t.holder:GetParent() or UIParent):GetEffectiveScale()
+		local k = CuratorOctoFull.GetEffectiveScale((t.holder:GetParent() or UIParent))
 		if not k or k <= 0 then
 			k = 1
 		end
@@ -228,7 +228,7 @@ function I:Update(card, elapsed)
 	local hy, hp = 0, 0
 	if in3D and t.lean and not t.dragging and not card.live3D and card:IsMouseOver() then
 		local x, y = GetCursorPosition()
-		local s = card:GetEffectiveScale()
+		local s = CuratorOctoFull.GetEffectiveScale(card)
 		local cx, cy = card:GetCenter()
 		if s and s > 0 and cx and cy then
 			hy = HOVER * math.max(-1, math.min(1, (x / s - cx) / (card.W / 2)))

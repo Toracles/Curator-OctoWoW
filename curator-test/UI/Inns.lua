@@ -61,7 +61,7 @@ end
 
 -- The day of a stamp, short (the day and the month, as the language writes them).
 local function Day(t)
-	if not t then
+	if not CuratorOctoFull.IsCalendarTime(t) then
 		return ""
 	end
 	local ok, s = pcall(date, L["%m/%d"], t)
@@ -69,8 +69,8 @@ local function Day(t)
 end
 
 local function DayLong(t)
-	if not t then
-		return ""
+	if not CuratorOctoFull.IsCalendarTime(t) then
+		return "—"
 	end
 	local ok, s = pcall(date, L["%m/%d/%Y"], t)
 	return ok and s or ""
@@ -1027,7 +1027,7 @@ ns.On("NPC_TALK", function(role, npc)
 	end
 	ns.Delay(0.05, function()
 		local G = ns.Gossip
-		if G and G.open and G.npc == npc then
+		if G and G.open and G.npc == npc and not (ns.TavernUI and ns.TavernUI:IsBetOpen()) then
 			UI:Open(npc, false, true)
 		end
 	end, UI)

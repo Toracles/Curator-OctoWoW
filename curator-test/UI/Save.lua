@@ -461,7 +461,7 @@ function SV:Cover(target, opts)
 		return false
 	end
 	local ok = pcall(function()
-		local k = target:GetEffectiveScale() / UIParent:GetEffectiveScale()
+		local k = CuratorOctoFull.GetEffectiveScale(target) / CuratorOctoFull.GetEffectiveScale(UIParent)
 		local l, bottom, w, h = CuratorOctoFull.GetRect(target)
 		b:ClearAllPoints()
 		b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", l * k - 1, bottom * k - 1)
