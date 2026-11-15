@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.28](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.28/Curator-OctoWoW-correctif-alpha.28.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.29](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.29/Curator-OctoWoW-correctif-alpha.29.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
@@ -42,6 +42,7 @@ Chaque quête rendue confirmée par le client ou Questie-Octo rapporte **20 poin
 | Ouvrir la collection | `/curator` |
 | Sauvegarder la collection | Clique sur le parchemin dans l’en-tête ou tape `/curator save`. Confirme le retour à la sélection des personnages pour sauvegarder. Curator confirme la sauvegarde si tu te reconnectes peu après. |
 | Essayer une ouverture de booster | `/curator boosters` → **Tester**. L’aperçu est gratuit et ne donne aucune récompense. |
+| Ouvrir des caisses de collection | Ouvre une caisse à vitesse normale ou choisis **5×**, **10×** ou **20×** pour enchaîner les révélations en accéléré. Fermer la fenêtre arrête les ouvertures restantes. |
 | Redimensionner ou déplacer la barre de boosters | Molette sur la barre pour la largeur, Ctrl + molette pour l’échelle, Maj + glisser pour la déplacer. Utilise `/curator bar width 240` pour une largeur précise ou `/curator bar reset` pour réinitialiser. |
 | Échanger des doublons contre une carte plus rare | **Contrats** ou `/curator contrat` |
 | Ouvrir l’interface des échanges entre joueurs | Cible un joueur et tape `/curator trade`, ou utilise `/curator trade Nom`. Sans cible, la commande ouvre la liste des échanges. |

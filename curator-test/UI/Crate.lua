@@ -899,7 +899,29 @@ function CR:Build()
 	CuratorOctoFull.SetScript(f.key, "OnLeave", function()
 		GameTooltip:Hide()
 	end)
+	f.batchButtons = {}
+	local previous = f.open
+	for _, count in ipairs({ 5, 10, 20 }) do
+		local quantity = count
+		local b = S.Button(bar, quantity .. "×", 58, 30)
+		b:SetPoint("LEFT", previous, "RIGHT", 8, 0)
+		CuratorOctoFull.SetScript(b, "OnClick", function() CR:StartBatch(quantity) end)
+		CuratorOctoFull.SetScript(b, "OnEnter", function(self) CR:OpenTip(self, quantity) end)
+		CuratorOctoFull.SetScript(b, "OnLeave", function() GameTooltip:Hide() end)
+		f.batchButtons[quantity] = b
+		previous = b
+	end
+	f.key:ClearAllPoints()
+	f.key:SetPoint("LEFT", previous, "RIGHT", 12, 0)
+	f.key:SetWidth(174)
 	f.key:Hide()
+	local status = CreateFrame("Frame", nil, f)
+	status:SetAllPoints(f)
+	status:SetFrameLevel(f:GetFrameLevel() + 65)
+	f.batchStatus = Text(status, 14, "OUTLINE")
+	f.batchStatus:SetPoint("TOP", f.sub, "BOTTOM", 0, -5)
+	f.batchStatus:SetTextColor(1, 0.84, 0.26)
+	f.batchStatus:Hide()
 	CuratorOctoFull.SetScript(f.open, "OnEnter", function(b)
 		CR:OpenTip(b)
 	end)
@@ -1721,6 +1743,9 @@ function CR:PaintReal(why)
 		key:Hide()
 		f.why:Hide()
 		bar:SetWidth(380)
+		f.open:SetWidth(220)
+		f.quit:SetWidth(140)
+		for _, b in pairs(f.batchButtons) do b:Hide() end
 		f.panel.inspect:SetText(L["Click a card to inspect it."])
 		self.cards, self.weapons = nil, nil
 		return
@@ -1756,7 +1781,10 @@ function CR:PaintReal(why)
 	f.panel.inspect:SetText(words)
 	self:PlaceItems()
 	-- (the buttons: open it, a key between it and the one that closes)
-	bar:SetWidth(604)
+	bar:SetWidth(650)
+	f.open:SetText(L["Open the case"])
+	f.open:SetWidth(132)
+	f.quit:SetWidth(120)
 	key:Show()
 	if Armed(key) then
 		key:SetText(L["Confirm"])
@@ -1764,7 +1792,12 @@ function CR:PaintReal(why)
 		key:SetText(L["Buy a key"] .. "  " .. (RB and RB.Text(CS:KeyPrice(), 14) or tostring(CS:KeyPrice())))
 	end
 	local ok, lack = CS:CanOpen(case)
-	local busy = self.state ~= nil and self.state ~= "case" and self.state ~= "shutting"
+	local busy = self.batch ~= nil or (self.state ~= nil and self.state ~= "case" and self.state ~= "shutting")
+	local available = not busy and CS:Openable(case) or 0
+	for count, b in pairs(f.batchButtons) do
+		b:Show()
+		CuratorOctoFull.SetEnabled(b, available >= count)
+	end
 	CuratorOctoFull.SetEnabled(f.open, (ok and not busy) and true or false)
 	CuratorOctoFull.SetEnabled(key, (not busy and lack ~= "closed" and lack ~= "case") and true or false)
 	-- (under them: what was refused, else what it lacks)
@@ -1843,7 +1876,7 @@ function CR:KeyTip(b)
 end
 
 -- The words of the button that opens the case, for real: its cases, its keys, where the cases come from.
-function CR:OpenTip(b)
+function CR:OpenTip(b, count)
 	local CS = ns.Cases
 	if not (self.real and CS) then
 		return
@@ -1851,6 +1884,9 @@ function CR:OpenTip(b)
 	GameTooltip:SetOwner(b, "ANCHOR_TOP")
 	GameTooltip:AddLine(L[(self.own and self.own.def.title) or "Test case"], 1, 0.84, 0.26)
 	GameTooltip:AddLine(string.format(L["Cases to open: %d  ·  Keys: %d"], CS:Count(self.real), CS:Keys(self.real)), 0.9, 0.9, 0.92)
+	if count then
+		GameTooltip:AddLine(string.format(L["Open %d cases"], count), 1, 1, 1)
+	end
 	GameTooltip:AddLine(L["A case and a key of its edition: one card, yours."], 0.85, 0.85, 0.88, true)
 	GameTooltip:AddLine(L["The cases come from the creatures that give experience (1 in 100) and the quests turned in (4 in 100)."], 0.6, 0.6, 0.64, true)
 	GameTooltip:Show()
@@ -2101,6 +2137,7 @@ function CR:ShowCase(how)
 		f.panel:SetPoint("CENTER", f, "CENTER", 0, self.midY)
 		-- (for real: its buttons usable again)
 		self:PaintReal()
+		self:ContinueBatch()
 	end
 	-- (what it holds, the buttons, the words over it: coming in)
 	local function Appear()
@@ -2313,18 +2350,24 @@ function CR:Open()
 		end
 		if not rec then
 			self.state = "case"
+			self:ClearBatch()
 			ns.Play(ns.SND.close)
 			self:PaintReal(why or "closed")
 			return
 		end
 		self.forced = self:Forced(rec)
 		self.pending, self.pendingHow = rec, nil
+		if self.batch then
+			self.batch.opened = self.batch.opened + 1
+			self:PaintBatch()
+		end
 	end
 	self:CloseInspect(true)
 	GameTooltip:Hide()
 	self.state = "opening"
 	local case = f.case
 	f.open:Disable()
+	for _, b in pairs(f.batchButtons) do b:Disable() end
 	f.key.armed = nil
 	case:SetDraggable(false)
 	ns.Play(ns.SND.chainSnap)
@@ -2403,6 +2446,7 @@ function CR:Back()
 		return
 	end
 	ns.CancelOwner(self)
+	if self.batch and not self.batch.advance then self:ClearBatch() end
 	local rv, band = f.reveal, f.band
 	local a0, b0 = rv:GetAlpha(), band:GetAlpha()
 	rv.again:Hide()
@@ -2791,7 +2835,7 @@ function CR:Film(film, x1, y1, tier, top)
 		Fanfare(tier)
 		self:FilmOut(x1, y1, tier, top)
 		self:Words(0.3)
-	end)
+	end, ns.GetTimeScale(self))
 	if not played then
 		return false
 	end
@@ -2843,6 +2887,7 @@ function CR:Words(lead)
 		self:Extra()
 	end, self)
 	ns.Delay(lead + self.AT_BUTTONS - self.AT_CARD, function()
+		if self:AdvanceBatch() then return end
 		-- (for real: another case while there is one and a key for it, else back to the case: a key to buy, the collection;
 		-- a card come out of a contract: back to the contracts)
 		if self.contract then
@@ -3236,6 +3281,7 @@ end
 -- Everything that runs stopped (the scene closed, a new case): its moves, its lights, the band as it stands.
 function CR:Stop()
 	ns.CancelOwner(self)
+	self:ClearBatch()
 	self.spinning = false
 	self.lidOpen = nil
 	local f = self.frame
@@ -3312,3 +3358,62 @@ ns.On("CASE_DROPPED", function(case, n, how, chest)
 		end,
 	})
 end)
+
+local BATCH_SPEED = 5
+
+function CR:StartBatch(count)
+    if not self.real or self.batch or not self.frame or not self.frame:IsShown()
+        or self.state ~= "case" or not ns.Cases then
+        return
+    end
+    if count > ns.Cases:Openable(self.real) then
+        self:PaintReal()
+        return
+    end
+    self.batch = { total = count, opened = 0 }
+    ns.SetTimeScale(self, BATCH_SPEED)
+    self:Open()
+end
+
+function CR:PaintBatch()
+    local batch = self.batch
+    local status = self.frame.batchStatus
+    CuratorOctoFull.SetShown(status, batch ~= nil)
+    if batch then
+        status:SetText(string.format(L["Cases opened: %d / %d"], batch.opened, batch.total))
+    end
+end
+
+function CR:ClearBatch()
+    if not self.batch then
+        return
+    end
+    self.batch = nil
+    ns.SetTimeScale(self, 1)
+    self:PaintBatch()
+end
+
+function CR:AdvanceBatch()
+    local batch = self.batch
+    if not batch or batch.opened >= batch.total then
+        if batch then ns.SetTimeScale(self, 1) end
+        return false
+    end
+    -- Leave each reward on screen briefly before the next case begins.
+    ns.Delay(1.6, function()
+        batch.advance = true
+        self:Back()
+    end, self)
+    return true
+end
+
+function CR:ContinueBatch()
+    local batch = self.batch
+    if batch and batch.advance then
+        batch.advance = nil
+        -- Let the case settle and the panel reappear before opening it.
+        ns.Delay(0.45, function()
+            if self.batch == batch then self:Open() end
+        end, self)
+    end
+end

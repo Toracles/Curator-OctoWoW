@@ -132,7 +132,7 @@ end
 -- Plays the film spec over the scene (parent); into: where its last image goes (the middle of the window of the card
 -- from the middle of the scene, x and y; its width, its height); done: shows the card, as its last image goes into it
 -- (or as soon as it is skipped). False: no film (the entrances off).
-function F:Play(spec, parent, into, done)
+function F:Play(spec, parent, into, done, speed)
 	if not (spec and parent and self:Enabled()) then
 		return false
 	end
@@ -166,6 +166,7 @@ function F:Play(spec, parent, into, done)
 	f:SetAlpha(1)
 	f:Show()
 	self.spec, self.into, self.done = spec, into, done
+	self.speed = speed or 1
 	self.t0, self.shown, self.atlas, self.handle = GetTime(), nil, nil, nil
 	self.phase, self.playing = "dark", true
 	return true
@@ -213,18 +214,18 @@ function F:Tick()
 	end
 	local f, spec = self.frame, self.spec
 	local now = GetTime()
-	local t = now - self.t0
+	local t = (now - self.t0) * self.speed
 	if self.phase == "dark" then
 		f.black:SetAlpha(math.min(1, t / DARK))
 		if t < DARK then
 			return
 		end
-		self.phase, self.t1 = "film", self.t0 + DARK
+		self.phase, self.t1 = "film", self.t0 + DARK / self.speed
 		f.amb:SetAlpha(AMB)
-		self:Sound()
+		if self.speed == 1 then self:Sound() end
 	end
 	if self.phase == "film" then
-		local ft = now - self.t1
+		local ft = (now - self.t1) * self.speed
 		local i = math.floor(ft * spec.fps)
 		if i >= spec.frames then
 			return self:Into()
@@ -234,7 +235,7 @@ function F:Tick()
 		f.hint:SetAlpha(0.75 * h)
 		return
 	end
-	local p = math.min(1, (now - self.t2) / (self.phase == "into" and INTO or SKIP))
+	local p = math.min(1, (now - self.t2) * self.speed / (self.phase == "into" and INTO or SKIP))
 	local e = 1 - (1 - p) ^ 3
 	if self.phase == "into" then
 		-- its last image into the window of the card: where the card shows it, as large, cut as the card cuts it; the

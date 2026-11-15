@@ -1191,3 +1191,70 @@ assert(ns.Rubies:Balance() == rubies + 100 and ns.Level:OfferCount() == offers +
 UnitName, GetRealmName, GetNormalizedRealmName, UnitFullName = oldName, oldRealm, oldNormalized, oldFull
 """)
 print("OctoWoW gift code: real RSA signature, recipient, altered signature and single redemption verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local crate, cases = ns.CrateUI, ns.Cases
+local edition = "paladin1"
+local stock, keys = cases:Count(edition), cases:Keys(edition)
+local initialCards = table.getn(cases:Won(edition))
+cases:Add(edition, 37)
+assert(cases:Count(edition) == stock + 37)
+ns.Rubies:Gain(cases:KeyPrice() * 37, "gift")
+assert(cases:BuyKey(edition, 37))
+local observed = 0
+local reveal, start = crate.Reveal, GetTime()
+crate.Reveal = function(self)
+    observed = observed + 1
+    return reveal(self)
+end
+crate:Show(edition)
+stepFrames(40)
+local function click(button)
+    this, arg1 = button, "LeftButton"
+    button:GetScript("OnClick")()
+end
+click(crate.frame.open)
+assert(ns.GetTimeScale(crate) == 1)
+stepFrames(240)
+assert(observed == 1)
+crate:Back()
+stepFrames(70)
+start = GetTime()
+click(crate.frame.batchButtons[20])
+assert(crate.batch.total == 20 and crate.batch.opened == 1 and ns.GetTimeScale(crate) == 5)
+click(crate.frame.batchButtons[5])
+assert(crate.batch.total == 20 and crate.batch.opened == 1)
+for i = 1, 150 do
+    if crate.batch.opened == 20 and crate.frame.reveal.close:IsShown() then break end
+    stepFrames(10)
+end
+assert(crate.batch.opened == 20 and observed == 21 and crate.frame.reveal.close:IsShown()
+    and GetTime() - start < 75, string.format("Batch stopped at %d, with %d reveals in %.2fs",
+        crate.batch.opened, observed, GetTime() - start))
+assert(cases:Count(edition) == stock + 16 and cases:Keys(edition) == keys + 16,
+    string.format("After 21: %d cases, %d keys; started at %d and %d", cases:Count(edition), cases:Keys(edition), stock, keys))
+assert(table.getn(cases:Won(edition)) == initialCards + 21)
+assert(ns.GetTimeScale(crate) == 1)
+crate:Back()
+stepFrames(70)
+click(crate.frame.batchButtons[10])
+assert(crate.batch.total == 10 and crate.batch.opened == 1)
+crate.frame:Hide()
+stepFrames(250)
+assert(not crate.batch and ns.GetTimeScale(crate) == 1)
+assert(cases:Count(edition) == stock + 15 and cases:Keys(edition) == keys + 15)
+assert(table.getn(cases:Won(edition)) == initialCards + 22)
+crate:Show(edition)
+stepFrames(40)
+click(crate.frame.batchButtons[20])
+assert(not crate.batch and cases:Count(edition) == stock + 15)
+click(crate.frame.batchButtons[5])
+assert(crate.batch and crate.batch.total == 5)
+stepFrames(360)
+assert(crate.batch.opened == 5 and observed == 26)
+assert(cases:Count(edition) == stock + 10 and cases:Keys(edition) == keys + 10)
+crate.frame:Hide()
+crate.Reveal = reveal
+""")
+print("Case opening: single and accelerated queues, 20 reveals, safe interruption and stock checks verified")

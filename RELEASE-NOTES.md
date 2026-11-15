@@ -1,11 +1,13 @@
-## Codes cadeaux OctoWoW
+## Ouverture des caisses en série
 
-- Curator accepte les codes signés par le portage OctoWoW. Colle ton code avec `/curator gift` ou dans **Boosters → Code cadeau** pour vérifier les récompenses avant validation.
-- Les codes sont liés à un destinataire. Chaque code est crédité une seule fois par collection. La vérification du royaume fonctionne aussi avec l’API de la version 1.12.
+- Ouvre une caisse ou enchaîne **5, 10 ou 20 caisses** de la même édition. Chaque caisse garde son animation de défilement et sa propre révélation.
+- L’ouverture individuelle garde sa vitesse habituelle. Les séries accélèrent l’animation et affichent leur progression.
+- Les boutons de série s’activent selon le stock de caisses et de clés. Fermer la scène arrête les ouvertures restantes.
 - Quitte OctoWoW avant d’appliquer le correctif cumulatif. Pour une première installation, extrais d’abord le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2).
 
-## OctoWoW gift codes
+## Batch case opening
 
-- Curator accepts gift codes signed by the OctoWoW port. Paste the code through `/curator gift` or **Boosters → Gift code** to review the rewards before redeeming it.
-- Codes are bound to a recipient. Each code can be redeemed once per collection. Realm validation also works with the 1.12 API.
+- Open one case, or open **5, 10 or 20 cases** of the same edition in sequence. Each case keeps its spin animation and individual reveal.
+- Single openings keep their usual pace. Batch animations run faster and show opening progress.
+- Batch buttons depend on your case and key stock. Closing the scene stops the remaining openings.
 - Exit OctoWoW before applying the cumulative patch. First-time players should extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) first.

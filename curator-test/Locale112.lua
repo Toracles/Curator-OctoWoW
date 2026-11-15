@@ -2857,6 +2857,8 @@ Add("zhTW", {
 })
 
 Add("frFR", {
+	["Cases opened: %d / %d"] = "Caisses ouvertes : %d / %d",
+	["Open %d cases"] = "Ouvrir %d caisses",
 	["Log out to the character selection screen to save your collection."] = "Déconnecte-toi jusqu’à l’écran de sélection des personnages pour sauvegarder ta collection.",
 	["If the game crashes, progress since your last save may be lost."] = "Si le jeu plante, les progrès depuis ta dernière sauvegarde peuvent être perdus.",
 	["Save once the fight is over."] = "Sauvegarde une fois le combat terminé.",

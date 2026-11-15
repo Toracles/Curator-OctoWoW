@@ -910,6 +910,16 @@ function CS:CanOpen(case)
 	return true
 end
 
+-- Cases that can be opened with the available stock and this week's Master Key.
+function CS:Openable(case)
+	case = case or self.EDITION
+	if not self:CanOpen(case) then
+		return 0
+	end
+	local keys = self:Keys(case) + (MasterKey() and 1 or 0)
+	return math.min(self:Count(case), keys)
+end
+
 -- A case of an edition opened: a case and a key go, its card is drawn and kept. What came (a copy of its record), else
 -- nil and why ("none", "key", "guard", "closed", "case").
 function CS:Open(case)

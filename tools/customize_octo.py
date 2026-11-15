@@ -209,10 +209,108 @@ def crate_art_layers(text):
                    't.art = t:CreateTexture(nil, "BORDER")')
     text = replace(text, '\tlocal secret = pick.secret and true or false\n\tt.blind:Hide()',
                    '\tlocal secret = pick.secret and true or false\n\tt.light:SetDrawLayer("BORDER")\n\tt.blind:Hide()')
-    return replace(text, '\t\tif art then\n\t\t\tt.art:SetTexture(art)', '''\t\tif art then
+    text = replace(text, '\t\tif art then\n\t\t\tt.art:SetTexture(art)', '''\t\tif art then
             -- The 1.12 client can draw equal-layer textures in either order.
             t.light:SetDrawLayer("ARTWORK")
 \t\t\tt.art:SetTexture(art)''')
+    return crate_batch(text)
+
+
+def crate_batch(text):
+    text = replace(text, '\tf.key:Hide()\n\tCuratorOctoFull.SetScript(f.open, "OnEnter"',
+        '''	f.batchButtons = {}
+	local previous = f.open
+	for _, count in ipairs({ 5, 10, 20 }) do
+		local quantity = count
+		local b = S.Button(bar, quantity .. "×", 58, 30)
+		b:SetPoint("LEFT", previous, "RIGHT", 8, 0)
+		CuratorOctoFull.SetScript(b, "OnClick", function() CR:StartBatch(quantity) end)
+		CuratorOctoFull.SetScript(b, "OnEnter", function(self) CR:OpenTip(self, quantity) end)
+		CuratorOctoFull.SetScript(b, "OnLeave", function() GameTooltip:Hide() end)
+		f.batchButtons[quantity] = b
+		previous = b
+	end
+	f.key:ClearAllPoints()
+	f.key:SetPoint("LEFT", previous, "RIGHT", 12, 0)
+	f.key:SetWidth(174)
+	f.key:Hide()
+	local status = CreateFrame("Frame", nil, f)
+	status:SetAllPoints(f)
+	status:SetFrameLevel(f:GetFrameLevel() + 65)
+	f.batchStatus = Text(status, 14, "OUTLINE")
+	f.batchStatus:SetPoint("TOP", f.sub, "BOTTOM", 0, -5)
+	f.batchStatus:SetTextColor(1, 0.84, 0.26)
+	f.batchStatus:Hide()
+	CuratorOctoFull.SetScript(f.open, "OnEnter"''')
+    text = replace(text, '\t\tbar:SetWidth(380)', '''		bar:SetWidth(380)
+		f.open:SetWidth(220)
+		f.quit:SetWidth(140)
+		for _, b in pairs(f.batchButtons) do b:Hide() end''')
+    text = replace(text, '\tbar:SetWidth(604)', '''	bar:SetWidth(650)
+	f.open:SetText(L["Open the case"])
+	f.open:SetWidth(132)
+	f.quit:SetWidth(120)''')
+    text = replace(text, '\tlocal busy = self.state ~= nil and self.state ~= "case" and self.state ~= "shutting"',
+        '''	local busy = self.batch ~= nil or (self.state ~= nil and self.state ~= "case" and self.state ~= "shutting")
+	local available = not busy and CS:Openable(case) or 0
+	for count, b in pairs(f.batchButtons) do
+		b:Show()
+		CuratorOctoFull.SetEnabled(b, available >= count)
+	end''')
+    text = replace(text, 'function CR:OpenTip(b)', 'function CR:OpenTip(b, count)')
+    text = replace(text, '\tGameTooltip:AddLine(L["A case and a key of its edition: one card, yours."]',
+        '''	if count then
+		GameTooltip:AddLine(string.format(L["Open %d cases"], count), 1, 1, 1)
+	end
+	GameTooltip:AddLine(L["A case and a key of its edition: one card, yours."]''')
+    text = replace(text, '\t\tself:PaintReal()\n\tend\n\t-- (what it holds, the buttons',
+        '\t\tself:PaintReal()\n\t\tself:ContinueBatch()\n\tend\n\t-- (what it holds, the buttons')
+    text = replace(text, '\t\t\tself.state = "case"\n\t\t\tns.Play(ns.SND.close)\n\t\t\tself:PaintReal(why',
+        '\t\t\tself.state = "case"\n\t\t\tself:ClearBatch()\n\t\t\tns.Play(ns.SND.close)\n\t\t\tself:PaintReal(why')
+    text = replace(text, '\t\tself.pending, self.pendingHow = rec, nil',
+        '''		self.pending, self.pendingHow = rec, nil
+		if self.batch then
+			self.batch.opened = self.batch.opened + 1
+			self:PaintBatch()
+		end''')
+    text = replace(text, '\tf.open:Disable()\n\tf.key.armed = nil',
+        '\tf.open:Disable()\n\tfor _, b in pairs(f.batchButtons) do b:Disable() end\n\tf.key.armed = nil')
+    text = replace(text, '\tns.CancelOwner(self)\n\tlocal rv, band = f.reveal, f.band',
+        '''	ns.CancelOwner(self)
+	if self.batch and not self.batch.advance then self:ClearBatch() end
+	local rv, band = f.reveal, f.band''')
+    text = replace(text, '\t\tself:Words(0.3)\n\tend)',
+        '\t\tself:Words(0.3)\n\tend, ns.GetTimeScale(self))')
+    text = replace(text, '\t\t-- (for real: another case while there is one',
+        '\t\tif self:AdvanceBatch() then return end\n\t\t-- (for real: another case while there is one')
+    text = replace(text, 'function CR:Stop()\n\tns.CancelOwner(self)',
+        'function CR:Stop()\n\tns.CancelOwner(self)\n\tself:ClearBatch()')
+    return append_port(text, "CrateBatch.lua")
+
+
+def case_capacity(text):
+    return replace(text, '-- A case of an edition opened:', '''-- Cases that can be opened with the available stock and this week's Master Key.
+function CS:Openable(case)
+	case = case or self.EDITION
+	if not self:CanOpen(case) then
+		return 0
+	end
+	local keys = self:Keys(case) + (MasterKey() and 1 or 0)
+	return math.min(self:Count(case), keys)
+end
+
+-- A case of an edition opened:''')
+
+
+def case_film_speed(text):
+    text = replace(text, 'function F:Play(spec, parent, into, done)', 'function F:Play(spec, parent, into, done, speed)')
+    text = replace(text, '\tself.spec, self.into, self.done = spec, into, done',
+                   '\tself.spec, self.into, self.done = spec, into, done\n\tself.speed = speed or 1')
+    text = replace(text, 'local t = now - self.t0', 'local t = (now - self.t0) * self.speed')
+    text = replace(text, '"film", self.t0 + DARK', '"film", self.t0 + DARK / self.speed')
+    text = replace(text, '\t\tself:Sound()', '\t\tif self.speed == 1 then self:Sound() end')
+    text = replace(text, 'local ft = now - self.t1', 'local ft = (now - self.t1) * self.speed')
+    return replace(text, '(now - self.t2) / (self.phase', '(now - self.t2) * self.speed / (self.phase')
 
 
 def opaque_dialog(text, anchor, frame="f", inset=6):
@@ -367,6 +465,8 @@ def header_icon_button(text, button):
 
 
 SAVE_TEXT = {
+    "Cases opened: %d / %d": "Caisses ouvertes : %d / %d",
+    "Open %d cases": "Ouvrir %d caisses",
     "Log out to the character selection screen to save your collection.": "Déconnecte-toi jusqu’à l’écran de sélection des personnages pour sauvegarder ta collection.",
     "If the game crashes, progress since your last save may be lost.": "Si le jeu plante, les progrès depuis ta dernière sauvegarde peuvent être perdus.",
     "Save once the fight is over.": "Sauvegarde une fois le combat terminé.",
@@ -615,6 +715,8 @@ def apply(root: Path):
         "UI/Tavern.lua": tavern_bet_modal,
         "UI/Gossip.lua": gossip_panel,
         "UI/Crate.lua": crate_art_layers,
+        "Cases.lua": case_capacity,
+        "UI/CaseFilm.lua": case_film_speed,
         "UI/Rubies.lua": ruby_ledger,
         "UI/Expertise.lua": lambda text: opaque_dialog(text, '\tf.icon = f:CreateTexture(nil, "ARTWORK")'),
         "UI/Displays.lua": lambda text: opaque_dialog(text, '\tf.icon = f:CreateTexture(nil, "ARTWORK")'),
