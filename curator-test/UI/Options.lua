@@ -571,7 +571,7 @@ function O:Panel()
 	CuratorOctoFull.SetScript(p.langReload, "OnClick", function()
 		ns.Print(L["Type /reload: the game no longer lets an addon reload the interface."])
 	end)
-	p.langReload:HookScript("OnEnter", function(self)
+	CuratorOctoFull.HookScript(p.langReload, "OnEnter", function(self)
 		if ns.Save and ns.Save.Cover then
 			ns.Save:Cover(self, ns.Save.LANGUAGE)
 		end

@@ -100,7 +100,7 @@ function GU:Build()
 	sf:EnableMouseWheel(true)
 	local eb = CreateFrame("EditBox", nil, sf)
 	eb:SetMultiLine(true)
-	eb:SetAutoFocus(false)
+	CuratorOctoFull.SetAutoFocus(eb, false)
 	eb:SetMaxLetters(ns.Gifts.MAX_CODE * 3)
 	eb:SetFontObject(GameFontHighlightSmall or GameFontHighlight)
 	eb:SetWidth(self.WIDTH - LEFT - RIGHT - 18)
@@ -167,11 +167,11 @@ function GU:Layout()
 	f.head:ClearAllPoints()
 	f.head:SetPoint("TOPLEFT", 70, -34)
 	f.head:SetWidth(width - 70 - RIGHT)
-	local y = math.max(74, 34 + (f.head:GetStringHeight() or 16) + 14)
+	local y = math.max(74, 34 + (CuratorOctoFull.GetStringHeight(f.head) or 16) + 14)
 	f.intro:ClearAllPoints()
 	f.intro:SetPoint("TOPLEFT", LEFT, -y)
 	f.intro:SetWidth(width - LEFT - RIGHT)
-	y = y + (f.intro:GetStringHeight() or 12) + 10
+	y = y + (CuratorOctoFull.GetStringHeight(f.intro) or 12) + 10
 	f.box:ClearAllPoints()
 	f.box:SetPoint("TOPLEFT", LEFT, -y)
 	f.box:SetPoint("TOPRIGHT", -RIGHT, -y)
@@ -179,13 +179,13 @@ function GU:Layout()
 	f.result:ClearAllPoints()
 	f.result:SetPoint("TOPLEFT", LEFT, -y)
 	f.result:SetWidth(width - LEFT - RIGHT)
-	local rh = (f.result:GetText() or "") ~= "" and (f.result:GetStringHeight() or 12) or 12
+	local rh = (f.result:GetText() or "") ~= "" and (CuratorOctoFull.GetStringHeight(f.result) or 12) or 12
 	y = y + rh + 6
 	f.note:ClearAllPoints()
 	f.note:SetPoint("TOPLEFT", LEFT, -y)
 	f.note:SetWidth(width - LEFT - RIGHT)
 	if (f.note:GetText() or "") ~= "" then
-		y = y + (f.note:GetStringHeight() or 10) + 6
+		y = y + (CuratorOctoFull.GetStringHeight(f.note) or 10) + 6
 	end
 	y = y + 8
 	f.redeem:ClearAllPoints()

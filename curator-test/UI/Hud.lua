@@ -268,7 +268,7 @@ function H.XPBar(parent, width, height, tint)
 	f.bar:SetValue(0)
 	if tint then
 		local t = f.bar:GetStatusBarTexture()
-		t:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(t, true)
 		f.bar:SetStatusBarColor(tint[1], tint[2], tint[3])
 	end
 	-- a tick every tenth
@@ -487,7 +487,7 @@ function H.ClaimButton(parent, width, height, label)
     end
 	function b:SetEnabled(on)
 		enable(self, on)
-		self.bg:SetDesaturated(not on)
+		CuratorOctoFull.SetDesaturated(self.bg, not on)
 		self.bg:SetAlpha(on and 1 or 0.55)
 		self.text:SetAlpha(on and 1 or 0.6)
 		if not on then

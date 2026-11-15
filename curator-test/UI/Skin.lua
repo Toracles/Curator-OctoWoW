@@ -130,7 +130,11 @@ function S.Window(name, width, height)
 			tile = true, tileSize = 32, edgeSize = 32,
 			insets = { left = 11, right = 12, top = 12, bottom = 11 },
 		})
-		local title = S.Text(f, "GameFontNormal")
+		local background = f:CreateTexture(nil, "BACKGROUND")
+        background:SetPoint("TOPLEFT", f, "TOPLEFT", 11, -12)
+        background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -12, 11)
+        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
+        local title = S.Text(f, "GameFontNormal")
 		title:SetPoint("TOP", 0, -14)
 		f.TitleText = title
 		function f:SetTitle(text)
@@ -148,7 +152,7 @@ end
 -- Dragging the top of a window moves it.
 function S.DragBar(f, height)
 	f:SetMovable(true)
-	f:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(f, true)
 	local d = CreateFrame("Frame", nil, f)
 	d:SetPoint("TOPLEFT", 56, 0)
 	d:SetPoint("TOPRIGHT", -28, 0)
@@ -417,7 +421,7 @@ function S.Arrow(parent, dir, size)
 			return fn(btn, button, down)
 		end)
 	end
-	b:HookScript("OnMouseDown", function(self, button)
+	CuratorOctoFull.HookScript(b, "OnMouseDown", function(self, button)
 		if button ~= "LeftButton" or not self:IsEnabled() or not self.turn then
 			return
 		end
@@ -425,7 +429,7 @@ function S.Arrow(parent, dir, size)
 		self.holdAt = (GetTime and GetTime() or 0) + S.HOLD_FIRST
 		set(self, "OnUpdate", Holding)
 	end)
-	b:HookScript("OnMouseUp", function(self)
+	CuratorOctoFull.HookScript(b, "OnMouseUp", function(self)
 		StopHold(self)
 		-- (let go away from it: no click comes to take the mark, the next one must count)
 		if self.repeated and ns.Delay then
@@ -434,7 +438,7 @@ function S.Arrow(parent, dir, size)
 			end)
 		end
 	end)
-	b:HookScript("OnHide", function(self)
+	CuratorOctoFull.HookScript(b, "OnHide", function(self)
 		StopHold(self)
 		self.repeated = nil
 	end)
@@ -447,13 +451,13 @@ function S.PageArrows(prev, nextOne)
 	for _, b in ipairs({ prev, nextOne }) do
 		local _, b = _, b; if b then
 			b.pages = true
-			b:HookScript("OnEnter", function(self)
+			CuratorOctoFull.HookScript(b, "OnEnter", function(self)
 				GameTooltip:SetOwner(self, "ANCHOR_TOP")
 				GameTooltip:AddLine(self == prev and L["Previous page"] or L["Next page"], 1, 1, 1)
 				GameTooltip:AddLine(string.format(L["Hold it down to turn the pages fast. Shift + click: %d pages at once."], S.JUMP), 0.85, 0.85, 0.85, true)
 				GameTooltip:Show()
 			end)
-			b:HookScript("OnLeave", function()
+			CuratorOctoFull.HookScript(b, "OnLeave", function()
 				GameTooltip:Hide()
 			end)
 		end

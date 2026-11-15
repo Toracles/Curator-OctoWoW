@@ -352,7 +352,7 @@ function A:BuildCases()
 		GameTooltip:Hide()
 	end)
 	-- (the album hidden: its slots as they were, its cards come in again next time)
-	f:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(f, "OnHide", function()
 		for _, c in ipairs(page.slots) do
 			if c.slideTw then
 				ns.CancelTween(c.slideTw)

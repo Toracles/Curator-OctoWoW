@@ -143,7 +143,7 @@ function UI:Paint()
 	if n >= 1 or resting then
 		rest:ClearAllPoints()
 		rest:SetPoint("CENTER", b, "RIGHT", x, 1)
-		rest.icon:SetDesaturated(n < 1 or LG.Waiting())
+		CuratorOctoFull.SetDesaturated(rest.icon, n < 1 or LG.Waiting())
 		rest.text:SetText(n >= 1 and ns.Num(n) or "Zz")
 		rest.text:SetTextColor(0.6, 0.8, 1)
 		rest:Show()
@@ -160,7 +160,7 @@ function UI:Paint()
 			dish.key = def.key
 			Hud.SetIcon(dish.icon, { LG:Icon(def) })
 		end
-		dish.icon:SetDesaturated(waiting)
+		CuratorOctoFull.SetDesaturated(dish.icon, waiting)
 		dish.text:SetText(waiting and L["Waiting"] or Short(left))
 		if waiting then
 			dish.text:SetTextColor(1, 0.82, 0.36)
@@ -229,7 +229,7 @@ function UI:Tracker()
 	CuratorOctoFull.SetSize(t, TRACK_W, 60)
 	t:SetFrameStrata("MEDIUM")
 	t:SetMovable(true)
-	t:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(t, true)
 	t:RegisterForDrag("LeftButton")
 	CuratorOctoFull.SetScript(t, "OnDragStart", function(self)
 		if IsShiftKeyDown and IsShiftKeyDown() then

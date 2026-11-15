@@ -213,11 +213,11 @@ end
 
 -- (the album closed in the middle of a scene hides its detail first: the scene ends with the album)
 local function HookAlbum()
-	if MU.albumHooked or not (A.frame and A.frame.HookScript) then
+	if MU.albumHooked or not (A.frame and CuratorOctoFull.HookScript) then
 		return
 	end
 	MU.albumHooked = true
-	A.frame:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(A.frame, "OnHide", function()
 		MU:End(true)
 		MU:HideCert()
 	end)
@@ -285,7 +285,7 @@ local function BuildBlock(d)
 	v.note:SetSpacing(2)
 	local b = S.Button(v, "", 220, 22)
 	if b.SetMotionScriptsWhileDisabled then
-		b:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 	end
 	CuratorOctoFull.SetScript(b, "OnClick", function()
 		MU:Click()
@@ -737,7 +737,7 @@ local function NewCert(parent, tw, name)
 	v.seal = v:CreateTexture(nil, "ARTWORK", nil, 4)
 	v.seal:SetTexture(MEDIA .. "Seal")
 	if v.seal.SetDesaturated then
-		v.seal:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(v.seal, true)
 	end
 	v.seal:SetVertexColor(WAX[1] * 1.5, WAX[2] * 1.5, WAX[3] * 1.5)
 	CuratorOctoFull.SetSize(v.seal, 70, 70)
@@ -1051,7 +1051,7 @@ function MU:CertWindow()
 	local v = NewCert(UIParent, 374, "CuratorCertificate")
 	v:SetFrameStrata("FULLSCREEN_DIALOG")
 	v:SetToplevel(true)
-	v:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(v, true)
 	v:SetMovable(true)
 	v:RegisterForDrag("LeftButton")
 	CuratorOctoFull.SetScript(v, "OnDragStart", v.StartMoving)
@@ -1726,7 +1726,7 @@ function MU:BuildDetail(d)
 	if d.infoParts then
 		d.infoParts[CuratorOctoFull.Length(d.infoParts) + 1] = d.mage
 	end
-	d:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(d, "OnHide", function()
 		MU:End(true)
 		MU:HideCert()
 	end)

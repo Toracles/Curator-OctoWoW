@@ -1984,7 +1984,7 @@ function M:SetFinish(kind)
 		for i, fo in ipairs(list) do
 			CuratorOctoFull.SetShown(fo, kind == "titan")
 			fo:SetAlpha(0)
-			fo:SetDesaturated(tint)
+			CuratorOctoFull.SetDesaturated(fo, tint)
 			if tint then
 				fo:SetVertexColor(ns.Patterns.Color(pat, (i - 1) / 3))
 			else
@@ -1995,7 +1995,7 @@ function M:SetFinish(kind)
 	for i, a in ipairs(self.titanAura) do
 		CuratorOctoFull.SetShown(a, kind == "titan")
 		a:SetAlpha(0)
-		a:SetDesaturated(tint)
+		CuratorOctoFull.SetDesaturated(a, tint)
 		if tint then
 			a:SetVertexColor(ns.Patterns.Color(pat, (i - 1) / 3))
 		else
@@ -2006,7 +2006,7 @@ function M:SetFinish(kind)
 		for _, t in ipairs(fin.facets[i]) do
 			CuratorOctoFull.SetShown(t, kind == "titan")
 			t:SetAlpha(0)
-			t:SetDesaturated(tint)
+			CuratorOctoFull.SetDesaturated(t, tint)
 			if tint then
 				t:SetVertexColor(ns.Patterns.Color(pat, (i - 1) / 3))
 			else
@@ -2019,7 +2019,7 @@ function M:SetFinish(kind)
 		-- picture of a card of a style)
 		CuratorOctoFull.SetShown(g, kind == "titan" and not self.style)
 		g:SetAlpha(0)
-		g:SetDesaturated(tint)
+		CuratorOctoFull.SetDesaturated(g, tint)
 		if tint then
 			g:SetVertexColor(ns.Patterns.Color(pat, (i - 1) * 0.5))
 		else
@@ -2551,7 +2551,7 @@ function M:HeldSync()
 		t:SetTexCoord(src:GetTexCoord())
 		t:SetVertexColor(src:GetVertexColor())
 		t:SetBlendMode(src:GetBlendMode() or "BLEND")
-		t:SetDesaturated(src:IsDesaturated() and true or false)
+		CuratorOctoFull.SetDesaturated(t, src:IsDesaturated() and true or false)
 	end
 	-- (31 October) its wear: its pieces cut into cells again
 	if ns.WearUI then
@@ -2907,7 +2907,7 @@ function M:LayGlyphs()
 			local wrap = w.wrap and w.wrap * self.k or nil
 			local lines = WrapLines(m, text, wrap)
 			m:SetText("Ag")
-			local lh = (m:GetStringHeight() or size) + ((fs.GetSpacing and fs:GetSpacing()) or 0)
+			local lh = (CuratorOctoFull.GetStringHeight(m) or size) + ((fs.GetSpacing and fs:GetSpacing()) or 0)
 			local cx, cy = D.RestCenter(self, fs, rects, wrap ~= nil)
 			local just = (fs.GetJustifyH and fs:GetJustifyH()) or "CENTER"
 			local r, g, b = 1, 1, 1

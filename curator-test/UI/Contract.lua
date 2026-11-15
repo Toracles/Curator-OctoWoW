@@ -205,11 +205,11 @@ local function NewRung(page, r)
 	b.rarity, b.tw, b.locked = r, tw, locked
 	if locked then
 		-- the mythic card: earned in the boosters, never exchanged
-		b.node:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.node, true)
 		b.node:SetVertexColor(0.6, 0.6, 0.62)
-		b.gemTo:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.gemTo, true)
 		b.gemTo:SetAlpha(0.55)
-		b.gemFrom:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.gemFrom, true)
 		b.gemFrom:SetAlpha(0.55)
 		b.lock = b:CreateTexture(nil, "OVERLAY", nil, 2)
 		b.lock:SetTexture(octoConstants.MEDIA .. "Lock")
@@ -730,7 +730,7 @@ function A:BuildContract()
 		end
 	end
 	if page.sign.SetMotionScriptsWhileDisabled then
-		page.sign:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(page.sign, true)
 	end
 	page.sign.quill = page.sign:CreateTexture(nil, "OVERLAY", nil, 2)
 	page.sign.quill:SetTexture(octoConstants.MEDIA .. "Quill")
@@ -1408,9 +1408,9 @@ function A:PaintContractActives()
 			shown[CuratorOctoFull.Length(shown) + 1] = b
 			local ready = TL:Ready(b.id) and ActiveOk(b, ct)
 			local on = ct[b.key] and true or false
-			b.icon:SetDesaturated(not ready)
+			CuratorOctoFull.SetDesaturated(b.icon, not ready)
 			b.icon:SetAlpha(ready and 1 or 0.5)
-			b.ring:SetDesaturated(not ready)
+			CuratorOctoFull.SetDesaturated(b.ring, not ready)
 			b.light:SetAlpha(on and 0.85 or 0)
 		end
 	end
@@ -1875,7 +1875,7 @@ function A:PaintDeed(page, ct, cap, size, up, finish)
 		deed.clause:SetText(L["Collection clause: copies of a single album give a card that album is missing."])
 		deed.clause:SetTextColor(octoConstants.INK_SOFT[1], octoConstants.INK_SOFT[2], octoConstants.INK_SOFT[3])
 	end
-	deed.clauseIcon:SetDesaturated(not ok)
+	CuratorOctoFull.SetDesaturated(deed.clauseIcon, not ok)
 	deed.clauseIcon:SetAlpha(ok and 1 or 0.55)
 	deed.clause.ok = ok and true or false
 	-- (31 October: the clause of the condition; every copy given appraised: the clause of the experts)
@@ -1895,7 +1895,7 @@ function A:PaintDeed(page, ct, cap, size, up, finish)
 		deed.cond:SetTextColor(octoConstants.GREEN[1], octoConstants.GREEN[2], octoConstants.GREEN[3])
 	else
 		-- (the clause of the collection long, on three lines: the short words, nothing over the buttons)
-		local long = (deed.clause:GetStringHeight() or 0) > 30
+		local long = (CuratorOctoFull.GetStringHeight(deed.clause) or 0) > 30
 		deed.cond:SetText(long and L["Clause of the condition: their average wear."] or L["Clause of the condition: the average wear of the copies given."])
 		deed.cond:SetTextColor(octoConstants.INK_SOFT[1], octoConstants.INK_SOFT[2], octoConstants.INK_SOFT[3])
 	end
@@ -1906,7 +1906,7 @@ function A:PaintDeed(page, ct, cap, size, up, finish)
 	if rr then
 		deed.clause:SetText(ns.Reroll:WhyNot("contracts"))
 		deed.clause:SetTextColor(0.62, 0.14, 0.1)
-		deed.clauseIcon:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(deed.clauseIcon, true)
 		deed.clauseIcon:SetAlpha(0.55)
 		deed.clause.ok = false
 		can = false
@@ -1928,7 +1928,7 @@ function A:PaintDeed(page, ct, cap, size, up, finish)
 	local signs = full and not rr
 	CuratorOctoFull.SetEnabled(page.sign, signs)
 	page.sign:SetPulse(signs)
-	page.sign.quill:SetDesaturated(not signs)
+	CuratorOctoFull.SetDesaturated(page.sign.quill, not signs)
 	page.sign.quill:SetAlpha(signs and 1 or 0.6)
 end
 
@@ -2635,7 +2635,7 @@ function A:BuildDesk()
 		end
 	end
 	if page.sign.SetMotionScriptsWhileDisabled then
-		page.sign:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(page.sign, true)
 	end
 	page.sign.quill = page.sign:CreateTexture(nil, "OVERLAY", nil, 2)
 	page.sign.quill:SetTexture(octoConstants.MEDIA .. "Quill")
@@ -2985,7 +2985,7 @@ function A:PaintDesk(page, ct, cap, size, up, finish)
 		deed.clause:SetText(L["Collection clause: copies of a single album give a card that album is missing."])
 		deed.clause:SetTextColor(octoConstants.INK_SOFT[1], octoConstants.INK_SOFT[2], octoConstants.INK_SOFT[3])
 	end
-	deed.clauseIcon:SetDesaturated(not ok)
+	CuratorOctoFull.SetDesaturated(deed.clauseIcon, not ok)
 	deed.clauseIcon:SetAlpha(ok and 1 or 0.55)
 	deed.clause.ok = ok and true or false
 	local CP = ns.Copies
@@ -3011,7 +3011,7 @@ function A:PaintDesk(page, ct, cap, size, up, finish)
 	if rr then
 		deed.clause:SetText(ns.Reroll:WhyNot("contracts"))
 		deed.clause:SetTextColor(0.62, 0.14, 0.1)
-		deed.clauseIcon:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(deed.clauseIcon, true)
 		deed.clauseIcon:SetAlpha(0.55)
 		deed.clause.ok = false
 		can = false
@@ -3032,7 +3032,7 @@ function A:PaintDesk(page, ct, cap, size, up, finish)
 	local signs = full and not rr
 	CuratorOctoFull.SetEnabled(page.sign, signs)
 	page.sign:SetPulse(signs)
-	page.sign.quill:SetDesaturated(not signs)
+	CuratorOctoFull.SetDesaturated(page.sign.quill, not signs)
 	page.sign.quill:SetAlpha(signs and 1 or 0.6)
 end
 
@@ -3229,7 +3229,7 @@ function B:BuildContractScene()
 	end)
 	-- a click during the ceremony goes straight to the new cards (hooked: the forge of the titans
 	-- listens too)
-	s:HookScript("OnMouseDown", function()
+	CuratorOctoFull.HookScript(s, "OnMouseDown", function()
 		if B.state == "contract" then
 			B:ContractSkip()
 		end

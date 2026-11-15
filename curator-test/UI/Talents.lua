@@ -1358,7 +1358,7 @@ function A:PaintTree(key, preview)
 			end
 			b.slot:SetVertexColor(slot[1], slot[2], slot[3])
 			local grey = state == "closed"
-			b.icon:SetDesaturated(grey)
+			CuratorOctoFull.SetDesaturated(b.icon, grey)
 			if grey then
 				b.icon:SetVertexColor(0.65, 0.65, 0.65)
 			else
@@ -1610,7 +1610,7 @@ function A:PaintChoice()
 		local def = TL.SPEC_BY[c.key]
 		local on = c.key == look
 		Hud.SetIcon(c.icon, { def.icon })
-		c.icon:SetDesaturated(not on)
+		CuratorOctoFull.SetDesaturated(c.icon, not on)
 		c.light:SetVertexColor(def.color[1], def.color[2], def.color[3])
 		c.light:SetAlpha(on and 0.6 or 0.15)
 		c.name:SetText(TL:SpecName(c.key, female))
@@ -1713,7 +1713,7 @@ function A:PaintRespec()
 		b.name:SetTextColor(def.color[1], def.color[2], def.color[3])
 		Hud.Each(b.glow, "SetVertexColor", def.color[1], def.color[2], def.color[3])
 		Hud.Each(b.glow, "SetAlpha", on and 0.8 or 0)
-		b.icon:SetDesaturated(not on)
+		CuratorOctoFull.SetDesaturated(b.icon, not on)
 	end
 	local tdef = TL.SPEC_BY[target]
 	local tname = "|cff" .. Hex(tdef.color) .. TL:SpecName(target, female) .. "|r"
@@ -1734,7 +1734,7 @@ function A:PaintRespec()
 	CuratorOctoFull.SetEnabled(rs.sign, enough)
 	rs.sign:SetLabel(confirm and L["Confirm"] or L["Sign the contract"])
 	rs.sign:SetPulse(confirm and true or false)
-	rs.seal:SetDesaturated(not enough)
+	CuratorOctoFull.SetDesaturated(rs.seal, not enough)
 	rs.seal:SetAlpha(enough and 1 or 0.4)
 end
 
@@ -1839,8 +1839,8 @@ TL.OnCreatureTooltip = OnCreatureTooltip
 if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
 	local unitType = (Enum and Enum.TooltipDataType and Enum.TooltipDataType.Unit) or 2
 	TooltipDataProcessor.AddTooltipPostCall(unitType, OnCreatureTooltip)
-elseif GameTooltip and GameTooltip.HookScript then
-	GameTooltip:HookScript("OnTooltipSetUnit", OnCreatureTooltip)
+elseif GameTooltip and CuratorOctoFull.HookScript then
+	CuratorOctoFull.HookScript(GameTooltip, "OnTooltipSetUnit", OnCreatureTooltip)
 end
 
 -- The page follows the talents and the level.

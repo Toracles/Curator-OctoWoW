@@ -359,7 +359,7 @@ local function BuildBlock(d)
 	-- the button: left (arm, then confirm), or picked up
 	local b = S.Button(v, "", 200, 22)
 	if b.SetMotionScriptsWhileDisabled then
-		b:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 	end
 	CuratorOctoFull.SetScript(b, "OnClick", function()
 		RU:Click()
@@ -492,7 +492,7 @@ function RU:BuildDetail(d)
 	if d.infoParts then
 		d.infoParts[CuratorOctoFull.Length(d.infoParts) + 1] = d.rest
 	end
-	d:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(d, "OnHide", function()
 		RU:End(true)
 	end)
 end
@@ -961,11 +961,11 @@ end
 -- (1 November: the album closed in the middle of a scene hides its detail first, and the detail then never hears it:
 -- the scene ends with the album; hooked once, the album's own script set long before)
 local function HookAlbum()
-	if RU.albumHooked or not (A.frame and A.frame.HookScript) then
+	if RU.albumHooked or not (A.frame and CuratorOctoFull.HookScript) then
 		return
 	end
 	RU.albumHooked = true
-	A.frame:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(A.frame, "OnHide", function()
 		RU:End(true)
 	end)
 end
@@ -3096,7 +3096,7 @@ function RU:PaintPanel()
 	end
 	CuratorOctoFull.SetEnabled(f.pick, away > 0 and R:AtEnchanter() and not self:Returning())
 	-- (its height: what it says)
-	local h = 58 + (f.text:GetStringHeight() or 30) + 6 + (f.count:GetStringHeight() or 14) + 6 + (self.said and ((f.say:GetStringHeight() or 14) + 6) or 0) + 80
+	local h = 58 + (CuratorOctoFull.GetStringHeight(f.text) or 30) + 6 + (CuratorOctoFull.GetStringHeight(f.count) or 14) + 6 + (self.said and ((CuratorOctoFull.GetStringHeight(f.say) or 14) + 6) or 0) + 80
 	f:SetHeight(math.max(176, math.floor(h)))
 end
 

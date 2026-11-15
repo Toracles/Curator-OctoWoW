@@ -182,8 +182,8 @@ end
 if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
 	local unitType = (Enum and Enum.TooltipDataType and Enum.TooltipDataType.Unit) or 2
 	TooltipDataProcessor.AddTooltipPostCall(unitType, OnUnitTooltip)
-elseif GameTooltip and GameTooltip.HookScript then
-	GameTooltip:HookScript("OnTooltipSetUnit", OnUnitTooltip)
+elseif GameTooltip and CuratorOctoFull.HookScript then
+	CuratorOctoFull.HookScript(GameTooltip, "OnTooltipSetUnit", OnUnitTooltip)
 end
 
 -- The answer comes while their tooltip is still there: its line is added.

@@ -45,7 +45,7 @@ function W:Build()
 		end)
 	end
 	-- (Escape closes it: the second click is asked again next time)
-	f:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(f, "OnHide", function()
 		W:Arm(false)
 	end)
 

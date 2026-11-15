@@ -73,6 +73,8 @@ function convert(source, file) {
         }
         if (node.type === "MemberExpression" && node.base.name === "math" && node.identifier.name === "huge")
             edit(node.range, "CuratorOctoFull.Huge");
+        if (node.type === "MemberExpression" && node.indexer === "." && node.identifier.name === "HookScript")
+            edit(node.range, "CuratorOctoFull.HookScript");
         if (node.type === "NumericLiteral" && /^0x/i.test(node.raw))
             edit(node.range, String(node.value));
         if (node.type === "Identifier" && node.isLocal && constants.has(node.name) &&
@@ -104,7 +106,8 @@ function convert(source, file) {
             edit(node.base.range, "CuratorOctoFull." + ({select:"Select",GetServerTime:"ServerTime",wipe:"Wipe"})[node.base.name]);
         if (node.type === "CallExpression" && node.base.type === "MemberExpression" &&
                 node.base.indexer === ":" && ["SetScript", "SetSize", "SetColorTexture", "SetShown", "SetClipsChildren",
-                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "SetRotation", "GetRotation", "SetEnabled", "SetWordWrap", "SetMaxLines",
+                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "HookScript", "GetSize", "GetRect", "GetStringHeight",
+                 "SetMotionScriptsWhileDisabled", "SetClampedToScreen", "SetAutoFocus", "SetDesaturated", "SetRotation", "GetRotation", "SetEnabled", "SetWordWrap", "SetMaxLines",
                  "byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "sub", "upper"].includes(node.base.identifier.name)) {
             // Keep script signatures in the upstream code; pass legacy event globals through at the boundary.
             const base = node.base.base;

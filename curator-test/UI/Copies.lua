@@ -582,7 +582,7 @@ local function BuildPicker()
 	f:SetFrameStrata("DIALOG")
 	f:SetToplevel(true)
 	f:EnableMouse(true)
-	f:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(f, true)
 	if f.SetBackdrop then
 		f:SetBackdrop({
 			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",

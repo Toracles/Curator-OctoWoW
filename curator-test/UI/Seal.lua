@@ -330,7 +330,7 @@ local function BuildBlock(d)
 		local b = S.Button(v, "", 160, 22)
 		b.kind = kind
 		if b.SetMotionScriptsWhileDisabled then
-			b:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 		end
 		CuratorOctoFull.SetScript(b, "OnClick", function(self)
 			SU:Click(self)
@@ -354,7 +354,7 @@ local function BuildBlock(d)
 	-- (1.14.0, Golden Loupe with Glance, talents of the Archivist: the rank a seal would give, seen before it is paid)
 	v.loupe = S.Button(v, L["Golden Loupe"], 160, 22)
 	if v.loupe.SetMotionScriptsWhileDisabled then
-		v.loupe:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(v.loupe, true)
 	end
 	CuratorOctoFull.SetScript(v.loupe, "OnClick", function()
 		SU:LoupeClick()
@@ -515,7 +515,7 @@ function SU:BuildDetail(d)
 	BuildCatch(d)
 	-- (the block steps aside with what there is to know, during an appraisal and during a rite)
 	d.infoParts[CuratorOctoFull.Length(d.infoParts) + 1] = d.void
-	d:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(d, "OnHide", function()
 		SU:End(true)
 	end)
 end

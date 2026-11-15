@@ -42,7 +42,7 @@ end
 -- A marker of a state ("offer": a green !, "ready": a green ?, "active": a grey ?) on a texture.
 function UI.PaintMark(tex, state)
 	tex:SetTexture(state == "offer" and UI.ICON_OFFER or UI.ICON_TURN)
-	tex:SetDesaturated(true)
+	CuratorOctoFull.SetDesaturated(tex, true)
 	if state == "active" then
 		tex:SetVertexColor(DIM[1], DIM[2], DIM[3])
 	else
@@ -331,7 +331,7 @@ function UI:Paint()
 		CuratorOctoFull.SetShown(f.time, not GQ:Paused())
 		f.go:Hide()
 		f.drop:Hide()
-		f:SetHeight(math.max(200, 120 + f.speech:GetStringHeight() + 60))
+		f:SetHeight(math.max(200, 120 + CuratorOctoFull.GetStringHeight(f.speech) + 60))
 		return
 	end
 	f.head:SetText(string.format(L["The Trial of %s"], GQ:LeaderName(l)))
@@ -367,7 +367,7 @@ function UI:Paint()
 		self:Only(f.speech)
 		f.go:Hide()
 		f.drop:Hide()
-		f:SetHeight(math.max(200, 120 + f.speech:GetStringHeight() + 40))
+		f:SetHeight(math.max(200, 120 + CuratorOctoFull.GetStringHeight(f.speech) + 40))
 		return
 	end
 	-- the quest: its lands, its objectives (with what was done), its rewards, the time left
@@ -410,7 +410,7 @@ function UI:Paint()
 		b:SetPoint("TOPLEFT", f.rew, "BOTTOMLEFT", (i - 1) * (cw + 10), -10)
 		if s then
 			b.icon:SetTexture(MEDIA .. (s.pack or "PackElwynn") .. "Bottom")
-			b.icon:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(b.icon, true)
 			b.icon:SetVertexColor(1, 0.8, 0.34)
 			b.name:SetText(ns.Collection:SeriesName(s))
 			local miss = self:Missing(s)
@@ -463,7 +463,7 @@ function UI:Paint()
 	-- its height: its parts from the top, each as tall as its text (they wrap), then the buttons under them
 	local function Tall(fs)
 		local t = fs:GetText()
-		return (fs:IsShown() and t and t ~= "") and fs:GetStringHeight() or 0
+		return (fs:IsShown() and t and t ~= "") and CuratorOctoFull.GetStringHeight(fs) or 0
 	end
 	local h = 74 + Tall(f.speech) + 10 + Tall(f.lands) + 14 + Tall(f.objTitle) + 8
 	for i, fs in ipairs(f.obj) do
@@ -661,7 +661,7 @@ function UI:BuildTracker()
 	CuratorOctoFull.SetSize(t, TRACKER_W, 120)
 	t:SetFrameStrata("MEDIUM")
 	t:SetMovable(true)
-	t:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(t, true)
 	t:RegisterForDrag("LeftButton")
 	CuratorOctoFull.SetScript(t, "OnDragStart", function(self)
 		if IsShiftKeyDown and IsShiftKeyDown() then
@@ -772,7 +772,7 @@ function UI:UpdateTracker()
 		t.here:SetText("")
 	end
 	t.lands:SetText(string.format(L["My lands: %s"], Names(GQ:Zones(l, q.bracket))))
-	t:SetHeight(26 + 5 * 16 + 2 + (t.here:GetText() ~= "" and 14 or 0) + 3 + math.max(14, t.lands:GetStringHeight() or 14) + 8)
+	t:SetHeight(26 + 5 * 16 + 2 + (t.here:GetText() ~= "" and 14 or 0) + 3 + math.max(14, CuratorOctoFull.GetStringHeight(t.lands) or 14) + 8)
 	t:Show()
 end
 
@@ -1080,7 +1080,7 @@ function UI:GoldSlot(st)
 	CuratorOctoFull.SetSize(s.icon, 20, 20)
 	s.icon:SetPoint("CENTER", s, "LEFT", 15, 0)
 	s.icon:SetTexCoord(PACK_CROP[1], PACK_CROP[2], PACK_CROP[3], PACK_CROP[4])
-	s.icon:SetDesaturated(true)
+	CuratorOctoFull.SetDesaturated(s.icon, true)
 	s.icon:SetVertexColor(1, 0.8, 0.34)
 	s.count = S.Text(s, "GameFontNormal", "LEFT")
 	s.count:SetPoint("LEFT", s, "LEFT", 30, 0)
@@ -1349,8 +1349,8 @@ CuratorOctoFull.SetScript(f, "OnUpdate", function(_, dt)
 end)
 
 if WorldMapFrame then
-	if WorldMapFrame.HookScript then
-		WorldMapFrame:HookScript("OnShow", function()
+	if CuratorOctoFull.HookScript then
+		CuratorOctoFull.HookScript(WorldMapFrame, "OnShow", function()
 			UI:UpdateMap()
 		end)
 	end

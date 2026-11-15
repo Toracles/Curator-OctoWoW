@@ -276,7 +276,7 @@ function T:Build()
 		end
 	end)
 	-- the album closed: the tour ends
-	f:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(f, "OnHide", function()
 		if T.active then
 			T:Stop()
 		end
@@ -492,12 +492,12 @@ function T:Fill(step, width)
 	local room = w - 2 * PAD - b.next:GetWidth() - b.prev:GetWidth() - 6
 	CuratorOctoFull.SetShown(b.count, room >= ns.TextWidth(b.count) + 8)
 	-- its height: the words wrapped in its width (the client tells; a guess where it cannot)
-	local th = b.text:GetStringHeight() or 0
+	local th = CuratorOctoFull.GetStringHeight(b.text) or 0
 	local guess = math.ceil(ns.TextWidth(b.text) / math.max(1, w - 2 * PAD)) * 14
 	if th < guess * 0.6 then
 		th = guess
 	end
-	local hh = b.title:GetStringHeight() or 16
+	local hh = CuratorOctoFull.GetStringHeight(b.title) or 16
 	b:SetHeight(math.floor(PAD + hh + 8 + th + 16 + 22 + PAD - 4 + 0.5))
 end
 

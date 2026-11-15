@@ -320,7 +320,7 @@ function N:Lay(list)
 	f.head:ClearAllPoints()
 	f.head:SetPoint("TOPLEFT", 70, -36)
 	f.head:SetWidth(NEWS_W - 70 - NEWS_RIGHT)
-	local y = math.max(76, 36 + (f.head:GetStringHeight() or 18) + 20)
+	local y = math.max(76, 36 + (CuratorOctoFull.GetStringHeight(f.head) or 18) + 20)
 	local hi, li = 0, 0
 	for _, e in ipairs(list) do
 		hi = hi + 1
@@ -335,7 +335,7 @@ function N:Lay(list)
 		h:SetPoint("TOPLEFT", NEWS_LEFT, -y)
 		h:SetWidth(width)
 		h:Show()
-		y = y + (h:GetStringHeight() or 14) + 9
+		y = y + (CuratorOctoFull.GetStringHeight(h) or 14) + 9
 		for _, key in ipairs(e.lines) do
 			li = li + 1
 			local t = f.lines[li]
@@ -356,7 +356,7 @@ function N:Lay(list)
 			t.gem:ClearAllPoints()
 			t.gem:SetPoint("TOPLEFT", NEWS_LEFT + 1, -(y + 1))
 			t.gem:Show()
-			y = y + (t:GetStringHeight() or 14) + 8
+			y = y + (CuratorOctoFull.GetStringHeight(t) or 14) + 8
 		end
 		y = y + 6
 	end
@@ -374,7 +374,7 @@ function N:Lay(list)
 	f.foot:ClearAllPoints()
 	f.foot:SetPoint("TOPLEFT", NEWS_LEFT, -y)
 	f.foot:SetWidth(width)
-	y = y + (f.foot:GetStringHeight() or 10) + 14
+	y = y + (CuratorOctoFull.GetStringHeight(f.foot) or 10) + 14
 	f.ok:ClearAllPoints()
 	f.ok:SetPoint("TOP", f, "TOP", 0, -y)
 	return y + 24 + 20

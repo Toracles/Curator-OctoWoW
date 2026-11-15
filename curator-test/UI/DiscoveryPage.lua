@@ -571,7 +571,7 @@ function A:RefreshDiscovery()
 				b.icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
 			end
 			local got = earned[a.id] ~= nil
-			b.icon:SetDesaturated(not got)
+			CuratorOctoFull.SetDesaturated(b.icon, not got)
 			b.icon:SetVertexColor(got and 1 or 0.55, got and 1 or 0.55, got and 1 or 0.55)
 			CuratorOctoFull.SetShown(b.check, got)
 			b.ring:SetAlpha(got and 0.6 or 0.15)

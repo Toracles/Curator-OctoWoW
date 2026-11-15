@@ -462,7 +462,7 @@ function SV:Cover(target, opts)
 	end
 	local ok = pcall(function()
 		local k = target:GetEffectiveScale() / UIParent:GetEffectiveScale()
-		local l, bottom, w, h = target:GetRect()
+		local l, bottom, w, h = CuratorOctoFull.GetRect(target)
 		b:ClearAllPoints()
 		b:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", l * k - 1, bottom * k - 1)
 		CuratorOctoFull.SetSize(b, w * k + 2, h * k + 2)
@@ -764,7 +764,7 @@ function SV:Paint()
 	end
 	CuratorOctoFull.SetShown(b, ns.db ~= nil and not A.member)
 	local fight = InCombatLockdown and InCombatLockdown() and true or false
-	b.icon:SetDesaturated(fight)
+	CuratorOctoFull.SetDesaturated(b.icon, fight)
 	local k = fight and 0.6 or 1
 	b.icon:SetVertexColor(k, k, k)
 	local due = self:Due() and true or false

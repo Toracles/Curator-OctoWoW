@@ -345,7 +345,7 @@ function G:Fallback()
 		p = CreateFrame("Frame", "CuratorGossip", nil, CuratorOctoFull.BackdropTemplate())
 		p:SetFrameStrata("DIALOG")
 		p:SetWidth(300)
-		p:SetClampedToScreen(true)
+		CuratorOctoFull.SetClampedToScreen(p, true)
 		if p.SetBackdrop then
 			p:SetBackdrop({
 				bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
@@ -371,7 +371,7 @@ function G:Fallback()
 	end
 	p.title:SetText(self.name or "Curator")
 	p.say:SetText(self.say or "")
-	local top = 14 + 18 + (self.say and (p.say:GetStringHeight() + 8) or 0)
+	local top = 14 + 18 + (self.say and (CuratorOctoFull.GetStringHeight(p.say) + 8) or 0)
 	for i, line in ipairs(lines) do
 		local i, line = i, line; local r = p.rows[i]
 		if not r then

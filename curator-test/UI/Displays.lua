@@ -1022,8 +1022,8 @@ local function InstallBoosters()
 			page.dispButton = b
 			DU:BuildBoostersView(page)
 			-- (the album closed: its boosters again next time, not their displays)
-			if self.frame.HookScript then
-				self.frame:HookScript("OnHide", function()
+			if CuratorOctoFull.HookScript then
+				CuratorOctoFull.HookScript(self.frame, "OnHide", function()
 					A.dispView, DU.page = nil, nil
 				end)
 			end
@@ -1100,7 +1100,7 @@ local function CaseButton(parent, kind, way)
 	local b = S.Button(parent, "", 118, 22)
 	b.kind, b.way = kind, way
 	if b.SetMotionScriptsWhileDisabled then
-		b:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 	end
 	CuratorOctoFull.SetScript(b, "OnClick", function(self)
 		DU:CaseClick(self)
@@ -1502,7 +1502,7 @@ function DU:BuildSale(f)
 	v.buy = S.Button(v, "", 230, 24)
 	v.buy:SetPoint("BOTTOM", v, "BOTTOMLEFT", SALE_LEFT / 2, 2)
 	if v.buy.SetMotionScriptsWhileDisabled then
-		v.buy:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(v.buy, true)
 	end
 	CuratorOctoFull.SetScript(v.buy, "OnClick", function()
 		DU:SaleClick()

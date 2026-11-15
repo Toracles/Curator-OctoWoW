@@ -292,7 +292,7 @@ function M:SetMissing(on)
 	on = on and true or false
 	self.missing = on
 	for _, t in ipairs({ self.ground, self.pic, self.icon, self.ring, self.frame, self.medal }) do
-		t:SetDesaturated(on)
+		CuratorOctoFull.SetDesaturated(t, on)
 	end
 	local a = on and 0.42 or 1
 	for _, t in ipairs({ self.ground, self.pic, self.icon, self.frame, self.aura }) do

@@ -1175,7 +1175,7 @@ function A:PaintIdCard(data)
 		local nx = LV.RANKS[r + 1]
 		nr.r = nx and r + 1 or r
 		nr.emblem:SetRank(nr.r)
-		nr.emblem.tex:SetDesaturated(nx ~= nil)
+		CuratorOctoFull.SetDesaturated(nr.emblem.tex, nx ~= nil)
 		nr.emblem:SetAlpha(nx and 0.75 or 1)
 		local c = LV.RANKS[nr.r].color
 		-- (the highest one: its name and what it is, in the middle of the height without the level of the next)
@@ -1428,7 +1428,7 @@ function A:PaintTrack()
 	if nx then
 		tr.nxt:SetRank(r + 1)
 		tr.nxt.glow:Hide()
-		tr.nxt.tex:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(tr.nxt.tex, true)
 		tr.nxt:SetAlpha(0.7)
 		tr.nxtName:SetText(L[nx.name])
 		tr.nxtName:SetTextColor(0.7, 0.7, 0.74)
@@ -1471,9 +1471,9 @@ function A:PaintTrack()
 		if n.can and n.page == page then
 			tr.waiting[n] = true
 		end
-		n.bg:SetDesaturated(not reached)
+		CuratorOctoFull.SetDesaturated(n.bg, not reached)
 		n.bg:SetAlpha(reached and 1 or 0.55)
-		n.icon:SetDesaturated(not reached)
+		CuratorOctoFull.SetDesaturated(n.icon, not reached)
 		n.icon:SetAlpha(reached and 1 or 0.42)
 		if level == lv then
 			n.label:SetTextColor(1, 0.86, 0.4)

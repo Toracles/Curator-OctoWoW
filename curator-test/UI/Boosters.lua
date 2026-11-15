@@ -187,11 +187,11 @@ local function NewToggle(parent, w, h)
 	function b:Paint()
 		if not self:IsEnabled() then
 			self.text:SetTextColor(0.5, 0.5, 0.5)
-			self.icon:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(self.icon, true)
 		else
 			local c = self.on and { 1, 1, 1 } or S.GOLD
 			self.text:SetTextColor(c[1], c[2], c[3])
-			self.icon:SetDesaturated(false)
+			CuratorOctoFull.SetDesaturated(self.icon, false)
 		end
 	end
 	return b
@@ -378,7 +378,7 @@ function A:BuildBoosters()
 	ft.open.tip = RerollTip
 	for _, b in ipairs({ ft.open }) do
 		if b.SetMotionScriptsWhileDisabled then
-			b:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 		end
 	end
 	ft.all = Hud.ClaimButton(ft, 96, 36, L["All"])
@@ -387,7 +387,7 @@ function A:BuildBoosters()
 		A:OpenFrom(ft.series, true)
 	end)
 	if ft.all.SetMotionScriptsWhileDisabled then
-		ft.all:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(ft.all, true)
 	end
 	CuratorOctoFull.SetScript(ft.all, "OnEnter", function(self)
 		if self:IsEnabled() then
@@ -553,7 +553,7 @@ function A:BuildBoosters()
 		A:ChoiceTip(self)
 	end
 	if st.go.SetMotionScriptsWhileDisabled then
-		st.go:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(st.go, true)
 	end
 	-- (1.14.0, his word: the boosters to choose are sold no more, its button of the shop gone)
 	st.note = S.Text(st, "GameFontHighlightSmall", "LEFT")
@@ -737,7 +737,7 @@ function A:GildPack(p, on)
 	on = on and true or false
 	local gold = (ns.Booster and ns.Booster.GOLD) or { 1, 0.8, 0.34 }
 	for _, t in ipairs({ p.body, p.top }) do
-		t:SetDesaturated(on)
+		CuratorOctoFull.SetDesaturated(t, on)
 		if on then
 			t:SetVertexColor(gold[1], gold[2], gold[3])
 		else
@@ -891,8 +891,8 @@ function A:PaintFeatured(s, place)
 		ft.packs:SetText(ft.packs:GetText() .. "\n|cffffcc73" .. string.format(L["%d from a trade, waiting"], held) .. "|r")
 	end
 	ft.pack.art:SetAlpha(packs > 0 and 1 or 0.55)
-	ft.pack.body:SetDesaturated(packs == 0)
-	ft.pack.top:SetDesaturated(packs == 0)
+	CuratorOctoFull.SetDesaturated(ft.pack.body, packs == 0)
+	CuratorOctoFull.SetDesaturated(ft.pack.top, packs == 0)
 	-- (1.14.0, after its test, his word: a reroll opens none)
 	local blocked = ns.Reroll ~= nil and ns.Reroll:NoOpening()
 	ft.blocked = blocked
@@ -994,7 +994,7 @@ function A:PaintGrid(featured)
 		if s then
 			t.photo:SetTexture(octoConstants.MEDIA .. (s.studio or "StudioElwynn"))
 			-- (1.14.2: a golden booster: its photo in gold too)
-			t.photo:SetDesaturated(gold ~= nil)
+			CuratorOctoFull.SetDesaturated(t.photo, gold ~= nil)
 			if gold then
 				t.photo:SetVertexColor(1, 0.86, 0.55)
 			else
@@ -1087,7 +1087,7 @@ function A:PaintStock(counts)
 			s.n = n
 			s.count:SetText("x" .. n)
 			CuratorOctoFull.SetShown(s.count, n > 0)
-			s.icon:SetDesaturated(n == 0)
+			CuratorOctoFull.SetDesaturated(s.icon, n == 0)
 			s.icon:SetAlpha(n > 0 and 1 or 0.4)
 			if n > 0 then
 				s.count:SetTextColor(1, 0.88, 0.55)

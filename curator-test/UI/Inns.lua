@@ -127,7 +127,7 @@ function UI.NewStamp(parent, size, withDay)
 		ink.ring:SetVertexColor(c[1], c[2], c[3], 0.9)
 		ink.mark:SetTexture(octoConstants.MEDIA .. ((album and album.set) or "SetElwynn"))
 		if ink.mark.SetDesaturated then
-			ink.mark:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(ink.mark, true)
 		end
 		ink.mark:SetVertexColor(c[1] * 1.3, c[2] * 1.3, c[3] * 1.3, 0.85)
 		local a = Turn(npc, t)
@@ -314,11 +314,11 @@ function UI:Panel()
 	f:SetToplevel(true)
 	f:EnableMouse(true)
 	-- (690 high beside the innkeeper's window: on a small screen, or a large scale of the interface, it stays on it)
-	f:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(f, true)
 	f:Hide()
 	-- (1.12.0: the time of the next stamp, kept up to date while the window is open; 1.14.0: the time of the dish too)
 	f.tick = 0
-	f:HookScript("OnUpdate", function(self, elapsed)
+	CuratorOctoFull.HookScript(f, "OnUpdate", function(self, elapsed)
 		self.tick = self.tick + elapsed
 		if self.tick >= 10 then
 			self.tick = 0
@@ -611,7 +611,7 @@ function UI:PaintDish(npc)
 		local shown = cur or def
 		sl.title:SetText(cur and L["Your dish of the day"] or L["Dish of the day"])
 		Hud.SetIcon(sl.icon, { LG:Icon(shown) })
-		sl.icon:SetDesaturated(cur == nil or waiting)
+		CuratorOctoFull.SetDesaturated(sl.icon, cur == nil or waiting)
 		sl.glow:SetAlpha(cur and not waiting and 0.4 or 0)
 		S.Fit(sl.name, LG:Name(shown), octoConstants.SLATE_W - 126, 15, 10)
 		sl.text:SetText(LG:Text(shown))
@@ -630,7 +630,7 @@ function UI:PaintDish(npc)
 	end
 	sl.title:SetText(L["Dish of the day"])
 	Hud.SetIcon(sl.icon, { LG:Icon(def) })
-	sl.icon:SetDesaturated(false)
+	CuratorOctoFull.SetDesaturated(sl.icon, false)
 	sl.glow:SetAlpha(0.35)
 	S.Fit(sl.name, LG:Name(def), octoConstants.SLATE_W - 126, 15, 10)
 	sl.text:SetText(LG:Text(def))
@@ -1248,7 +1248,7 @@ local function NewCell(parent)
 	b.ghost:SetPoint("CENTER")
 	CuratorOctoFull.SetSize(b.ghost, 21, 21)
 	if b.ghost.SetDesaturated then
-		b.ghost:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.ghost, true)
 	end
 	b.ghost:SetVertexColor(octoConstants.BROWN[1], octoConstants.BROWN[2], octoConstants.BROWN[3], 0.2)
 	b.name = Text(b, 9.5, octoConstants.PAPER_INK, "CENTER")
@@ -1859,7 +1859,7 @@ function A:RefreshInns()
 		CuratorOctoFull.SetShown(n.slot, got == nil)
 		CuratorOctoFull.SetShown(n.check, got ~= nil)
 		if n.pack.SetDesaturated then
-			n.pack:SetDesaturated(got == nil)
+			CuratorOctoFull.SetDesaturated(n.pack, got == nil)
 		end
 		n.pack:SetAlpha(got and 1 or 0.55)
 		n.packs:SetText("×" .. stp.packs)
@@ -1888,7 +1888,7 @@ function A:RefreshLodging(page)
 	else
 		r.sub:SetText(L["Log out in an inn or a capital: 100 every 8 hours."])
 	end
-	r.icon:SetDesaturated(n < 1)
+	CuratorOctoFull.SetDesaturated(r.icon, n < 1)
 	-- the dish of the day, on its slate
 	local d = page.dish
 	local def, left, from, waiting = LG:Dish()
@@ -1898,7 +1898,7 @@ function A:RefreshLodging(page)
 	if def then
 		d.title:SetText(L["Your dish of the day"])
 		Hud.SetIcon(d.icon, { LG:Icon(def) })
-		d.icon:SetDesaturated(waiting)
+		CuratorOctoFull.SetDesaturated(d.icon, waiting)
 		d.glow:SetAlpha(waiting and 0 or 0.35)
 		S.Fit(d.name, LG:Name(def), w, 12.5, 9)
 		d.name:Show()
@@ -1920,7 +1920,7 @@ function A:RefreshLodging(page)
 	else
 		d.title:SetText(L["Dish of the day"])
 		Hud.SetIcon(d.icon, { "Interface\\Icons\\INV_Misc_Food_15" })
-		d.icon:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(d.icon, true)
 		d.glow:SetAlpha(0)
 		d.name:SetText("")
 		d.name:Hide()
@@ -1945,7 +1945,7 @@ function A:RefreshLodging(page)
 	local le = page.leads
 	le.right:SetText(CuratorOctoFull.Length(list) > octoConstants.LEAD_ROWS and ("+" .. (CuratorOctoFull.Length(list) - octoConstants.LEAD_ROWS)) or "")
 	S.Fit(le.title, CuratorOctoFull.Length(list) > 0 and string.format(L["Leads of the tavern (%d)"], CuratorOctoFull.Length(list)) or L["Leads of the tavern"], TITLE_W(le), 12, 9)
-	le.icon:SetDesaturated(CuratorOctoFull.Length(list) == 0)
+	CuratorOctoFull.SetDesaturated(le.icon, CuratorOctoFull.Length(list) == 0)
 	for i, row in ipairs(le.rows) do
 		local l = list[i]
 		row.card, row.lead = l and l.card, l

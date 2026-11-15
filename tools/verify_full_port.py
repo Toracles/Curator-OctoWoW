@@ -12,20 +12,40 @@ local noop = function() end
 local widget
 local scripts = {}
 local registrations = {}
+local function setShown(frame, shown, eventName)
+ if (frame.shown ~= false) == shown then return end
+ frame.shown = shown
+ local handler = scripts[frame][eventName]
+ if handler then
+  local previousThis, previousArg = this, arg1
+  this, arg1 = frame, nil
+  handler()
+  this, arg1 = previousThis, previousArg
+ end
+end
+local unavailable = {SetEnabled=true, SetWordWrap=true, SetMaxLines=true, HookScript=true, GetSize=true,
+ GetRect=true, GetStringHeight=true, SetMotionScriptsWhileDisabled=true, SetClampedToScreen=true, SetAutoFocus=true,
+ SetDesaturated=true, SetVertexOffset=true, SetShown=true, SetSize=true, SetColorTexture=true, SetClipsChildren=true,
+ Low=true, High=true, Text=true, CreateMaskTexture=true, AddMaskTexture=true}
 local methods = {
  RegisterEvent = function(self, event) registrations[self][event] = true end,
  SetScript = function(self, event, callback)
-  assert(event ~= "OnModelLoaded", "Unsupported model script")
+  assert(event ~= "OnModelLoaded" and event ~= "OnTooltipSetUnit", "Unsupported UI script")
   scripts[self][event] = callback
  end,
  GetScript = function(self, event) return scripts[self][event] end,
  GetStatusBarTexture = function() return widget() end,
  GetFontString = function() return widget() end,
+ GetStringWidth = function(self) return string.len(self.textValue or "") * 7 end,
+ SetText = function(self, value) self.textValue = tostring(value or "") end,
+ GetText = function(self) return self.textValue or "" end,
  GetCheckedTexture = function() return widget() end,
  GetNormalTexture = function() return widget() end,
  GetHighlightTexture = function() return widget() end,
- CreateTexture = function() return widget() end,
- CreateFontString = function() return widget() end,
+ GetParent = function(self) return self.parent end,
+ SetParent = function(self, parent) self.parent = parent end,
+ CreateTexture = function(self) return widget(self) end,
+ CreateFontString = function(self) return widget(self) end,
  GetWidth = function() return 1024 end,
  GetHeight = function() return 768 end,
  GetFrameLevel = function() return 1 end,
@@ -36,25 +56,25 @@ local methods = {
  GetLeft = function() return 0 end,
  GetBottom = function() return 0 end,
  GetCenter = function() return 512,384 end,
- Show = function(self) self.shown = true end,
- Hide = function(self) self.shown = false end,
+ Show = function(self) setShown(self, true, "OnShow") end,
+ Hide = function(self) setShown(self, false, "OnHide") end,
  IsShown = function(self) return self.shown ~= false end,
  IsVisible = function(self) return self.shown ~= false end,
 }
-widget = function()
- local frame = setmetatable({}, {__index=function(_, key)
-     return methods[key] or (key ~= "SetEnabled" and key ~= "SetWordWrap" and key ~= "SetMaxLines" and key ~= "Low" and key ~= "High" and key ~= "Text" and key ~= "CreateMaskTexture" and key ~= "AddMaskTexture" and string.find(key, "^[A-Z]") and noop or nil)
+widget = function(parent)
+ local frame = setmetatable({parent=parent}, {__index=function(_, key)
+     return methods[key] or (not unavailable[key] and string.find(key, "^[A-Z]") and noop or nil)
  end})
  scripts[frame] = {}
  registrations[frame] = {}
  return frame
 end
-UIParent, Minimap, DEFAULT_CHAT_FRAME = widget(), widget(), widget()
+UIParent, Minimap, DEFAULT_CHAT_FRAME, GameTooltip = widget(), widget(), widget(), widget()
 CreateFrame = function(_,name,parent,template)
- local modern = {BackdropTemplate=true, PortraitFrameTemplate=true, LargeSideTabButtonTemplate=true,
+ local modern = {SecureActionButtonTemplate=true, BackdropTemplate=true, PortraitFrameTemplate=true, LargeSideTabButtonTemplate=true,
      CollectionsBackgroundTemplate=true, InsetFrameTemplate=true, WowStyle1DropdownTemplate=true, CheckboxWithLabelTemplate=true, ColoredProgressBarTemplate=true}
  assert(not modern[template], "Unsupported inherited template: " .. tostring(template))
- local frame=widget()
+ local frame=widget(parent)
  if name then _G[name]=frame end
  return frame
 end
@@ -247,9 +267,42 @@ assert(not ns.SiteWindow.TellBetaEnd and not ns.Album.BetaMark)
 local seal = ns.Seal(ns.db)
 SlashCmdList.CURATOR("bar width 240")
 assert(ns.db.barWidth == 240 and ns.BoosterBar:DisplayWidth() == 240)
+local bar = ns.BoosterBar.frame
+this, arg1 = bar, -1
+bar:GetScript("OnMouseWheel")()
+assert(ns.db.barWidth == 210)
 assert(ns.Seal(ns.db) == seal)
 SlashCmdList.CURATOR("bar reset")
 assert(not ns.db.barWidth)
 ns.Album:ShowBoosters()
+local page = ns.Album.frame.boost
+assert(page:IsShown() and page.grid:IsShown() and not page.pick:IsShown())
+ns.Album:Hide()
+assert(not ns.Album.frame:IsShown())
 """)
 print("Balor, catalogue exclusions, retired achievements and adjustable bar verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local commands = {"inventory", "achievements", "quests", "talents", "inns", "leads",
+    "pvp", "boosters", "profile", "level", "rewards", "golden", "search", "gift",
+    "main", "chest", "stats", "live", "news", "alerts", "cases", "contract",
+    "trade", "duel", "discovery", "social", "options", "rubies", "antiquarian", "counter"}
+local failed = {}
+for _, command in ipairs(commands) do
+    local ok, err = pcall(SlashCmdList.CURATOR, command)
+    if not ok then table.insert(failed, command .. ": " .. tostring(err)) end
+end
+assert(table.getn(failed) == 0, table.concat(failed, "\n"))
+local frame = CreateFrame("Frame")
+local order = {}
+frame:SetScript("OnUpdate", function() table.insert(order, "original") end)
+ns.HookScript(frame, "OnUpdate", function(self, elapsed)
+    assert(self == frame and elapsed == .05)
+    table.insert(order, "hook")
+end)
+this, arg1 = frame, .05
+frame:GetScript("OnUpdate")()
+assert(table.concat(order, ",") == "original,hook")
+""")
+print("Thirty UI commands and legacy event chaining verified")

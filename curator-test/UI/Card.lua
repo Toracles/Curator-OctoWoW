@@ -799,7 +799,7 @@ end
 -- A card not found yet is grey and darker all over (frame, ribbon, parchment, gem): the cards found
 -- stand out at a glance. k: how bright the grey part stays.
 local function Grey(tex, on, k)
-	tex:SetDesaturated(on)
+	CuratorOctoFull.SetDesaturated(tex, on)
 	k = on and k or 1
 	tex:SetVertexColor(k, k, k)
 end
@@ -1496,7 +1496,7 @@ function Card:SetCard(card, opts)
 		end
 		pic:ClearAllPoints()
 		pic:SetAllPoints(art)
-		pic:SetDesaturated(false)
+		CuratorOctoFull.SetDesaturated(pic, false)
 		pic:SetVertexColor(1, 1, 1)
 		CuratorOctoFull.SetShown(pic, owned)
 	elseif card.art then
@@ -1891,14 +1891,14 @@ function Card:PaintPattern(pat, framed)
 	local tint = pat ~= nil and pat.tint ~= nil
 	for _, list in ipairs({ sh.prism, art.foil }) do
 		for _, f in ipairs(list) do
-			f:SetDesaturated(tint)
+			CuratorOctoFull.SetDesaturated(f, tint)
 			if not tint then
 				f:SetVertexColor(1, 1, 1)
 			end
 		end
 	end
 	for i, g in ipairs({ art.glory, art.glory2 }) do
-		g:SetDesaturated(tint)
+		CuratorOctoFull.SetDesaturated(g, tint)
 		if tint then
 			g:SetVertexColor(ns.Patterns.Color(pat, (i - 1) * 0.5))
 		else
@@ -3297,7 +3297,7 @@ local function Dress(m, src, flip, wrap)
 		t:SetTexCoord(u0 + (u1 - u0) * fl, u0 + (u1 - u0) * fr, v0 + (v1 - v0) * ft, v0 + (v1 - v0) * fb)
 		t:SetVertexColor(r or 1, g or 1, b or 1, (a or 1) * (m.w and m.w[k] or 1))
 		t:SetBlendMode(blend)
-		t:SetDesaturated(desat)
+		CuratorOctoFull.SetDesaturated(t, desat)
 	end
 end
 
@@ -3363,7 +3363,7 @@ local function RestCenter(c, fs, rects, box)
 			w = fs:GetStringWidth() or 0
 		end
 	end
-	local h = (octoConstants.POINT_Y[point] and fs:GetStringHeight()) or 0
+	local h = (octoConstants.POINT_Y[point] and CuratorOctoFull.GetStringHeight(fs)) or 0
 	return ax + (octoConstants.POINT_X[point] or 0) * w / 2, ay + (octoConstants.POINT_Y[point] or 0) * h / 2
 end
 
@@ -4273,7 +4273,7 @@ local function BuildHeld(c)
 	Q(o.crest, h.high, "OVERLAY", 2, Box(0, H / 2 - H * octoConstants.CREST_SKULL[2], W * octoConstants.CREST_SKULL[1], W * octoConstants.CREST_SKULL[1]))
 	-- (the pumpkin of the medallion: where it is, as big as it is; round as on the flat card)
 	Q(o.crestIcon, h.high, "OVERLAY", 1, function()
-		local cw, ch = o.crestIcon:GetSize()
+		local cw, ch = CuratorOctoFull.GetSize(o.crestIcon)
 		local _, _, _, _, y = o.crestIcon:GetPoint(1)
 		if not (cw and y) then
 			return nil
@@ -4297,12 +4297,12 @@ local function BuildHeld(c)
 			if not x then
 				return nil
 			end
-			local w, hh = tw:GetSize()
+			local w, hh = CuratorOctoFull.GetSize(tw)
 			local cx, cy = -W / 2 + x, H / 2 + y
 			return cx - w / 2, cy - hh / 2, cx + w / 2, cy + hh / 2
 		end, true)
 	end
-	local bw, bh = c.badge:GetSize()
+	local bw, bh = CuratorOctoFull.GetSize(c.badge)
 	local bcx, bcy = W / 2 - bw * 0.38, H / 2 - H * 0.075
 	h.badgeRect = { bcx - bw / 2, bcy - bh / 2, bcx + bw / 2, bcy + bh / 2 }
 	Q(c.badge.tex, h.badge, "ARTWORK", 0, Box(bcx, bcy, bw, bh))
@@ -4451,7 +4451,7 @@ function Card:HeldSync()
 		end
 		t:SetVertexColor(src:GetVertexColor())
 		t:SetBlendMode(src:GetBlendMode() or "BLEND")
-		t:SetDesaturated(src:IsDesaturated() and true or false)
+		CuratorOctoFull.SetDesaturated(t, src:IsDesaturated() and true or false)
 	end
 	-- (his idea, 31 October: the wear of its copy cut into cells that lie on the card held, UI/Wear.lua)
 	if ns.WearUI then

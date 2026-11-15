@@ -392,7 +392,7 @@ function T:ShowLoot(item)
 			l.icon:SetTexCoord(PACK_CROP[1], PACK_CROP[2], PACK_CROP[3], PACK_CROP[4])
 			l.icon:SetVertexColor(1, 1, 1)
 		end
-		l.icon:SetDesaturated(item.dim and true or false)
+		CuratorOctoFull.SetDesaturated(l.icon, item.dim and true or false)
 	end
 	return l
 end

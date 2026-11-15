@@ -260,7 +260,7 @@ local function NewCard(parent, w)
 	end
 	-- (1.14.0: off on a reroll, why in its tooltip)
 	if r.claim.SetMotionScriptsWhileDisabled then
-		r.claim:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(r.claim, true)
 	end
 	r.claimed = Hud.Text(r, 13, "OUTLINE")
 	r.claimed:SetPoint("RIGHT", r, "BOTTOMRIGHT", -20, 22)
@@ -360,7 +360,7 @@ local function NewRow(parent, w)
 		A:QuestTooltip(r, self)
 	end
 	if r.claim.SetMotionScriptsWhileDisabled then
-		r.claim:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(r.claim, true)
 	end
 	r.claimed = Hud.Text(r, 12, "OUTLINE")
 	r.claimed:SetPoint("RIGHT", -18, 0)
@@ -487,7 +487,7 @@ function A:BuildQuests()
 		A:ChoiceTip(self)
 	end
 	if st.go.SetMotionScriptsWhileDisabled then
-		st.go:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(st.go, true)
 	end
 	page.stock = st
 	page.stockNote = S.Text(page, "GameFontHighlightSmall", "LEFT")
@@ -810,7 +810,7 @@ function A:PaintBoard()
 	CuratorOctoFull.SetShown(bd.locked, none)
 	if none then
 		SetIcon(bd.lockIcon, { ICON[sec.key] or ICON.daily })
-		bd.lockIcon:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(bd.lockIcon, true)
 		local need = locked and Q:Needs(locked)
 		bd.locked:SetText(need and string.format(L["These quests come when one of your characters reaches level %d."], need) or "")
 	end
@@ -848,7 +848,7 @@ function A:PaintCard(r)
 	local waiting = done and not claimed
 	r.waiting = waiting
 	SetIcon(r.icon, Icon(q.k))
-	r.icon:SetDesaturated(claimed)
+	CuratorOctoFull.SetDesaturated(r.icon, claimed)
 	-- (a card turning over to a new quest keeps turning: UI A:RerollFlip)
 	if not r.flipping then
 		r.icon:SetWidth(r.iconW or r.icon:GetWidth())
@@ -904,7 +904,7 @@ function A:PaintCard(r)
 	CuratorOctoFull.SetShown(r.packText, (packs or pts) and true or false)
 	if packs then
 		r.pack:SetTexture(Hud.PackIcon(board.kind))
-		r.pack:SetDesaturated(false)
+		CuratorOctoFull.SetDesaturated(r.pack, false)
 		r.packText:SetText("x" .. q.p)
 	elseif pts then
 		r.pack:SetTexture(Hud.PackIcon("zone"))
@@ -1169,7 +1169,7 @@ function A:ClaimCards(cards)
 		Stamp(r.check, r.checkSize or 38, d + 0.32, function()
 			ns.Play(ns.SND.stamp)
 			Hud.Burst(r.check, GOLDEN, 12, 90, 14)
-			r.icon:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(r.icon, true)
 			r.claimed:SetText(L["Claimed"])
 			r.claimed:SetAlpha(0)
 			r.claimed:Show()
@@ -1344,7 +1344,7 @@ function A:PaintReroll()
 		local lw = math.min(ns.TextWidth(b.label) + 4, 154)
 		b.label:SetWidth(lw)
 		b:SetWidth(5 + 20 + 6 + lw + 10 + tagW + 9)
-		b.dice:SetDesaturated(not ok)
+		CuratorOctoFull.SetDesaturated(b.dice, not ok)
 		b:SetAlpha(ok and 1 or 0.6)
 		right = right - b:GetWidth() - 10
 	else

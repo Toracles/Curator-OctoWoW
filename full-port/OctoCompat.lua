@@ -245,3 +245,60 @@ function ns.SetEnabled(button, enabled)
     if button.SetEnabled then return button:SetEnabled(enabled) end
     if enabled then button:Enable() else button:Disable() end
 end
+
+function ns.HookScript(frame, handler, callback)
+    local function dispatch(...)
+        if not this and arg.n > 0 then return callback(unpack(arg, 1, arg.n)) end
+        local call = callbackArguments[handler]
+        if call then return call(this or frame, callback) end
+        return callback(this or frame)
+    end
+    if frame.HookScript then
+        if handler == "OnTooltipSetUnit" then
+            return pcall(frame.HookScript, frame, handler, dispatch)
+        end
+        return frame:HookScript(handler, dispatch)
+    end
+    local ok, original = pcall(frame.GetScript, frame, handler)
+    if not ok then return false end
+    local function hooked()
+        if original then original() end
+        dispatch()
+    end
+    if handler == "OnTooltipSetUnit" then
+        return pcall(frame.SetScript, frame, handler, hooked)
+    end
+    return frame:SetScript(handler, hooked)
+end
+
+function ns.GetSize(region)
+    if region.GetSize then return region:GetSize() end
+    return region:GetWidth(), region:GetHeight()
+end
+
+function ns.GetRect(region)
+    if region.GetRect then return region:GetRect() end
+    return region:GetLeft(), region:GetBottom(), region:GetWidth(), region:GetHeight()
+end
+
+function ns.GetStringHeight(region)
+    if region.GetStringHeight then return region:GetStringHeight() end
+    return region:GetHeight()
+end
+
+function ns.SetDesaturated(texture, enabled)
+    if texture.SetDesaturated then return texture:SetDesaturated(enabled) end
+end
+
+function ns.SetMotionScriptsWhileDisabled(button, enabled)
+    if button.SetMotionScriptsWhileDisabled then button:SetMotionScriptsWhileDisabled(enabled) end
+end
+
+function ns.SetClampedToScreen(frame, enabled)
+    if frame.SetClampedToScreen then frame:SetClampedToScreen(enabled) end
+end
+
+function ns.SetAutoFocus(editBox, enabled)
+    if editBox.SetAutoFocus then return editBox:SetAutoFocus(enabled) end
+    if not enabled and editBox.ClearFocus then editBox:ClearFocus() end
+end

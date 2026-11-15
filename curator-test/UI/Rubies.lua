@@ -427,7 +427,7 @@ function RUI:Shop()
 			RUI:Buy(self.kind)
 		end)
 		if r.buy.SetMotionScriptsWhileDisabled then
-			r.buy:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(r.buy, true)
 		end
 		CuratorOctoFull.SetScript(r.buy, "OnEnter", function(self)
 			RUI:ShopTooltip(self)
@@ -518,7 +518,7 @@ function RUI:PaintShop()
 			r.price:SetText(price > 0 and RB.Text(price, 13) or ("|cff60ff60" .. L["Free"] .. "|r"))
 			CuratorOctoFull.SetEnabled(r.buy, ok)
 			r.buy.why = why
-			r.icon:SetDesaturated(not ok)
+			CuratorOctoFull.SetDesaturated(r.icon, not ok)
 			r.name:SetTextColor(ok and 1 or 0.6, ok and 1 or 0.6, ok and 1 or 0.6)
 		end
 	else

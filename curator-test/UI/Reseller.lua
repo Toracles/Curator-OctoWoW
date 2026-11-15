@@ -148,7 +148,7 @@ function RUI:Build()
 		slot.buy = S.Button(slot, "", CARD_W + 4, 22)
 		slot.buy:SetPoint("TOP", slot.state, "BOTTOM", 0, -4)
 		if slot.buy.SetMotionScriptsWhileDisabled then
-			slot.buy:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(slot.buy, true)
 		end
 		CuratorOctoFull.SetScript(slot.buy, "OnClick", function()
 			RUI:Buy(slot)
@@ -163,7 +163,7 @@ function RUI:Build()
 		slot.baron = S.Button(slot, "", CARD_W + 4, 20)
 		slot.baron:SetPoint("TOP", slot.buy, "BOTTOM", 0, -3)
 		if slot.baron.SetMotionScriptsWhileDisabled then
-			slot.baron:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(slot.baron, true)
 		end
 		CuratorOctoFull.SetScript(slot.baron, "OnClick", function()
 			RUI:Baron(slot)
@@ -270,7 +270,7 @@ function RUI:Build()
 	buy.open = S.Button(buy, L["Open my inventory"], 250, 30)
 	buy.open:SetPoint("BOTTOMLEFT", buy, "BOTTOMLEFT", tx, 22)
 	if buy.open.SetMotionScriptsWhileDisabled then
-		buy.open:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(buy.open, true)
 	end
 	CuratorOctoFull.SetScript(buy.open, "OnClick", function()
 		ns.Play(ns.SND.click)
@@ -787,7 +787,7 @@ local function Column(parent, i, title, icon)
 	c.btn = S.Button(c, "", COL_W - 24, 24)
 	c.btn:SetPoint("BOTTOM", 0, 12)
 	if c.btn.SetMotionScriptsWhileDisabled then
-		c.btn:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(c.btn, true)
 	end
 	c.none = S.Text(c, "GameFontHighlightSmall")
 	c.none:SetPoint("CENTER", 0, 0)
@@ -1076,12 +1076,12 @@ function RUI:PaintCounter()
 			CuratorOctoFull.SetEnabled(bm.btn, RB:Has(price))
 		elseif TL:Ready("blackmarket") then
 			bm.text:SetText(L["\"I may have something you are missing, rare or epic. For you, a price.\""])
-			bm.crate:SetDesaturated(false)
+			CuratorOctoFull.SetDesaturated(bm.crate, false)
 			bm.btn:SetLabel(L["Ask him"])
 			CuratorOctoFull.SetEnabled(bm.btn, true)
 		else
 			bm.text:SetText(L["Nothing under his counter for now."])
-			bm.crate:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(bm.crate, true)
 			bm.btn:SetLabel(string.format(L["Again in %s"], ns.Duration(TL:Left("blackmarket"))))
 			CuratorOctoFull.SetEnabled(bm.btn, false)
 		end
@@ -1096,7 +1096,7 @@ function RUI:PaintCounter()
 	if hasO then
 		local ready = TL:Ready("order")
 		od.text:SetText(L["Once a day, a card you are missing, epic at most, of the albums he sells: at its full price."])
-		od.seal:SetDesaturated(not ready)
+		CuratorOctoFull.SetDesaturated(od.seal, not ready)
 		od.btn:SetLabel(ready and L["Choose a card"] or string.format(L["Again in %s"], ns.Duration(TL:Left("order"))))
 		CuratorOctoFull.SetEnabled(od.btn, ready)
 	else

@@ -1550,7 +1550,7 @@ local function BuildFoot(f)
 	local function Btn(text, w)
 		local b = S.Button(ft, text, w, 22)
 		if b.SetMotionScriptsWhileDisabled then
-			b:SetMotionScriptsWhileDisabled(true)
+			CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 		end
 		CuratorOctoFull.SetScript(b, "OnLeave", function()
 			GameTooltip:Hide()
@@ -1758,8 +1758,8 @@ function A:BuildInventory()
 	end)
 	f.invFoot = BuildFoot(f)
 	-- (the window closed: the sale ends)
-	if f.HookScript then
-		f:HookScript("OnHide", function()
+	if CuratorOctoFull.HookScript then
+		CuratorOctoFull.HookScript(f, "OnHide", function()
 			IU:EndSell(true)
 		end)
 	end

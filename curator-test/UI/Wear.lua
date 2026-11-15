@@ -816,7 +816,7 @@ function WU.Set(c, wear, front)
 	HideFrom(c.wearFlip, nf + 1)
 	HideFrom(c.wearTurn, nt + 1)
 	-- (the card squeezed as it turns over: its pieces with it)
-	local cw, ch = c:GetSize()
+	local cw, ch = CuratorOctoFull.GetSize(c)
 	if cw and ch and (math.abs(cw - W) > 0.01 or math.abs(ch - H) > 0.01) then
 		WU.Fit(c, cw, ch)
 	end

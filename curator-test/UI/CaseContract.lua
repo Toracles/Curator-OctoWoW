@@ -386,11 +386,11 @@ local function NewRung(page, r)
 	b.rank, b.tw, b.locked = r, tw, locked
 	if locked then
 		-- the priceless card: it comes out of a case, never out of a contract
-		b.node:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.node, true)
 		b.node:SetVertexColor(0.6, 0.6, 0.62)
-		b.gemTo:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.gemTo, true)
 		b.gemTo:SetAlpha(0.55)
-		b.gemFrom:SetDesaturated(true)
+		CuratorOctoFull.SetDesaturated(b.gemFrom, true)
 		b.gemFrom:SetAlpha(0.55)
 		b.lock = b:CreateTexture(nil, "OVERLAY", nil, 2)
 		b.lock:SetTexture(MEDIA .. "Lock")
@@ -573,7 +573,7 @@ function A:BuildCaseDesk(page)
 		row.crate = c
 	end
 	-- the exchange chosen breathes, as those of the boosters
-	page:HookScript("OnUpdate", function(self)
+	CuratorOctoFull.HookScript(page, "OnUpdate", function(self)
 		if not self.caseOn then
 			return
 		end
@@ -597,7 +597,7 @@ function A:BuildCaseDesk(page)
 		end)
 	end
 	-- Fill: what it takes here
-	page.drawer.tools.fill:HookScript("OnEnter", function(self)
+	CuratorOctoFull.HookScript(page.drawer.tools.fill, "OnEnter", function(self)
 		if Case() then
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
 			GameTooltip:AddLine(L["Fill"], 1, 1, 1)
@@ -712,7 +712,7 @@ local function Switch()
 	b:Hide()
 	f.ctSwitch = b
 	-- (the album closed: the desk of the boosters the next time the contracts open by their tab)
-	f:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(f, "OnHide", function()
 		A.ctKind = nil
 	end)
 	return b
@@ -1304,7 +1304,7 @@ function A:CctDeed(page, st, byId)
 	page.sign:SetLabel(confirming and L["Confirm?"] or L["Sign the contract"])
 	CuratorOctoFull.SetEnabled(page.sign, ok)
 	page.sign:SetPulse(ok)
-	page.sign.quill:SetDesaturated(not ok)
+	CuratorOctoFull.SetDesaturated(page.sign.quill, not ok)
 	page.sign.quill:SetAlpha(ok and 1 or 0.6)
 end
 
@@ -1671,7 +1671,7 @@ function B:CaseWonCard()
 		fs:SetAlpha(0)
 	end
 	-- (waiting face down, a click anywhere turns it over: not the click that cut the ceremony short)
-	s:HookScript("OnMouseDown", function()
+	CuratorOctoFull.HookScript(s, "OnMouseDown", function()
 		if B.state == "caseCard" and GetTime() - (B.caseReadyAt or 0) > 0.2 then
 			B:CaseReveal()
 		end

@@ -64,6 +64,13 @@ function BB:SetWidth(w)""")
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
+        "UI/Skin.lua": lambda text: replace(text,
+            '\t\tlocal title = S.Text(f, "GameFontNormal")',
+            '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")
+        background:SetPoint("TOPLEFT", f, "TOPLEFT", 11, -12)
+        background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -12, 11)
+        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
+        local title = S.Text(f, "GameFontNormal")'''),
         "Core.lua": lambda text: replace(text, "barAt = true, barHide = true }",
                                          "barAt = true, barHide = true, barWidth = true }"),
         "Achievements.lua": lambda text: re.sub(

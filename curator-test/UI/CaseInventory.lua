@@ -294,12 +294,12 @@ local function Lens(page)
 	lens:Hide()
 	lens.yaw, lens.pitch, lens.lift = 0, 0, 1
 	page.caseLens = lens
-	page:HookScript("OnUpdate", function(_, elapsed)
+	CuratorOctoFull.HookScript(page, "OnUpdate", function(_, elapsed)
 		if lens:IsShown() and lens.cell then
 			IU:CaseLean(lens, elapsed)
 		end
 	end)
-	page:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(page, "OnHide", function()
 		if IU.caseLensCell then
 			IU:LeaveCase(IU.caseLensCell)
 		end

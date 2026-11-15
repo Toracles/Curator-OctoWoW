@@ -77,7 +77,7 @@ function W:Build()
 	local eb = CreateFrame("EditBox", nil, f.box)
 	eb:SetPoint("TOPLEFT", 10, -2)
 	eb:SetPoint("BOTTOMRIGHT", -10, 2)
-	eb:SetAutoFocus(false)
+	CuratorOctoFull.SetAutoFocus(eb, false)
 	if GameFontHighlightLarge or GameFontHighlight then
 		eb:SetFontObject(GameFontHighlightLarge or GameFontHighlight)
 	end
@@ -121,7 +121,7 @@ function W:Layout()
 	f.head:ClearAllPoints()
 	f.head:SetPoint("TOPLEFT", 70, -34)
 	f.head:SetWidth(width - 70 - RIGHT)
-	local y = math.max(78, 34 + (f.head:GetStringHeight() or 16) + 16)
+	local y = math.max(78, 34 + (CuratorOctoFull.GetStringHeight(f.head) or 16) + 16)
 	for _, row in ipairs(f.rows) do
 		if row.text:IsShown() then
 		row.icon:ClearAllPoints()
@@ -129,14 +129,14 @@ function W:Layout()
 		row.text:ClearAllPoints()
 		row.text:SetPoint("TOPLEFT", LEFT + ICON + GAP, -y)
 		row.text:SetWidth(width - LEFT - ICON - GAP - RIGHT)
-		y = y + math.max(ICON, row.text:GetStringHeight() or 12) + 10
+		y = y + math.max(ICON, CuratorOctoFull.GetStringHeight(row.text) or 12) + 10
 		end
 	end
 	y = y + 8
 	f.cta:ClearAllPoints()
 	f.cta:SetPoint("TOPLEFT", LEFT, -y)
 	f.cta:SetWidth(width - LEFT - RIGHT)
-	y = y + (f.cta:GetStringHeight() or 12) + 8
+	y = y + (CuratorOctoFull.GetStringHeight(f.cta) or 12) + 8
 	f.box:ClearAllPoints()
 	f.box:SetPoint("TOPLEFT", LEFT, -y)
 	f.box:SetPoint("TOPRIGHT", -RIGHT, -y)
@@ -144,7 +144,7 @@ function W:Layout()
 	f.hint:ClearAllPoints()
 	f.hint:SetPoint("TOPLEFT", LEFT, -y)
 	f.hint:SetWidth(width - LEFT - RIGHT)
-	y = y + (f.hint:GetStringHeight() or 10) + 16
+	y = y + (CuratorOctoFull.GetStringHeight(f.hint) or 10) + 16
 	f.close:ClearAllPoints()
 	f.close:SetPoint("TOP", 0, -y)
 	f:SetHeight(y + 24 + 18)

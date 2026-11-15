@@ -74,7 +74,7 @@ function UI:BuildAsk()
 		UI:MakeMain()
 	end)
 	if make.SetMotionScriptsWhileDisabled then
-		make:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(make, true)
 	end
 	CuratorOctoFull.SetScript(make, "OnEnter", function(self)
 		local r = RR()
@@ -163,7 +163,7 @@ function UI:PaintAsk()
 			f.note:SetText((was and was ~= "") and (was .. "\n" .. more) or more)
 		end
 	end
-	local h = 120 + f.text:GetStringHeight() + (f.note:GetText() ~= "" and (f.note:GetStringHeight() + 12) or 0)
+	local h = 120 + CuratorOctoFull.GetStringHeight(f.text) + (f.note:GetText() ~= "" and (CuratorOctoFull.GetStringHeight(f.note) + 12) or 0)
 	f:SetHeight(math.max(200, math.floor(h + 0.5)))
 end
 
@@ -343,7 +343,7 @@ function UI.Lines(got)
 end
 
 local function Fit(f)
-	local h = 40 + 56 + 10 + f.head:GetStringHeight() + 10 + f.text:GetStringHeight() + 10 + f.note:GetStringHeight() + 60
+	local h = 40 + 56 + 10 + CuratorOctoFull.GetStringHeight(f.head) + 10 + CuratorOctoFull.GetStringHeight(f.text) + 10 + CuratorOctoFull.GetStringHeight(f.note) + 60
 	f:SetHeight(math.max(240, math.floor(h + 0.5)))
 end
 
@@ -371,7 +371,7 @@ function UI:ShowChest(small)
 		f:SetTitle(string.format(L["The chest of %s"], MyName()))
 	end
 	f.glow:SetAlpha(0.35)
-	f.icon:SetDesaturated(true)
+	CuratorOctoFull.SetDesaturated(f.icon, true)
 	f.head:SetText(string.format(L["Opens at level %d"], r.LEVEL))
 	f.text:SetText(UI.Lines(r:Contents()))
 	f.note:SetText(L["Until then, this character earns a quarter of everything, kept here. Deleted before, it takes its chest with it."])
@@ -396,7 +396,7 @@ function UI:Opened(got)
 	if f.SetTitle then
 		f:SetTitle(string.format(L["The chest of %s"], MyName()))
 	end
-	f.icon:SetDesaturated(false)
+	CuratorOctoFull.SetDesaturated(f.icon, false)
 	f.head:SetText(L["Your chest opens!"])
 	f.text:SetText(UI.Lines(got))
 	f.note:SetText(L["Its boosters are in their albums, its cards in your collection. From now on this character earns everything."])
@@ -596,7 +596,7 @@ function CP:Build(A)
 		CP:MakeMain()
 	end)
 	if lf.make.SetMotionScriptsWhileDisabled then
-		lf.make:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(lf.make, true)
 	end
 	CuratorOctoFull.SetScript(lf.make, "OnEnter", function(self)
 		local r = RR()
@@ -829,7 +829,7 @@ function CP:Paint(A)
 		local v = got[t.def.key] or 0
 		t.value:SetText(ns.Num(v))
 		t.value:SetTextColor(v > 0 and 1 or 0.55, v > 0 and 0.9 or 0.55, v > 0 and 0.62 or 0.58)
-		t.icon:SetDesaturated(v <= 0)
+		CuratorOctoFull.SetDesaturated(t.icon, v <= 0)
 		t.icon:SetAlpha(v > 0 and 1 or 0.5)
 		-- (the boosters of albums: the booster of the first of them on the tile)
 		if t.pack then

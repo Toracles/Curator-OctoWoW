@@ -177,7 +177,7 @@ function BB:Build()
 	CuratorOctoFull.SetSize(b, FREE_W, HEIGHT)
 	b:SetFrameStrata("MEDIUM")
 	b:SetFrameLevel(20)
-	b:SetClampedToScreen(true)
+	CuratorOctoFull.SetClampedToScreen(b, true)
 	b:SetMovable(true)
 	if b.SetDontSavePosition then
 		b:SetDontSavePosition(true)
@@ -399,12 +399,12 @@ end
 -- (a bar of the game shown, hidden or resized: the bar follows)
 function BB:Watch(a)
 	self.watched = self.watched or {}
-	if self.watched[a] or type(a.HookScript) ~= "function" then
+	if self.watched[a] or type(CuratorOctoFull.HookScript) ~= "function" then
 		return
 	end
 	self.watched[a] = true
 	for _, e in ipairs({ "OnShow", "OnHide", "OnSizeChanged" }) do
-		local _, e = _, e; pcall(a.HookScript, a, e, function()
+		local _, e = _, e; pcall(CuratorOctoFull.HookScript, a, e, function()
 			BB:PlaceSoon()
 		end)
 	end
@@ -445,7 +445,7 @@ function BB:Look(kind)
 	-- (the gold of the frame turned grey, then the blue grey of iron)
 	local fr = dungeon and IRON or { 1, 1, 1 }
 	for _, t in ipairs({ b.bar.left, b.bar.mid, b.bar.right }) do
-		t:SetDesaturated(dungeon)
+		CuratorOctoFull.SetDesaturated(t, dungeon)
 		t:SetVertexColor(fr[1], fr[2], fr[3])
 	end
 	CuratorOctoFull.SetShown(b.ring, not dungeon)
@@ -508,7 +508,7 @@ function BB:Paint()
 		b.icon:SetTexture(Hud.PackIcon((s and s.dungeon) and (s.raid and "raid" or "dungeon") or "zone"))
 		b.icon:SetTexCoord(0, 1, 0, 1)
 	end
-	b.icon:SetDesaturated(off and true or false)
+	CuratorOctoFull.SetDesaturated(b.icon, off and true or false)
 	self:PaintActives()
 	if self.over and GameTooltip:GetOwner() == b then
 		b:GetScript("OnEnter")(b)
@@ -544,7 +544,7 @@ function BB:PaintActives()
 			local state, left = TL:ActiveState(id)
 			it.ready = state == "ready"
 			it.armed = state == "armed" or state == "waiting"
-			it.icon:SetDesaturated(state == "cooldown")
+			CuratorOctoFull.SetDesaturated(it.icon, state == "cooldown")
 			if state == "running" then
 				it.light:SetVertexColor(0.45, 1, 0.4)
 				it.light:SetAlpha(0.7)

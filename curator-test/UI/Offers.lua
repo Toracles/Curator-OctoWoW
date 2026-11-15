@@ -271,10 +271,10 @@ local function NewSlot(stage, i)
 	CuratorOctoFull.SetScript(s, "OnLeave", function()
 		GameTooltip:Hide()
 	end)
-	s.take:HookScript("OnEnter", function()
+	CuratorOctoFull.HookScript(s.take, "OnEnter", function()
 		OU:SlotTooltip(s)
 	end)
-	s.take:HookScript("OnLeave", function()
+	CuratorOctoFull.HookScript(s.take, "OnLeave", function()
 		GameTooltip:Hide()
 	end)
 	s.lift, s.dy, s.hot = 0, 0, 0
@@ -360,7 +360,7 @@ local function ShowArt(s, o, reveal)
 		a:SetSeries(sr)
 		local gold = o.k == "golden"
 		for _, t in ipairs({ a.body, a.top }) do
-			t:SetDesaturated(gold)
+			CuratorOctoFull.SetDesaturated(t, gold)
 			if gold then
 				t:SetVertexColor(GOLDEN[1], GOLDEN[2], GOLDEN[3])
 			else

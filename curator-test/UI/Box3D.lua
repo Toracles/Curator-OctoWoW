@@ -876,7 +876,7 @@ function M:SetDim(on)
 	self.dim = on
 	for _, L in ipairs(self.layers) do
 		for _, t in ipairs(L.cells) do
-			t:SetDesaturated(on)
+			CuratorOctoFull.SetDesaturated(t, on)
 		end
 	end
 	CuratorOctoFull.SetShown(self.halo, not on)

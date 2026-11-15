@@ -603,7 +603,7 @@ function M:SetGhost(on)
 		for _, L in ipairs(face.layers) do
 			if L.role then
 				for _, c in ipairs(L.cells) do
-					c:SetDesaturated(on)
+					CuratorOctoFull.SetDesaturated(c, on)
 				end
 			end
 		end

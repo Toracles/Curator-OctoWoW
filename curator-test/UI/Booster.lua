@@ -730,7 +730,7 @@ function B:ApplySize()
 		s:SetAllPoints(UIParent)
 	end
 	self.sizeK = k
-	s:SetClampedToScreen(small)
+	CuratorOctoFull.SetClampedToScreen(s, small)
 	s:EnableMouseWheel(small)
 	if s.SetClipsChildren then
 		CuratorOctoFull.SetClipsChildren(s, small)
@@ -1492,7 +1492,7 @@ function B:Open(series, opts)
 	p.bottom:SetTexture(MEDIA .. pack .. "Bottom")
 	p.top:SetTexture(MEDIA .. pack .. "Top")
 	for _, t in ipairs({ p.bottom, p.top }) do
-		t:SetDesaturated(false)
+		CuratorOctoFull.SetDesaturated(t, false)
 		t:SetVertexColor(1, 1, 1)
 	end
 	p.shine.mask:SetTexture(MEDIA .. pack .. "Bottom", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
@@ -1505,7 +1505,7 @@ function B:Open(series, opts)
 		kind = L["Golden booster"]
 		local gold = self.GOLD
 		for _, t in ipairs({ p.bottom, p.top }) do
-			t:SetDesaturated(true)
+			CuratorOctoFull.SetDesaturated(t, true)
 			t:SetVertexColor(gold[1], gold[2], gold[3])
 		end
 		p.glow:SetVertexColor(1, 0.84, 0.35)

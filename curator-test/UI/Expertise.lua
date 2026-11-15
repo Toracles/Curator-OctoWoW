@@ -203,7 +203,7 @@ local function BuildBlock(d)
 	local b = S.Button(ap, "", 180, 22)
 	b:SetPoint("TOPRIGHT", 0, 0)
 	if b.SetMotionScriptsWhileDisabled then
-		b:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(b, true)
 	end
 	CuratorOctoFull.SetScript(b, "OnClick", function()
 		A:AppraiseClick()
@@ -225,7 +225,7 @@ local function BuildBlock(d)
 	local gl = S.Button(ap, L["Glance"], 96, 22)
 	gl:SetPoint("RIGHT", b, "LEFT", -6, 0)
 	if gl.SetMotionScriptsWhileDisabled then
-		gl:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(gl, true)
 	end
 	CuratorOctoFull.SetScript(gl, "OnClick", function()
 		A:GlanceClick()
@@ -447,7 +447,7 @@ function XU:BuildDetail(d)
 		end
 		XU:Seat(self, elapsed)
 	end)
-	d:HookScript("OnHide", function()
+	CuratorOctoFull.HookScript(d, "OnHide", function()
 		XU:EndCeremony(true)
 	end)
 end

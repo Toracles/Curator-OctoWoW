@@ -454,7 +454,7 @@ function A:Build()
 	end)
 	-- without a booster it says so, and its tooltip tells where they are earned (1.1.1: it was only greyed)
 	if f.open.SetMotionScriptsWhileDisabled then
-		f.open:SetMotionScriptsWhileDisabled(true)
+		CuratorOctoFull.SetMotionScriptsWhileDisabled(f.open, true)
 	end
 	CuratorOctoFull.SetScript(f.open, "OnEnter", function(self)
 		if self:IsEnabled() then
@@ -666,7 +666,7 @@ function A:HookBack(frame)
 	end
 	frame.curatorBack = true
 	if TakesClicks(frame) then
-		pcall(frame.HookScript, frame, "OnMouseUp", MouseBack)
+		pcall(CuratorOctoFull.HookScript, frame, "OnMouseUp", MouseBack)
 	end
 	for _, child in ipairs({ frame:GetChildren() }) do
 		self:HookBack(child)
