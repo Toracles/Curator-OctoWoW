@@ -29,6 +29,14 @@ local GOLD = { 1, 0.82, 0 }
 -- (the states of the booster scene while its cards are drawn and turned over: no reload then)
 local TURNING = { opening = true, omen = true, shaking = true, dealing = true, cards = true, redraw = true }
 
+local function Fighting()
+	if InCombatLockdown and InCombatLockdown() then
+		return true
+	end
+	local combat = UnitAffectingCombat and UnitAffectingCombat("player")
+	return combat == true or combat == 1
+end
+
 local function Now()
 	return (GetServerTime and CuratorOctoFull.ServerTime()) or time()
 end
@@ -79,7 +87,7 @@ end
 
 -- No reminder now (why): a fight, away, a booster being opened, a scene of Curator on the screen, a battleground.
 function SV:Busy()
-	if InCombatLockdown and InCombatLockdown() then
+	if Fighting() then
 		return "fight"
 	end
 	if UnitIsAFK and UnitIsAFK("player") then
@@ -328,7 +336,7 @@ function SV:Tooltip(owner)
 	if ns.APP then
 		GameTooltip:AddLine(L["The Curator app then sends it to your page of the website."], 0.55, 0.88, 0.55, true)
 	end
-	if InCombatLockdown and InCombatLockdown() then
+	if Fighting() then
 		GameTooltip:AddLine(L["Not during a fight."], 1, 0.3, 0.3)
 	end
 	GameTooltip:Show()
@@ -337,18 +345,12 @@ end
 -------------------------------------------------------------------------------
 -- The save
 -------------------------------------------------------------------------------
--- The interface reloads: the game writes the save. Not in a fight (the interface of the game would wait for its
--- end), nor while cards are turned over. (1.13.0, after its third test) The game no longer lets an addon reload the
--- interface: its Reload, called by Curator, is blocked ("Interface action failed because of an AddOn") and the
--- interface stays as it was. A macro of the game still reloads it, as /reload typed in the chat: the scroll of the
--- album, a reminder, Save on my side in a trade and Reload now in the options reload through one (the key, below).
-
 -- A save now, or why not (said when say): no collection, a fight, cards being turned over.
 function SV:Can(say)
 	if not ns.db then
 		return false
 	end
-	if InCombatLockdown and InCombatLockdown() then
+	if Fighting() then
 		if say then
 			ns.Print(L["Not during a fight: saving reloads the interface. Save once the fight is over."])
 		end
@@ -369,15 +371,32 @@ function SV:Note()
 	ns.db.saveNote = { t = Now(), c = g.cards, o = g.opened, e = g.earned, l = g.levels, a = g.ach, x = math.floor(g.xp), r = math.floor(g.rubies) }
 end
 
--- The save asked for where no macro of the game reloads (/curator save, a click without the key): /reload to type,
--- what it puts in safety told after it. False: the interface does not reload of itself.
-function SV:Now(why)
-	if not self:Can(true) then
+-- On the 1.12 client the native reload writes the account and character saves.
+function SV:Now()
+	if self.nativeReload or not self:Can(true) then
 		return false
 	end
+	if type(ReloadUI) ~= "function" then
+		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+		return false
+	end
+	local previous = ns.db.saveNote
 	self:Note()
-	ns.Print(L["Type /reload to save your collection: the game no longer lets an addon reload the interface."])
-	return false
+	local note = ns.db.saveNote
+	self.nativeReload = note
+	local function failed()
+		if self.nativeReload ~= note then return end
+		self.nativeReload = nil
+		if ns.db and ns.db.saveNote == note then ns.db.saveNote = previous end
+		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+	end
+	local ok, result = pcall(ReloadUI)
+	if not ok or result == false then
+		failed()
+		return false
+	end
+	After(3, failed)
+	return true
 end
 
 -------------------------------------------------------------------------------
@@ -391,7 +410,7 @@ end
 local key
 
 local function Calm()
-	return not (InCombatLockdown and InCombatLockdown())
+	return not (Fighting())
 end
 
 -- (what the button under it does when the mouse comes onto it or leaves it)
@@ -453,6 +472,8 @@ end
 -- nothing, click = after a click). False: not now (a fight, nothing to lay it on).
 function SV:Cover(target, opts)
 	opts = opts or {}
+	-- Save actions can call ReloadUI directly in OctoWoW.
+	if type(ReloadUI) == "function" and opts.save ~= false then return false end
 	if not (Calm() and target and target.IsVisible and target:IsVisible()) or (opts.when and not opts.when(target)) then
 		return false
 	end
@@ -738,7 +759,7 @@ function SV:Build(f)
 	CuratorOctoFull.ColorTexture(b.hl, 1, 1, 1, 0.2)
 	CuratorOctoFull.SetScript(b, "OnClick", function()
 		GameTooltip:Hide()
-		if InCombatLockdown and InCombatLockdown() then
+		if Fighting() then
 			ns.Play(ns.SND.close)
 		else
 			ns.Play(ns.SND.click)
@@ -764,7 +785,7 @@ function SV:Paint()
 		return
 	end
 	CuratorOctoFull.SetShown(b, ns.db ~= nil and not A.member)
-	local fight = InCombatLockdown and InCombatLockdown() and true or false
+	local fight = Fighting() and true or false
 	CuratorOctoFull.SetDesaturated(b.icon, fight)
 	local k = fight and 0.6 or 1
 	b.icon:SetVertexColor(k, k, k)
@@ -799,6 +820,7 @@ end
 -------------------------------------------------------------------------------
 -- The start of a session: the save loaded is the one on the disk. The save asked for before the reload, told.
 function SV:Start()
+	self.nativeReload = nil
 	self.since = GetTime()
 	local db = ns.db
 	local note = db and db.saveNote

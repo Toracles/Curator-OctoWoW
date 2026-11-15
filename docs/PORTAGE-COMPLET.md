@@ -1,12 +1,12 @@
 
 # Portage complet de Curator 1.14.3
 
-Suivi de la préversion alpha.25 pour OctoWoW sur le client 1.12.1. L’installation associe le ZIP de base au correctif cumulatif. La galerie bilingue s’installe séparément.
+Suivi de la préversion alpha.26 pour OctoWoW sur le client 1.12.1. L’installation associe le ZIP de base au correctif cumulatif. La galerie bilingue s’installe séparément.
 
 | Fonction | État |
 | --- | --- |
 | Chargement et connexion | 221 fichiers Lua compilés avec Lua 5.0. Le chargement et les événements `ADDON_LOADED` et `PLAYER_LOGIN` sont simulés. |
-| Albums, inventaire et sauvegarde | Moteur original et sauvegardes locales. 20 albums OctoWoW et 1 269 cartes en plus des albums Vanilla. Le catalogue propre au serveur d’origine et les éléments de bêta ont été retirés. |
+| Albums, inventaire et sauvegarde | Moteur original et sauvegardes locales. Le bouton de sauvegarde appelle le rechargement natif du client. 20 albums OctoWoW et 1 269 cartes en plus des albums Vanilla. Le catalogue propre au serveur d’origine et les éléments de bêta ont été retirés. |
 | Boosters et ouverture | Distribution et retournement des huit cartes testés avec les API simulées. Aperçu d’ouverture gratuit et barre ajustable. Le rendu et les cinématiques restent à vérifier en jeu. |
 | Progression et économie | Contrats, talents, hauts faits, quêtes, finitions, expertise et restauration adaptés. Tarifs locaux en rubis divisés par deux et clés de caisse par quatre. |
 | Rattrapage | Niveaux, découvertes et quêtes rendues confirmés. Le registre du compte et celui du personnage préviennent les doubles crédits. Les objectifs Curator actifs de rendu de quêtes progressent après confirmation. |

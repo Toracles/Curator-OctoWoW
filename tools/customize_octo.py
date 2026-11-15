@@ -366,6 +366,58 @@ def header_icon_button(text, button):
                    f"CuratorOctoFull.SetSize({button}.icon, 16, 16)\n{indent}{button}.icon:SetPoint(\"CENTER\")")
 
 
+def native_save(text):
+    text = header_icon_button(text, "b")
+    text = text.replace("InCombatLockdown and InCombatLockdown()", "Fighting()")
+    text = cut(text, "-- The interface reloads: the game writes the save.", "-- A save now, or why not")
+    text = replace(text, "local function Now()", '''local function Fighting()
+	if InCombatLockdown and InCombatLockdown() then
+		return true
+	end
+	local combat = UnitAffectingCombat and UnitAffectingCombat("player")
+	return combat == true or combat == 1
+end
+
+local function Now()''')
+    start = "-- The save asked for where no macro of the game reloads"
+    end = "-------------------------------------------------------------------------------\n-- The key: the reload by a macro of the game"
+    text = cut(text, start, end)
+    text = replace(text, end, '''-- On the 1.12 client the native reload writes the account and character saves.
+function SV:Now()
+	if self.nativeReload or not self:Can(true) then
+		return false
+	end
+	if type(ReloadUI) ~= "function" then
+		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+		return false
+	end
+	local previous = ns.db.saveNote
+	self:Note()
+	local note = ns.db.saveNote
+	self.nativeReload = note
+	local function failed()
+		if self.nativeReload ~= note then return end
+		self.nativeReload = nil
+		if ns.db and ns.db.saveNote == note then ns.db.saveNote = previous end
+		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+	end
+	local ok, result = pcall(ReloadUI)
+	if not ok or result == false then
+		failed()
+		return false
+	end
+	After(3, failed)
+	return true
+end
+
+''' + end)
+    text = replace(text, "\topts = opts or {}\n\tif not (Calm()", '''\topts = opts or {}
+	-- Save actions can call ReloadUI directly in OctoWoW.
+	if type(ReloadUI) == "function" and opts.save ~= false then return false end
+	if not (Calm()''')
+    return replace(text, "function SV:Start()\n", "function SV:Start()\n\tself.nativeReload = nil\n")
+
+
 def append_port(text, name):
     return text.rstrip() + "\n\n" + (FULL_PORT / name).read_text(encoding="utf8")
 
@@ -528,7 +580,7 @@ def apply(root: Path):
             'f.sub:SetPoint("TOPLEFT", 64, -55)', 'f.sub:SetPoint("TOPLEFT", 64, self.U.SUB_Y)'),
         "UI/Tour.lua": guide_button,
         "UI/Options.lua": lambda text: header_icon_button(text, "g"),
-        "UI/Save.lua": lambda text: header_icon_button(text, "b"),
+        "UI/Save.lua": native_save,
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
         "UI/Players.lua": players_ui,

@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Extrais le [correctif cumulatif alpha.25](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.25/Curator-OctoWoW-correctif-alpha.25.zip) au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Extrais le [correctif cumulatif alpha.26](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.26/Curator-OctoWoW-correctif-alpha.26.zip) au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
@@ -40,6 +40,7 @@ Chaque quête rendue confirmée par le client ou Questie-Octo rapporte **20 poin
 | Action | Commande ou raccourci |
 | --- | --- |
 | Ouvrir la collection | `/curator` |
+| Sauvegarder la collection | Clique sur le parchemin dans l’en-tête ou tape `/curator save`. L’interface se recharge et le client écrit la sauvegarde sur disque. |
 | Essayer une ouverture de booster | `/curator boosters` → **Tester**. L’aperçu est gratuit et ne donne aucune récompense. |
 | Redimensionner ou déplacer la barre de boosters | Molette sur la barre pour la largeur, Ctrl + molette pour l’échelle, Maj + glisser pour la déplacer. Utilise `/curator bar width 240` pour une largeur précise ou `/curator bar reset` pour réinitialiser. |
 | Échanger des doublons contre une carte plus rare | **Contrats** ou `/curator contrat` |
