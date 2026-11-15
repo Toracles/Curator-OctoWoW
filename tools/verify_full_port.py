@@ -580,6 +580,24 @@ shop:Hide()
 print("Ruby ledger: opaque background and valid elapsed times verified")
 
 lua.execute(r"""
+local oldBank = BankFrame
+BankFrame = CreateFrame("Frame", "BankFrame", UIParent)
+BankFrame:Show()
+assert(traceEvent("BANKFRAME_OPENED") == "")
+assert(CuratorBankPanel.anchor[2] == BankFrame)
+assert(CuratorCasePanel.anchor[2] == CuratorBankPanel)
+for _, panel in ipairs({ CuratorBankPanel, CuratorCasePanel }) do
+    assert(panel:IsShown())
+    local background = panel.textures[1]
+    assert(background.drawLayer == "BACKGROUND" and background.textureAlpha == 1)
+end
+assert(traceEvent("BANKFRAME_CLOSED") == "")
+assert(not CuratorBankPanel:IsShown() and not CuratorCasePanel:IsShown())
+BankFrame = oldBank
+""")
+print("Bank: opaque appraisal and protective cases panels verified on open and close")
+
+lua.execute(r"""
 local ns = CuratorOctoFull
 local rewards = ns.Rewards
 local character = rewards:Char()

@@ -1132,12 +1132,15 @@ function DU:CasePanel()
 	f:Hide()
 	if f.SetBackdrop then
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 24,
 			insets = { left = 6, right = 6, top = 6, bottom = 6 },
 		})
 	end
+	local background = f:CreateTexture(nil, "BACKGROUND")
+    background:SetPoint("TOPLEFT", f, "TOPLEFT", 6, -6)
+    background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -6, 6)
+    CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
 	f.icon = f:CreateTexture(nil, "ARTWORK")
 	f.icon:SetTexture(MEDIA .. "CaseIcon")
 	CuratorOctoFull.SetSize(f.icon, 36, 36)
