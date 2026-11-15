@@ -2660,7 +2660,7 @@ function M:Hold(on)
 		Place(win, self, unpack(WIN))
 		win:Show()
 		for _, m in ipairs({ self.scene or false, self.dress or false, self.arm or false }) do
-			if m then
+			if m and not m.artworkWindow then
 				m:ClearAllPoints()
 				m:SetAllPoints(win)
 			end
@@ -2790,7 +2790,7 @@ function M:SetPose(yaw, pitch)
 		CuratorOctoFull.SetSize(win, 0.01, 0.01)
 	end
 	for _, m in ipairs({ self.scene or false, self.dress or false, self.arm or false }) do
-		if m then
+		if m and not m.artworkWindow then
 			m:ClearAllPoints()
 			m:SetAllPoints(win)
 		end

@@ -92,7 +92,7 @@ end
 
 -- The card as it is turned, tilted and leaning: in 3D, or squeezed (a client that cannot draw it so).
 local function Pose(card, t)
-	if ns.Can3D() then
+	if ns.Can3D() and not (card.model and card.model.artworkWindow) then
 		card:SetPose(t.yaw + t.hy, t.pitch + t.hp)
 	else
 		card:SetTurn(t.yaw, t.pitch)

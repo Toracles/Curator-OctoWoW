@@ -542,11 +542,37 @@ end
 -- A scene filling a frame of the size of the window of a card (nil: a client without model scenes). (1.14.0) opts.live:
 -- its creature not still (the cards of the cases, UI/CrateCard.lua); opts.spin: framed whatever its facing, for one that
 -- turns (scene:SetRotation(yaw)).
+-- The 1.12 model renderer needs an explicit viewport when the artwork moves
+-- or inherits a changing scale. Keep the parent for visibility and frame levels.
+local function FitPlayerModel(model)
+	local window = model.artworkWindow
+	local x, y = window:GetLeft(), window:GetBottom()
+	local width, height = window:GetWidth(), window:GetHeight()
+	if not (x and y and width and height and width > 0 and height > 0) then return end
+	local scale = CuratorOctoFull.GetEffectiveScale(window)
+	local rootScale = CuratorOctoFull.GetEffectiveScale(UIParent)
+	if scale <= 0 or rootScale <= 0 then return end
+	x = x * scale - (UIParent:GetLeft() or 0) * rootScale
+	y = y * scale - (UIParent:GetBottom() or 0) * rootScale
+	width, height = width * scale, height * scale
+	local rect = model.viewport
+	if rect and rect[1] == x and rect[2] == y and rect[3] == width
+		and rect[4] == height and rect[5] == scale then return end
+	local resized = not rect or rect[3] ~= width or rect[4] ~= height
+	model.viewport = { x, y, width, height, scale }
+	model:SetScale(1 / scale)
+	model:ClearAllPoints()
+	model:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x, y)
+	CuratorOctoFull.SetSize(model, width, height)
+	if resized and model.loaded and model.RefreshCamera then model:RefreshCamera() end
+end
+
 local function NewPlayerModel(parent, level)
 	local model = CreateFrame("PlayerModel", nil, parent)
-	model:SetAllPoints(parent)
+	model.artworkWindow = parent
 	model:SetFrameLevel(level)
 	model:EnableMouse(false)
+	CuratorOctoFull.SetScript(model, "OnUpdate", FitPlayerModel)
 	return model
 end
 
@@ -555,10 +581,12 @@ local function LoadPlayerModel(model)
 	if not (model.display and model.display > 0 and model.SetDisplayInfo) then
 		return false
 	end
+	FitPlayerModel(model)
 	local ok, result = pcall(model.SetDisplayInfo, model, model.display)
 	if not ok or result == false then
 		return false
 	end
+	if model.SetPosition then model:SetPosition(0, 0, 0) end
 	ApplyModelLook(model)
 	if model.SetAnimation then model:SetAnimation(0) end
 	return true
@@ -4605,7 +4633,7 @@ function Card:Hold(on)
 		art:SetPoint("TOPLEFT", W * octoConstants.ART_L, -H * octoConstants.ART_T)
 		art:SetPoint("BOTTOMRIGHT", -W * octoConstants.ART_R, H * octoConstants.ART_B)
 		m:ClearAllPoints()
-		m:SetAllPoints(art)
+		if m.actor then m:SetAllPoints(art) else FitPlayerModel(m) end
 		self:SlabShadow()
 		self.glow:ClearAllPoints()
 		self.glow:SetPoint("CENTER")

@@ -1,11 +1,13 @@
-## Inspection des cartes
+## Placement des modèles 3D
 
-- Dans un booster, une carte inspectée conserve son modèle 3D, même lorsqu’elle possède aussi un portrait.
-- Dans les caisses, l’inspection isole la carte agrandie. Le bouton **Retour** réaffiche l’aperçu ou la récompense une fois la vue fermée.
-- Quitte OctoWoW avant d’appliquer ce correctif cumulatif. Pour une première installation, extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) d’abord.
+- La fenêtre des modèles utilise la position et la taille calculées de la carte à l’écran, y compris pendant un déplacement ou un zoom.
+- L’inspection des cartes utilisant le rendu 1.12 conserve le décor de la carte et utilise un retournement sans perspective. La rotation du modèle et le zoom restent disponibles.
+- Le calcul du placement est vérifié par les tests Lua 5.0. Le rendu graphique sur OctoWoW reste à confirmer.
+- Pour une première installation, extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), puis applique ce correctif cumulatif avec le jeu fermé.
 
-## Card inspection
+## 3D model placement
 
-- In a booster, an inspected card keeps its 3D model when a portrait is also available.
-- In cases, the inspection view isolates the enlarged card. **Back** restores the preview or reward once the inspection view has closed.
-- Exit OctoWoW before applying the cumulative patch. For a first installation, extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) first.
+- Model viewports use each card’s calculated on-screen position and size, including during movement and zoom.
+- Inspection keeps the card backdrop and uses a flat flip for cards rendered by the 1.12 model widget. Model rotation and zoom remain available.
+- Lua 5.0 tests cover viewport placement. Graphical rendering on OctoWoW still needs live verification.
+- For a first installation, extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), then apply this cumulative patch with the game closed.

@@ -834,11 +834,37 @@ end
 local function Poll(sc, elapsed)""")
     text = replace(text, "\t\tsc.loaded = true\n\t\tLook(sc)", "\t\tsc.loaded = true\n\t\tShowOpeningModel(sc.owner)\n\t\tLook(sc)")
     text = replace(text, "\tsc:SetAllPoints()\n\tsc:SetFrameLevel(level)", "\tsc:SetAllPoints(art)\n\tsc:SetFrameLevel(level)")
-    text = replace(text, "function ns.Creatures.Stage(parent, level, opts)", """local function NewPlayerModel(parent, level)
+    text = replace(text, "function ns.Creatures.Stage(parent, level, opts)", """-- The 1.12 model renderer needs an explicit viewport when the artwork moves
+-- or inherits a changing scale. Keep the parent for visibility and frame levels.
+local function FitPlayerModel(model)
+	local window = model.artworkWindow
+	local x, y = window:GetLeft(), window:GetBottom()
+	local width, height = window:GetWidth(), window:GetHeight()
+	if not (x and y and width and height and width > 0 and height > 0) then return end
+	local scale = CuratorOctoFull.GetEffectiveScale(window)
+	local rootScale = CuratorOctoFull.GetEffectiveScale(UIParent)
+	if scale <= 0 or rootScale <= 0 then return end
+	x = x * scale - (UIParent:GetLeft() or 0) * rootScale
+	y = y * scale - (UIParent:GetBottom() or 0) * rootScale
+	width, height = width * scale, height * scale
+	local rect = model.viewport
+	if rect and rect[1] == x and rect[2] == y and rect[3] == width
+		and rect[4] == height and rect[5] == scale then return end
+	local resized = not rect or rect[3] ~= width or rect[4] ~= height
+	model.viewport = { x, y, width, height, scale }
+	model:SetScale(1 / scale)
+	model:ClearAllPoints()
+	model:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x, y)
+	CuratorOctoFull.SetSize(model, width, height)
+	if resized and model.loaded and model.RefreshCamera then model:RefreshCamera() end
+end
+
+local function NewPlayerModel(parent, level)
 	local model = CreateFrame("PlayerModel", nil, parent)
-	model:SetAllPoints(parent)
+	model.artworkWindow = parent
 	model:SetFrameLevel(level)
 	model:EnableMouse(false)
+	CuratorOctoFull.SetScript(model, "OnUpdate", FitPlayerModel)
 	return model
 end
 
@@ -847,10 +873,12 @@ local function LoadPlayerModel(model)
 	if not (model.display and model.display > 0 and model.SetDisplayInfo) then
 		return false
 	end
+	FitPlayerModel(model)
 	local ok, result = pcall(model.SetDisplayInfo, model, model.display)
 	if not ok or result == false then
 		return false
 	end
+	if model.SetPosition then model:SetPosition(0, 0, 0) end
 	ApplyModelLook(model)
 	if model.SetAnimation then model:SetAnimation(0) end
 	return true
@@ -919,6 +947,7 @@ end""")
     text = replace(text, "\tif m.SetRotation then\n\t\tCuratorOctoFull.SetRotation(m, ((Still()", "\tif m.SetRotation or m.SetFacing then\n\t\tCuratorOctoFull.SetRotation(m, ((Still()")
     text = replace(text, "\telseif m.SetRotation then\n\t\tCuratorOctoFull.SetRotation(m, facing + yaw)",
                    "\telseif m.SetRotation or m.SetFacing then\n\t\tCuratorOctoFull.SetRotation(m, facing + yaw)")
+    text = replace(text, "\t\tm:SetAllPoints(art)\n", "\t\tif m.actor then m:SetAllPoints(art) else FitPlayerModel(m) end\n")
     return replace(text, """	local mx, my, mk = Project(self, 0, (wy1 + wy2) / 2)
 	m:ClearAllPoints()
 	m:SetPoint("CENTER", self, "CENTER", mx, my)
@@ -1000,6 +1029,20 @@ def opening_crate_card_models(text):
     text = replace(text, "\tlocal mx, my, mk = D.Project(self, (wx1 + wx2) / 2, (wy1 + wy2) / 2)\n", "")
     text = replace(text, """			m:SetPoint("CENTER", self, "CENTER", mx, my)
 			CuratorOctoFull.SetSize(m, (wx2 - wx1) * mk, (wy2 - wy1) * mk)""", "\t\t\tm:SetAllPoints(win)")
+    text = text.replace("""			if m then
+				m:ClearAllPoints()
+				m:SetAllPoints(win)
+			end""", """			if m and not m.artworkWindow then
+				m:ClearAllPoints()
+				m:SetAllPoints(win)
+			end""", 1)
+    text = replace(text, """		if m then
+			m:ClearAllPoints()
+			m:SetAllPoints(win)
+		end""", """		if m and not m.artworkWindow then
+			m:ClearAllPoints()
+			m:SetAllPoints(win)
+		end""")
     return replace(text, "and sc.SetRotation and sc:IsShown()", "and (sc.SetRotation or sc.SetFacing) and sc:IsShown()")
 
 
@@ -1103,6 +1146,8 @@ def opening_case_contract_models(text):
 
 
 def booster_inspection(text):
+    text = replace(text, "local function Pose(card, t)\n\tif ns.Can3D() then",
+                   "local function Pose(card, t)\n\tif ns.Can3D() and not (card.model and card.model.artworkWindow) then")
     text = replace(text, "\tlocal o = self:BuildInspect()\n\to.pick = pick",
                    "\tlocal o = self:BuildInspect()\n\tns.CancelOwner(o)\n\to.pick = pick")
     text = replace(text, "\tlocal card = o.card\n\t-- (31 October", "\tlocal card = o.card\n\to:SetAlpha(0)\n\to:Show()\n\t-- (31 October")

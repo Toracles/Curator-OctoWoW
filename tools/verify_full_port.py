@@ -282,7 +282,7 @@ for _, stock in ipairs({0, 2}) do
         local card = booster.cards[i]
         if pick.card.display and pick.card.display > 0 and not pick.card.art then
             assert(card.openingModel and card.model.testDisplay == pick.card.display)
-            assert(card.model.allPointsTarget == card.art and card.model:IsShown())
+            assert(card.model.artworkWindow == card.art and card.model.anchor[2] == UIParent and card.model:IsShown())
             shownModels = shownModels + 1
         end
     end
@@ -301,7 +301,8 @@ for _, stock in ipairs({0, 2}) do
         local inspect = booster.frame.inspect
         assert(inspect:IsShown() and inspect.info.name:GetText() ~= "")
         assert(inspect.card.model.testDisplay == display and inspect.card.model:IsShown())
-        assert(inspect.card.model.allPointsTarget == inspect.card.art and not inspect.card.see3D:IsShown())
+        assert(inspect.card.model.artworkWindow == inspect.card.art and inspect.card.model.anchor[2] == UIParent)
+        assert(not inspect.card.held and not inspect.card.see3D:IsShown())
         assert(not source.model:IsShown())
         click(inspect.back)
         assert(inspect:IsShown() and not source.model:IsShown())
@@ -1395,12 +1396,31 @@ assert(not card.model:IsShown() and not card.model.testDisplay)
 card:Flip(0.34)
 stepFrames(12)
 assert(card.model.testDisplay == display and card.model:IsShown() and not card.art.portrait:IsShown())
-assert(card.model.allPointsTarget == card.art)
+assert(card.model.artworkWindow == card.art and card.model.anchor[2] == UIParent)
+local viewportX, viewportY, viewportWidth, viewportHeight = 120, 180, 132, 108
+card.art.GetLeft = function() return viewportX end
+card.art.GetBottom = function() return viewportY end
+card.art.GetWidth = function() return viewportWidth end
+card.art.GetHeight = function() return viewportHeight end
+card:SetScale(0.75)
+local cameraRefreshes = 0
+card.model.RefreshCamera = function() cameraRefreshes = cameraRefreshes + 1 end
+stepFrames(1)
+assert(card.model.anchor[4] == 90 and card.model.anchor[5] == 135)
+assert(card.model.viewport[3] == 99 and card.model.viewport[4] == 81)
+assert(math.abs(card.model:GetEffectiveScale() - 1) < 0.001 and cameraRefreshes == 1)
+viewportX, viewportY = 200, 240
+stepFrames(1)
+assert(card.model.anchor[4] == 150 and card.model.anchor[5] == 180 and cameraRefreshes == 1)
+card:SetScale(0.5)
+stepFrames(1)
+assert(card.model.anchor[4] == 100 and card.model.anchor[5] == 120)
+assert(card.model.viewport[3] == 66 and card.model.viewport[4] == 54 and cameraRefreshes == 2)
 local can3D = ns.Can3D
 simulateVertexOffsets(true)
 ns.Can3D = function() return true end
 card:SetPose(0.35, 0.12)
-assert(card.model.allPointsTarget == card.art)
+assert(card.model.anchor[2] == UIParent)
 card:SetPose(math.pi, 0)
 assert(not card.model:IsShown())
 card:ShowSide("front")
@@ -1417,7 +1437,7 @@ for row = 0, crate.itemRows - 1 do
         local entry = tile.pick and tile.pick.entry
         if tile:IsShown() and entry and entry.kind == "npc" and entry.display then
             assert(tile.creature and tile.creature.testDisplay == entry.display and not tile.art:IsShown())
-            assert(tile.creature.allPointsTarget:GetParent() == tile)
+            assert(tile.creature.artworkWindow:GetParent() == tile and tile.creature.anchor[2] == UIParent)
             npc, npcTile = entry, tile
         end
     end
@@ -1430,7 +1450,7 @@ npcTile:GetScript("OnMouseUp")()
 local inspect = crate.frame.inspect
 assert(inspect:IsShown() and inspect.pick == npcTile.pick and not crate.frame.panel:IsShown())
 assert(inspect.name:GetText() ~= "" and inspect.card.scene.testDisplay == npc.display)
-assert(inspect.card.scene.allPointsTarget == inspect.card.win)
+assert(inspect.card.scene.artworkWindow == inspect.card.win and inspect.card.scene.anchor[2] == UIParent)
 local hold = inspect.card.turn
 this, arg1 = inspect, 1
 inspect:GetScript("OnMouseWheel")()
@@ -1456,9 +1476,9 @@ crate.frame:Hide()
 local prize = ns.CrateCard.New(UIParent, 200)
 prize:Set({tier = 1, entry = npc, opening3D = true}, crate.RANKS)
 assert(prize.scene:IsShown() and prize.scene.testDisplay == npc.display)
-assert(prize.scene.allPointsTarget == prize.win)
+assert(prize.scene.artworkWindow == prize.win and prize.scene.anchor[2] == UIParent)
 prize:SetPose(0.35, 0.12)
-assert(prize.scene.allPointsTarget == prize.win)
+assert(prize.scene.anchor[2] == UIParent)
 prize:SetPose(math.pi, 0)
 assert(not prize.win:IsShown())
 
