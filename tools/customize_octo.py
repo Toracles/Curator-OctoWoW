@@ -462,6 +462,8 @@ def apply(root: Path):
         "UI/Tour.lua": guide_button,
         "UI/Options.lua": lambda text: header_icon_button(text, "g"),
         "UI/Save.lua": lambda text: header_icon_button(text, "b"),
+        "UI/Players.lua": lambda text: text.rstrip() + "\n\n" +
+            (Path(__file__).resolve().parents[1] / "full-port" / "PortraitTrade.lua").read_text(encoding="utf8"),
         "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",

@@ -160,6 +160,24 @@ local clientVersion = "1.18.1"
 GetBuildInfo = function() return clientVersion end
 GetAddOnMetadata = function(_, field) if field == "Version" then return "1.14.3" end end
 SlashCmdList, UISpecialFrames, StaticPopupDialogs = {},{},{}
+UnitPopupButtons = {}
+UnitPopupMenus = {
+ PLAYER = { "WHISPER", "TRADE", "FOLLOW", "CANCEL" },
+ PARTY = { "TRADE", "CANCEL" },
+ RAID = { "RAID_REMOVE", "CANCEL" },
+ SELF = { "CANCEL" },
+ PET = { "CANCEL" },
+}
+UnitPopupShown = { {} }
+UIDROPDOWNMENU_MENU_LEVEL = 1
+UIDROPDOWNMENU_INIT_MENU = "TestPortraitDropDown"
+TestPortraitDropDown = {}
+function UnitPopup_HideButtons()
+ for index in ipairs(UnitPopupMenus[TestPortraitDropDown.which]) do
+  UnitPopupShown[1][index] = 1
+ end
+end
+function UnitPopup_OnClick() return this.value end
 function traceEvent(name,value)
  local snapshot={}
  for frame in pairs(scripts) do table.insert(snapshot,frame) end
@@ -841,3 +859,63 @@ f.tourButton:GetScript("OnClick")()
 assert(not tour.active)
 """)
 print("Album header: toolbar, progress rows, album navigation and Guide button verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local menu, entry = TestPortraitDropDown, "CURATOR_TRADE"
+local oldName, oldFaction, oldExists, oldPlayer, oldSame = UnitName, UnitFactionGroup, UnitExists, UnitIsPlayer, UnitIsUnit
+local units = { player = "Tester", target = "Brindille Dupont", party1 = "Hector Dubois",
+    raid1 = "Lea Martin", enemy = "Enemy", pet = "Fang" }
+UnitName = function(unit) return units[unit] or oldName(unit) end
+UnitExists = function(unit) return units[unit] ~= nil end
+UnitIsPlayer = function(unit) return unit ~= "pet" end
+UnitIsUnit = function(a, b) return a == b end
+UnitFactionGroup = function(unit) return unit == "enemy" and "Horde" or "Alliance" end
+local function show(which, unit)
+    menu.which, menu.unit = which, unit
+    UnitPopup_HideButtons()
+end
+assert(table.concat(UnitPopupMenus.PLAYER, ",") == "WHISPER,TRADE,CURATOR_TRADE,FOLLOW,CANCEL")
+assert(table.concat(UnitPopupMenus.PARTY, ",") == "TRADE,CURATOR_TRADE,CANCEL")
+assert(table.concat(UnitPopupMenus.RAID, ",") == "RAID_REMOVE,CURATOR_TRADE,CANCEL")
+assert(table.getn(UnitPopupMenus.SELF) == 1 and table.getn(UnitPopupMenus.PET) == 1)
+local option = UnitPopupButtons[entry]
+assert(option.dist == 0 and option.color.b == 1 and option.color.r == 0)
+local editor, opened = ns.Album.StartTrade
+ns.Album.StartTrade = function(self, name) opened = name end
+local function click(value)
+    this = { value = value }
+    return UnitPopup_OnClick()
+end
+assert(click("TRADE") == "TRADE" and not opened)
+local locale = ns.locale
+ns.SetLocale("frFR")
+show("PLAYER", "target")
+assert(option.text == "Échange (Curator)" and UnitPopupShown[1][3] == 1)
+click(entry)
+assert(opened == "Brindille-Dupont")
+opened = nil
+units.target = "Other Player"
+click(entry)
+assert(not opened)
+ns.SetLocale("enUS")
+show("PARTY", "party1")
+assert(option.text == "Trade (Curator)" and UnitPopupShown[1][2] == 1)
+click(entry)
+assert(opened == "Hector-Dubois")
+show("RAID", "raid1")
+click(entry)
+assert(opened == "Lea-Martin")
+for _, unit in ipairs({ "player", "pet", "enemy", "missing" }) do
+    show("PLAYER", unit)
+    assert(UnitPopupShown[1][3] == 0)
+end
+ns.SetLocale(locale)
+ns.Album.StartTrade = editor
+units.target = "Brindille Dupont"
+show("PLAYER", "target")
+click(entry)
+assert(ns.Album.ed.draft.with == "Brindille-Dupont")
+UnitName, UnitFactionGroup, UnitExists, UnitIsPlayer, UnitIsUnit = oldName, oldFaction, oldExists, oldPlayer, oldSame
+""")
+print("Portrait trades: native trade preserved, localized blue entry opens the correct player's offer")
