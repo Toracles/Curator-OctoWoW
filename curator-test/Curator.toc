@@ -17,6 +17,7 @@
 ## Category-frFR: Collections
 ## IconTexture: Interface\AddOns\Curator\Media\Icon
 ## SavedVariables: CuratorOctoFullDB, CuratorOctoFullExport
+## SavedVariablesPerCharacter: CuratorOctoCatchUpDB
 ## OptionalDeps: Hoard
 ## AddonCompartmentFunc: Curator_OnAddonCompartmentClick
 

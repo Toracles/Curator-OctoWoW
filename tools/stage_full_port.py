@@ -25,7 +25,8 @@ with ZipFile(ARCHIVE) as archive:
         target.write_bytes(archive.read("Curator/" + name))
     toc = re.sub(r"^## Interface:.*$", "## Interface: 11200", toc, flags=re.M)
     toc = re.sub(r"^## SavedVariables:.*$",
-                 "## SavedVariables: CuratorOctoFullDB, CuratorOctoFullExport", toc, flags=re.M)
+                 "## SavedVariables: CuratorOctoFullDB, CuratorOctoFullExport\n"
+                 "## SavedVariablesPerCharacter: CuratorOctoCatchUpDB", toc, flags=re.M)
     (WORK / "Curator.toc").write_text(toc, encoding="utf8")
     with (WORK.parent / "media.csv").open("w", encoding="utf-8", newline="") as manifest:
         writer = csv.writer(manifest)

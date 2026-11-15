@@ -172,8 +172,9 @@ function traceEvent(name,value)
 end
 """)
 root = Path("full-port-work/Curator")
-files = [line.replace("\\", "/") for line in (root / "Curator.toc").read_text(encoding="utf8").splitlines()
-         if line.endswith(".lua")]
+toc = (root / "Curator.toc").read_text(encoding="utf8").splitlines()
+assert "## SavedVariablesPerCharacter: CuratorOctoCatchUpDB" in toc
+files = [line.replace("\\", "/") for line in toc if line.endswith(".lua")]
 errors = []
 for name in files:
     try:
@@ -621,3 +622,33 @@ assert(ns.Level:OfferCount() == offers + 1 and ns.db.bar == 20)
 UnitLevel, C_Map, C_MapExplorationInfo = baseLevel, baseMap, baseExploration
 """)
 print("Catch-up: level cutoff, officially explored areas and duplicate prevention verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local oldLevel, oldMap, oldExploration = UnitLevel, C_Map, C_MapExplorationInfo
+UnitLevel = function() return 37 end
+C_Map = { GetAreaInfo = function() return "Previously explored in Balor" end }
+C_MapExplorationInfo = { GetExploredMapTextures = function(area)
+    if area == 5561 then return { { areaID = 5562, areaIDs = {5562} } } end
+    return {}
+end }
+CuratorOctoCatchUpDB, ns.db.chars, ns.db.bar = nil, {}, 0
+local offers = ns.Level:OfferCount()
+local function assertCredit()
+    assert(ns.Level:OfferCount() == offers + 14 and ns.db.bar == 50)
+    local saved = CuratorOctoCatchUpDB
+    assert(saved.octoLevelCredits[2] and saved.octoLevelCredits[37] and saved.octoExploredAreas[5562])
+end
+SlashCmdList.CURATOR("rattrapage")
+assertCredit()
+local saved = CuratorOctoCatchUpDB
+ns.db.chars = {}
+SlashCmdList.CURATOR("rattrapage")
+assert(CuratorOctoCatchUpDB == saved)
+assertCredit()
+CuratorOctoCatchUpDB = nil
+SlashCmdList.CURATOR("rattrapage")
+assertCredit()
+UnitLevel, C_Map, C_MapExplorationInfo = oldLevel, oldMap, oldExploration
+""")
+print("Catch-up: fresh level 37 receives 14 offers and the ledger survives loss of either copy")

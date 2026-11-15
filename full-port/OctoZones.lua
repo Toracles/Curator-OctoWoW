@@ -64,19 +64,41 @@ function rewards:ZoneSeries()
     end
 end
 
-local function levelCredits(character)
-    character.octoLevelCredits = character.octoLevelCredits or {}
-    return character.octoLevelCredits
+local creditFields = { "octoLevelCredits", "octoPlaces", "octoExploredAreas" }
+
+-- The collection and the separate character save each carry a copy of the receipts.
+-- Merge the alpha.15 data and keep receipts if either save is restored or reset.
+local function creditState(character)
+    if type(CuratorOctoCatchUpDB) ~= "table" then CuratorOctoCatchUpDB = {} end
+    local state = CuratorOctoCatchUpDB
+    for _, field in ipairs(creditFields) do
+        local saved, previous = state[field], character[field]
+        if type(saved) ~= "table" then saved = {} end
+        if type(previous) == "table" and previous ~= saved then
+            for key, credited in pairs(previous) do
+                if credited == true then saved[key] = true end
+            end
+        end
+        state[field], character[field] = saved, saved
+    end
+    local floor = math.max(tonumber(state.octoLevelFloor) or 1, tonumber(character.octoLevelFloor) or 1)
+    state.octoLevelFloor, character.octoLevelFloor = floor, floor
+    return state
 end
+
+ns.On("LOGIN", function()
+    if ns.db then creditState(rewards:Char()) end
+end)
 
 -- Track live credit separately from the level saved when logging in.
 function rewards:OctoLevelUp(level)
     local series = self:WorldSeries()
     if not series or type(level) ~= "number" or level < 2 then return end
     if ns.Guard and not ns.Guard:Allow(series) then return end
-    local character = self:Char()
-    local credits = levelCredits(character)
-    if credits[level] or level <= (character.octoLevelFloor or 1) then return end
+    if ns.Beta and ns.Beta:Over() then return end
+    local state = creditState(self:Char())
+    local credits = state.octoLevelCredits
+    if credits[level] or level <= state.octoLevelFloor then return end
     credits[level] = true
     self:Add(series, self.POINTS.level, "level")
 end
@@ -94,15 +116,13 @@ local function exploredPlaceName(area)
     return name
 end
 
-local function importPlaces(reward, character)
+local function importPlaces(reward, state)
     local api = C_MapExplorationInfo and C_MapExplorationInfo.GetExploredMapTextures
     if not api then return nil end
-    character.octoPlaces = character.octoPlaces or {}
-    character.octoExploredAreas = character.octoExploredAreas or {}
     local known, count, scanned = {}, 0, false
-    for name in pairs(character.octoPlaces) do known[zoneKey(name)] = true end
+    for name in pairs(state.octoPlaces) do known[zoneKey(name)] = true end
     for _, series in ipairs(ns.Series) do
-        if series.kind == "zone" and series.area then
+        if series.kind == "zone" and series.area and (not ns.Guard or ns.Guard:Allow(series)) then
             local ok, overlays = pcall(api, series.area)
             if ok and type(overlays) == "table" then
                 scanned = true
@@ -114,12 +134,12 @@ local function importPlaces(reward, character)
                         local name = exploredPlaceName(area)
                         local key = zoneKey(name)
                         local alias = ns.OctoAreaNames and ns.OctoAreaNames[area]
-                        if key ~= "" and not known[key] and not known[zoneKey(alias)] and not character.octoExploredAreas[area] then
-                            character.octoExploredAreas[area] = true
-                            character.octoPlaces[name] = true
+                        if key ~= "" and not known[key] and not known[zoneKey(alias)] and not state.octoExploredAreas[area] then
+                            state.octoExploredAreas[area] = true
+                            state.octoPlaces[name] = true
                             known[key] = true
                             if alias then
-                                character.octoPlaces[alias] = true
+                                state.octoPlaces[alias] = true
                                 known[zoneKey(alias)] = true
                             end
                             worked = worked + 1
@@ -151,15 +171,17 @@ function rewards:CatchUp(argument)
     local level = UnitLevel("player")
     if type(level) ~= "number" or level < 1 then return end
     local character = self:Char()
+    local state = creditState(character)
     local floor = tonumber(argument)
-    if argument == "" then floor = character.octoLevelFloor or 1 end
+    if argument == "" then floor = state.octoLevelFloor end
     if not floor or floor < 1 or floor > level or floor ~= math.floor(floor) then
         ns.Print(fr and "Utilisation : /curator rattrapage [dernier niveau déjà crédité]" or "Usage: /curator catchup [last level already credited]")
         return
     end
-    character.octoLevelFloor = math.max(character.octoLevelFloor or 1, floor)
-    local credits, levels = levelCredits(character), 0
-    for reached = character.octoLevelFloor + 1, level do
+    floor = math.max(state.octoLevelFloor, floor)
+    state.octoLevelFloor, character.octoLevelFloor = floor, floor
+    local credits, levels = state.octoLevelCredits, 0
+    for reached = floor + 1, level do
         if not credits[reached] then
             credits[reached] = true
             levels = levels + 1
@@ -169,7 +191,7 @@ function rewards:CatchUp(argument)
         -- The old level events have no zone. Full bars grant a booster choice.
         self:Fill(nil, levels * self.POINTS.level, "catchup", false, true)
     end
-    local places = importPlaces(self, character)
+    local places = importPlaces(self, state)
     ns.Print(string.format(fr and "Rattrapage : %d niveaux, %d lieux crédités." or "Catch-up: %d levels and %d discoveries credited.", levels, places or 0))
     if not places then
         ns.Print(fr and "La lecture des zones explorées nécessite une version de ClassicAPI qui expose ces données." or "Reading explored areas requires a version of ClassicAPI that exposes them.")
@@ -217,14 +239,14 @@ messages:SetScript("OnEvent", function()
         return
     end
     local place = capture(message, exploreWithXP) or capture(message, explorePattern)
-    if place and rewards:WorldSeries() then
-        character.octoPlaces = character.octoPlaces or {}
+    local series = place and rewards:WorldSeries()
+    if series and (not ns.Beta or not ns.Beta:Over()) and (not ns.Guard or ns.Guard:Allow(series)) then
+        local state = creditState(character)
         local key = zoneKey(place)
-        for name in pairs(character.octoPlaces) do
+        for name in pairs(state.octoPlaces) do
             if zoneKey(name) == key then return end
         end
-        character.octoPlaces[place] = true
-        local series = rewards:WorldSeries()
+        state.octoPlaces[place] = true
         rewards:Add(series, rewards.POINTS.explore, "explore")
         ns.Fire("ACTIVITY", "explore", 1)
         if ns.Talents then ns.Talents:Explored(series) end
