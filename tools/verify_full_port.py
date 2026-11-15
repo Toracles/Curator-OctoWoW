@@ -1,7 +1,6 @@
 from pathlib import Path
 import sys
-import subprocess
-from tempfile import TemporaryDirectory
+from gift_code_fixture import gift_code_fixture
 sys.path.insert(0, str(Path(".test-runtime").resolve()))
 from lupa.lua51 import LuaRuntime
 
@@ -1165,17 +1164,7 @@ ns.Print, ReloadUI, UnitAffectingCombat = oldPrint, oldReload, oldCombat
 """)
 print("Collection save: confirmation, native logout, session guards and login receipt verified")
 
-with TemporaryDirectory() as directory:
-    signing_key = str(Path(directory) / "test.pem")
-    generator = ["node", "tools/gift-code.cjs"]
-    lua.execute("local ns = CuratorOctoFull\n" + subprocess.check_output(
-        generator + ["init", "--key", signing_key], text=True))
-    gift = subprocess.check_output(generator + [
-        "issue", "--key", signing_key, "--to", "Tester-N'Zoth", "--zone", "1", "--rubies", "100"
-    ], text=True).strip()
-    lua.globals().octoGiftTestCode = gift
-    prefix, payload, signature = gift.split(".")
-    lua.globals().octoGiftBadCode = ".".join((prefix, payload, ("B" if signature[0] == "A" else "A") + signature[1:]))
+lua.execute(gift_code_fixture())
 
 lua.execute(r"""
 local ns = CuratorOctoFull

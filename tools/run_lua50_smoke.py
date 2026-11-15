@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+from gift_code_fixture import gift_code_fixture
 
 root = Path("full-port-work")
 addon = root / "Curator"
@@ -19,7 +20,11 @@ failure = traceEvent("PLAYER_LOGIN")
 assert(failure=="",failure)
 """
 script = root / "smoke50.lua"
-script.write_text("\n".join([setup, load, events, *blocks[1:], 'print("Lua 5.0 runtime smoke passed")']), encoding="utf8")
+checks = [
+    f"do\n{gift_code_fixture() if 'octoGiftTestCode' in block else ''}\n{block}\nend"
+    for block in blocks[1:]
+]
+script.write_text("\n".join([setup, load, events, *checks, 'print("Lua 5.0 runtime smoke passed")']), encoding="utf8")
 result = subprocess.run([compiler, script], capture_output=True, text=True, errors="replace")
 print(result.stdout, result.stderr, sep="")
 sys.exit(result.returncode)
