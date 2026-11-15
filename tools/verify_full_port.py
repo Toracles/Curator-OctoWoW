@@ -59,6 +59,10 @@ local methods = {
  GetLeft = function() return 0 end,
  GetBottom = function() return 0 end,
  GetCenter = function() return 512,384 end,
+ SetPoint = function(self, point, relative, relativePoint, x, y)
+  self.anchor = { point, relative, relativePoint, x, y }
+ end,
+ ClearAllPoints = function(self) self.anchor = nil end,
  Show = function(self) setShown(self, true, "OnShow") end,
  Hide = function(self) setShown(self, false, "OnHide") end,
  IsShown = function(self) return self.shown ~= false end,
@@ -427,9 +431,21 @@ state.day = nil
 state.visas[npc] = nil
 local oldNpcId = gossip.NpcId
 gossip.NpcId = function() return npc end
+GossipFrame = CreateFrame("Frame", "GossipFrame", UIParent)
 assert(traceEvent("GOSSIP_SHOW") == "")
 stepFrames(8)
 assert(ui.panel:IsShown() and gossip.panel:IsShown())
+local function checkCounterAnchor(relative)
+    local anchor = ui.panel.anchor
+    assert(anchor[1] == "TOPLEFT" and anchor[2] == relative and anchor[3] == "TOPRIGHT" and anchor[4] > 0)
+end
+checkCounterAnchor(gossip.panel)
+gossip.panel:Hide()
+ui.Place(ui.panel)
+checkCounterAnchor(GossipFrame)
+gossip:Refresh()
+assert(gossip.panel:IsShown())
+checkCounterAnchor(gossip.panel)
 assert(ns.IsCalendarTime(state.visas[npc].t))
 assert(ui:Open(npc, true))
 stepFrames(120)
@@ -440,10 +456,12 @@ gossip:Refresh()
 assert(not gossip.panel:IsShown())
 tavern.frame:Hide()
 assert(ui.panel:IsShown() and gossip.panel:IsShown())
+checkCounterAnchor(gossip.panel)
 tavern:OpenBet(npc)
 gossip:Close()
 tavern.frame:Hide()
 assert(not ui.panel:IsShown() and not gossip.panel:IsShown())
 gossip.NpcId, GetServerTime = oldNpcId, nil
+GossipFrame = nil
 """)
-print("Allison: legacy texture flight, new and saved dates, stamp and bet window verified")
+print("Allison: legacy texture flight, dates, stamp, bet and side-by-side window anchors verified")

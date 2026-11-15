@@ -527,10 +527,10 @@ local function Place(f)
 	f:ClearAllPoints()
 	local g = rawget(_G, "GossipFrame")
 	local fb = ns.Gossip and ns.Gossip.panel
-	if g and g.IsShown and g:IsShown() then
-		f:SetPoint("TOPLEFT", g, "TOPRIGHT", 14, 0)
-	elseif fb and fb.IsShown and fb:IsShown() then
+	if fb and fb:IsShown() then
 		f:SetPoint("TOPLEFT", fb, "TOPRIGHT", 14, 0)
+	elseif g and g.IsShown and g:IsShown() then
+		f:SetPoint("TOPLEFT", g, "TOPRIGHT", 14, 0)
 	else
 		f:SetPoint("CENTER", UIParent, "CENTER", 120, 40)
 	end

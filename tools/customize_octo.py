@@ -97,11 +97,18 @@ def booster_preview(text):
                    '\t\tCuratorOctoFull.SetShown(s.again, not self.opts.test)\n\t\ts.again:SetAlpha(left > 0 and 1 or 0.45)')
 
 
-def inns_dates(text):
+def inns_panel(text):
     text = replace(text, 'local function Day(t)\n\tif not t then',
                    'local function Day(t)\n\tif not CuratorOctoFull.IsCalendarTime(t) then')
     text = replace(text, 'local function DayLong(t)\n\tif not t then\n\t\treturn ""',
                    'local function DayLong(t)\n\tif not CuratorOctoFull.IsCalendarTime(t) then\n\t\treturn "—"')
+    text = replace(text, '''\tif g and g.IsShown and g:IsShown() then
+\t\tf:SetPoint("TOPLEFT", g, "TOPRIGHT", 14, 0)
+\telseif fb and fb.IsShown and fb:IsShown() then
+\t\tf:SetPoint("TOPLEFT", fb, "TOPRIGHT", 14, 0)''', '''\tif fb and fb:IsShown() then
+\t\tf:SetPoint("TOPLEFT", fb, "TOPRIGHT", 14, 0)
+\telseif g and g.IsShown and g:IsShown() then
+\t\tf:SetPoint("TOPLEFT", g, "TOPRIGHT", 14, 0)''')
     return replace(text, 'if G and G.open and G.npc == npc then\n\t\t\tUI:Open(npc, false, true)',
                    'if G and G.open and G.npc == npc and not (ns.TavernUI and ns.TavernUI:IsBetOpen()) then\n\t\t\tUI:Open(npc, false, true)')
 
@@ -154,20 +161,32 @@ function UI:ShowChoose(npc)''')
         end''')
 
 
+def gossip_panel(text):
+    text = replace(text, 'function G:Fallback()\n', '''function G:Fallback()
+    if ns.TavernUI and ns.TavernUI:IsBetOpen() then
+        if self.panel then self.panel:Hide() end
+        return
+    end
+''')
+    return replace(text, '\tp:Show()\n\tp:Raise()\n', '''\tp:Show()
+\tp:Raise()
+    local inns = ns.InnsUI
+    local counter = inns and inns.panel
+    if self.role == "inn" and counter and counter:IsShown() and counter.npc == self.npc then
+        inns.Place(counter)
+    end
+''')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
         "UI/Booster.lua": booster_preview,
         "Inns.lua": inns_clock,
-        "UI/Inns.lua": inns_dates,
+        "UI/Inns.lua": inns_panel,
         "UI/Tavern.lua": tavern_bet_modal,
-        "UI/Gossip.lua": lambda text: replace(text, 'function G:Fallback()\n', '''function G:Fallback()
-    if ns.TavernUI and ns.TavernUI:IsBetOpen() then
-        if self.panel then self.panel:Hide() end
-        return
-    end
-'''),
+        "UI/Gossip.lua": gossip_panel,
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")

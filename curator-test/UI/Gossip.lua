@@ -432,6 +432,11 @@ function G:Fallback()
 	end
 	p:Show()
 	p:Raise()
+    local inns = ns.InnsUI
+    local counter = inns and inns.panel
+    if self.role == "inn" and counter and counter:IsShown() and counter.npc == self.npc then
+        inns.Place(counter)
+    end
 	-- (the window of the other addon may come just after this one, on the same event: placed beside it then)
 	if not other and CuratorOctoFull.Timer and CuratorOctoFull.Timer.After then
 		CuratorOctoFull.Timer.After(0.2, function()
