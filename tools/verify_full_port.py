@@ -119,6 +119,7 @@ CreateFrame = function(kind,name,parent,template)
  return frame
 end
 GetCursorPosition = function() return 640, 480 end
+IsShiftKeyDown = function() return false end
 function SendAddonMessage(prefix, message, channel, target)
  lastMessage = {prefix, message, channel, target}
 end
@@ -881,8 +882,8 @@ assert(table.concat(UnitPopupMenus.RAID, ",") == "RAID_REMOVE,CURATOR_TRADE,CANC
 assert(table.getn(UnitPopupMenus.SELF) == 1 and table.getn(UnitPopupMenus.PET) == 1)
 local option = UnitPopupButtons[entry]
 assert(option.dist == 0 and option.color.b == 1 and option.color.r == 0)
-local editor, opened = ns.Album.StartTrade
-ns.Album.StartTrade = function(self, name) opened = name end
+local invite, opened = ns.LiveTradeUI.Invite
+ns.LiveTradeUI.Invite = function(self, name) opened = name end
 local function click(value)
     this = { value = value }
     return UnitPopup_OnClick()
@@ -911,11 +912,91 @@ for _, unit in ipairs({ "player", "pet", "enemy", "missing" }) do
     assert(UnitPopupShown[1][3] == 0)
 end
 ns.SetLocale(locale)
-ns.Album.StartTrade = editor
+ns.LiveTradeUI.Invite = invite
 units.target = "Brindille Dupont"
 show("PLAYER", "target")
 click(entry)
 assert(ns.Album.ed.draft.with == "Brindille-Dupont")
+ns.Album:CloseTrade()
 UnitName, UnitFactionGroup, UnitExists, UnitIsPlayer, UnitIsUnit = oldName, oldFaction, oldExists, oldPlayer, oldSame
 """)
-print("Portrait trades: native trade preserved, localized blue entry opens the correct player's offer")
+print("Portrait trades: native trade preserved, localized blue entry invites the correct player")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local live, album, wire, trade = ns.LiveTrade, ns.Album, ns.Wire, ns.Trade
+local oldSend, oldDrop, oldTrades = wire.Send, wire.Drop, ns.db.trades
+local messages = {}
+wire.Send = function(_, who, body)
+    table.insert(messages, { who = who, body = body })
+    return tostring(table.getn(messages))
+end
+wire.Drop = function() end
+ns.db.trades = {}
+local function receive(body, sender)
+    ns.Guild:OnMessage("T:1:" .. body, "WHISPER", sender)
+end
+local function click(button)
+    this, arg1 = button, "LeftButton"
+    button:GetScript("OnClick")()
+end
+local function last()
+    return messages[table.getn(messages)].body
+end
+local card = ns.SeriesByKey("balor").list[1]
+local packs = ns.Packs(card.series)
+ns.AddPacks(card.series, 1)
+ns.Collection:Add(card)
+local owned = ns.Collection:Entry(card).n
+assert(live:Invite("Brindille Dupont"))
+local host = live.current
+assert(string.find(last(), "/" .. "I/", 1, true) and host.state == "waiting")
+local ed = album.frame.soc.ed
+assert(not ed.give.add:IsShown() and not ed.take.add:IsShown())
+receive("L/" .. host.id .. "/A/", "Other Person")
+assert(host.state == "waiting")
+receive("L/" .. host.id .. "/A/", "Brindille Dupont")
+assert(host.state == "open" and ed.give.add:IsShown() and not ed.take.add:IsShown())
+album:OpenTradePicker("give")
+album:PickClick({ entry = { card = card, n = 1 } })
+album:CloseTradePicker()
+stepFrames(8)
+assert(string.find(last(), "/U/1/" .. card.npc, 1, true))
+assert(ns.Collection:Entry(card).n == owned and ns.Packs(card.series) == packs + 1)
+receive("L/" .. host.id .. "/U/2/@" .. card.series.key, "Brindille Dupont")
+receive("L/" .. host.id .. "/U/1/", "Brindille Dupont")
+assert(host.remoteRev == 2 and host.take[1].b == card.series.key and ed.take.slots[1]:IsShown())
+assert(not ed.take.slots[1].editing)
+receive("L/" .. host.id .. "/U/3/", "Brindille Dupont")
+assert(host.remoteRev == 3 and not ed.take.slots[1]:IsShown())
+receive("L/" .. host.id .. "/U/4/@" .. card.series.key, "Brindille Dupont")
+click(ed.main)
+local rec = trade:Get(album.ed.id)
+assert(not live.current and rec and rec.live == host.id and rec.st == "out")
+local offer = last()
+assert(string.find(offer, "/" .. host.id, 1, true))
+assert(ns.Collection:Entry(card).n == owned and ns.Packs(card.series) == packs + 1)
+
+ns.db.trades = {}
+receive("L/" .. host.id .. "/I/", "Other Person")
+local dialog = CuratorLiveTradeInvitation
+assert(dialog:IsShown() and live.current.state == "invited" and not album.ed.live)
+click(dialog.accept)
+local guest = live.current
+assert(guest.state == "open" and not guest.host and not dialog:IsShown())
+assert(not ed.main:IsShown() and ed.give.add:IsShown())
+receive("L/" .. host.id .. "/U/1/" .. card.npc, "Other Person")
+assert(guest.take[1].k == card.key and ed.take.slots[1]:IsShown())
+receive(string.sub(offer, 5), "Other Person")
+local incoming = trade:Get(album.ed.id)
+assert(not live.current and incoming and incoming.st == "in" and incoming.live == host.id)
+assert(ed.main.action == "accept" and ns.Packs(card.series) == packs + 1)
+click(ed.main)
+assert(incoming.st == "acc" and ns.Packs(card.series) == packs)
+
+receive("L/declineTest/I/", "Other Person")
+click(dialog.refuse)
+assert(not live.current and not dialog:IsShown() and string.find(last(), "/C/declined", 1, true))
+wire.Send, wire.Drop, ns.db.trades = oldSend, oldDrop, oldTrades
+""")
+print("Live trade: invitation, bilateral preview, replay protection and explicit final acceptance verified")

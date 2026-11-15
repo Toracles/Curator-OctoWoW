@@ -478,7 +478,7 @@ do
             local name = menuTarget(menu)
             -- A portrait can change units while its menu is still open.
             if name and name == menu.curatorTradeTarget then
-                ns.Album:StartTrade(name)
+                ns.LiveTradeUI:Invite(name)
             end
         end
     end)

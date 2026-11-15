@@ -3,6 +3,8 @@
 from pathlib import Path
 import re
 
+FULL_PORT = Path(__file__).resolve().parents[1] / "full-port"
+
 
 def replace(text, old, new):
     if old not in text:
@@ -364,6 +366,43 @@ def header_icon_button(text, button):
                    f"CuratorOctoFull.SetSize({button}.icon, 16, 16)\n{indent}{button}.icon:SetPoint(\"CENTER\")")
 
 
+def append_port(text, name):
+    return text.rstrip() + "\n\n" + (FULL_PORT / name).read_text(encoding="utf8")
+
+
+def trade_protocol(text):
+    text = replace(text, 'local OPS = { P = "OnOffer",', 'local OPS = { L = "OnLive", P = "OnOffer",')
+    text = replace(text, 'return table.concat({ "P", rec.id, rec.rev, ns.db.uid,',
+                   'local body = table.concat({ "P", rec.id, rec.rev, ns.db.uid,')
+    text = replace(text, 'rec.tag or "", rec.duel or "" }, "/")\nend',
+                   'rec.tag or "", rec.duel or "" }, "/")\n\treturn rec.live and (body .. "/" .. rec.live) or body\nend')
+    text = replace(text, '\trec.tag = self:Tag()', '\trec.tag = self:Tag()\n'
+                   '\trec.live = ns.LiveTrade.ValidToken(draft.live) and draft.live or nil')
+    text = replace(text, '\tdb.trades[id] = rec\n\tself:Changed(rec)\n\t-- (1.12.0: the duel',
+                   '\trec.live = ns.LiveTrade.ValidToken(f[10]) and f[10] or nil\n'
+                   '\tdb.trades[id] = rec\n\tself:Changed(rec)\n\t-- (1.12.0: the duel')
+    return append_port(text, "LiveTrade.lua")
+
+
+def trade_live_ui(text):
+    for old, new in (
+        ('function A:CloseTrade()\n\tlocal e = self.ed',
+         'function A:CloseTrade()\n\tlocal e = self.ed\n'
+         '\tif e and e.live then ns.LiveTrade:Close(e.live, "closed", true) end'),
+        ('function A:RefreshTradeEditor()\n', 'function A:RefreshTradeEditor()\n'
+         '\tif self.ed and self.ed.live then return ns.LiveTradeUI:Paint(self.ed) end\n'),
+        ('function A:TradeMain()\n', 'function A:TradeMain()\n'
+         '\tif self.ed and self.ed.live then return ns.LiveTradeUI:Submit(self.ed.live) end\n'),
+        ('function A:TradeAlt(action)\n', 'function A:TradeAlt(action)\n'
+         '\tif action == "liveClassic" and self.ed and self.ed.live then\n'
+         '\t\treturn ns.LiveTradeUI:Classic(self.ed.live)\n\tend\n'),
+        ('function A:TradePickable()\n\tlocal e = self.ed', 'function A:TradePickable()\n\tlocal e = self.ed\n'
+         '\tif e and e.live and e.live.state ~= "open" then return false end'),
+    ):
+        text = replace(text, old, new)
+    return append_port(text, "LiveTradeUI.lua")
+
+
 def friendly_prices(root):
     changes = {
         "Rubies.lua": [
@@ -462,8 +501,9 @@ def apply(root: Path):
         "UI/Tour.lua": guide_button,
         "UI/Options.lua": lambda text: header_icon_button(text, "g"),
         "UI/Save.lua": lambda text: header_icon_button(text, "b"),
-        "UI/Players.lua": lambda text: text.rstrip() + "\n\n" +
-            (Path(__file__).resolve().parents[1] / "full-port" / "PortraitTrade.lua").read_text(encoding="utf8"),
+        "Trade.lua": trade_protocol,
+        "UI/Social.lua": trade_live_ui,
+        "UI/Players.lua": lambda text: append_port(text, "PortraitTrade.lua"),
         "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",
