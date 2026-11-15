@@ -147,6 +147,7 @@ function G:Open()
 end
 
 function G:Close()
+	self:HideLegacyRows()
 	self.open, self.injected = false, false
 	self.npc, self.role, self.say, self.name = nil, nil, nil, nil
 	if self.panel then
@@ -158,6 +159,10 @@ end
 -- The lines again (what they say changed): the list of the window built again.
 function G:Refresh()
 	local f = rawget(_G, "GossipFrame")
+	if self.legacyHooked and f and f:IsVisible() then
+		GossipFrameUpdate()
+		return
+	end
 	if f and f.IsShown and f:IsShown() and self.hooked and f.Update then
 		local ok, err = pcall(f.Update, f)
 		if not ok then
@@ -268,6 +273,72 @@ function G:Click(line)
 end
 
 -- Curator into the window of the game (once, at login).
+-- 1.12.1 builds its gossip list with GossipTitleButtonTemplate and a scroll child.
+-- Give Curator its own buttons so the game keeps the IDs and scripts of its options.
+function G:HideLegacyRows()
+    self.legacyShown = nil
+    for _, row in ipairs(self.legacyRows or {}) do
+        row:Hide()
+    end
+end
+
+function G:PaintLegacy()
+    self:HideLegacyRows()
+    local frame = GossipFrame
+    if not (self.open and self.role == "inn" and frame:IsVisible()) or self:Other() then return end
+    if type(frame.buttonIndex) ~= "number" then return end
+    local index = frame.buttonIndex - 1
+    local previous = (index > 0 and _G["GossipTitleButton" .. index]) or GossipGreetingText
+    local lines = self:Lines()
+    local rows = self.legacyRows
+    for i, line in ipairs(lines) do
+        local row = rows[i]
+        if not row then
+            row = CreateFrame("Button", "CuratorGossipRow" .. i,
+                GossipGreetingScrollChildFrame, "GossipTitleButtonTemplate")
+            rows[i] = row
+            CuratorOctoFull.SetScript(row, "OnClick", function(self)
+                G:Click(self.curatorLine)
+            end)
+        end
+        row.curatorLine = line
+        row:SetText(line.text)
+        _G[row:GetName() .. "GossipIcon"]:SetTexture(line.icon or self.ICON)
+        GossipResize(row)
+        row:ClearAllPoints()
+        row:SetPoint("TOPLEFT", previous, "BOTTOMLEFT", 0, i == 1 and -10 or 0)
+        row:Show()
+        previous = row
+    end
+    if self.say then
+        GossipGreetingText:SetText((GossipGreetingText:GetText() or "") .. "\n\n" .. self.say)
+    end
+    if table.getn(lines) > 0 then
+        GossipSpacerFrame:SetPoint("TOP", previous, "BOTTOM", 0, 0)
+        GossipSpacerFrame:Show()
+    end
+    GossipGreetingScrollFrame:UpdateScrollChildRect()
+    self.legacyShown = true
+end
+
+function G:HookLegacy()
+    if self.legacyHooked then return true end
+    local update = GossipFrameUpdate
+    if not (type(update) == "function" and type(GossipResize) == "function" and GossipFrame
+        and GossipGreetingText and GossipGreetingScrollChildFrame and GossipGreetingScrollFrame and GossipSpacerFrame) then
+        return false
+    end
+    self.legacyRows = {}
+    GossipFrameUpdate = function()
+        update()
+        local ok = pcall(G.PaintLegacy, G)
+        if not ok then G:HideLegacyRows() end
+        if G.open then G:Fallback() end
+    end
+    self.legacyHooked = true
+    return true
+end
+
 function G:Hook()
 	if self.hooked then
 		return true
@@ -276,7 +347,7 @@ function G:Hook()
 	local box = f and f.GreetingPanel and f.GreetingPanel.ScrollBox
 	if not (f and f.Update and box and hooksecurefunc and ScrollUtil and ScrollUtil.AddInitializedFrameCallback
 		and GOSSIP_BUTTON_TYPE_OPTION and GOSSIP_BUTTON_TYPE_DIVIDER and GOSSIP_BUTTON_TYPE_TITLE) then
-		return false
+		return self:HookLegacy()
 	end
 	hooksecurefunc(f, "Update", function(frame)
 		local ok, err = pcall(G.Inject, G, frame)
@@ -329,17 +400,26 @@ function G:ShowInterface()
 	end
 end
 
+local function PlaceInnCounter(gossip)
+    local inns = ns.InnsUI
+    local counter = inns and inns.panel
+    if gossip.role == "inn" and counter and counter:IsShown() and counter.npc == gossip.npc then
+        inns.Place(counter)
+    end
+end
+
 function G:Fallback()
     if ns.TavernUI and ns.TavernUI:IsBetOpen() then
         if self.panel then self.panel:Hide() end
         return
     end
 	local f = rawget(_G, "GossipFrame")
-	local shown = f and f.IsShown and f:IsShown() and self.hooked
+	local shown = f and f.IsVisible and f:IsVisible() and (self.hooked or (self.legacyShown and not self:Other()))
 	local lines = (not shown) and self.role and self:Lines() or {}
 	if CuratorOctoFull.Length(lines) == 0 then
-		if self.panel then
+		if self.panel and self.panel:IsShown() then
 			self.panel:Hide()
+			PlaceInnCounter(self)
 		end
 		return
 	end
@@ -352,12 +432,15 @@ function G:Fallback()
 		CuratorOctoFull.SetClampedToScreen(p, true)
 		if p.SetBackdrop then
 			p:SetBackdrop({
-				bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 				edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 				tile = true, tileSize = 32, edgeSize = 24,
 				insets = { left = 6, right = 6, top = 6, bottom = 6 },
 			})
 		end
+		local background = p:CreateTexture(nil, "BACKGROUND")
+        background:SetPoint("TOPLEFT", p, "TOPLEFT", 6, -6)
+        background:SetPoint("BOTTOMRIGHT", p, "BOTTOMRIGHT", -6, 6)
+        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
 		p.title = p:CreateFontString(nil, "OVERLAY")
 		ns.SetFont(p.title, 13, "")
 		p.title:SetPoint("TOPLEFT", 16, -14)
@@ -432,11 +515,7 @@ function G:Fallback()
 	end
 	p:Show()
 	p:Raise()
-    local inns = ns.InnsUI
-    local counter = inns and inns.panel
-    if self.role == "inn" and counter and counter:IsShown() and counter.npc == self.npc then
-        inns.Place(counter)
-    end
+    PlaceInnCounter(self)
 	-- (the window of the other addon may come just after this one, on the same event: placed beside it then)
 	if not other and CuratorOctoFull.Timer and CuratorOctoFull.Timer.After then
 		CuratorOctoFull.Timer.After(0.2, function()

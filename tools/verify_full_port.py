@@ -28,7 +28,7 @@ local unavailable = {SetEnabled=true, SetWordWrap=true, SetMaxLines=true, HookSc
  SetDesaturated=true, SetVertexOffset=true, SetShown=true, SetSize=true, SetColorTexture=true, SetClipsChildren=true,
  SetPortraitZoom=true, SetCamDistanceScale=true, SetPaused=true, SetParticlesEnabled=true, SetLight=true,
  HasAnimation=true, SetAnimation=true,
- Low=true, High=true, Text=true, CreateMaskTexture=true, AddMaskTexture=true}
+ Low=true, High=true, Text=true, GreetingPanel=true, CreateMaskTexture=true, AddMaskTexture=true}
 local methods = {
  RegisterEvent = function(self, event) registrations[self][event] = true end,
  SetScript = function(self, event, callback)
@@ -49,10 +49,15 @@ local methods = {
  CreateTexture = function(self, _, layer)
   local texture = widget(self, true)
   texture.drawLayer = layer or "ARTWORK"
+  self.textures = self.textures or {}
+  table.insert(self.textures, texture)
   return texture
  end,
  SetDrawLayer = function(self, layer) self.drawLayer = layer end,
- SetTexture = function(self, file) self.textureFile = file end,
+ SetTexture = function(self, file, green, blue, alpha)
+  self.textureFile, self.textureAlpha = file, alpha
+ end,
+ GetName = function(self) return self.widgetName end,
  CreateFontString = function(self) return widget(self, true) end,
  GetWidth = function() return 1024 end,
  GetHeight = function() return 768 end,
@@ -97,7 +102,13 @@ CreateFrame = function(kind,name,parent,template)
   end
   frame.ClearModel = function(self) self.testDisplay = nil end
  end
- if name then _G[name]=frame end
+ if name then
+  frame.widgetName = name
+  _G[name] = frame
+  if template == "GossipTitleButtonTemplate" then
+   _G[name .. "GossipIcon"] = frame:CreateTexture(nil, "BACKGROUND")
+  end
+ end
  return frame
 end
 GetCursorPosition = function() return 640, 480 end
@@ -441,6 +452,8 @@ GossipFrame = CreateFrame("Frame", "GossipFrame", UIParent)
 assert(traceEvent("GOSSIP_SHOW") == "")
 stepFrames(8)
 assert(ui.panel:IsShown() and gossip.panel:IsShown())
+local background = gossip.panel.textures[1]
+assert(background.drawLayer == "BACKGROUND" and background.textureAlpha == 1)
 local function checkCounterAnchor(relative)
     local anchor = ui.panel.anchor
     assert(anchor[1] == "TOPLEFT" and anchor[2] == relative and anchor[3] == "TOPRIGHT" and anchor[4] > 0)
@@ -471,6 +484,57 @@ gossip.NpcId, GetServerTime = oldNpcId, nil
 GossipFrame = nil
 """)
 print("Allison: legacy texture flight, dates, stamp, bet and side-by-side window anchors verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local gossip = ns.Gossip
+GossipFrame = CreateFrame("Frame", "GossipFrame", UIParent)
+GossipGreetingScrollFrame = CreateFrame("ScrollFrame", nil, GossipFrame)
+GossipGreetingScrollChildFrame = CreateFrame("Frame", nil, GossipGreetingScrollFrame)
+GossipGreetingText = GossipGreetingScrollChildFrame:CreateFontString()
+GossipSpacerFrame = CreateFrame("Frame", nil, GossipGreetingScrollChildFrame)
+GossipTitleButton1 = CreateFrame("Button", "GossipTitleButton1", GossipGreetingScrollChildFrame, "GossipTitleButtonTemplate")
+GossipResize = function(button) button:SetHeight(18) end
+local stockClick = function() end
+GossipTitleButton1:SetScript("OnClick", stockClick)
+GossipTitleButton1:SetID(1)
+GossipFrameUpdate = function()
+    GossipFrame.buttonIndex = 2
+    GossipGreetingText:SetText("Welcome")
+    GossipTitleButton1:SetText("Browse goods")
+end
+assert(gossip:Hook())
+local oldNpcId = gossip.NpcId
+gossip.NpcId = function() return 6740 end
+assert(traceEvent("GOSSIP_SHOW") == "")
+assert(gossip.legacyShown and gossip.legacyRows[1]:IsShown())
+assert(not gossip.panel:IsShown())
+assert(gossip.legacyRows[1]:GetParent() == GossipGreetingScrollChildFrame)
+assert(gossip.legacyRows[1].anchor[2] == GossipTitleButton1)
+assert(GossipTitleButton1:GetText() == "Browse goods" and GossipTitleButton1:GetScript("OnClick") == stockClick)
+local clicked = false
+local originalClick = gossip.Click
+gossip.Click = function(_, line) clicked = line == gossip.legacyRows[1].curatorLine end
+this = gossip.legacyRows[1]
+this:GetScript("OnClick")()
+assert(clicked)
+gossip.Click = originalClick
+local count = table.getn(gossip.legacyRows)
+gossip:Say("Hello collector")
+gossip:Refresh()
+assert(GossipGreetingText:GetText() == "Welcome\n\nHello collector")
+assert(table.getn(gossip.legacyRows) == count and GossipFrame.buttonIndex == 2)
+DUIQuestFrame = CreateFrame("Frame", "DUIQuestFrame", UIParent)
+gossip:Refresh()
+assert(not gossip.legacyRows[1]:IsShown() and gossip.panel:IsShown())
+DUIQuestFrame:Hide()
+gossip:Refresh()
+assert(gossip.legacyRows[1]:IsShown() and not gossip.panel:IsShown())
+assert(traceEvent("GOSSIP_CLOSED") == "")
+assert(not gossip.legacyRows[1]:IsShown())
+gossip.NpcId = oldNpcId
+""")
+print("Native inn gossip: stock buttons, Curator clicks, refresh and opaque fallback verified")
 
 lua.execute(r"""
 local ns = CuratorOctoFull

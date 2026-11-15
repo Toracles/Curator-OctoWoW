@@ -162,19 +162,43 @@ function UI:ShowChoose(npc)''')
 
 
 def gossip_panel(text):
-    text = replace(text, 'function G:Fallback()\n', '''function G:Fallback()
+    legacy = (Path(__file__).resolve().parents[1] / "full-port" / "LegacyGossip.lua").read_text(encoding="utf8")
+    text = replace(text, '\tlocal f = rawget(_G, "GossipFrame")\n\tif f and f.IsShown and f:IsShown() and self.hooked',
+                   '\tlocal f = rawget(_G, "GossipFrame")\n'
+                   '\tif self.legacyHooked and f and f:IsVisible() then\n\t\tGossipFrameUpdate()\n\t\treturn\n\tend\n'
+                   '\tif f and f.IsShown and f:IsShown() and self.hooked')
+    text = replace(text, 'function G:Hook()\n', legacy + '\nfunction G:Hook()\n')
+    text = replace(text, 'and GOSSIP_BUTTON_TYPE_OPTION and GOSSIP_BUTTON_TYPE_DIVIDER and GOSSIP_BUTTON_TYPE_TITLE) then\n\t\treturn false',
+                   'and GOSSIP_BUTTON_TYPE_OPTION and GOSSIP_BUTTON_TYPE_DIVIDER and GOSSIP_BUTTON_TYPE_TITLE) then\n\t\treturn self:HookLegacy()')
+    text = replace(text, 'function G:Close()\n', 'function G:Close()\n\tself:HideLegacyRows()\n')
+    text = replace(text, 'local shown = f and f.IsShown and f:IsShown() and self.hooked',
+                   'local shown = f and f.IsVisible and f:IsVisible() and (self.hooked or (self.legacyShown and not self:Other()))')
+    text = replace(text, 'function G:Fallback()\n', '''local function PlaceInnCounter(gossip)
+    local inns = ns.InnsUI
+    local counter = inns and inns.panel
+    if gossip.role == "inn" and counter and counter:IsShown() and counter.npc == gossip.npc then
+        inns.Place(counter)
+    end
+end
+
+function G:Fallback()
     if ns.TavernUI and ns.TavernUI:IsBetOpen() then
         if self.panel then self.panel:Hide() end
         return
     end
 ''')
+    text = replace(text, '\t\tif self.panel then\n\t\t\tself.panel:Hide()\n\t\tend\n\t\treturn\n\tend\n\tlocal p = self.panel',
+                   '\t\tif self.panel and self.panel:IsShown() then\n\t\t\tself.panel:Hide()\n'
+                   '\t\t\tPlaceInnCounter(self)\n\t\tend\n\t\treturn\n\tend\n\tlocal p = self.panel')
+    text = replace(text, '\t\t\t\tbgFile = "Interface\\\\DialogFrame\\\\UI-DialogBox-Background-Dark",\n', '')
+    text = replace(text, '\t\tp.title = p:CreateFontString(nil, "OVERLAY")', '''\t\tlocal background = p:CreateTexture(nil, "BACKGROUND")
+        background:SetPoint("TOPLEFT", p, "TOPLEFT", 6, -6)
+        background:SetPoint("BOTTOMRIGHT", p, "BOTTOMRIGHT", -6, 6)
+        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
+\t\tp.title = p:CreateFontString(nil, "OVERLAY")''')
     return replace(text, '\tp:Show()\n\tp:Raise()\n', '''\tp:Show()
 \tp:Raise()
-    local inns = ns.InnsUI
-    local counter = inns and inns.panel
-    if self.role == "inn" and counter and counter:IsShown() and counter.npc == self.npc then
-        inns.Place(counter)
-    end
+    PlaceInnCounter(self)
 ''')
 
 
