@@ -158,7 +158,7 @@ function G:ForMe(to)
 				surname = second
 			end
 		end
-		for _, r in ipairs({ GetNormalizedRealmName and GetNormalizedRealmName(), GetRealmName and GetRealmName(), surname }) do
+		for _, r in ipairs({ (GetNormalizedRealmName and GetNormalizedRealmName()) or false, (GetRealmName and GetRealmName()) or false, surname or false }) do
 			if Known(r) and Fold(r) == Fold(realm) then
 				return true
 			end
@@ -217,14 +217,19 @@ function G:Read(code)
 	if not head then
 		return nil, "damaged"
 	end
-	if head ~= self.PREFIX then
+	if head ~= self.PREFIX and head ~= "CG2" then
 		return nil, CuratorOctoFull.Match(head, "^CG%d+$") and "version" or "damaged"
 	end
 	local text, sig = Unbase64(p), Unbase64(s)
 	if not text or not sig then
 		return nil, "damaged"
 	end
-	local key = self.key or ns.FEED_KEY
+	local key
+	if head == "CG2" then
+		key = ns.OCTO_GIFT_KEY
+	else
+		key = self.key or ns.FEED_KEY
+	end
 	if type(key) ~= "table" or not (ns.Front and ns.Front.Check) then
 		return nil, "nokey"
 	end

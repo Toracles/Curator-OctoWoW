@@ -1,9 +1,11 @@
-## Sauvegarde de la collection
+## Codes cadeaux OctoWoW
 
-Le bouton **Sauvegarder ta collection**, la commande `/curator save`, les rappels et la sauvegarde d’un échange demandent de confirmer le retour à la sélection des personnages. Ce changement évite le rechargement d’interface, après des plantages du client pendant cette opération. Curator confirme la sauvegarde lors d’une reconnexion dans les cinq minutes.
+- Curator accepte les codes signés par le portage OctoWoW. Colle ton code avec `/curator gift` ou dans **Boosters → Code cadeau** pour vérifier les récompenses avant validation.
+- Les codes sont liés à un destinataire. Chaque code est crédité une seule fois par collection. La vérification du royaume fonctionne aussi avec l’API de la version 1.12.
+- Quitte OctoWoW avant d’appliquer le correctif cumulatif. Pour une première installation, extrais d’abord le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2).
 
-Quitter le jeu, extraire le correctif cumulatif dans `Interface/AddOns`, puis relancer OctoWoW. Pour une première installation, extraire d’abord [le ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2). La [galerie bilingue](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.17) reste disponible séparément.
+## OctoWoW gift codes
 
-## Collection save
-
-The save button, `/curator save`, reminders and trade saving now ask you to return to character selection. Curator confirms the save when you log back in within five minutes. Exit OctoWoW before applying the cumulative patch, then restart the game.
+- Curator accepts gift codes signed by the OctoWoW port. Paste the code through `/curator gift` or **Boosters → Gift code** to review the rewards before redeeming it.
+- Codes are bound to a recipient. Each code can be redeemed once per collection. Realm validation also works with the 1.12 API.
+- Exit OctoWoW before applying the cumulative patch. First-time players should extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) first.

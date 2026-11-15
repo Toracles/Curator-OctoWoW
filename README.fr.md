@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.27](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.27/Curator-OctoWoW-correctif-alpha.27.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.28](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.28/Curator-OctoWoW-correctif-alpha.28.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
@@ -46,6 +46,17 @@ Chaque quête rendue confirmée par le client ou Questie-Octo rapporte **20 poin
 | Échanger des doublons contre une carte plus rare | **Contrats** ou `/curator contrat` |
 | Ouvrir l’interface des échanges entre joueurs | Cible un joueur et tape `/curator trade`, ou utilise `/curator trade Nom`. Sans cible, la commande ouvre la liste des échanges. |
 | Choisir la langue et régler l’interface | `/curator options` |
+| Utiliser un code cadeau | `/curator gift` ou **Boosters → Code cadeau**. Colle le code, vérifie les récompenses, puis valide. |
+
+## Émettre des codes cadeaux
+
+Le mainteneur peut créer un cadeau OctoWoW pour un personnage et son royaume ou pour un identifiant de collection de 16 caractères hexadécimaux. L’émission requiert Node.js et la clé privée correspondant à la clé publique de l’addon. Sous Windows, son emplacement par défaut est `%LOCALAPPDATA%\Curator-OctoWoW\gift-signing.pem`. Garde la clé privée hors du dépôt. Les codes expirent au bout de 30 jours par défaut.
+
+```powershell
+node tools/gift-code.cjs issue --to "Personnage-Royaume" --zone 1 --rubies 100 --days 30
+```
+
+Les autres options de récompense sont `--dungeon`, `--raid`, `--xp` et `--display ALBUM:NOMBRE` pour une clé d’album éligible. L’option `--note` ajoute un message.
 
 ## État de la préversion et sources
 

@@ -1,5 +1,7 @@
 from pathlib import Path
 import sys
+import subprocess
+from tempfile import TemporaryDirectory
 sys.path.insert(0, str(Path(".test-runtime").resolve()))
 from lupa.lua51 import LuaRuntime
 
@@ -1162,3 +1164,41 @@ Logout, StaticPopup_Show = oldLogout, oldPopup
 ns.Print, ReloadUI, UnitAffectingCombat = oldPrint, oldReload, oldCombat
 """)
 print("Collection save: confirmation, native logout, session guards and login receipt verified")
+
+with TemporaryDirectory() as directory:
+    signing_key = str(Path(directory) / "test.pem")
+    generator = ["node", "tools/gift-code.cjs"]
+    lua.execute("local ns = CuratorOctoFull\n" + subprocess.check_output(
+        generator + ["init", "--key", signing_key], text=True))
+    gift = subprocess.check_output(generator + [
+        "issue", "--key", signing_key, "--to", "Tester-N'Zoth", "--zone", "1", "--rubies", "100"
+    ], text=True).strip()
+    lua.globals().octoGiftTestCode = gift
+    prefix, payload, signature = gift.split(".")
+    lua.globals().octoGiftBadCode = ".".join((prefix, payload, ("B" if signature[0] == "A" else "A") + signature[1:]))
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local gifts = ns.Gifts
+local oldName, oldRealm, oldNormalized = UnitName, GetRealmName, GetNormalizedRealmName
+local oldFull = UnitFullName
+UnitName = function() return "Tester" end
+GetRealmName = function() return "Other realm" end
+GetNormalizedRealmName, UnitFullName = nil, nil
+local ok, why = gifts:Check(octoGiftTestCode)
+assert(not ok and why == "other", why)
+GetRealmName = function() return "N'Zoth" end
+ok, why = gifts:Check(octoGiftBadCode)
+assert(not ok and why == "damaged", why)
+assert(ns.GiftUI.CodeIn("Gift: " .. octoGiftTestCode) == octoGiftTestCode)
+ok, why = gifts:Check(octoGiftTestCode)
+assert(ok, why)
+local rubies, offers = ns.Rubies:Balance(), ns.Level:OfferCount()
+ok, why = gifts:Redeem(octoGiftTestCode)
+assert(ok, why)
+ok, why = gifts:Redeem(octoGiftTestCode)
+assert(not ok and why == "used", why)
+assert(ns.Rubies:Balance() == rubies + 100 and ns.Level:OfferCount() == offers + 1)
+UnitName, GetRealmName, GetNormalizedRealmName, UnitFullName = oldName, oldRealm, oldNormalized, oldFull
+""")
+print("OctoWoW gift code: real RSA signature, recipient, altered signature and single redemption verified")

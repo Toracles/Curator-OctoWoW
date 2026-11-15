@@ -473,6 +473,15 @@ def append_port(text, name):
     return text.rstrip() + "\n\n" + (FULL_PORT / name).read_text(encoding="utf8")
 
 
+def octo_gifts(text):
+    text = replace(text, 'if head ~= self.PREFIX then', 'if head ~= self.PREFIX and head ~= "CG2" then')
+    text = replace(text, 'local key = self.key or ns.FEED_KEY\n\tif type(key)',
+                   'local key\n\tif head == "CG2" then\n\t\tkey = ns.OCTO_GIFT_KEY\n\telse\n\t\tkey = self.key or ns.FEED_KEY\n\tend\n\tif type(key)')
+    return replace(text,
+        'ipairs({ GetNormalizedRealmName and GetNormalizedRealmName(), GetRealmName and GetRealmName(), surname })',
+        'ipairs({ (GetNormalizedRealmName and GetNormalizedRealmName()) or false, (GetRealmName and GetRealmName()) or false, surname or false })')
+
+
 def players_ui(text):
     text = cut(text, "-- The line of the tooltip:", "-- Opening a collection")
     text = cut(text, 'local MYTHIC_ICON =', '-- "Name-Realm" of a unit')
@@ -637,6 +646,8 @@ def apply(root: Path):
         "UI/Tour.lua": guide_button,
         "UI/Options.lua": lambda text: header_icon_button(text, "g"),
         "UI/Save.lua": native_save,
+        "Data/FeedKey.lua": lambda text: append_port(text, "OctoGiftKey.lua"),
+        "Gifts.lua": octo_gifts,
         "Locale112.lua": save_locale,
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
