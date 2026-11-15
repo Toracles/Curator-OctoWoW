@@ -358,12 +358,15 @@ function RUI:Shop()
 	tinsert(UISpecialFrames, "CuratorRubyShop")
 	if f.SetBackdrop then
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 24,
 			insets = { left = 6, right = 6, top = 6, bottom = 6 },
 		})
 	end
+	local background = f:CreateTexture(nil, "BACKGROUND")
+    background:SetPoint("TOPLEFT", f, "TOPLEFT", 6, -6)
+    background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -6, 6)
+    CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
 	f.gem = f:CreateTexture(nil, "ARTWORK")
 	f.gem:SetTexture(RB.ICON)
 	CuratorOctoFull.SetSize(f.gem, 24, 24)
@@ -553,8 +556,9 @@ function RUI:PaintLedger()
 			else
 				r.what:SetText(L[LEDGER[e.w or ""] or "Rubies"])
 			end
-			local ago = math.max(0, now - (tonumber(e.t) or now))
-			r.when:SetText(ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago)))
+			local timestamp = tonumber(e.t)
+            local ago = CuratorOctoFull.IsCalendarTime(timestamp) and math.max(0, now - timestamp)
+            r.when:SetText(ago and (ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago))) or "—")
 		end
 	end
 	CuratorOctoFull.SetShown(lg.empty, CuratorOctoFull.Length(log) == 0)

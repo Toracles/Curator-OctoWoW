@@ -213,6 +213,19 @@ def crate_art_layers(text):
 \t\t\tt.art:SetTexture(art)''')
 
 
+def ruby_ledger(text):
+    text = replace(text, '\t\t\tbgFile = "Interface\\\\DialogFrame\\\\UI-DialogBox-Background-Dark",\n', '')
+    text = replace(text, '\tf.gem = f:CreateTexture(nil, "ARTWORK")', '''\tlocal background = f:CreateTexture(nil, "BACKGROUND")
+    background:SetPoint("TOPLEFT", f, "TOPLEFT", 6, -6)
+    background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -6, 6)
+    CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
+\tf.gem = f:CreateTexture(nil, "ARTWORK")''')
+    return replace(text, '''\t\t\tlocal ago = math.max(0, now - (tonumber(e.t) or now))
+\t\t\tr.when:SetText(ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago)))''', '''\t\t\tlocal timestamp = tonumber(e.t)
+            local ago = CuratorOctoFull.IsCalendarTime(timestamp) and math.max(0, now - timestamp)
+            r.when:SetText(ago and (ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago))) or "—")''')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
@@ -223,6 +236,7 @@ def apply(root: Path):
         "UI/Tavern.lua": tavern_bet_modal,
         "UI/Gossip.lua": gossip_panel,
         "UI/Crate.lua": crate_art_layers,
+        "UI/Rubies.lua": ruby_ledger,
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")

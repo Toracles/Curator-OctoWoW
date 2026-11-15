@@ -5,7 +5,7 @@ Portage de Curator 1.14.3, adapté par CloudNine_Ex pour OctoWoW 1.18.1 sur le c
 ## Installation de la version de test
 
 1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
-2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.13](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.13) au même emplacement.
+2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.14](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.14) au même emplacement.
 3. Relancer le jeu, activer **Curator OctoWoW** à la sélection des personnages et taper `/curator`.
 
 Les tests hors jeu couvrent les 221 fichiers Lua, le chargement, la connexion simulée, trente commandes d’interface et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.

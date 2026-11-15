@@ -560,3 +560,20 @@ assert(ns.Cases:Count("paladin1") == before)
 crate.frame:Hide()
 """)
 print("Paladin case: all four affected previews load over their backgrounds")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local ledger = ns.Rubies.Ledger
+local log = { { n = 10, t = 0 }, { n = 14, t = ns.ServerTime() - 3600 }, { n = 20, t = ns.ServerTime() } }
+ns.Rubies.Ledger = function() return log end
+ns.RubiesUI:OpenShop(nil, "ledger")
+local shop = ns.RubiesUI.shop
+assert(shop:IsShown() and shop.textures[1].drawLayer == "BACKGROUND" and shop.textures[1].textureAlpha == 1)
+local rows = shop.ledger.rows
+assert(rows[1].when:GetText() == ns.L["now"])
+assert(rows[2].when:GetText() == string.format(ns.L["%s ago"], ns.Duration(3600)))
+assert(rows[3].when:GetText() == "—" and rows[3].n:GetText() == "+10" and log[1].t == 0)
+ns.Rubies.Ledger = ledger
+shop:Hide()
+""")
+print("Ruby ledger: opaque background and valid elapsed times verified")
