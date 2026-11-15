@@ -3460,7 +3460,7 @@ function B:ContractTimeline()
 			c = self:CaseGiven(i, key)
 		else
 			c = ct.cards[i]
-			c:SetCard(ns.Cards[key], { owned = true, finish = finish })
+			c:SetCard(ns.Cards[key], { owned = true, opening3D = true, finish = finish })
 			c:ShowSide("front")
 		end
 		c.phase = i * 0.37
@@ -3653,7 +3653,7 @@ function B:ContractReady()
 		local c = self.cards[i]
 		c.pick = pick
 		c:ShowSide("back")
-		c:SetCard(pick.card, { owned = true, finish = pick.finish, count = pick.count, new = false, pattern = pick.pt, wear = pick.wear })
+		c:SetCard(pick.card, { owned = true, opening3D = true, finish = pick.finish, count = pick.count, new = false, pattern = pick.pt, wear = pick.wear })
 		-- (1.12.0) its back, the one of its booster (Card:SetBack); a card of Hallow's End: its candle (UI/HallowLair.lua)
 		if self.HallowBack then
 			self:HallowBack(c, pick.card)

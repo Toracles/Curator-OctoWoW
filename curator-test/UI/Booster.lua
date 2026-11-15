@@ -2204,7 +2204,7 @@ function B:Deal(fromY)
 		-- face down first: the face (and its creature) is only drawn once the card is turned over
 		c:ShowSide("back")
 		-- (1.12.0: a corrupted card has none of its corruption until it is turned over: it spreads then, B:VoidWake)
-		c:SetCard(pick.card, { owned = true, finish = pick.finish, count = pick.count, new = false, corrupt = pick.corrupt,
+		c:SetCard(pick.card, { owned = true, opening3D = true, finish = pick.finish, count = pick.count, new = false, corrupt = pick.corrupt,
 			creep = pick.finish == "corrupt" and 0 or nil, pattern = pick.pt, wear = pick.wear })
 		-- (1.12.0) a card of Hallow's End: its back of the night, the candle in its jack-o'-lantern (UI/HallowLair.lua)
 		if self.HallowBack then
@@ -2321,7 +2321,7 @@ function B:Land(c, n)
 				-- (the card of a single contract: nothing else to reveal)
 				local one = self.mode == "contract" and CuratorOctoFull.Length(self.picks) == 1
 				s.hint:SetText(one and L["Click the card to reveal it"] or L["Click a card to reveal it"])
-				if self.autoAll and not one then
+				if (self.autoAll or self.opts.test) and not one then
 					-- (opening them all: every card turns over by itself)
 					ns.Delay(0.3, function()
 						if self.state == "cards" then
@@ -2600,7 +2600,7 @@ function B:AfterWind(c, r, auto, rise, grow)
 	if r >= 4 or c.hallowBack then
 		c.back.cracks:SetAlpha(1)
 	end
-	if r >= 5 then
+	if r >= 5 and not c.openingModel then
 		-- (1.13.0: a card of a picture, the Hardcup Saison 3, makes no entrance: the music goes on)
 		local art = c.pick.card.art
 		if cin and cin:Enabled() and self.StopMusic and not (art and art.fill) then
@@ -2909,7 +2909,7 @@ function B:RedrawCard(i)
 		c.pick = np
 		c.revealed = false
 		c:ShowSide("back")
-		c:SetCard(np.card, { owned = true, finish = np.finish, count = np.count, new = false, corrupt = np.corrupt,
+		c:SetCard(np.card, { owned = true, opening3D = true, finish = np.finish, count = np.count, new = false, corrupt = np.corrupt,
 			creep = np.finish == "corrupt" and 0 or nil, pattern = np.pt, wear = np.wear })
 		-- (1.12.0) its back is the one of the new card (Card:SetBack): its candle too, for a card of Hallow's End
 		if self.HallowBack then

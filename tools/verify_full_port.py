@@ -29,7 +29,7 @@ local unavailable = {SetEnabled=true, SetWordWrap=true, SetMaxLines=true, HookSc
  SetDesaturated=true, SetVertexOffset=true, SetShown=true, SetSize=true, SetColorTexture=true, SetClipsChildren=true,
  SetPortraitZoom=true, SetCamDistanceScale=true, SetPaused=true, SetParticlesEnabled=true, SetLight=true,
  HasAnimation=true, SetAnimation=true,
- Low=true, High=true, Text=true, GreetingPanel=true, CreateMaskTexture=true, AddMaskTexture=true}
+ R=true, Low=true, High=true, Text=true, GreetingPanel=true, CreateMaskTexture=true, AddMaskTexture=true}
 local methods = {
  RegisterEvent = function(self, event) registrations[self][event] = true end,
  SetScript = function(self, event, callback)
@@ -74,15 +74,21 @@ local methods = {
  GetLeft = function() return 0 end,
  GetBottom = function() return 0 end,
  GetCenter = function() return 512,384 end,
+ GetNumPoints = function(self) return self.anchor and 1 or 0 end,
+ GetPoint = function(self) if self.anchor then return unpack(self.anchor) end end,
  SetPoint = function(self, point, relative, relativePoint, x, y)
   self.anchor = { point, relative, relativePoint, x, y }
  end,
- ClearAllPoints = function(self) self.anchor = nil end,
+ SetAllPoints = function(self, relative) self.allPointsTarget = relative or self.parent end,
+ ClearAllPoints = function(self) self.anchor, self.allPointsTarget = nil, nil end,
  Show = function(self) setShown(self, true, "OnShow") end,
  Hide = function(self) setShown(self, false, "OnHide") end,
  IsShown = function(self) return self.shown ~= false end,
  IsVisible = function(self) return self.shown ~= false end,
 }
+function simulateVertexOffsets(enabled)
+ methods.SetVertexOffset = enabled and noop or nil
+end
 widget = function(parent, layeredRegion)
  local frame = setmetatable({parent=parent}, {__index=function(_, key)
      if layeredRegion and (key == "GetScale" or key == "GetEffectiveScale") then return nil end
@@ -269,11 +275,18 @@ for _, stock in ipairs({0, 2}) do
     booster:Tear()
     assert(table.getn(booster.picks) == 8)
     booster:Burst()
-    stepFrames(100)
-    assert(booster.state == "cards", booster.state)
-    booster:RevealAll()
-    stepFrames(480)
+    stepFrames(580)
     assert(booster.state == "done", booster.state)
+    local shownModels = 0
+    for i, pick in ipairs(booster.picks) do
+        local card = booster.cards[i]
+        if pick.card.display and pick.card.display > 0 and not pick.card.art then
+            assert(card.openingModel and card.model.testDisplay == pick.card.display)
+            assert(card.model.allPointsTarget == card.art and card.model:IsShown())
+            shownModels = shownModels + 1
+        end
+    end
+    assert(shownModels > 0)
     assert(not booster.frame.again:IsShown())
     booster:Again()
     assert(booster.state == "done" and booster.opts.test)
@@ -1202,6 +1215,13 @@ cases:Add(edition, 37)
 assert(cases:Count(edition) == stock + 37)
 ns.Rubies:Gain(cases:KeyPrice() * 37, "gift")
 assert(cases:BuyKey(edition, 37))
+local add, earned = cases.Add, 0
+cases.Add = function(self, case, count)
+    local before = self:Count(edition)
+    local result = add(self, case, count)
+    earned = earned + self:Count(edition) - before
+    return result
+end
 local observed = 0
 local reveal, start = crate.Reveal, GetTime()
 crate.Reveal = function(self)
@@ -1232,7 +1252,7 @@ end
 assert(crate.batch.opened == 20 and observed == 21 and crate.frame.reveal.close:IsShown()
     and GetTime() - start < 75, string.format("Batch stopped at %d, with %d reveals in %.2fs",
         crate.batch.opened, observed, GetTime() - start))
-assert(cases:Count(edition) == stock + 16 and cases:Keys(edition) == keys + 16,
+assert(cases:Count(edition) == stock + 16 + earned and cases:Keys(edition) == keys + 16,
     string.format("After 21: %d cases, %d keys; started at %d and %d", cases:Count(edition), cases:Keys(edition), stock, keys))
 assert(table.getn(cases:Won(edition)) == initialCards + 21)
 assert(ns.GetTimeScale(crate) == 1)
@@ -1243,19 +1263,20 @@ assert(crate.batch.total == 10 and crate.batch.opened == 1)
 crate.frame:Hide()
 stepFrames(250)
 assert(not crate.batch and ns.GetTimeScale(crate) == 1)
-assert(cases:Count(edition) == stock + 15 and cases:Keys(edition) == keys + 15)
+assert(cases:Count(edition) == stock + 15 + earned and cases:Keys(edition) == keys + 15)
 assert(table.getn(cases:Won(edition)) == initialCards + 22)
 crate:Show(edition)
 stepFrames(40)
 click(crate.frame.batchButtons[20])
-assert(not crate.batch and cases:Count(edition) == stock + 15)
+assert(not crate.batch and cases:Count(edition) == stock + 15 + earned)
 click(crate.frame.batchButtons[5])
 assert(crate.batch and crate.batch.total == 5)
 stepFrames(360)
 assert(crate.batch.opened == 5 and observed == 26)
-assert(cases:Count(edition) == stock + 10 and cases:Keys(edition) == keys + 10)
+assert(cases:Count(edition) == stock + 10 + earned and cases:Keys(edition) == keys + 10)
 crate.frame:Hide()
 crate.Reveal = reveal
+cases.Add = add
 """)
 print("Case opening: single and accelerated queues, 20 reveals, safe interruption and stock checks verified")
 
@@ -1321,3 +1342,76 @@ assert(b.state == "cards" and scene.hint:GetText() ~= "")
 scene:Hide()
 """)
 print("Contracts: cropped parchment, burn before deal, synchronized case reward labels and skip verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local source = ns.SeriesByKey("balor").list[1]
+local data = {}
+for key, value in pairs(source) do data[key] = value end
+local display = 1974
+local oldPortrait = ns.Portraits[display]
+ns.Portraits[display] = {0, 1, 0, 1}
+data.display, data.art = display, nil
+local card = ns.NewCard(UIParent, "big")
+card:SetCard(data, {owned = true})
+assert(card.art.portrait:IsShown() and not card.model.testDisplay)
+card:ShowSide("back")
+card:SetCard(data, {owned = true, opening3D = true})
+assert(not card.model:IsShown() and not card.model.testDisplay)
+card:Flip(0.34)
+stepFrames(12)
+assert(card.model.testDisplay == display and card.model:IsShown() and not card.art.portrait:IsShown())
+assert(card.model.allPointsTarget == card.art)
+local can3D = ns.Can3D
+simulateVertexOffsets(true)
+ns.Can3D = function() return true end
+card:SetPose(0.35, 0.12)
+assert(card.model.allPointsTarget == card.art)
+card:SetPose(math.pi, 0)
+assert(not card.model:IsShown())
+card:ShowSide("front")
+card.model.SetDisplayInfo = function() return false end
+card:ReloadModel()
+assert(card.art.portrait:IsShown() and not card.model:IsShown())
+
+local crate = ns.CrateUI
+crate:Show("paladin1")
+local npc, npcTile
+for row = 0, crate.itemRows - 1 do
+    for _, tile in ipairs(crate.frame.items) do
+        local entry = tile.pick and tile.pick.entry
+        if tile:IsShown() and entry and entry.kind == "npc" and entry.display then
+            assert(tile.creature and tile.creature.testDisplay == entry.display and not tile.art:IsShown())
+            assert(tile.creature.allPointsTarget:GetParent() == tile)
+            npc, npcTile = entry, tile
+        end
+    end
+    if npc then break end
+    crate:ScrollItems(1)
+end
+assert(npc and npcTile)
+npcTile:Hide()
+assert(not npcTile.creature:IsShown() and not npcTile.creature.testDisplay)
+crate.frame:Hide()
+local prize = ns.CrateCard.New(UIParent, 200)
+prize:Set({tier = 1, entry = npc, opening3D = true}, crate.RANKS)
+assert(prize.scene:IsShown() and prize.scene.testDisplay == npc.display)
+assert(prize.scene.allPointsTarget == prize.win)
+prize:SetPose(0.35, 0.12)
+assert(prize.scene.allPointsTarget == prize.win)
+prize:SetPose(math.pi, 0)
+assert(not prize.win:IsShown())
+
+local oldItemInfo = GetItemInfo
+GetItemInfo = function() return "Model test item" end
+local arm = ns.CrateCard.NewArm(UIParent, 5)
+arm.model.SetItem = function(self, item) self.testItem = item end
+ns.CrateCard.Arm(arm, {id = 17182})
+assert(arm.ready and arm.model.testItem == 17182 and arm.model.allPointsTarget == arm)
+GetItemInfo, ns.Can3D, ns.Portraits[display] = oldItemInfo, can3D, oldPortrait
+simulateVertexOffsets(false)
+card:Hide()
+prize:Hide()
+arm:Hide()
+""")
+print("Opening models: automatic reveal, stable window anchors, case thumbnails and legacy weapon/portrait fallbacks verified")

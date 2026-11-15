@@ -703,10 +703,10 @@ local function ModelPlace(m)
 		return
 	end
 	pm:ClearAllPoints()
-	pm:SetPoint("CENTER", m, "CENTER")
 	if m.mode == "model" and m.ready and m.visible then
-		CuratorOctoFull.SetSize(pm, math.max(1, m:GetWidth() or 1), math.max(1, m:GetHeight() or 1))
+		pm:SetAllPoints(m)
 	else
+		pm:SetPoint("CENTER", m, "CENTER")
 		CuratorOctoFull.SetSize(pm, 1, 1)
 	end
 end
@@ -813,7 +813,13 @@ local function ToModel(m)
 	pm:Show()
 	ModelPlace(m)
 	pm:ClearModel()
-	pm:SetItem(m.weapon.id)
+	local ok, result = pcall(pm.SetItem, pm, m.weapon.id)
+	if not ok or result == false then
+		pm:Hide()
+		m.mode = "none"
+	elseif not pm.hasLoadScript then
+		ModelLoaded(pm)
+	end
 end
 
 -- The bounds its actor gives, once it gives them (nil: not yet): those of its animation, else those of all of them
@@ -881,7 +887,7 @@ function CC.NewArm(parent, level)
 		pm:SetFrameLevel(level)
 		pm:EnableMouse(false)
 		pm.owner = m
-		CuratorOctoFull.SetScript(pm, "OnModelLoaded", ModelLoaded)
+		pm.hasLoadScript = CuratorOctoFull.SetScript(pm, "OnModelLoaded", ModelLoaded)
 		pm:Hide()
 		m.model = pm
 	end
@@ -970,7 +976,7 @@ end
 -- Its icon in its window, in a ring of gold (on): while its model does not come, or for good on a client without
 -- model frames.
 local function ArmIcon(f, on)
-	local icon = on and CC.WeaponIcon(f.weapon) or nil
+	local icon = on and not f.armArtFallback and CC.WeaponIcon(f.weapon) or nil
 	if icon then
 		f.armIcon:SetTexture(icon)
 	end
@@ -1426,7 +1432,7 @@ function CC.New(parent, w)
 		g:Hide()
 		f.glory[i] = g
 	end
-	f.scene = ns.Creatures and ns.Creatures.Stage and ns.Creatures.Stage(win, base + 2, { live = true, spin = true }) or nil
+	f.scene = ns.Creatures and ns.Creatures.Stage and ns.Creatures.Stage(win, base + 2, { live = true, spin = true, playerModel = true }) or nil
 	-- (the weapon of a priceless card in its place: a model frame, the weapon standing and turning in it; its icon in a
 	-- ring of gold when it has no model)
 	local arm = CC.NewArm(win, base + 2)
@@ -1434,6 +1440,11 @@ function CC.New(parent, w)
 		arm:SetAllPoints()
 		arm.onReady = function()
 			ArmIcon(f, false)
+			if f.armArtFallback then
+				f:SetPic(nil)
+				f.ground:Show()
+				f.aura:Show()
+			end
 		end
 		f.arm = arm
 	end
@@ -1738,7 +1749,8 @@ end
 
 -- Dressed as pick: { tier, card, word, finish } (secret: the golden card of the secret); ranks: the ranks of the
 -- cases (UI/Crate.lua: their colours, their words).
-function M:Set(pick, ranks)
+function M:Set(pick, ranks, opening3D)
+	opening3D = opening3D or pick.opening3D
 	Relevel(self)
 	self.pick = pick
 	local rank = ranks[pick.tier]
@@ -1801,11 +1813,12 @@ function M:Set(pick, ranks)
 	CuratorOctoFull.SetShown(self.aura, pic == nil)
 	-- its weapon, standing in its window; a spell, its medallion; an armour, the character wearing it; else its creature:
 	-- in its scene, alive; else its portrait
-	ArmUp(self, weapon, pic ~= nil)
+	self.armArtFallback = opening3D and weapon and pic ~= nil
+	ArmUp(self, weapon, pic ~= nil and not self.armArtFallback)
 	SpellUp(self, (not pic) and entry and entry.kind == "spell" and entry or nil)
 	DressUp(self, (not pic) and entry and entry.kind == "set" and entry or nil)
 	local display
-	if not (secret or weapon or pic) then
+	if not (secret or weapon) and (not pic or opening3D) then
 		if entry then
 			display = entry.kind == "npc" and entry.display or nil
 		else
@@ -1813,11 +1826,18 @@ function M:Set(pick, ranks)
 		end
 	end
 	local sc = self.scene
+	local modelShown = false
 	if sc then
-		ns.Creatures.Put(sc, display or 0)
-		CuratorOctoFull.SetShown(sc, display ~= nil)
-		self.pic:Hide()
-	else
+		if display then sc:Show() end
+		modelShown = ns.Creatures.Put(sc, display)
+		CuratorOctoFull.SetShown(sc, modelShown and true or false)
+	end
+	if modelShown and pic then
+		self:SetPic(nil)
+		self.ground:Show()
+		self.aura:Show()
+	end
+	if not modelShown and display and not pic then
 		local w, h = self.win:GetWidth(), self.win:GetHeight()
 		local ok = display and SetPortraitTextureFromCreatureDisplayID and pcall(SetPortraitTextureFromCreatureDisplayID, self.pic, display)
 		if ok then
@@ -1827,8 +1847,17 @@ function M:Set(pick, ranks)
 			end
 			self.pic:Show()
 		else
-			self.pic:Hide()
+			local portrait = ns.Portraits and ns.Portraits[display]
+			if portrait then
+				self.pic:SetTexture(MEDIA .. "Portraits\\" .. display)
+				self.pic:SetTexCoord(unpack(portrait))
+				self.pic:Show()
+			else
+				self.pic:Hide()
+			end
 		end
+	else
+		self.pic:Hide()
 	end
 	self.t, self.nextSheen, self.nextSpark, self.nextEmber, self.nameAt = 0, 1.2, 0.3, 0, 0
 	self.sweepT = nil
@@ -2760,12 +2789,10 @@ function M:SetPose(yaw, pitch)
 		win:SetPoint("CENTER", self, "CENTER", 0, 0)
 		CuratorOctoFull.SetSize(win, 0.01, 0.01)
 	end
-	local mx, my, mk = D.Project(self, (wx1 + wx2) / 2, (wy1 + wy2) / 2)
 	for _, m in ipairs({ self.scene or false, self.dress or false, self.arm or false }) do
 		if m then
 			m:ClearAllPoints()
-			m:SetPoint("CENTER", self, "CENTER", mx, my)
-			CuratorOctoFull.SetSize(m, (wx2 - wx1) * mk, (wy2 - wy1) * mk)
+			m:SetAllPoints(win)
 		end
 	end
 	if self.arm then
@@ -3540,7 +3567,7 @@ function CC.Update(self, elapsed)
 	local t = self.t
 	local sc = self.scene
 	-- (1.14.0, the option of the creatures as a still picture: it stays as it is, paused, UI/Card.lua Look)
-	if sc and self.live ~= false and not self.held and not self.frozen and not (ns.db and ns.db.still) and sc.SetRotation and sc:IsShown() then
+	if sc and self.live ~= false and not self.held and not self.frozen and not (ns.db and ns.db.still) and (sc.SetRotation or sc.SetFacing) and sc:IsShown() then
 		CuratorOctoFull.SetRotation(sc, 0.35 + math.sin(t * 0.55) * 0.55)
 	end
 	-- (its weapon: its model, standing and turning; its name once the game knows it. A spell: what it does, once the

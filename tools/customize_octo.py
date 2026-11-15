@@ -821,18 +821,302 @@ function RV:BuyBack(i)'''),
         path.write_bytes(text.encode("utf8"))
 
 
+def opening_card_models(text):
+    text = replace(text, "local ApplyModelLook\n", "")
+    text = replace(text, "local function Poll(sc, elapsed)", """local ApplyModelLook
+
+local function ShowOpeningModel(card)
+	if card.openingModel and card.portraitOn then
+		CuratorOctoFull.SetShown(card.art.portrait, not card.model.loaded)
+	end
+end
+
+local function Poll(sc, elapsed)""")
+    text = replace(text, "\t\tsc.loaded = true\n\t\tLook(sc)", "\t\tsc.loaded = true\n\t\tShowOpeningModel(sc.owner)\n\t\tLook(sc)")
+    text = replace(text, "\tsc:SetAllPoints()\n\tsc:SetFrameLevel(level)", "\tsc:SetAllPoints(art)\n\tsc:SetFrameLevel(level)")
+    text = replace(text, "function ns.Creatures.Stage(parent, level, opts)", """local function NewPlayerModel(parent, level)
+	local model = CreateFrame("PlayerModel", nil, parent)
+	model:SetAllPoints(parent)
+	model:SetFrameLevel(level)
+	model:EnableMouse(false)
+	return model
+end
+
+local function LoadPlayerModel(model)
+	model:ClearModel()
+	if not (model.display and model.display > 0 and model.SetDisplayInfo) then
+		return false
+	end
+	local ok, result = pcall(model.SetDisplayInfo, model, model.display)
+	if not ok or result == false then
+		return false
+	end
+	ApplyModelLook(model)
+	if model.SetAnimation then model:SetAnimation(0) end
+	return true
+end
+
+function ns.Creatures.Stage(parent, level, opts)""")
+    text = replace(text, "\treturn NewScene({ W = w /", "\tlocal scene = NewScene({ W = w /")
+    text = replace(text, "spin = opts.spin }, parent, level)\nend", """spin = opts.spin }, parent, level)
+	if not scene and opts.playerModel then
+		scene = NewPlayerModel(parent, level)
+		scene:Hide()
+	end
+	return scene
+end""")
+    text = replace(text, "\tsc.loaded = false\n\tLoad(sc)\nend", """	sc.loaded = false
+	if sc.actor then
+		Load(sc)
+		return display and display > 0
+	end
+	sc.loaded = LoadPlayerModel(sc)
+	return sc.loaded
+end""")
+    text = replace(text, """		m = CreateFrame("PlayerModel", nil, art)
+		m:SetAllPoints()
+		m:SetFrameLevel(lvl + 5)""", "\t\tm = NewPlayerModel(art, lvl + 5)")
+    text = replace(text, "\t\t\tself.loaded = true\n\t\t\t-- a reveal", "\t\t\tself.loaded = true\n\t\t\tShowOpeningModel(c)\n\t\t\t-- a reveal")
+    text = replace(text, "\tself.portraitOn = por ~= nil", """	self.portraitOn = por ~= nil
+	self.openingModel = opts.opening3D and owned and not card.art and card.display and card.display > 0""")
+    text = replace(text, "CuratorOctoFull.SetShown(pt, not self.live3D)", "CuratorOctoFull.SetShown(pt, self.openingModel or not self.live3D)")
+    text = replace(text, "(not por or self.live3D) and card.display", "(not por or self.live3D or self.openingModel) and card.display")
+    text = replace(text, """	if m.actor then
+		Load(m)
+	elseif m.display and m.SetDisplayInfo then
+		m:ClearModel()
+		m:SetDisplayInfo(m.display)
+		ApplyModelLook(m)
+		if m.SetAnimation then m:SetAnimation(0) end
+		if not m.hasLoadScript then m.loaded = true end
+	else
+		m:ClearModel()
+	end
+end""", """	if self.openingModel and self.facing == "back" then
+		m:Hide()
+	elseif m.actor then
+		m:Show()
+		Load(m)
+	elseif m.display then
+		m:Show()
+		if LoadPlayerModel(m) then
+			if not m.hasLoadScript then m.loaded = true end
+		else
+			m:Hide()
+		end
+	else
+		m:ClearModel()
+		m:Hide()
+	end
+	ShowOpeningModel(self)
+end""")
+    text = replace(text, "\t\tself.model.pendingAnim = nil\n\tend", """		self.model.pendingAnim = nil
+		if self.openingModel then
+			self.model:Hide()
+		end
+	end""")
+    text = replace(text, "\tif m.SetRotation then\n\t\tCuratorOctoFull.SetRotation(m, ((Still()", "\tif m.SetRotation or m.SetFacing then\n\t\tCuratorOctoFull.SetRotation(m, ((Still()")
+    text = replace(text, "\telseif m.SetRotation then\n\t\tCuratorOctoFull.SetRotation(m, facing + yaw)",
+                   "\telseif m.SetRotation or m.SetFacing then\n\t\tCuratorOctoFull.SetRotation(m, facing + yaw)")
+    return replace(text, """	local mx, my, mk = Project(self, 0, (wy1 + wy2) / 2)
+	m:ClearAllPoints()
+	m:SetPoint("CENTER", self, "CENTER", mx, my)
+	CuratorOctoFull.SetSize(m, (wx2 - wx1) * mk, (wy2 - wy1) * mk)
+""", "")
+
+
+def opening_crate_card_models(text):
+    text = replace(text, "function M:Set(pick, ranks)", "function M:Set(pick, ranks, opening3D)\n\topening3D = opening3D or pick.opening3D")
+    text = replace(text, "spin = true }) or nil", "spin = true, playerModel = true }) or nil")
+    text = replace(text, """	pm:SetPoint("CENTER", m, "CENTER")
+	if m.mode == "model" and m.ready and m.visible then
+		CuratorOctoFull.SetSize(pm, math.max(1, m:GetWidth() or 1), math.max(1, m:GetHeight() or 1))
+	else
+		CuratorOctoFull.SetSize(pm, 1, 1)""", """	if m.mode == "model" and m.ready and m.visible then
+		pm:SetAllPoints(m)
+	else
+		pm:SetPoint("CENTER", m, "CENTER")
+		CuratorOctoFull.SetSize(pm, 1, 1)""")
+    text = replace(text, 'CuratorOctoFull.SetScript(pm, "OnModelLoaded", ModelLoaded)',
+                   'pm.hasLoadScript = CuratorOctoFull.SetScript(pm, "OnModelLoaded", ModelLoaded)')
+    text = replace(text, "\tpm:SetItem(m.weapon.id)", """	local ok, result = pcall(pm.SetItem, pm, m.weapon.id)
+	if not ok or result == false then
+		pm:Hide()
+		m.mode = "none"
+	elseif not pm.hasLoadScript then
+		ModelLoaded(pm)
+	end""")
+    text = replace(text, """	ArmUp(self, weapon, pic ~= nil)""", """	self.armArtFallback = opening3D and weapon and pic ~= nil
+	ArmUp(self, weapon, pic ~= nil and not self.armArtFallback)""")
+    text = replace(text, "local icon = on and CC.WeaponIcon(f.weapon) or nil",
+                   "local icon = on and not f.armArtFallback and CC.WeaponIcon(f.weapon) or nil")
+    text = replace(text, """		arm.onReady = function()
+			ArmIcon(f, false)
+		end""", """		arm.onReady = function()
+			ArmIcon(f, false)
+			if f.armArtFallback then
+				f:SetPic(nil)
+				f.ground:Show()
+				f.aura:Show()
+			end
+		end""")
+    text = replace(text, "if not (secret or weapon or pic) then",
+                   "if not (secret or weapon) and (not pic or opening3D) then")
+    text = replace(text, """	if sc then
+		ns.Creatures.Put(sc, display or 0)
+		CuratorOctoFull.SetShown(sc, display ~= nil)
+		self.pic:Hide()
+	else""", """	local modelShown = false
+	if sc then
+		if display then sc:Show() end
+		modelShown = ns.Creatures.Put(sc, display)
+		CuratorOctoFull.SetShown(sc, modelShown and true or false)
+	end
+	if modelShown and pic then
+		self:SetPic(nil)
+		self.ground:Show()
+		self.aura:Show()
+	end
+	if not modelShown and display and not pic then""")
+    text = replace(text, """		else
+			self.pic:Hide()
+		end
+	end
+	self.t, self.nextSheen""", """		else
+			local portrait = ns.Portraits and ns.Portraits[display]
+			if portrait then
+				self.pic:SetTexture(MEDIA .. "Portraits\\\\" .. display)
+				self.pic:SetTexCoord(unpack(portrait))
+				self.pic:Show()
+			else
+				self.pic:Hide()
+			end
+		end
+	else
+		self.pic:Hide()
+	end
+	self.t, self.nextSheen""")
+    text = replace(text, "\tlocal mx, my, mk = D.Project(self, (wx1 + wx2) / 2, (wy1 + wy2) / 2)\n", "")
+    text = replace(text, """			m:SetPoint("CENTER", self, "CENTER", mx, my)
+			CuratorOctoFull.SetSize(m, (wx2 - wx1) * mk, (wy2 - wy1) * mk)""", "\t\t\tm:SetAllPoints(win)")
+    return replace(text, "and sc.SetRotation and sc:IsShown()", "and (sc.SetRotation or sc.SetFacing) and sc:IsShown()")
+
+
+def opening_crate_models(text):
+    text = replace(text, "function CR:DressItem(it, pick)", """local function PreviewCreature(it)
+	local pick = it.pick
+	if not pick then return end
+	local entry = pick.entry
+	local display = entry and entry.kind == "npc" and entry.display or (pick.card and pick.card.display)
+	if display and display > 0 and not pick.secret then
+		if not it.creature then
+			local window = CreateFrame("Frame", nil, it)
+			window:SetPoint("TOPLEFT", it, "TOPLEFT", 4, -4)
+			window:SetPoint("BOTTOMRIGHT", it, "BOTTOMRIGHT", -4, 6)
+			it.creature = ns.Creatures.Stage(window, it:GetFrameLevel() + 1, { live = true, playerModel = true })
+		end
+		local scene = it.creature
+		if scene then
+			scene:Show()
+			if scene.display == display and scene.loaded or ns.Creatures.Put(scene, display) then
+				it.art:Hide()
+				it.pic:Hide()
+				it.icon:Hide()
+			else
+				scene:Hide()
+			end
+		end
+	elseif it.creature then
+		it.creature:Hide()
+		ns.Creatures.Put(it.creature, nil)
+	end
+end
+
+function CR:DressItem(it, pick)""")
+    text = replace(text, """	it:Show()
+end
+
+-- The places of what the case holds""", """	local visible = it:IsVisible()
+	it:Show()
+	if visible then PreviewCreature(it) end
+end
+
+-- The places of what the case holds""")
+    text = replace(text, "local function PreviewCreature(it)", "PreviewCreature = function(it)")
+    text = replace(text, "function CR:Item(i)", "local PreviewCreature\n\nfunction CR:Item(i)")
+    text = replace(text, """	f.items[i] = it
+	return it""", """	CuratorOctoFull.SetScript(it, "OnShow", function(tile)
+		PreviewCreature(tile)
+	end)
+	CuratorOctoFull.SetScript(it, "OnHide", function(tile)
+		if tile.creature then
+			tile.creature:Hide()
+			ns.Creatures.Put(tile.creature, nil)
+		end
+	end)
+	f.items[i] = it
+	return it""")
+    text = replace(text, "ins.card:Set({ tier = pick.tier,", "ins.card:Set({ opening3D = true, tier = pick.tier,")
+    text = replace(text, "rv.card:Set({ tier = win.tier,", "rv.card:Set({ opening3D = true, tier = win.tier,")
+    text = replace(text, "card:Set({ tier = tier, card = win.card,", "card:Set({ opening3D = true, tier = tier, card = win.card,")
+    text = replace(text, "\t-- (for real: what came, in the chat too)\n\tself:Told()", "\tcard:Hide()\n\tself:Told()")
+    text = replace(text, '\t\tcard:SetPoint("CENTER", rv, "CENTER", x / k, y / k)\n\t\tcard:SetAlpha(math.min(1, raw * 4))',
+                   '\t\tcard:SetPoint("CENTER", rv, "CENTER", x / k, y / k)\n\t\tcard:SetAlpha(math.min(1, raw * 4))\n\t\tcard:Show()')
+    text = replace(text, '\t\tcard:SetAlpha(raw)\n\t\trv.glow:SetAlpha',
+                   '\t\tcard:SetAlpha(raw)\n\t\tif raw > 0 then card:Show() end\n\t\trv.glow:SetAlpha')
+    text = cut(text, "\t-- (1.14.0) the weapon of a priceless card in its entrance", "\t-- a card inspected")
+    text = cut(text, "\t-- (the weapon of a priceless card that will come:", "\tself:MoveTo(self:Center(self.FROM))")
+    text = cut(text, "-- (1.14.0) The entrance of a weapon of legend", "-- (1.14.0, after the test of the Paladin collection by its author) The film of a card when it has one")
+    text = replace(text, """	local lead = 0
+	if win.weapon and self:Entrance(x0, y0, x1, y1) then
+		lead = self.ARM_OUT + self.ARM_HOLD + self.ARM_IN - 0.5
+	elseif film and self:Film(film, x1, y1, tier, top) then
+		-- (its words when its film is over: CR:Film)
+		return
+	else
+		if f.arm then
+			ns.CrateCard.Arm(f.arm, nil)
+		end
+		self:CardOut(x0, y0, x1, y1, tier, top)
+	end
+	self:Words(lead)""", """	if film and self:Film(film, x1, y1, tier, top) then
+		return
+	end
+	self:CardOut(x0, y0, x1, y1, tier, top)
+	self:Words(0)""")
+    text = text.replace("\tif f.arm then\n\t\tns.CrateCard.Arm(f.arm, nil)\n\tend\n", "")
+    return replace(text, "CR.ARM_OUT, CR.ARM_HOLD, CR.ARM_IN = 1.1, 1.0, 0.65\nCR.ARM_SIZE = 620\n", "")
+
+
+def opening_booster_models(text):
+    text = replace(text, 'c:SetCard(pick.card, { owned = true,', 'c:SetCard(pick.card, { owned = true, opening3D = true,')
+    text = replace(text, 'c:SetCard(np.card, { owned = true,', 'c:SetCard(np.card, { owned = true, opening3D = true,')
+    text = replace(text, "if self.autoAll and not one then", "if (self.autoAll or self.opts.test) and not one then")
+    return replace(text, "if r >= 5 then\n\t\t-- (1.13.0:", "if r >= 5 and not c.openingModel then\n\t\t-- (1.13.0:")
+
+
+def opening_case_contract_models(text):
+    text = replace(text, 'local function Dress(c, w, desc)', 'local function Dress(c, w, desc, opening3D)')
+    text = replace(text, 'c:Set(pick, CR.RANKS)', 'c:Set(pick, CR.RANKS, opening3D)')
+    return replace(text, '\tDress(c, res.rec)', '\tDress(c, res.rec, nil, true)')
+
+
 def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
-        "UI/Booster.lua": contract_booster_layout,
-        "UI/Contract.lua": contract_ceremony,
-        "UI/CaseContract.lua": case_contract_result,
+        "UI/Card.lua": opening_card_models,
+        "UI/Booster.lua": lambda text: opening_booster_models(contract_booster_layout(text)),
+        "UI/Contract.lua": lambda text: replace(replace(contract_ceremony(text),
+            'c:SetCard(ns.Cards[key], { owned = true,', 'c:SetCard(ns.Cards[key], { owned = true, opening3D = true,'),
+            'c:SetCard(pick.card, { owned = true,', 'c:SetCard(pick.card, { owned = true, opening3D = true,'),
+        "UI/CaseContract.lua": lambda text: opening_case_contract_models(case_contract_result(text)),
         "Inns.lua": inns_clock,
         "UI/Inns.lua": inns_panel,
         "UI/Tavern.lua": tavern_bet_modal,
         "UI/Gossip.lua": gossip_panel,
-        "UI/Crate.lua": crate_art_layers,
+        "UI/Crate.lua": lambda text: opening_crate_models(crate_art_layers(text)),
+        "UI/CrateCard.lua": opening_crate_card_models,
         "Cases.lua": case_capacity,
         "UI/CaseFilm.lua": case_film_speed,
         "UI/Rubies.lua": ruby_ledger,

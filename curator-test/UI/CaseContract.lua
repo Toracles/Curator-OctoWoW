@@ -165,7 +165,7 @@ local function Number(desc)
 end
 
 -- A card of a case of the desk dressed as a copy (w) or as its card (desc), set again only when it changes.
-local function Dress(c, w, desc)
+local function Dress(c, w, desc, opening3D)
 	local CD = ns.CaseDetail
 	local sig = w and (tostring(w.i) .. ":" .. tostring(w.f) .. ":" .. ns.Cases.WearKey(w)) or desc.key
 	if c.sig == sig then
@@ -179,7 +179,7 @@ local function Dress(c, w, desc)
 	else
 		pick = CD.PickOf(desc, nil)
 	end
-	c:Set(pick, CR.RANKS)
+	c:Set(pick, CR.RANKS, opening3D)
 	local back = BackOf(desc.case)
 	c:SetBack(back)
 	c:SetLive(false)
@@ -1714,7 +1714,7 @@ function B:CaseDress()
 	local c = self:CaseWonCard()
 	local res = self.result
 	c.sig = nil
-	Dress(c, res.rec)
+	Dress(c, res.rec, nil, true)
 	c:SetLive(false)
 	c.hot:SetAlpha(0)
 	c.lift, c.bob, c.free = 0, 0, false

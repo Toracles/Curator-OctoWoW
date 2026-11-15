@@ -363,6 +363,14 @@ end
 
 -- Every frame until the creature is measured (and the scenes read once): its box, then the camera.
 -- (Its look again once it is loaded: what a creature still loading is told may not stay.)
+local ApplyModelLook
+
+local function ShowOpeningModel(card)
+	if card.openingModel and card.portraitOn then
+		CuratorOctoFull.SetShown(card.art.portrait, not card.model.loaded)
+	end
+end
+
 local function Poll(sc, elapsed)
 	local actor = sc.actor
 	if sc.slow then
@@ -429,6 +437,7 @@ local function Poll(sc, elapsed)
 			return
 		end
 		sc.loaded = true
+		ShowOpeningModel(sc.owner)
 		Look(sc)
 		-- a reveal animation asked for while the creature was still loading
 		local go = sc.pendingAnim
@@ -510,7 +519,7 @@ local function NewScene(c, art, level)
 		sc:Hide()
 		return nil
 	end
-	sc:SetAllPoints()
+	sc:SetAllPoints(art)
 	sc:SetFrameLevel(level)
 	-- (the clicks and the mouse go through it, to the card)
 	sc:EnableMouse(false)
@@ -533,13 +542,40 @@ end
 -- A scene filling a frame of the size of the window of a card (nil: a client without model scenes). (1.14.0) opts.live:
 -- its creature not still (the cards of the cases, UI/CrateCard.lua); opts.spin: framed whatever its facing, for one that
 -- turns (scene:SetRotation(yaw)).
+local function NewPlayerModel(parent, level)
+	local model = CreateFrame("PlayerModel", nil, parent)
+	model:SetAllPoints(parent)
+	model:SetFrameLevel(level)
+	model:EnableMouse(false)
+	return model
+end
+
+local function LoadPlayerModel(model)
+	model:ClearModel()
+	if not (model.display and model.display > 0 and model.SetDisplayInfo) then
+		return false
+	end
+	local ok, result = pcall(model.SetDisplayInfo, model, model.display)
+	if not ok or result == false then
+		return false
+	end
+	ApplyModelLook(model)
+	if model.SetAnimation then model:SetAnimation(0) end
+	return true
+end
+
 function ns.Creatures.Stage(parent, level, opts)
 	local w, h = parent:GetWidth(), parent:GetHeight()
 	if not (w > 0 and h > 0) then
 		return nil
 	end
 	opts = opts or {}
-	return NewScene({ W = w / octoConstants.ART_W, H = h / octoConstants.ART_H, frozen = not opts.live, studio = true, spin = opts.spin }, parent, level)
+	local scene = NewScene({ W = w / octoConstants.ART_W, H = h / octoConstants.ART_H, frozen = not opts.live, studio = true, spin = opts.spin }, parent, level)
+	if not scene and opts.playerModel then
+		scene = NewPlayerModel(parent, level)
+		scene:Hide()
+	end
+	return scene
 end
 
 -- Its creature (0 or nil: none).
@@ -547,7 +583,12 @@ function ns.Creatures.Put(sc, display)
 	sc.display = display
 	sc.facing = nil
 	sc.loaded = false
-	Load(sc)
+	if sc.actor then
+		Load(sc)
+		return display and display > 0
+	end
+	sc.loaded = LoadPlayerModel(sc)
+	return sc.loaded
 end
 
 -- Framed for good: loaded, measured (or framed as a person, its box never given), the scenes of the
@@ -691,7 +732,6 @@ function Probe:Finish(f, has)
 end
 
 -- Every creature on the cards framed again (/curator zoom, /curator cam, /curator plain).
-local ApplyModelLook
 function ns.ReframeCards()
 	for c in pairs(ns.AllCards) do
 		local m = c.model
@@ -916,12 +956,11 @@ function ns.NewCard(parent, size)
 	-- the creature: in a scene of the game, or a model frame (a client without scenes)
 	local m = NewScene(c, art, lvl + 5)
 	if not m then
-		m = CreateFrame("PlayerModel", nil, art)
-		m:SetAllPoints()
-		m:SetFrameLevel(lvl + 5)
+		m = NewPlayerModel(art, lvl + 5)
 		m.hasLoadScript = CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)
 			ApplyModelLook(self)
 			self.loaded = true
+			ShowOpeningModel(c)
 			-- a reveal animation asked for while the creature was still loading
 			local go = self.pendingAnim
 			if go then
@@ -1530,6 +1569,7 @@ function Card:SetCard(card, opts)
 	local por = not card.art and ns.Portraits and card.display and ns.Portraits[card.display] or nil
 	local pt = art.portrait
 	self.portraitOn = por ~= nil
+	self.openingModel = opts.opening3D and owned and not card.art and card.display and card.display > 0
 	-- (its creature in 3D, asked for this card only: UI/Inspect.lua, I:Live3D)
 	if self.liveCard ~= card then
 		self.live3D, self.liveCard = nil, nil
@@ -1539,7 +1579,7 @@ function Card:SetCard(card, opts)
 		pt:SetTexCoord(por[1], por[2], por[3], por[4])
 		local v = owned and 1 or 0
 		pt:SetVertexColor(v, v, v)
-		CuratorOctoFull.SetShown(pt, not self.live3D)
+		CuratorOctoFull.SetShown(pt, self.openingModel or not self.live3D)
 	else
 		pt:Hide()
 	end
@@ -1548,7 +1588,7 @@ function Card:SetCard(card, opts)
 		self.see3D:SetText(L[self.live3D and "See the card" or "See in 3D"])
 	end
 	-- the creature
-	m.display = (not por or self.live3D) and card.display and card.display > 0 and card.display or nil
+	m.display = (not por or self.live3D or self.openingModel) and card.display and card.display > 0 and card.display or nil
 	m.silhouette = not owned
 	m.facing = opts.facing or 0.4
 	m.pendingAnim = nil
@@ -1615,17 +1655,23 @@ function Card:ReloadModel()
 	local m = self.model
 	self.needModel = false
 	m.loaded = false
-	if m.actor then
+	if self.openingModel and self.facing == "back" then
+		m:Hide()
+	elseif m.actor then
+		m:Show()
 		Load(m)
-	elseif m.display and m.SetDisplayInfo then
-		m:ClearModel()
-		m:SetDisplayInfo(m.display)
-		ApplyModelLook(m)
-		if m.SetAnimation then m:SetAnimation(0) end
-		if not m.hasLoadScript then m.loaded = true end
+	elseif m.display then
+		m:Show()
+		if LoadPlayerModel(m) then
+			if not m.hasLoadScript then m.loaded = true end
+		else
+			m:Hide()
+		end
 	else
 		m:ClearModel()
+		m:Hide()
 	end
+	ShowOpeningModel(self)
 end
 
 -- The option of the creatures as a still picture switched (UI/Options.lua): every card made, at once.
@@ -1655,6 +1701,9 @@ function Card:ApplySide(deferModel)
 	elseif not front and f:IsShown() then
 		f:Hide()
 		self.model.pendingAnim = nil
+		if self.openingModel then
+			self.model:Hide()
+		end
 	end
 	self:SetFinish()
 	if self.held then
@@ -2803,7 +2852,7 @@ function Card:SetTurn(yaw, pitch)
 		self:ReloadModel()
 	end
 	local m = self.model
-	if m.SetRotation then
+	if m.SetRotation or m.SetFacing then
 		CuratorOctoFull.SetRotation(m, ((Still() and m.facing) or self.turnFacing or 0.4) + yaw)
 	end
 	-- the light: brighter the more it leans, from the side the card turns away from
@@ -4607,7 +4656,7 @@ function Card:SetPose(yaw, pitch)
 		if m.yaw ~= facing then
 			CuratorOctoFull.SetRotation(m, facing)
 		end
-	elseif m.SetRotation then
+	elseif m.SetRotation or m.SetFacing then
 		CuratorOctoFull.SetRotation(m, facing + yaw)
 	end
 	local p = self.heldPose
@@ -4671,10 +4720,6 @@ function Card:SetPose(yaw, pitch)
 		art:SetPoint("CENTER", self, "CENTER", 0, 0)
 		CuratorOctoFull.SetSize(art, 0.01, 0.01)
 	end
-	local mx, my, mk = Project(self, 0, (wy1 + wy2) / 2)
-	m:ClearAllPoints()
-	m:SetPoint("CENTER", self, "CENTER", mx, my)
-	CuratorOctoFull.SetSize(m, (wx2 - wx1) * mk, (wy2 - wy1) * mk)
 	if m.actor then
 		ns.OrbitScene(m)
 	end

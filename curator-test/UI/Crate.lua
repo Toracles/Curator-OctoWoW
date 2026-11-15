@@ -173,8 +173,6 @@ CR.FALL, CR.BOUNCE, CR.VANISH, CR.MOTES, CR.GHOST, CR.PUFFS = 0.62, 0.26, 0.95, 
 -- the band, its stay in the middle, its way into its card (seconds); its size in the middle (points: its model drawn
 -- as long as the diagonal of its frame, its camera as far as on its card); its turn (radians a second at first, at
 -- the end; the seconds it takes to slow down)
-CR.ARM_OUT, CR.ARM_HOLD, CR.ARM_IN = 1.1, 1.0, 0.65
-CR.ARM_SIZE = 620
 CR.ARM_SPIN = { 18, 0.9, 0.45 }
 
 -- the gold of the light of the case, the words of the forged finishes, the dark of the band
@@ -1046,14 +1044,6 @@ function CR:Build()
 		CuratorOctoFull.SetRotation(rv.rays, rv.spin)
 		CR:FxTick(elapsed)
 	end)
-	-- (1.14.0) the weapon of a priceless card in its entrance (CR:Entrance): over the card, loaded while the band runs
-	f.arm = ns.CrateCard.NewArm(f, f:GetFrameLevel() + 90)
-	if f.arm then
-		CuratorOctoFull.SetScript(f.arm, "OnUpdate", function(m, elapsed)
-			ns.CrateCard.ArmTick(m, elapsed)
-		end)
-	end
-
 	-- a card inspected (of the case, or the one that came out): the dark, its light, the card held in the hand (dragged it
 	-- turns all the way round to its back, a click on it turns it over, the wheel brings it closer: UI/Inspect.lua), its
 	-- words; Back, and it goes
@@ -1275,6 +1265,8 @@ end
 -------------------------------------------------------------------------------
 -- The i-th card shown in the case (made the first time): its tile, its highlight, under it its name and its album; a
 -- click inspects it.
+local PreviewCreature
+
 function CR:Item(i)
 	local f = self.frame
 	local it = f.items[i]
@@ -1312,6 +1304,15 @@ function CR:Item(i)
 	end)
 	CuratorOctoFull.SetScript(it, "OnMouseUp", function(self)
 		CR:Inspect(self.pick)
+	end)
+	CuratorOctoFull.SetScript(it, "OnShow", function(tile)
+		PreviewCreature(tile)
+	end)
+	CuratorOctoFull.SetScript(it, "OnHide", function(tile)
+		if tile.creature then
+			tile.creature:Hide()
+			ns.Creatures.Put(tile.creature, nil)
+		end
 	end)
 	f.items[i] = it
 	return it
@@ -1367,6 +1368,35 @@ local function Fit2(fs, text, w)
 end
 
 -- A card shown in the case dressed as what it is: { tier, card } (the priceless one: its golden card).
+PreviewCreature = function(it)
+	local pick = it.pick
+	if not pick then return end
+	local entry = pick.entry
+	local display = entry and entry.kind == "npc" and entry.display or (pick.card and pick.card.display)
+	if display and display > 0 and not pick.secret then
+		if not it.creature then
+			local window = CreateFrame("Frame", nil, it)
+			window:SetPoint("TOPLEFT", it, "TOPLEFT", 4, -4)
+			window:SetPoint("BOTTOMRIGHT", it, "BOTTOMRIGHT", -4, 6)
+			it.creature = ns.Creatures.Stage(window, it:GetFrameLevel() + 1, { live = true, playerModel = true })
+		end
+		local scene = it.creature
+		if scene then
+			scene:Show()
+			if scene.display == display and scene.loaded or ns.Creatures.Put(scene, display) then
+				it.art:Hide()
+				it.pic:Hide()
+				it.icon:Hide()
+			else
+				scene:Hide()
+			end
+		end
+	elseif it.creature then
+		it.creature:Hide()
+		ns.Creatures.Put(it.creature, nil)
+	end
+end
+
 function CR:DressItem(it, pick)
 	it.pick = pick
 	local iw, ih = self.itemW, self.itemH
@@ -1409,7 +1439,9 @@ function CR:DressItem(it, pick)
 		local c = missing and 0.6 or 0.95
 		it.name:SetTextColor(c, c, c + 0.01)
 	end
+	local visible = it:IsVisible()
 	it:Show()
+	if visible then PreviewCreature(it) end
 end
 
 -- The places of what the case holds: from the left, in its order, so many in a row, one after another (the ranks
@@ -1560,7 +1592,7 @@ function CR:Inspect(pick)
 	ins.pick, ins.won = pick, won
 	local col, ink = Colour(pick.tier), Ink(pick.tier)
 	local weapon = won and pick.weapon or nil
-	ins.card:Set({ tier = pick.tier, card = pick.card, entry = pick.entry, weapon = weapon, secret = pick.secret and not weapon,
+	ins.card:Set({ opening3D = true, tier = pick.tier, card = pick.card, entry = pick.entry, weapon = weapon, secret = pick.secret and not weapon,
 		wear = won and pick.wear or nil, finish = won and pick.finish or nil, pt = won and pick.pt or nil, def = pick.def or (self.own and self.own.def) }, self.RANKS)
 	ins.card:SetLive(true)
 	ins.card:SetBack(self.own and self.own.def.art and self.own.def.art.back or nil)
@@ -1629,7 +1661,7 @@ function CR:CloseInspect(now)
 		local rv, win = f.reveal, self.win
 		rv.card:Show()
 		if win and not now then
-			rv.card:Set({ tier = win.tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
+			rv.card:Set({ opening3D = true, tier = win.tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
 			rv.card:SetLive(true)
 		end
 	end
@@ -2002,17 +2034,6 @@ function CR:Fill(tier, finish)
 	local film = self:FilmOf(win)
 	if film and ns.CaseFilm then
 		ns.CaseFilm:Preload(film, f)
-	end
-	-- (the weapon of a priceless card that will come: its model loaded for its entrance while the band runs, out of
-	-- sight)
-	if f.arm then
-		f.arm:ClearAllPoints()
-		f.arm:SetPoint("CENTER", f, "CENTER", self.cardX or 0, self.cardY or 0)
-		CuratorOctoFull.SetSize(f.arm, self.ARM_SIZE, self.ARM_SIZE)
-		-- (1.14.0, the Paladin collection redone: a weapon of a case of its own is drawn in its card, no model comes)
-		local flat = win.weapon and ns.CrateCard.StyleOf(win) ~= nil
-		ns.CrateCard.Arm(f.arm, (not flat) and win.weapon or nil)
-		ns.CrateCard.ArmShow(f.arm, false)
 	end
 	self:MoveTo(self:Center(self.FROM))
 	self.under = nil
@@ -2601,9 +2622,9 @@ function CR:Reveal()
 	local top = tier == self.TOP
 	local col, ink = Colour(tier), Ink(tier)
 	local card = rv.card
-	-- (for real: what came, in the chat too)
+	card:Hide()
 	self:Told()
-	card:Set({ tier = tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
+	card:Set({ opening3D = true, tier = tier, card = win.card, entry = win.entry, weapon = win.weapon, wear = win.wear, finish = win.finish, pt = win.pt }, self.RANKS)
 	card:SetLive(true)
 	rv.glow:SetVertexColor(col[1], col[2], col[3])
 	rv.rays:SetVertexColor(col[1], col[2], col[3])
@@ -2667,19 +2688,11 @@ function CR:Reveal()
 			tile.face:SetAlpha(1 - e)
 		end
 	end, nil, Ease.outQuad, self)
-	local lead = 0
-	if win.weapon and self:Entrance(x0, y0, x1, y1) then
-		lead = self.ARM_OUT + self.ARM_HOLD + self.ARM_IN - 0.5
-	elseif film and self:Film(film, x1, y1, tier, top) then
-		-- (its words when its film is over: CR:Film)
+	if film and self:Film(film, x1, y1, tier, top) then
 		return
-	else
-		if f.arm then
-			ns.CrateCard.Arm(f.arm, nil)
-		end
-		self:CardOut(x0, y0, x1, y1, tier, top)
 	end
-	self:Words(lead)
+	self:CardOut(x0, y0, x1, y1, tier, top)
+	self:Words(0)
 end
 
 -- The card out of the band, from the card it stopped on (as large as it) to the middle, large, in its light; the flash
@@ -2697,6 +2710,7 @@ function CR:CardOut(x0, y0, x1, y1, tier, top)
 		card:ClearAllPoints()
 		card:SetPoint("CENTER", rv, "CENTER", x / k, y / k)
 		card:SetAlpha(math.min(1, raw * 4))
+		card:Show()
 		rv.glow:SetAlpha(0.5 * raw)
 		rv.rays:SetAlpha(((tier >= 3) and 0.6 or 0.32) * raw)
 	end, nil, Ease.outBack, self)
@@ -2708,105 +2722,6 @@ function CR:CardOut(x0, y0, x1, y1, tier, top)
 			rv.ring:SetAlpha(0.8 * (1 - raw))
 		end, nil, Ease.linear, self, 0.2)
 	end
-end
-
--- (1.14.0) The entrance of a weapon of legend, as CS2 shows the gold of its cases: the golden card bursts in the band,
--- in a flash and a ring of gold; the weapon comes out of it turning fast, flies to the middle growing, turns there
--- slower and slower in its light; then it goes into the window of its card, which comes around it, and becomes the
--- weapon of the card (as large, turned the same way: one takes the place of the other). False: its model is not
--- standing (loaded while the band ran, out of sight: CR:Fill), the card comes out as the others. (Its model shown or
--- hidden, never faded: the client draws a model whatever its alpha.)
-function CR:Entrance(x0, y0, x1, y1)
-	local f = self.frame
-	local rv, arm = f.reveal, f.arm
-	local CC = ns.CrateCard
-	if not (arm and arm.weapon and arm.weapon == self.win.weapon and CC.ArmTick(arm, 0)) then
-		return false
-	end
-	local card = rv.card
-	local OUT, HOLD, IN = self.ARM_OUT, self.ARM_HOLD, self.ARM_IN
-	local total = OUT + HOLD + IN
-	local S0, S1 = self.H * 1.2, self.ARM_SIZE
-	-- (where it goes: the window of its card, a frame as tall as the window: its weapon as long as the one of the card)
-	local k = self.CARD_W / 512
-	local wx, wy = x1, y1 + (717 / 2 - (24 + 552) / 2) * k
-	local S2 = (552 - 24) * k
-	self.entering = true
-	card:SetScale(1)
-	card:ClearAllPoints()
-	card:SetPoint("CENTER", rv, "CENTER", x1, y1)
-	card:SetAlpha(0)
-	if card.arm then
-		CC.ArmShow(card.arm, false)
-	end
-	local function place(x, y, size)
-		arm:ClearAllPoints()
-		arm:SetPoint("CENTER", f, "CENTER", x, y)
-		CuratorOctoFull.SetSize(arm, size, size)
-		CC.ArmFit(arm)
-	end
-	place(x0, y0, S0)
-	CC.ArmShow(arm, true)
-	-- the golden card bursts: its flash, its ring of gold, where it was
-	ns.Play(ns.SND.burst[5])
-	ns.Play(ns.SND.whoosh)
-	for _, t in ipairs({ rv.flash, rv.ring }) do
-		t:ClearAllPoints()
-		t:SetPoint("CENTER", rv, "CENTER", x0, y0)
-	end
-	ns.Tween(0.7, function(_, raw)
-		rv.flash:SetAlpha(0.95 * (1 - raw))
-		local s = 160 + 820 * raw
-		CuratorOctoFull.SetSize(rv.ring, s, s)
-		rv.ring:SetAlpha(0.9 * (1 - raw))
-	end, function()
-		for _, t in ipairs({ rv.flash, rv.ring }) do
-			t:ClearAllPoints()
-			t:SetPoint("CENTER", rv, "CENTER", x1, y1)
-		end
-	end, Ease.linear, self)
-	-- the weapon out of it, to the middle, growing; its light behind it there
-	ns.Tween(OUT, function(e)
-		place(x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, S0 + (S1 - S0) * e)
-	end, nil, Ease.outCubic, self)
-	ns.Tween(HOLD, function(_, raw)
-		rv.glow:SetAlpha(0.55 * raw)
-		rv.rays:SetAlpha(0.6 * raw)
-	end, nil, Ease.outQuad, self, OUT * 0.6)
-	-- its turn all along: fast, then slower and slower, ending turned as the weapon of its card will be then
-	local pose = arm.pose
-	local v0, v1, tau = self.ARM_SPIN[1], self.ARM_SPIN[2], self.ARM_SPIN[3]
-	local function turned(t)
-		return v1 * t + (v0 - v1) * tau * (1 - math.exp(-t / tau))
-	end
-	local cardEnd = CC.ARM_FACE + math.sin(total * CC.ARM_SPEED) * CC.ARM_SWING
-	local phase = CuratorOctoFull.Mod((cardEnd - turned(total)) , (2 * math.pi))
-	ns.Tween(total, function(_, raw)
-		CC.ArmFace(arm, pose[3] + phase + turned(raw * total))
-	end, nil, Ease.linear, self)
-	-- into its card: the card comes around it, the weapon goes into its window and becomes the weapon of the card; a
-	-- pulse of gold as it goes in
-	ns.Tween(IN, function(e, raw)
-		place(x1 + (wx - x1) * e, y1 + (wy - y1) * e, S1 + (S2 - S1) * e)
-		card:SetAlpha(math.min(1, raw * 1.6))
-		local ks = 0.9 + 0.1 * e
-		card:SetScale(ks)
-		card:ClearAllPoints()
-		card:SetPoint("CENTER", rv, "CENTER", x1 / ks, y1 / ks)
-	end, function()
-		CC.Arm(arm, nil)
-		if card.arm then
-			CC.ArmShow(card.arm, true)
-		end
-		self.entering = nil
-	end, Ease.outCubic, self, OUT + HOLD)
-	ns.Delay(OUT + HOLD + IN * 0.4, function()
-		ns.Play(ns.SND.impact[5])
-		ns.Tween(0.5, function(_, raw)
-			rv.flash:SetAlpha(0.6 * (1 - raw))
-		end, nil, Ease.linear, self)
-	end, self)
-	return true
 end
 
 -- (1.14.0, after the test of the Paladin collection by its author) The film of a card when it has one: the one of its
@@ -2840,9 +2755,6 @@ function CR:Film(film, x1, y1, tier, top)
 		return false
 	end
 	self.entering = true
-	if f.arm then
-		ns.CrateCard.Arm(f.arm, nil)
-	end
 	return true
 end
 
@@ -2856,6 +2768,7 @@ function CR:FilmOut(x1, y1, tier, top)
 	card:SetPoint("CENTER", rv, "CENTER", x1, y1)
 	ns.Tween(0.5, function(_, raw)
 		card:SetAlpha(raw)
+		if raw > 0 then card:Show() end
 		rv.glow:SetAlpha(0.5 * raw)
 		rv.rays:SetAlpha(((tier >= 3) and 0.6 or 0.32) * raw)
 	end, nil, Ease.outQuad, self)
@@ -3295,9 +3208,6 @@ function CR:Stop()
 	self.entering = nil
 	if ns.CaseFilm then
 		ns.CaseFilm:Stop()
-	end
-	if f.arm then
-		ns.CrateCard.Arm(f.arm, nil)
 	end
 	local rv = f.reveal
 	for _, t in ipairs({ rv.flash, rv.ring }) do
