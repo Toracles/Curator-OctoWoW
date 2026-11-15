@@ -157,6 +157,10 @@ function convert(source, file) {
             (_, pattern) => 'string.gsub(fmt, "(' + pattern + ')", "%%%1")');
     }
     if (file === "Beta.lua") result = result.replace("return not self:ForeverClient()", "return not CuratorOctoFull.IsOctoClient() and not self:ForeverClient()");
+    if (file === "UI\\Card.lua" || file === "UI/Card.lua")
+        result = result.replace("elseif m.display then\n\t\tm:ClearModel()", "elseif m.display and m.SetDisplayInfo then\n\t\tm:ClearModel()");
+    if (file === "UI\\Cinematic.lua" || file === "UI/Cinematic.lua")
+        result = result.replace("local f = self.frame\n\tns.CancelOwner(self)\n\tself:HideCards()", "local f = self.frame\n\tif not (f.scene or f.model.SetDisplayInfo) then return false end\n\tns.CancelOwner(self)\n\tself:HideCards()");
     if (constants.size) result = "local octoConstants = {}\n" + result;
     try { parser.parse(result, {luaVersion:"5.1"}); } catch (error) {
         throw new Error(file + ": " + error.message + "\n" + result.split("\n")[error.line-1]);

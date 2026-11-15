@@ -1617,7 +1617,7 @@ function Card:ReloadModel()
 	m.loaded = false
 	if m.actor then
 		Load(m)
-	elseif m.display then
+	elseif m.display and m.SetDisplayInfo then
 		m:ClearModel()
 		m:SetDisplayInfo(m.display)
 		ApplyModelLook(m)

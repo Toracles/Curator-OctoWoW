@@ -14,7 +14,10 @@ local scripts = {}
 local registrations = {}
 local methods = {
  RegisterEvent = function(self, event) registrations[self][event] = true end,
- SetScript = function(self, event, callback) scripts[self][event] = callback end,
+ SetScript = function(self, event, callback)
+  assert(event ~= "OnModelLoaded", "Unsupported model script")
+  scripts[self][event] = callback
+ end,
  GetScript = function(self, event) return scripts[self][event] end,
  GetStatusBarTexture = function() return widget() end,
  GetFontString = function() return widget() end,
@@ -93,7 +96,8 @@ IsInGuild = function() return false end
 geterrorhandler = function() return function(err) table.insert(reportedErrors,err) end end
 reportedErrors = {}
 GetLocale = function() return "enUS" end
-GetBuildInfo = function() return "1.12.1","5875","",11200 end
+local clientVersion = "1.18.1"
+GetBuildInfo = function() return clientVersion end
 GetAddOnMetadata = function(_, field) if field == "Version" then return "1.14.3" end end
 SlashCmdList, UISpecialFrames, StaticPopupDialogs = {},{},{}
 function traceEvent(name,value)
@@ -208,6 +212,13 @@ print("Legacy quest and discovery messages credited once")
 
 lua.execute(r"""
 local ns = CuratorOctoFull
+assert(not ns.Beta:Elsewhere())
+local build = GetBuildInfo
+GetBuildInfo = function() return "1.12.1", "5875" end
+assert(not ns.Beta:Elsewhere())
+GetBuildInfo = function() return "1.15.0", "70000", "", 11500 end
+assert(ns.Beta:Elsewhere())
+GetBuildInfo = build
 local place
 local bound = ns.Tavern.Bound
 ns.Tavern.Bound = function(_, value) place = value end

@@ -36,6 +36,13 @@ local callbackArguments = {
 }
 
 function ns.SetScript(frame, handler, callback)
+    if handler == "OnModelLoaded" then
+        -- Older PlayerModel frames reject this script at registration time.
+        if callback then
+            return pcall(frame.SetScript, frame, handler, function() return callback(this or frame) end)
+        end
+        return pcall(frame.SetScript, frame, handler, nil)
+    end
     if not callback then return frame:SetScript(handler, nil) end
     local call = callbackArguments[handler]
     if call then
@@ -229,6 +236,7 @@ end
 
 function ns.IsOctoClient()
     if not GetBuildInfo then return false end
-    local version, _, _, interface = GetBuildInfo()
-    return tonumber(interface) == 11200 or version == "1.12.1"
+    local version, build, _, interface = GetBuildInfo()
+    return tonumber(interface) == 11200 or tonumber(build) == 5875
+        or version == "1.12.1" or version == "1.18.1"
 end

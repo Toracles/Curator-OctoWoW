@@ -982,6 +982,7 @@ function Cin:Play(card, opts, onReveal, onDone)
 	end
 	self:Build()
 	local f = self.frame
+	if not (f.scene or f.model.SetDisplayInfo) then return false end
 	ns.CancelOwner(self)
 	self:HideCards()
 	self.card, self.opts, self.onReveal, self.onDone = card, opts or {}, onReveal, onDone
