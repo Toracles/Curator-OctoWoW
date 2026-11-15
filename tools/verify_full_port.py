@@ -809,3 +809,35 @@ assertOpaqueBackground(ns.CopiesUI.picker.textures[1])
 ns.CopiesUI:ClosePicker()
 """)
 print("Booster, achievement and guild alerts plus related legacy panels use opaque client textures")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local album = ns.Album
+local f, u = album.frame, album.U
+assert(f.CloseButton.anchor[5] == u.HEADER_Y and f.TitleText.anchor[5] == u.HEADER_Y)
+assert(f.wallet.anchor[2] == f.CloseButton and f.gear.anchor[2] == f.wallet and f.save.anchor[2] == f.gear)
+assert(f.tourButton.anchor[5] == u.HEADER_Y and f.tourButton.caption:GetText() == "Guide")
+assert(f.tourButton.i.textureFile == "Interface\\Icons\\INV_Misc_Book_09")
+assert(f.bar.anchor[5] == u.PROGRESS_Y and f.goldBar.anchor[5] == u.PROGRESS_Y)
+assert(u.HEADER_Y - 12 > u.PROGRESS_Y + 9 and -u.HEAD < u.SUB_Y - 12)
+
+SlashCmdList.CURATOR("achievements")
+assert(f.aBar:IsShown() and not f.qXP:IsShown())
+assert(f.aBar.anchor[5] == u.PROGRESS_Y and f.aNote.anchor[5] == u.SUB_Y)
+SlashCmdList.CURATOR("quests")
+assert(f.qXP:IsShown() and not f.aBar:IsShown())
+assert(f.qXP.anchor[5] == u.PROGRESS_Y and f.qNote.anchor[5] == u.SUB_Y)
+album:ShowSeries(ns.SeriesByKey("balor"))
+assert(not f.aBar:IsShown() and not f.qXP:IsShown() and f.bar:IsShown())
+assert(f.sub.anchor[3] == u.SUB_Y)
+
+local tour = ns.Tour
+if tour.active then tour:Stop() end
+this, arg1 = f.tourButton, "LeftButton"
+f.tourButton:GetScript("OnClick")()
+assert(tour.active)
+this, arg1 = f.tourButton, "LeftButton"
+f.tourButton:GetScript("OnClick")()
+assert(not tour.active)
+""")
+print("Album header: toolbar, progress rows, album navigation and Guide button verified")

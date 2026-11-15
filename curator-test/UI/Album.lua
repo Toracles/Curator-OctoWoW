@@ -18,7 +18,7 @@ local COLS, ROWS = 6, 3
 local PER_PAGE = COLS * ROWS
 local CW, CH = unpack(ns.CARD_SIZES.small)
 local GAP_X, GAP_Y = 12, 14
-local HEAD = 72      -- the title bar, then the album (name, levels) and its progress
+local HEAD = 86      -- the title bar, then the album (name, levels) and its progress
 local FOOT = 28      -- the bar of buttons under the page
 local PAD = 18       -- inside the page, left and right of the cards
 local GRID_TOP = 14
@@ -28,6 +28,7 @@ local PAGE_H = GRID_TOP + ROWS * CH + (ROWS - 1) * GAP_Y + PAGER
 local WIDTH = PAGE_W + 10
 local HEIGHT = HEAD + PAGE_H + FOOT
 local BAR_W = 230
+local HEADER_Y, PROGRESS_Y, SUB_Y = -19, -50, -68
 -- guild page: one row per member
 local ROW_H, ROWS_PER_PAGE = 66, 7
 -- (the contents page, a tab for each kind of album: see below)
@@ -118,6 +119,7 @@ A.U = {
 	Text = Text, GOLD = GOLD, DIM = DIM, Hex = Hex, MapName = MapName,
 	PAGE_W = PAGE_W, PAGE_H = PAGE_H, PAGER = PAGER, WIDTH = WIDTH, HEIGHT = HEIGHT, HEAD = HEAD, FOOT = FOOT,
 	BAR_W = BAR_W, CW = CW, CH = CH,
+	HEADER_Y = HEADER_Y, PROGRESS_Y = PROGRESS_Y, SUB_Y = SUB_Y,
 }
 
 function A:Build()
@@ -139,7 +141,16 @@ function A:Build()
 		A:Hide()
 	end)
 	-- the title bar moves the window
-	f.drag = S.DragBar(f, 22)
+	f.drag = S.DragBar(f, 34)
+	f.CloseButton:ClearAllPoints()
+	CuratorOctoFull.SetSize(f.CloseButton, 24, 24)
+	f.CloseButton:SetPoint("RIGHT", f, "TOPRIGHT", -14, HEADER_Y)
+	f.TitleText:ClearAllPoints()
+	f.TitleText:SetPoint("CENTER", f, "TOP", 0, HEADER_Y)
+	CuratorOctoFull.SetSize(f.TitleText, WIDTH - 400, 18)
+	CuratorOctoFull.SetWordWrap(f.TitleText, false)
+	local divider = S.Divider(f, WIDTH - 30, 0.38)
+	divider:SetPoint("TOP", f, "TOP", 0, -34)
 
 	-- the tabs, on the right edge
 	f.tabs = {}
@@ -159,7 +170,7 @@ function A:Build()
 	-- the album: its name between the arrows that turn to the previous and next album, its levels
 	-- under it
 	f.sPrev = S.Arrow(f, -1, 26)
-	f.sPrev:SetPoint("TOPLEFT", 60, -25)
+	f.sPrev:SetPoint("LEFT", f, "TOPLEFT", 60, PROGRESS_Y)
 	CuratorOctoFull.SetScript(f.sPrev, "OnClick", function()
 		A:StepSeries(-1)
 	end)
@@ -171,13 +182,13 @@ function A:Build()
 		A:StepSeries(1)
 	end)
 	f.sub = S.Text(f, "GameFontHighlightSmall", "LEFT")
-	f.sub:SetPoint("TOPLEFT", 64, -55)
+	f.sub:SetPoint("TOPLEFT", 64, SUB_Y)
 	f.sub:SetTextColor(0.8, 0.8, 0.8)
 
 	-- its progress, in a bar of the game; a click on it shows only the cards found (a second
 	-- click, all of them)
 	local bar = S.Bar(f, BAR_W, "green")
-	bar:SetPoint("RIGHT", f, "TOPRIGHT", -16, -37)
+	bar:SetPoint("RIGHT", f, "TOPRIGHT", -16, PROGRESS_Y)
 	bar.hit = CreateFrame("Button", nil, bar)
 	bar.hit:SetAllPoints()
 	CuratorOctoFull.SetScript(bar.hit, "OnClick", function()
@@ -219,7 +230,7 @@ function A:Build()
 		CuratorOctoFull.ColorTexture(b.line, c[1], c[2], c[3], 0.9)
 		b.line:Hide()
 		if r == CuratorOctoFull.Length(ns.RARITY) then
-			b:SetPoint("RIGHT", f, "TOPRIGHT", -16, -61)
+			b:SetPoint("RIGHT", f, "TOPRIGHT", -16, SUB_Y - 2)
 		else
 			b:SetPoint("RIGHT", f.counts[r + 1], "LEFT", -8, 0)
 		end
@@ -390,7 +401,7 @@ function A:Build()
 	end
 	f.gold:Hide()
 	f.goldBar = ns.Hud.XPBar(f, BAR_W - 30, 16, { 1, 0.74, 0.22 })
-	f.goldBar:SetPoint("RIGHT", f, "TOPRIGHT", -16, -37)
+	f.goldBar:SetPoint("RIGHT", f, "TOPRIGHT", -16, PROGRESS_Y)
 	f.goldBar:Hide()
 	f.goldSeal = f:CreateTexture(nil, "OVERLAY", nil, 2)
 	f.goldSeal:SetTexture(MEDIA .. "AlbumSeal")
@@ -921,6 +932,7 @@ function A:PaintTabs()
 		title = L[(i and TABS[i].label) or PAGE_LABEL[self.mode] or TABS[TAB_OF.contents].label]
 	end
 	f:SetTitle(title)
+	S.Fit(f.TitleText, title, WIDTH - 400, 13, 9)
 	-- the arrows turn the albums, on every page but the contents, the boosters, the achievements, the
 	-- profile, the quests and the social page
 	local album = self.mode ~= "contents" and self.mode ~= "ach" and self.mode ~= "profile" and self.mode ~= "quests" and self.mode ~= "boosters"
@@ -1220,7 +1232,7 @@ function A:SetFinishCounts(s)
 	if left then
 		f.finRule:SetPoint("RIGHT", left, "LEFT", -9, 0)
 	else
-		f.finRule:SetPoint("RIGHT", f, "TOPRIGHT", -16, -61)
+		f.finRule:SetPoint("RIGHT", f, "TOPRIGHT", -16, SUB_Y - 2)
 	end
 	local nxt = f.finRule
 	for i = CuratorOctoFull.Length(f.fins), 1, -1 do

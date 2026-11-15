@@ -25,7 +25,7 @@ local LV_H = 132
 local WALL_COLS, WALL_W, WALL_H = 8, 66, 46
 local MEDAL, MEDAL_GAP = 28, 8
 -- the title of the window, to the right of the medal
-local TITLE_X, TITLE_ROOM = 130, 388
+local TITLE_X, TITLE_ROOM = 98, 388
 local GOLDEN = { 1, 0.8, 0.32 }
 local DIM = { 0.62, 0.62, 0.68 }
 -- the metals of the tiers, from the first to the last
@@ -162,7 +162,7 @@ local function Reward(r)
 	r.claimed:SetTextColor(0.55, 0.95, 0.45)
 	-- the day it was earned, under it
 	r.when = S.Text(r, "GameFontDisableSmall", "RIGHT")
-	r.when:SetPoint("TOPRIGHT", r.claimed, "BOTTOMRIGHT", 0, -3)
+	r.when:SetPoint("BOTTOMRIGHT", r, "BOTTOMRIGHT", -16, 8)
 end
 
 -- A card of an achievement (or of the tiers of a series): its icon in a ring of gold, its name, what it
@@ -337,11 +337,11 @@ function A:BuildAch()
 	local U = self.U
 	-- in the head of the window: the medal of the title, the bar toward the next title
 	f.aMedal = CreateFrame("Frame", nil, f)
-	CuratorOctoFull.SetSize(f.aMedal, 60, 60)
-	f.aMedal:SetPoint("CENTER", f, "TOPLEFT", 94, -44)
+	CuratorOctoFull.SetSize(f.aMedal, 46, 46)
+	f.aMedal:SetPoint("CENTER", f, "TOPLEFT", 65, U.PROGRESS_Y - 8)
 	f.aMedal:SetFrameLevel(f:GetFrameLevel() + 12)
 	f.aMedal.gem = f.aMedal:CreateTexture(nil, "ARTWORK")
-	CuratorOctoFull.SetSize(f.aMedal.gem, 30, 30)
+	CuratorOctoFull.SetSize(f.aMedal.gem, 23, 23)
 	f.aMedal.gem:SetPoint("CENTER", 0, -1)
 	f.aMedal.tex = f.aMedal:CreateTexture(nil, "OVERLAY")
 	f.aMedal.tex:SetTexture(MEDIA .. "AchMedal")
@@ -354,7 +354,7 @@ function A:BuildAch()
 		GameTooltip:Hide()
 	end)
 	f.aBar = Hud.XPBar(f, U.BAR_W, 18, { 1, 0.74, 0.22 })
-	f.aBar:SetPoint("RIGHT", f, "TOPRIGHT", -16, -36)
+	f.aBar:SetPoint("RIGHT", f, "TOPRIGHT", -20, U.PROGRESS_Y)
 	f.aBar:EnableMouse(true)
 	CuratorOctoFull.SetScript(f.aBar, "OnEnter", function(self)
 		A:TitleTooltip(self)
@@ -363,7 +363,7 @@ function A:BuildAch()
 		GameTooltip:Hide()
 	end)
 	f.aNote = S.Text(f, "GameFontHighlightSmall", "RIGHT")
-	f.aNote:SetPoint("TOPRIGHT", f.aBar, "BOTTOMRIGHT", 0, -7)
+	f.aNote:SetPoint("TOPRIGHT", f, "TOPRIGHT", -20, U.SUB_Y)
 	f.aNote:SetTextColor(DIM[1], DIM[2], DIM[3])
 	f.aMedal:Hide()
 	f.aBar:Hide()
@@ -634,20 +634,14 @@ function A:PaintAchHead(points, count, female, total)
 		title, rank, nextPts, nextTitle = AC:MyTitle()
 	end
 	local col = AC:RankColour(rank)
-	local sub = "|cff" .. Hex(col) .. title .. "|r   ·   "
-	if nextPts then
-		sub = sub .. string.format(L["Next title: %s at %d points"], nextTitle, nextPts)
-	else
-		sub = sub .. L["The highest title"]
-	end
-	self:SetTitle(string.format(L["%d points"], points), sub)
+	self:SetTitle(string.format(L["%d points"], points), "|cff" .. Hex(col) .. title .. "|r")
 	f.title:ClearAllPoints()
-	f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, -38)
+	f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, self.U.PROGRESS_Y)
 	if ns.TextWidth(f.title) > TITLE_ROOM then
 		S.Fit(f.title, f.title:GetText(), TITLE_ROOM, 19, 12)
 	end
 	f.sub:ClearAllPoints()
-	f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, -55)
+	f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, self.U.SUB_Y)
 	f.subMoved = true
 	f.aMedal.gem:SetTexture(AC:RankGem(rank))
 	-- the bar from the points of this title to those of the next one

@@ -278,6 +278,92 @@ def live_alerts(text):
     return opaque_dialog(text, '\tb.text = b:CreateFontString(nil, "OVERLAY")', "b", 3)
 
 
+def album_header(text):
+    for old, new in (
+        ("local HEAD = 72", "local HEAD = 86"),
+        ("local BAR_W = 230", "local BAR_W = 230\nlocal HEADER_Y, PROGRESS_Y, SUB_Y = -19, -50, -68"),
+        ("\tBAR_W = BAR_W, CW = CW, CH = CH,", "\tBAR_W = BAR_W, CW = CW, CH = CH,\n"
+         "\tHEADER_Y = HEADER_Y, PROGRESS_Y = PROGRESS_Y, SUB_Y = SUB_Y,"),
+        ('\tf.drag = S.DragBar(f, 22)', '''\tf.drag = S.DragBar(f, 34)
+	f.CloseButton:ClearAllPoints()
+	CuratorOctoFull.SetSize(f.CloseButton, 24, 24)
+	f.CloseButton:SetPoint("RIGHT", f, "TOPRIGHT", -14, HEADER_Y)
+	f.TitleText:ClearAllPoints()
+	f.TitleText:SetPoint("CENTER", f, "TOP", 0, HEADER_Y)
+	CuratorOctoFull.SetSize(f.TitleText, WIDTH - 400, 18)
+	CuratorOctoFull.SetWordWrap(f.TitleText, false)
+	local divider = S.Divider(f, WIDTH - 30, 0.38)
+	divider:SetPoint("TOP", f, "TOP", 0, -34)'''),
+        ('f.sPrev:SetPoint("TOPLEFT", 60, -25)', 'f.sPrev:SetPoint("LEFT", f, "TOPLEFT", 60, PROGRESS_Y)'),
+        ('f.sub:SetPoint("TOPLEFT", 64, -55)', 'f.sub:SetPoint("TOPLEFT", 64, SUB_Y)'),
+        ('bar:SetPoint("RIGHT", f, "TOPRIGHT", -16, -37)', 'bar:SetPoint("RIGHT", f, "TOPRIGHT", -16, PROGRESS_Y)'),
+        ('f.goldBar:SetPoint("RIGHT", f, "TOPRIGHT", -16, -37)',
+         'f.goldBar:SetPoint("RIGHT", f, "TOPRIGHT", -16, PROGRESS_Y)'),
+        ('b:SetPoint("RIGHT", f, "TOPRIGHT", -16, -61)', 'b:SetPoint("RIGHT", f, "TOPRIGHT", -16, SUB_Y - 2)'),
+        ('f.finRule:SetPoint("RIGHT", f, "TOPRIGHT", -16, -61)',
+         'f.finRule:SetPoint("RIGHT", f, "TOPRIGHT", -16, SUB_Y - 2)'),
+        ('\tf:SetTitle(title)', '\tf:SetTitle(title)\n\tS.Fit(f.TitleText, title, WIDTH - 400, 13, 9)'),
+    ):
+        text = replace(text, old, new)
+    return text
+
+
+def progress_header(text, emblem, bar, note):
+    for old, new in (
+        ("local TITLE_X, TITLE_ROOM = 130, 388", "local TITLE_X, TITLE_ROOM = 98, 388"),
+        (f'{emblem}:SetPoint("CENTER", f, "TOPLEFT", 94, -44)',
+         f'{emblem}:SetPoint("CENTER", f, "TOPLEFT", 65, U.PROGRESS_Y - 8)'),
+        (f'{bar}:SetPoint("RIGHT", f, "TOPRIGHT", -16, -36)',
+         f'{bar}:SetPoint("RIGHT", f, "TOPRIGHT", -20, U.PROGRESS_Y)'),
+        (f'{note}:SetPoint("TOPRIGHT", {bar}, "BOTTOMRIGHT", 0, -7)',
+         f'{note}:SetPoint("TOPRIGHT", f, "TOPRIGHT", -20, U.SUB_Y)'),
+        ('f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, -38)',
+         'f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, self.U.PROGRESS_Y)'),
+        ('f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, -55)',
+         'f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, self.U.SUB_Y)'),
+    ):
+        text = replace(text, old, new)
+    return text
+
+
+def achievement_header(text):
+    text = progress_header(text, "f.aMedal", "f.aBar", "f.aNote")
+    text = replace(text, "SetSize(f.aMedal, 60, 60)", "SetSize(f.aMedal, 46, 46)")
+    text = replace(text, "SetSize(f.aMedal.gem, 30, 30)", "SetSize(f.aMedal.gem, 23, 23)")
+    text = cut(text, '\tlocal sub = "|cff" .. Hex(col) .. title', '\tf.title:ClearAllPoints()')
+    text = replace(text, '\tlocal col = AC:RankColour(rank)\n\tf.title:ClearAllPoints()',
+        '\tlocal col = AC:RankColour(rank)\n'
+        '\tself:SetTitle(string.format(L["%d points"], points), "|cff" .. Hex(col) .. title .. "|r")\n'
+        '\tf.title:ClearAllPoints()')
+    return replace(text, 'r.when:SetPoint("TOPRIGHT", r.claimed, "BOTTOMRIGHT", 0, -3)',
+                   'r.when:SetPoint("BOTTOMRIGHT", r, "BOTTOMRIGHT", -16, 8)')
+
+
+def guide_button(text):
+    text = cut(text, '\tlocal b = CreateFrame("Button", nil, f)', '\tCuratorOctoFull.SetScript(b, "OnClick"')
+    text = replace(text, '\tCuratorOctoFull.SetScript(b, "OnClick"', r'''	local b = S.Button(f, "", 88, 24)
+	b:SetPoint("LEFT", f, "TOPLEFT", 16, ns.Album.U.HEADER_Y)
+	b:SetFrameLevel(f:GetFrameLevel() + 500)
+	b.i = b:CreateTexture(nil, "ARTWORK")
+	b.i:SetTexture("Interface\\Icons\\INV_Misc_Book_09")
+	b.i:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	CuratorOctoFull.SetSize(b.i, 16, 16)
+	b.i:SetPoint("LEFT", 8, 0)
+	b.caption = S.Text(b, "GameFontNormalSmall", "LEFT")
+	b.caption:SetPoint("LEFT", b.i, "RIGHT", 6, 0)
+	b.caption:SetText("Guide")
+	CuratorOctoFull.SetScript(b, "OnClick"''')
+    return replace(text, 'frame = self.button, inset = 12, rect = { 40, 0, 104, -40 }',
+                   'frame = self.button, rect = { 16, -7, 104, -31 }')
+
+
+def header_icon_button(text, button):
+    text = replace(text, f"SetSize({button}, 18, 18)", f"SetSize({button}, 22, 22)")
+    indent = "\t\t\t" if button == "g" else "\t"
+    return replace(text, f"{button}.icon:SetAllPoints()",
+                   f"CuratorOctoFull.SetSize({button}.icon, 16, 16)\n{indent}{button}.icon:SetPoint(\"CENTER\")")
+
+
 def friendly_prices(root):
     changes = {
         "Rubies.lua": [
@@ -367,8 +453,15 @@ def apply(root: Path):
             r'Def\(\{ id = "(beta|pioneer|hardcup)",[^\n]+\n[^\n]+\n[^\n]+\}\)',
             r'Def({ id = "\1", gone = true })', text, count=3).replace(
                 '{ key = "hardcup", ach = "hardcup", name = "Hardcup Survivor" },', ""),
-        "UI/Album.lua": lambda text: cut(text, "-- A beta build says so", "function A:Reveal()")
+        "UI/Album.lua": lambda text: cut(album_header(text), "-- A beta build says so", "function A:Reveal()")
             .replace("\tself:BetaMark()\n", ""),
+        "UI/Achievements.lua": achievement_header,
+        "UI/Quests.lua": lambda text: replace(
+            progress_header(text, "f.qEmblem", "f.qXP", "f.qNote").replace("Hud.Emblem(f, 56)", "Hud.Emblem(f, 46)", 1),
+            'f.sub:SetPoint("TOPLEFT", 64, -55)', 'f.sub:SetPoint("TOPLEFT", 64, self.U.SUB_Y)'),
+        "UI/Tour.lua": guide_button,
+        "UI/Options.lua": lambda text: header_icon_button(text, "g"),
+        "UI/Save.lua": lambda text: header_icon_button(text, "b"),
         "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",

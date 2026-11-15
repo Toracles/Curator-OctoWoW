@@ -708,7 +708,7 @@ function SV:Build(f)
 		return
 	end
 	local b = CreateFrame("Button", nil, f)
-	CuratorOctoFull.SetSize(b, 18, 18)
+	CuratorOctoFull.SetSize(b, 22, 22)
 	-- (over the title bar, as the gear and the purse: the pieces of the template of the window stand at 500 and more)
 	b:SetFrameLevel(f.gear and f.gear:GetFrameLevel() or math.max(f:GetFrameLevel() + 520, f.CloseButton and (f.CloseButton:GetFrameLevel() + 2) or 0))
 	if f.gear then
@@ -730,7 +730,8 @@ function SV:Build(f)
 	b.glow:SetAlpha(0)
 	b.glow:Hide()
 	b.icon = b:CreateTexture(nil, "ARTWORK")
-	b.icon:SetAllPoints()
+	CuratorOctoFull.SetSize(b.icon, 16, 16)
+	b.icon:SetPoint("CENTER")
 	ns.SetIcon(b.icon, SV.ICON)
 	b.hl = b:CreateTexture(nil, "HIGHLIGHT")
 	b.hl:SetAllPoints()

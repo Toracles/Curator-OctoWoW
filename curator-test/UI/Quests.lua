@@ -26,7 +26,7 @@ local CARD_H, CARD_GAP, CARDS = 80, 8, 5
 local ROW_H, ROW_GAP, ROWS = 46, 3, 10
 local STOCK_H = 150
 -- the title of the window, to the right of the emblem
-local TITLE_X, TITLE_ROOM = 130, 388
+local TITLE_X, TITLE_ROOM = 98, 388
 local GOLDEN = { 1, 0.8, 0.32 }
 local DIM = { 0.62, 0.62, 0.68 }
 -- the owner of the animations of the claims (cancelled when the page goes; shared with the page of the
@@ -396,8 +396,8 @@ function A:BuildQuests()
 	end
 	local U = self.U
 	-- in the head of the window: the emblem of the rank, the bar of the level and what is left of it
-	f.qEmblem = Hud.Emblem(f, 56)
-	f.qEmblem:SetPoint("CENTER", f, "TOPLEFT", 94, -44)
+	f.qEmblem = Hud.Emblem(f, 46)
+	f.qEmblem:SetPoint("CENTER", f, "TOPLEFT", 65, U.PROGRESS_Y - 8)
 	f.qEmblem:SetFrameLevel(f:GetFrameLevel() + 12)
 	f.qEmblem:EnableMouse(true)
 	CuratorOctoFull.SetScript(f.qEmblem, "OnEnter", function(self)
@@ -407,7 +407,7 @@ function A:BuildQuests()
 		GameTooltip:Hide()
 	end)
 	f.qXP = Hud.XPBar(f, U.BAR_W, 18)
-	f.qXP:SetPoint("RIGHT", f, "TOPRIGHT", -16, -36)
+	f.qXP:SetPoint("RIGHT", f, "TOPRIGHT", -20, U.PROGRESS_Y)
 	f.qXP:EnableMouse(true)
 	CuratorOctoFull.SetScript(f.qXP, "OnEnter", function(self)
 		A:HeadTooltip(self)
@@ -416,7 +416,7 @@ function A:BuildQuests()
 		GameTooltip:Hide()
 	end)
 	f.qNote = S.Text(f, "GameFontHighlightSmall", "RIGHT")
-	f.qNote:SetPoint("TOPRIGHT", f.qXP, "BOTTOMRIGHT", 0, -7)
+	f.qNote:SetPoint("TOPRIGHT", f, "TOPRIGHT", -20, U.SUB_Y)
 	f.qNote:SetTextColor(DIM[1], DIM[2], DIM[3])
 	f.qEmblem:Hide()
 	f.qXP:Hide()
@@ -590,7 +590,7 @@ function A:ShowQuestsPage(shown)
 	if not shown and f.subMoved then
 		f.subMoved = nil
 		f.sub:ClearAllPoints()
-		f.sub:SetPoint("TOPLEFT", 64, -55)
+		f.sub:SetPoint("TOPLEFT", 64, self.U.SUB_Y)
 	end
 end
 
@@ -669,12 +669,12 @@ function A:PaintLevelHead(xp)
 	end
 	self:SetTitle(string.format(L["Collector level %d"], level), sub)
 	f.title:ClearAllPoints()
-	f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, -38)
+	f.title:SetPoint("LEFT", f, "TOPLEFT", TITLE_X, self.U.PROGRESS_Y)
 	if ns.TextWidth(f.title) > TITLE_ROOM then
 		S.Fit(f.title, f.title:GetText(), TITLE_ROOM, 19, 12)
 	end
 	f.sub:ClearAllPoints()
-	f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, -55)
+	f.sub:SetPoint("TOPLEFT", f, "TOPLEFT", TITLE_X + 1, self.U.SUB_Y)
 	f.subMoved = true
 	if f.qEmblem.rank ~= r or not f.qEmblem.painted then
 		f.qEmblem.painted = true

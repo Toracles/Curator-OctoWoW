@@ -111,32 +111,17 @@ function T:Attach(f)
 	if f.tourButton then
 		return
 	end
-	local b = CreateFrame("Button", nil, f)
-	CuratorOctoFull.SetSize(b, 64, 64)
-	b:SetPoint("TOPLEFT", f, "TOPLEFT", 39, 20)
+	local b = S.Button(f, "", 88, 24)
+	b:SetPoint("LEFT", f, "TOPLEFT", 16, ns.Album.U.HEADER_Y)
 	b:SetFrameLevel(f:GetFrameLevel() + 500)
-	b:SetHitRectInsets(20, 20, 20, 20)
-	b.i = b:CreateTexture(nil, "BACKGROUND")
-	b.i:SetTexture("Interface\\Common\\help-i")
-	CuratorOctoFull.SetSize(b.i, 46, 46)
-	b.i:SetPoint("CENTER")
-	b.ring = b:CreateTexture(nil, "BORDER")
-	b.ring:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
-	CuratorOctoFull.SetSize(b.ring, 64, 64)
-	b.ring:SetPoint("CENTER", 12, -13)
-	b.hl = b:CreateTexture(nil, "HIGHLIGHT")
-	b.hl:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
-	b.hl:SetBlendMode("ADD")
-	CuratorOctoFull.SetSize(b.hl, 46, 46)
-	b.hl:SetPoint("CENTER", -1, 1)
-	CuratorOctoFull.SetScript(b, "OnMouseDown", function()
-		b.i:ClearAllPoints()
-		b.i:SetPoint("CENTER", 1, -1)
-	end)
-	CuratorOctoFull.SetScript(b, "OnMouseUp", function()
-		b.i:ClearAllPoints()
-		b.i:SetPoint("CENTER")
-	end)
+	b.i = b:CreateTexture(nil, "ARTWORK")
+	b.i:SetTexture("Interface\\Icons\\INV_Misc_Book_09")
+	b.i:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	CuratorOctoFull.SetSize(b.i, 16, 16)
+	b.i:SetPoint("LEFT", 8, 0)
+	b.caption = S.Text(b, "GameFontNormalSmall", "LEFT")
+	b.caption:SetPoint("LEFT", b.i, "RIGHT", 6, 0)
+	b.caption:SetText("Guide")
 	CuratorOctoFull.SetScript(b, "OnClick", function()
 		ns.Play(ns.SND.click)
 		if T.active then
@@ -349,7 +334,7 @@ function T:Steps()
 		end
 	end
 	-- (the button (i); without it, the corner of the window where it would be)
-	steps[CuratorOctoFull.Length(steps) + 1] = { mode = "mine", side = "left", frame = self.button, inset = 12, rect = { 40, 0, 104, -40 }, title = L["Your turn!"],
+	steps[CuratorOctoFull.Length(steps) + 1] = { mode = "mine", side = "left", frame = self.button, rect = { 16, -7, 104, -31 }, title = L["Your turn!"],
 		text = L["This button (or /curator tour) plays the tour again. A tip: the button at the top right of the booster scene opens your boosters in a small window, to keep an eye on the world while you walk."] }
 	return steps
 end

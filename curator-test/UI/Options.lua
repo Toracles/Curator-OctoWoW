@@ -117,7 +117,7 @@ do
 		if f and not f.gear then
 			-- the gear of the options, left of the purse (UI/Rubies.lua) in the title bar
 			local g = CreateFrame("Button", nil, f)
-			CuratorOctoFull.SetSize(g, 18, 18)
+			CuratorOctoFull.SetSize(g, 22, 22)
 			-- (over the title bar: the pieces of the template of the window stand at 500 and more in the game)
 			g:SetFrameLevel(math.max(f:GetFrameLevel() + 520, f.CloseButton and (f.CloseButton:GetFrameLevel() + 2) or 0))
 			if f.wallet then
@@ -128,7 +128,8 @@ do
 				g:SetPoint("TOPRIGHT", -34, -3)
 			end
 			g.icon = g:CreateTexture(nil, "ARTWORK")
-			g.icon:SetAllPoints()
+			CuratorOctoFull.SetSize(g.icon, 16, 16)
+			g.icon:SetPoint("CENTER")
 			g.icon:SetTexture("Interface\\Icons\\INV_Misc_Gear_01")
 			g.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 			g.hl = g:CreateTexture(nil, "HIGHLIGHT")
