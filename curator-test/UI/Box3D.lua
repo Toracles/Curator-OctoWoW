@@ -744,7 +744,7 @@ function B3.New(parent, width)
 		local w = { fs = fs, face = face, fx = fx, fy = fy, size = size, size0 = size, width = width }
 		ns.SetFont(fs, size, "OUTLINE")
 		fs:SetTextColor(1, 0.92, 0.72)
-		fs:SetWordWrap(false)
+		CuratorOctoFull.SetWordWrap(fs, false)
 		fs:Hide()
 		f.words[CuratorOctoFull.Length(f.words) + 1] = w
 		return w

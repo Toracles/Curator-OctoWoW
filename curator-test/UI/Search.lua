@@ -84,7 +84,7 @@ function SE:Build()
 	if self.frame then
 		return self.frame
 	end
-	local f = CreateFrame("Frame", "CuratorSearch", UIParent, "BackdropTemplate")
+	local f = CreateFrame("Frame", "CuratorSearch", UIParent, CuratorOctoFull.BackdropTemplate())
 	CuratorOctoFull.SetSize(f, 360, 64)
 	f:SetFrameStrata("DIALOG")
 	f:SetToplevel(true)

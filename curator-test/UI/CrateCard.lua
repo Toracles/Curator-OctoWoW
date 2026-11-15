@@ -1484,7 +1484,7 @@ function CC.New(parent, w)
 	sp.desc:SetWidth(DESC_W * k)
 	sp.desc:SetJustifyH("CENTER")
 	sp.desc:SetJustifyV("TOP")
-	sp.desc:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(sp.desc, true)
 	sp.desc:SetTextColor(0.95, 0.93, 0.88)
 	local front = CreateFrame("Frame", nil, f)
 	front:SetAllPoints()
@@ -1556,7 +1556,7 @@ function CC.New(parent, w)
 	end
 	f.name = Text(o, math.max(9, 34 * k), "OUTLINE")
 	f.name:SetPoint("CENTER", f, "TOPLEFT", (PLATE[1] + PLATE[3]) / 2 * k, -(PLATE[2] + 44) * k)
-	f.name:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(f.name, false)
 	f.name:SetWidth(410 * k)
 	f.rank = Text(o, math.max(8, 25 * k), "OUTLINE")
 	f.rank:SetPoint("CENTER", f, "TOPLEFT", (PLATE[1] + PLATE[3]) / 2 * k, -(PLATE[2] + 92) * k)
@@ -1850,9 +1850,9 @@ function M:FitName()
 	local small = k < SMALL_K
 	local size = math.max(9, (st and 31 or 34) * k)
 	local least = small and 6 or 8
-	fs:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(fs, false)
 	if fs.SetMaxLines then
-		fs:SetMaxLines(1)
+		CuratorOctoFull.SetMaxLines(fs, 1)
 	end
 	ns.SetFont(fs, size, "OUTLINE")
 	while size > least and ns.TextWidth(fs) > room do
@@ -1862,9 +1862,9 @@ function M:FitName()
 	local two = small and ns.TextWidth(fs) > room
 	if two then
 		ns.SetFont(fs, math.max(least, 7), "OUTLINE")
-		fs:SetWordWrap(true)
+		CuratorOctoFull.SetWordWrap(fs, true)
 		if fs.SetMaxLines then
-			fs:SetMaxLines(2)
+			CuratorOctoFull.SetMaxLines(fs, 2)
 		end
 	end
 	if small or self.twoLines then

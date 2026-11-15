@@ -110,11 +110,11 @@ function CM.New(parent, w)
 	f.name = Text(o, math.max(7, 34 * k), "OUTLINE")
 	f.name:SetPoint("CENTER", f, "TOPLEFT", (PLATE[1] + PLATE[3]) / 2 * k, -(PLATE[2] + 46) * k)
 	f.name:SetWidth(430 * k)
-	f.name:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(f.name, false)
 	f.rank = Text(o, math.max(6.5, 25 * k), "OUTLINE")
 	f.rank:SetPoint("CENTER", f, "TOPLEFT", (PLATE[1] + PLATE[3]) / 2 * k, -(PLATE[2] + 94) * k)
 	f.rank:SetWidth(430 * k)
-	f.rank:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(f.rank, false)
 	-- (its finish: its gem on its corner; appraised: the plate of its grade; a count)
 	f.gem = Tex(o, "OVERLAY", 1)
 	CuratorOctoFull.SetSize(f.gem, math.max(10, 64 * k), math.max(10, 64 * k))
@@ -264,16 +264,16 @@ function M:FitName()
 	local room = 430 * k
 	local small = k < SMALL
 	local size = math.max(7, 34 * k)
-	fs:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(fs, false)
 	ns.SetFont(fs, size, "OUTLINE")
 	while size > 6 and ns.TextWidth(fs) > room do
 		size = size - 0.5
 		ns.SetFont(fs, size, "OUTLINE")
 	end
 	local two = ns.TextWidth(fs) > room
-	fs:SetWordWrap(two)
+	CuratorOctoFull.SetWordWrap(fs, two)
 	if fs.SetMaxLines then
-		fs:SetMaxLines(two and 2 or 1)
+		CuratorOctoFull.SetMaxLines(fs, two and 2 or 1)
 	end
 	local mid = (PLATE[1] + PLATE[3]) / 2 * k
 	fs:ClearAllPoints()

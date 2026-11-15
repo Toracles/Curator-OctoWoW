@@ -58,7 +58,7 @@ function W:Build()
 
 	-- the warning, in large red letters, next to the portrait
 	f.head = S.Text(f, "GameFontNormalLarge", "LEFT")
-	f.head:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.head, true)
 	f.head:SetTextColor(1, 0.32, 0.22)
 
 	-- what does not work without the app: a red cross in front of each
@@ -68,14 +68,14 @@ function W:Build()
 		icon:SetTexture(MEDIA .. "Cross")
 		CuratorOctoFull.SetSize(icon, ICON, ICON)
 		local text = S.Text(f, "GameFontHighlight", "LEFT")
-		text:SetWordWrap(true)
+		CuratorOctoFull.SetWordWrap(text, true)
 		text:SetSpacing(2)
 		f.rows[i] = { icon = icon, text = text }
 	end
 
 	-- where to get it: the address, selected (Ctrl+C)
 	f.cta = S.Text(f, "GameFontNormal", "LEFT")
-	f.cta:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.cta, true)
 	f.box = S.Inset(f)
 	f.box:SetHeight(34)
 	local eb = CreateFrame("EditBox", nil, f.box)

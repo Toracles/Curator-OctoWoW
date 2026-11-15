@@ -478,7 +478,7 @@ function B:Build()
 	-- The frame of the small window, and in its corner (in the corner of the screen, full screen) the
 	-- button that makes the scene a small window or the full screen again, and the one that closes the
 	-- small window.
-	s.border = CreateFrame("Frame", nil, s, "BackdropTemplate")
+	s.border = CreateFrame("Frame", nil, s, CuratorOctoFull.BackdropTemplate())
 	s.border:SetAllPoints()
 	s.border:SetFrameLevel(base + 70)
 	s.border:Hide()

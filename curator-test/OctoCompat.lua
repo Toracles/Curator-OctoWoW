@@ -213,3 +213,22 @@ function ns.Remove(values, position)
 end
 
 
+
+-- Vanilla FontStrings wrap at their assigned width without an explicit setter.
+function ns.SetWordWrap(region, enabled)
+    if region.SetWordWrap then region:SetWordWrap(enabled) end
+end
+
+function ns.SetMaxLines(region, lines)
+    if region.SetMaxLines then region:SetMaxLines(lines) end
+end
+
+function ns.BackdropTemplate()
+    if BackdropTemplateMixin then return "BackdropTemplate" end
+end
+
+function ns.IsOctoClient()
+    if not GetBuildInfo then return false end
+    local version, _, _, interface = GetBuildInfo()
+    return tonumber(interface) == 11200 or version == "1.12.1"
+end

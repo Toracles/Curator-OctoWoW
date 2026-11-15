@@ -499,7 +499,7 @@ function O:Panel()
 	p.sub = S.Text(p, "GameFontHighlightSmall", "LEFT")
 	p.sub:SetPoint("TOPLEFT", p.title, "BOTTOMLEFT", 0, -8)
 	p.sub:SetWidth(560)
-	p.sub:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(p.sub, true)
 	p.sub:SetText(L["The options of your collection of cards. They are the account's: every character has the same."])
 
 	-- the size of the album

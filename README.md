@@ -5,7 +5,7 @@ Portage de Curator 1.14.3, créé par Clément Hudson, vers OctoWoW et Turtle Wo
 ## Installation de la version de test
 
 1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
-2. Quitter le jeu. Extraire le dossier Curator dans Interface/AddOns. Vérifier que Curator.toc se trouve directement dans Interface/AddOns/Curator. Si ce dossier existe déjà, sauvegarder l’ancienne copie avant de la remplacer.
+2. Télécharger [le correctif alpha.3](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.3). Quitter le jeu. Extraire le dossier Curator dans Interface/AddOns. Vérifier que Curator.toc se trouve directement dans Interface/AddOns/Curator. Si ce dossier existe déjà, sauvegarder l’ancienne copie avant de la remplacer. Extraire ensuite le ZIP du correctif au même emplacement et accepter le remplacement des fichiers.
 3. Relancer le jeu, activer **Curator** à la sélection des personnages et taper `/curator`.
 
 Les tests hors jeu couvrent les 226 fichiers Lua, le chargement, la connexion simulée, les tirages d’origine et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.

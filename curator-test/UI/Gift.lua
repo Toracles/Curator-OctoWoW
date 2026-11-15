@@ -85,9 +85,9 @@ function GU:Build()
 		end)
 	end
 	f.head = S.Text(f, "GameFontNormalLarge", "LEFT")
-	f.head:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.head, true)
 	f.intro = S.Text(f, "GameFontHighlight", "LEFT")
-	f.intro:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.intro, true)
 	f.intro:SetSpacing(2)
 
 	-- the box of the code: a text of several lines, in a frame that scrolls
@@ -139,10 +139,10 @@ function GU:Build()
 
 	-- what the code gives, or why not
 	f.result = S.Text(f, "GameFontNormal", "LEFT")
-	f.result:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.result, true)
 	f.result:SetSpacing(3)
 	f.note = S.Text(f, "GameFontHighlightSmall", "LEFT")
-	f.note:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.note, true)
 	f.note:SetTextColor(1, 0.88, 0.6)
 
 	f.redeem = ns.Hud.ClaimButton(f, 220, 36, L["Redeem"])

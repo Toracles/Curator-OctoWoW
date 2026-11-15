@@ -70,7 +70,7 @@ function W:Build()
 	f.body:SetPoint("TOPLEFT", 70, -78)
 	f.body:SetPoint("TOPRIGHT", -24, -78)
 	f.body:SetSpacing(3)
-	f.body:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.body, true)
 	-- the alert of the game's dialogs beside it
 	f.alert = f:CreateTexture(nil, "ARTWORK")
 	CuratorOctoFull.SetSize(f.alert, 40, 40)
@@ -301,11 +301,11 @@ function N:Build()
 		end)
 	end
 	f.head = S.Text(f, "GameFontNormalLarge", "LEFT")
-	f.head:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.head, true)
 	f.heads, f.lines = {}, {}
 	f.rule = S.Divider(f, NEWS_W - NEWS_LEFT - NEWS_RIGHT, 0.6)
 	f.foot = S.Text(f, "GameFontDisableSmall", "LEFT")
-	f.foot:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.foot, true)
 	f.ok = S.Button(f, L["Close"], 130, 24)
 	CuratorOctoFull.SetScript(f.ok, "OnClick", function()
 		N:Hide()
@@ -329,7 +329,7 @@ function N:Lay(list)
 		local h = f.heads[hi]
 		if not h then
 			h = S.Text(f, "GameFontNormal", "LEFT")
-			h:SetWordWrap(true)
+			CuratorOctoFull.SetWordWrap(h, true)
 			f.heads[hi] = h
 		end
 		h:SetText(string.format(L["What is new in Curator %s"], e.v))
@@ -343,7 +343,7 @@ function N:Lay(list)
 			local t = f.lines[li]
 			if not t then
 				t = S.Text(f, "GameFontHighlight", "LEFT")
-				t:SetWordWrap(true)
+				CuratorOctoFull.SetWordWrap(t, true)
 				t:SetSpacing(2)
 				t.gem = f:CreateTexture(nil, "ARTWORK")
 				CuratorOctoFull.SetSize(t.gem, 12, 12)

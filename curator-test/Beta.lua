@@ -49,7 +49,7 @@ function B:ForeverClient()
 end
 
 function B:Elsewhere()
-	return not self:ForeverClient() and ns.Admin == nil and not ns.TEST_BUILD
+	return not CuratorOctoFull.IsOctoClient() and not self:ForeverClient() and ns.Admin == nil and not ns.TEST_BUILD
 end
 
 -- A beta build past its day, a build made obsolete by a mandatory update (Mandatory.lua), a collection

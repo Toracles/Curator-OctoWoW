@@ -1266,11 +1266,11 @@ function CR:Item(i)
 	it.name = Text(it, 11)
 	it.name:SetPoint("TOPLEFT", it, "BOTTOMLEFT", 0, -5)
 	it.name:SetJustifyH("LEFT")
-	it.name:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(it.name, false)
 	it.sub = Text(it, 10)
 	it.sub:SetPoint("TOPLEFT", it.name, "BOTTOMLEFT", 0, -2)
 	it.sub:SetJustifyH("LEFT")
-	it.sub:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(it.sub, false)
 	it.sub:SetTextColor(0.6, 0.6, 0.64)
 	-- (1.14.0, for real: how many of it the player has, on its corner)
 	it.badge = Text(it, 12, "OUTLINE")
@@ -1321,17 +1321,17 @@ end
 -- A name under a card of the case, as wide as it: on one line (smaller when it needs), else on two (smaller until it
 -- takes no more).
 local function Fit2(fs, text, w)
-	fs:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(fs, false)
 	if fs.SetMaxLines then
-		fs:SetMaxLines(1)
+		CuratorOctoFull.SetMaxLines(fs, 1)
 	end
 	S.Fit(fs, text, w, 11, 9)
 	if S.Width(fs) > w then
 		local size = 10
 		ns.SetFont(fs, size)
-		fs:SetWordWrap(true)
+		CuratorOctoFull.SetWordWrap(fs, true)
 		if fs.SetMaxLines then
-			fs:SetMaxLines(2)
+			CuratorOctoFull.SetMaxLines(fs, 2)
 		end
 		fs:SetText(text)
 		while size > 8 and LinesOf(fs, text, w) > 2 do
@@ -1348,9 +1348,9 @@ function CR:DressItem(it, pick)
 	DressTile(it, pick, iw, ih)
 	it.name:SetWidth(iw)
 	it.sub:SetWidth(iw)
-	it.name:SetWordWrap(false)
+	CuratorOctoFull.SetWordWrap(it.name, false)
 	if it.name.SetMaxLines then
-		it.name:SetMaxLines(1)
+		CuratorOctoFull.SetMaxLines(it.name, 1)
 	end
 	if pick.secret then
 		local ink = Ink(pick.tier)

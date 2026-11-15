@@ -17,6 +17,10 @@ local methods = {
  SetScript = function(self, event, callback) scripts[self][event] = callback end,
  GetScript = function(self, event) return scripts[self][event] end,
  GetStatusBarTexture = function() return widget() end,
+ GetFontString = function() return widget() end,
+ GetCheckedTexture = function() return widget() end,
+ GetNormalTexture = function() return widget() end,
+ GetHighlightTexture = function() return widget() end,
  CreateTexture = function() return widget() end,
  CreateFontString = function() return widget() end,
  GetWidth = function() return 1024 end,
@@ -36,14 +40,17 @@ local methods = {
 }
 widget = function()
  local frame = setmetatable({}, {__index=function(_, key)
-     return methods[key] or (key ~= "Low" and key ~= "High" and key ~= "Text" and key ~= "CreateMaskTexture" and key ~= "AddMaskTexture" and string.find(key, "^[A-Z]") and noop or nil)
+     return methods[key] or (key ~= "SetWordWrap" and key ~= "SetMaxLines" and key ~= "Low" and key ~= "High" and key ~= "Text" and key ~= "CreateMaskTexture" and key ~= "AddMaskTexture" and string.find(key, "^[A-Z]") and noop or nil)
  end})
  scripts[frame] = {}
  registrations[frame] = {}
  return frame
 end
 UIParent, Minimap, DEFAULT_CHAT_FRAME = widget(), widget(), widget()
-CreateFrame = function(_,name)
+CreateFrame = function(_,name,parent,template)
+ local modern = {BackdropTemplate=true, PortraitFrameTemplate=true, LargeSideTabButtonTemplate=true,
+     CollectionsBackgroundTemplate=true, InsetFrameTemplate=true, WowStyle1DropdownTemplate=true, CheckboxWithLabelTemplate=true, ColoredProgressBarTemplate=true}
+ assert(not modern[template], "Unsupported inherited template: " .. tostring(template))
  local frame=widget()
  if name then _G[name]=frame end
  return frame
@@ -75,6 +82,8 @@ end
 UnitName = function() return "Tester" end
 zone = "Northwind"
 ERR_ZONE_EXPLORED = "Discovered: %s"
+ERR_DEATHBIND_SUCCESS_S = "%s is now your home."
+COMBATLOG_HONORGAIN = "%s dies (rank %s). %d honor."
 GetZoneText = function() return zone end
 GetRealZoneText = GetZoneText
 GetRealmName = function() return "OctoWoW" end
@@ -196,3 +205,19 @@ print("Legacy quest and discovery messages credited once")
 
 
 
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local place
+local bound = ns.Tavern.Bound
+ns.Tavern.Bound = function(_, value) place = value end
+assert(traceEvent("CHAT_MSG_SYSTEM", "Test Inn is now your home.") == "")
+assert(place == "Test Inn", tostring(place))
+ns.Tavern.Bound = bound
+assert(table.getn(ns.Pvp:Patterns()) > 0)
+assert(ns.Options:Panel())
+assert(ns.Skin.Window("CuratorTestWindow", 400, 320))
+SlashCmdList.CURATOR("")
+assert(ns.Album.frame and ns.Album.frame:IsShown())
+""")
+print("Hearthstone message, options panel and /curator verified with legacy APIs")

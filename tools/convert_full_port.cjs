@@ -88,6 +88,9 @@ function convert(source, file) {
             edit(node.range, node.name.replace("Curator", "CuratorOctoFull"));
         if (node.type === "StringLiteral") {
             const raw = source.slice(...node.range);
+            if (raw === '"BackdropTemplate"' && parent.type === "CallExpression" &&
+                    parent.base.name === "CreateFrame")
+                edit(node.range, "CuratorOctoFull.BackdropTemplate()");
             if (raw === '"CuratorDB"' || raw === '"CuratorExport"')
                 edit(node.range, raw.replace("Curator", "CuratorOctoFull"));
         }
@@ -101,7 +104,7 @@ function convert(source, file) {
             edit(node.base.range, "CuratorOctoFull." + ({select:"Select",GetServerTime:"ServerTime",wipe:"Wipe"})[node.base.name]);
         if (node.type === "CallExpression" && node.base.type === "MemberExpression" &&
                 node.base.indexer === ":" && ["SetScript", "SetSize", "SetColorTexture", "SetShown", "SetClipsChildren",
-                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "SetRotation", "GetRotation",
+                 "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "SetRotation", "GetRotation", "SetWordWrap", "SetMaxLines",
                  "byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "sub", "upper"].includes(node.base.identifier.name)) {
             // Keep script signatures in the upstream code; pass legacy event globals through at the boundary.
             const base = node.base.base;
@@ -148,6 +151,12 @@ function convert(source, file) {
     unique.sort((a,b) => b.range[0] - a.range[0] || b.range[1] - a.range[1] || b.order - a.order);
     let result = source;
     for (const {range, value} of unique) result = result.slice(0, range[0]) + value + result.slice(range[1]);
+    // Lua 5.0 replacement strings require an explicit capture instead of %0.
+    if (file === "Tavern.lua" || file === "Pvp.lua") {
+        result = result.replace(/string\.gsub\(fmt, "(\[[^"\r\n]+\])", "%%%0"\)/g,
+            (_, pattern) => 'string.gsub(fmt, "(' + pattern + ')", "%%%1")');
+    }
+    if (file === "Beta.lua") result = result.replace("return not self:ForeverClient()", "return not CuratorOctoFull.IsOctoClient() and not self:ForeverClient()");
     if (constants.size) result = "local octoConstants = {}\n" + result;
     try { parser.parse(result, {luaVersion:"5.1"}); } catch (error) {
         throw new Error(file + ": " + error.message + "\n" + result.split("\n")[error.line-1]);
@@ -167,21 +176,3 @@ console.log("Converted modules:",report.length);
 for (const key of ["lengths","varargs","remainder"])
     console.log(key,report.reduce((sum,row)=>sum+row[key],0));
 console.log("Modern API namespaces:",new Set(report.flatMap(row=>row.dependencies)).size);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

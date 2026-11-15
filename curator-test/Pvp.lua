@@ -205,7 +205,7 @@ end
 -- The messages of the game for an honorable kill, as patterns: { pattern, has a rank }.
 local function Pattern(fmt)
 	-- (its magic letters as letters; its % left as they are, then %s and %d caught)
-	local p = string.gsub(fmt, "[%(%)%.%+%-%*%?%[%]%^%$]", "%%%0")
+	local p = string.gsub(fmt, "([%(%)%.%+%-%*%?%[%]%^%$])", "%%%1")
 	p = string.gsub(string.gsub(p, "%%s", "(.-)"), "%%d", "(%%d+)")
 	return "^" .. p .. "$"
 end

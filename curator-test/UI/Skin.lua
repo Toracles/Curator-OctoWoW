@@ -123,7 +123,7 @@ end
 function S.Window(name, width, height)
 	local f = S.Make("Frame", name, UIParent, "PortraitFrameTemplate")
 	if not f then
-		f = CreateFrame("Frame", name, UIParent, "BackdropTemplate")
+		f = CreateFrame("Frame", name, UIParent, CuratorOctoFull.BackdropTemplate())
 		f:SetBackdrop({
 			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -214,7 +214,7 @@ end
 function S.Background(parent)
 	local bg = S.Make("Frame", nil, parent, "CollectionsBackgroundTemplate") or S.Make("Frame", nil, parent, "InsetFrameTemplate")
 	if not bg then
-		bg = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		bg = CreateFrame("Frame", nil, parent, CuratorOctoFull.BackdropTemplate())
 		bg:SetBackdrop({
 			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -231,7 +231,7 @@ end
 function S.Inset(parent)
 	local f = S.Make("Frame", nil, parent, "InsetFrameTemplate")
 	if not f then
-		f = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+		f = CreateFrame("Frame", nil, parent, CuratorOctoFull.BackdropTemplate())
 		f:SetBackdrop({
 			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",

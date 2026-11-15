@@ -209,7 +209,7 @@ function B:BatchName(c)
 		t = c.over:CreateFontString(nil, "OVERLAY")
 		t:SetJustifyH("CENTER")
 		t:SetJustifyV("MIDDLE")
-		t:SetWordWrap(true)
+		CuratorOctoFull.SetWordWrap(t, true)
 		if t.SetMaxLines then
 			pcall(t.SetMaxLines, t, 2)
 		end

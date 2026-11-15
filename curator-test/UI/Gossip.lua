@@ -342,7 +342,7 @@ function G:Fallback()
 	local p = self.panel
 	if not p then
 		-- (1.14.3: no parent, so that it stays when another addon hides the interface; its scale set as it shows)
-		p = CreateFrame("Frame", "CuratorGossip", nil, "BackdropTemplate")
+		p = CreateFrame("Frame", "CuratorGossip", nil, CuratorOctoFull.BackdropTemplate())
 		p:SetFrameStrata("DIALOG")
 		p:SetWidth(300)
 		p:SetClampedToScreen(true)

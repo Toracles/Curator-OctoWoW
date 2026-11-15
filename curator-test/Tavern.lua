@@ -1027,7 +1027,7 @@ local function BindPattern()
 	if bindPattern == nil then
 		local fmt = rawget(_G, "ERR_DEATHBIND_SUCCESS_S")
 		if type(fmt) == "string" and string.find(fmt, "%s", 1, true) then
-			local escaped = string.gsub(fmt, "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")
+			local escaped = string.gsub(fmt, "([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
 			bindPattern = "^" .. (string.gsub(escaped, "%%%%s", "(.+)")) .. "$"
 		else
 			bindPattern = false

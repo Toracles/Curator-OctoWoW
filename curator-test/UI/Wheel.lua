@@ -103,7 +103,7 @@ function WU:Build()
 	f.say = S.Text(f, "GameFontHighlightSmall")
 	f.say:SetPoint("TOP", 20, -32)
 	f.say:SetWidth(W - 110)
-	f.say:SetWordWrap(true)
+	CuratorOctoFull.SetWordWrap(f.say, true)
 	f.say:SetTextColor(0.9, 0.84, 0.7)
 	-- the wheel: its slices, the lines between its parts, its icons, its rim, its hub, its pointer
 	local wh = CreateFrame("Frame", nil, f)
