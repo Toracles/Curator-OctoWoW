@@ -89,11 +89,8 @@ function V:Build()
 	f:SetFrameLevel(120)
 	f:Hide()
 	self.frame = f
-	f.bg = f:CreateTexture(nil, "BACKGROUND")
-	f.bg:SetTexture("Interface\\LootFrame\\LootToast")
-	f.bg:SetTexCoord(0.28222656, 0.55175781, 0.578125, 0.953125)
-	CuratorOctoFull.SetSize(f.bg, W, H)
-	f.bg:SetPoint("CENTER")
+	f:SetBackdrop({ edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 16 })
+	f.bg = S.OpaqueBackground(f, 5)
 	-- the pack, its light behind it
 	f.halo = f:CreateTexture(nil, "BORDER")
 	f.halo:SetTexture(MEDIA .. "Glow")
@@ -752,13 +749,13 @@ local function Box(m, w, h, y, text)
 	b:SetPoint("TOP", m, "TOP", 0, y)
 	if b.SetBackdrop then
 		b:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 			tile = true, tileSize = 16, edgeSize = 14,
 			insets = { left = 3, right = 3, top = 3, bottom = 3 },
 		})
 		b:SetBackdropBorderColor(1, 0.82, 0.2, 0.9)
 	end
+	S.OpaqueBackground(b, 3)
 	b.text = b:CreateFontString(nil, "OVERLAY")
 	ns.SetFont(b.text, 13, "OUTLINE")
 	b.text:SetPoint("CENTER")

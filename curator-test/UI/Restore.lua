@@ -2975,12 +2975,12 @@ function RU:Panel()
 	f:Hide()
 	if f.SetBackdrop then
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 24,
 			insets = { left = 6, right = 6, top = 6, bottom = 6 },
 		})
 	end
+	S.OpaqueBackground(f, 6)
 	f.ring = f:CreateTexture(nil, "ARTWORK")
 	f.ring:SetTexture(MEDIA .. "RestoreCircle")
 	f.ring:SetBlendMode("ADD")

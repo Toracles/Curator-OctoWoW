@@ -118,6 +118,15 @@ end
 -------------------------------------------------------------------------------
 -- Window
 -------------------------------------------------------------------------------
+function S.OpaqueBackground(frame, inset)
+	local bg = frame:CreateTexture(nil, "BACKGROUND")
+	bg:SetTexture("Interface\\Buttons\\WHITE8X8")
+	bg:SetVertexColor(0.025, 0.027, 0.035, 1)
+	bg:SetPoint("TOPLEFT", frame, "TOPLEFT", inset, -inset)
+	bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -inset, inset)
+	return bg
+end
+
 -- A window of the game: the frame with a portrait, a title and a close button (the collections,
 -- the character...). Its border goes over the edges of what it holds, as in the game.
 function S.Window(name, width, height)
@@ -130,11 +139,8 @@ function S.Window(name, width, height)
 			tile = true, tileSize = 32, edgeSize = 32,
 			insets = { left = 11, right = 12, top = 12, bottom = 11 },
 		})
-		local background = f:CreateTexture(nil, "BACKGROUND")
-        background:SetPoint("TOPLEFT", f, "TOPLEFT", 11, -12)
-        background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -12, 11)
-        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
-        local title = S.Text(f, "GameFontNormal")
+		S.OpaqueBackground(f, 11)
+		local title = S.Text(f, "GameFontNormal")
 		title:SetPoint("TOP", 0, -14)
 		f.TitleText = title
 		function f:SetTitle(text)
@@ -220,12 +226,12 @@ function S.Background(parent)
 	if not bg then
 		bg = CreateFrame("Frame", nil, parent, CuratorOctoFull.BackdropTemplate())
 		bg:SetBackdrop({
-			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 			tile = true, tileSize = 256, edgeSize = 14,
 			insets = { left = 3, right = 3, top = 3, bottom = 3 },
 		})
 		bg:SetBackdropBorderColor(0.6, 0.6, 0.6)
+		S.OpaqueBackground(bg, 3)
 	end
 	bg:ClearAllPoints()
 	return bg
@@ -237,11 +243,11 @@ function S.Inset(parent)
 	if not f then
 		f = CreateFrame("Frame", nil, parent, CuratorOctoFull.BackdropTemplate())
 		f:SetBackdrop({
-			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 			tile = true, tileSize = 256, edgeSize = 12,
 			insets = { left = 3, right = 3, top = 3, bottom = 3 },
 		})
+		S.OpaqueBackground(f, 3)
 	end
 	f:ClearAllPoints()
 	return f

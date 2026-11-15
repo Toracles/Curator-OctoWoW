@@ -585,12 +585,12 @@ local function BuildPicker()
 	CuratorOctoFull.SetClampedToScreen(f, true)
 	if f.SetBackdrop then
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true, tileSize = 32, edgeSize = 24,
 			insets = { left = 6, right = 6, top = 6, bottom = 6 },
 		})
 	end
+	S.OpaqueBackground(f, 6)
 	f.title = S.Text(f, "GameFontNormal", "LEFT")
 	f.title:SetPoint("TOPLEFT", 18, -16)
 	f.title:SetWidth(PICK_W - 60)

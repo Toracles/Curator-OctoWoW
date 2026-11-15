@@ -213,13 +213,30 @@ def crate_art_layers(text):
 \t\t\tt.art:SetTexture(art)''')
 
 
-def opaque_dialog(text, first_art):
+def opaque_dialog(text, anchor, frame="f", inset=6):
     text = replace(text, '\t\t\tbgFile = "Interface\\\\DialogFrame\\\\UI-DialogBox-Background-Dark",\n', '')
-    return replace(text, first_art, '''\tlocal background = f:CreateTexture(nil, "BACKGROUND")
-    background:SetPoint("TOPLEFT", f, "TOPLEFT", 6, -6)
-    background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -6, 6)
-    CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
-''' + first_art)
+    return replace(text, anchor, f"\tS.OpaqueBackground({frame}, {inset})\n" + anchor)
+
+
+def skin_backgrounds(text):
+    window_comment = "-- A window of the game:"
+    text = replace(text, window_comment, r'''function S.OpaqueBackground(frame, inset)
+	local bg = frame:CreateTexture(nil, "BACKGROUND")
+	bg:SetTexture("Interface\\Buttons\\WHITE8X8")
+	bg:SetVertexColor(0.025, 0.027, 0.035, 1)
+	bg:SetPoint("TOPLEFT", frame, "TOPLEFT", inset, -inset)
+	bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -inset, inset)
+	return bg
+end
+
+''' + window_comment)
+    text = replace(text, '\t\tlocal title = S.Text(f, "GameFontNormal")',
+                   '\t\tS.OpaqueBackground(f, 11)\n\t\tlocal title = S.Text(f, "GameFontNormal")')
+    for frame in ("bg", "f"):
+        text = replace(text, r'			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",' + "\n", "")
+        anchor = f"\tend\n\t{frame}:ClearAllPoints()"
+        text = replace(text, anchor, f"\t\tS.OpaqueBackground({frame}, 3)\n" + anchor)
+    return text
 
 
 def ruby_ledger(text):
@@ -231,15 +248,34 @@ def ruby_ledger(text):
 
 
 def loot_toast(text):
-    return replace(text, r'''	l.bg = l:CreateTexture(nil, "BACKGROUND")
+    text = replace(text, r'''	l.bg = l:CreateTexture(nil, "BACKGROUND")
 	l.bg:SetTexture("Interface\\LootFrame\\LootToast")
 	l.bg:SetTexCoord(0.28222656, 0.55175781, 0.578125, 0.953125)
 	CuratorOctoFull.SetSize(l.bg, LOOT_W, LOOT_H)
 	l.bg:SetPoint("CENTER")''', r'''	l:SetBackdrop({ edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 16 })
-	l.bg = l:CreateTexture(nil, "BACKGROUND")
-	l.bg:SetPoint("TOPLEFT", l, "TOPLEFT", 5, -5)
-	l.bg:SetPoint("BOTTOMRIGHT", l, "BOTTOMRIGHT", -5, 5)
-	ns.ColorTexture(l.bg, 0.025, 0.027, 0.035, 1)''')
+	l.bg = S.OpaqueBackground(l, 5)''')
+    text = replace(text, r'''	l.shine:SetTexture("Interface\\LootFrame\\LootToast")
+	l.shine:SetTexCoord(0.56347656, 0.73046875, 0.57421875, 0.8671875)''',
+                   '\tl.shine:SetTexture(MEDIA .. "Sheen")')
+    text = replace(text, r'''	a.bg = a:CreateTexture(nil, "BACKGROUND")
+	if not S.Atlas(a.bg, "ui-achievement-alert-background", true) then
+		a.bg:SetTexture("Interface\\AchievementFrame\\UI-Achievement-Alert-Background")
+		a.bg:SetTexCoord(0, 0.605, 0, 0.703)
+		CuratorOctoFull.SetSize(a.bg, ACH_W, ACH_H)
+	end
+	a.bg:SetPoint("CENTER")''', r'''	a:SetBackdrop({ edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 16 })
+	a.bg = S.OpaqueBackground(a, 5)''')
+    return replace(text, "\ta.unlocked:SetTextColor(0, 0, 0)", "\ta.unlocked:SetTextColor(1, 0.82, 0.4)")
+
+
+def live_alerts(text):
+    text = replace(text, r'''	f.bg = f:CreateTexture(nil, "BACKGROUND")
+	f.bg:SetTexture("Interface\\LootFrame\\LootToast")
+	f.bg:SetTexCoord(0.28222656, 0.55175781, 0.578125, 0.953125)
+	CuratorOctoFull.SetSize(f.bg, W, H)
+	f.bg:SetPoint("CENTER")''', r'''	f:SetBackdrop({ edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 16 })
+	f.bg = S.OpaqueBackground(f, 5)''')
+    return opaque_dialog(text, '\tb.text = b:CreateFontString(nil, "OVERLAY")', "b", 3)
 
 
 def friendly_prices(root):
@@ -314,14 +350,12 @@ def apply(root: Path):
         "UI/Rubies.lua": ruby_ledger,
         "UI/Expertise.lua": lambda text: opaque_dialog(text, '\tf.icon = f:CreateTexture(nil, "ARTWORK")'),
         "UI/Displays.lua": lambda text: opaque_dialog(text, '\tf.icon = f:CreateTexture(nil, "ARTWORK")'),
+        "UI/Copies.lua": lambda text: opaque_dialog(text, '\tf.title = S.Text(f, "GameFontNormal", "LEFT")'),
+        "UI/Restore.lua": lambda text: opaque_dialog(text, '\tf.ring = f:CreateTexture(nil, "ARTWORK")'),
+        "UI/Search.lua": lambda text: opaque_dialog(text, '\ttinsert(UISpecialFrames, "CuratorSearch")', inset=4),
         "UI/Toast.lua": loot_toast,
-        "UI/Skin.lua": lambda text: replace(text,
-            '\t\tlocal title = S.Text(f, "GameFontNormal")',
-            '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")
-        background:SetPoint("TOPLEFT", f, "TOPLEFT", 11, -12)
-        background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -12, 11)
-        CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
-        local title = S.Text(f, "GameFontNormal")'''),
+        "UI/Live.lua": live_alerts,
+        "UI/Skin.lua": skin_backgrounds,
         "Core.lua": lambda text: replace(replace(text, "barAt = true, barHide = true }",
             "barAt = true, barHide = true, barWidth = true }"),
             '\telseif cmd == "boosters" or cmd == "booster"',

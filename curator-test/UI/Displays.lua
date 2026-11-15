@@ -1137,10 +1137,7 @@ function DU:CasePanel()
 			insets = { left = 6, right = 6, top = 6, bottom = 6 },
 		})
 	end
-	local background = f:CreateTexture(nil, "BACKGROUND")
-    background:SetPoint("TOPLEFT", f, "TOPLEFT", 6, -6)
-    background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -6, 6)
-    CuratorOctoFull.ColorTexture(background, 0.025, 0.027, 0.035, 1)
+	S.OpaqueBackground(f, 6)
 	f.icon = f:CreateTexture(nil, "ARTWORK")
 	f.icon:SetTexture(MEDIA .. "CaseIcon")
 	CuratorOctoFull.SetSize(f.icon, 36, 36)

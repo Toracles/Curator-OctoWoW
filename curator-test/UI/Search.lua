@@ -91,13 +91,13 @@ function SE:Build()
 	f:EnableMouse(true)
 	if f.SetBackdrop then
 		f:SetBackdrop({
-			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
 			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 			tile = true, tileSize = 16, edgeSize = 16,
 			insets = { left = 4, right = 4, top = 4, bottom = 4 },
 		})
 	end
 	f:Hide()
+	S.OpaqueBackground(f, 4)
 	tinsert(UISpecialFrames, "CuratorSearch")
 	f.title = S.Text(f, "GameFontNormal", "LEFT")
 	f.title:SetPoint("TOPLEFT", 12, -10)

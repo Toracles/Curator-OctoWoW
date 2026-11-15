@@ -57,6 +57,9 @@ local methods = {
  SetTexture = function(self, file, green, blue, alpha)
   self.textureFile, self.textureAlpha = file, alpha
  end,
+ SetVertexColor = function(self, red, green, blue, alpha)
+  self.vertexAlpha = alpha
+ end,
  GetName = function(self) return self.widgetName end,
  CreateFontString = function(self) return widget(self, true) end,
  GetWidth = function() return 1024 end,
@@ -89,6 +92,10 @@ widget = function(parent, layeredRegion)
  return frame
 end
 UIParent, Minimap, DEFAULT_CHAT_FRAME, GameTooltip = widget(), widget(), widget(), widget()
+function assertOpaqueBackground(texture)
+ assert(texture.drawLayer == "BACKGROUND")
+ assert(texture.textureFile == "Interface\\Buttons\\WHITE8X8" and texture.vertexAlpha == 1)
+end
 CreateFrame = function(kind,name,parent,template)
  local modern = {SecureActionButtonTemplate=true, BackdropTemplate=true, PortraitFrameTemplate=true, LargeSideTabButtonTemplate=true,
      CollectionsBackgroundTemplate=true, InsetFrameTemplate=true, WowStyle1DropdownTemplate=true, CheckboxWithLabelTemplate=true, ColoredProgressBarTemplate=true}
@@ -569,7 +576,8 @@ local log = { { n = 10, t = 0 }, { n = 14, t = ns.ServerTime() - 3600 }, { n = 2
 ns.Rubies.Ledger = function() return log end
 ns.RubiesUI:OpenShop(nil, "ledger")
 local shop = ns.RubiesUI.shop
-assert(shop:IsShown() and shop.textures[1].drawLayer == "BACKGROUND" and shop.textures[1].textureAlpha == 1)
+assert(shop:IsShown())
+assertOpaqueBackground(shop.textures[1])
 local rows = shop.ledger.rows
 assert(rows[1].when:GetText() == ns.L["now"])
 assert(rows[2].when:GetText() == string.format(ns.L["%s ago"], ns.Duration(3600)))
@@ -588,8 +596,7 @@ assert(CuratorBankPanel.anchor[2] == BankFrame)
 assert(CuratorCasePanel.anchor[2] == CuratorBankPanel)
 for _, panel in ipairs({ CuratorBankPanel, CuratorCasePanel }) do
     assert(panel:IsShown())
-    local background = panel.textures[1]
-    assert(background.drawLayer == "BACKGROUND" and background.textureAlpha == 1)
+    assertOpaqueBackground(panel.textures[1])
 end
 assert(traceEvent("BANKFRAME_CLOSED") == "")
 assert(not CuratorBankPanel:IsShown() and not CuratorCasePanel:IsShown())
@@ -757,8 +764,7 @@ ns.Fire("INN_VISA", 6740, 3)
 toast:Step(.2)
 assert(toast.state == "hold")
 assert(toast.frame.loot.label:GetText() == string.format(ns.L["New visa: %d"], 3))
-local background = toast.frame.loot.bg
-assert(background.drawLayer == "BACKGROUND" and background.textureAlpha == 1)
+assertOpaqueBackground(toast.frame.loot.bg)
 local oldShowInns = ns.Album.ShowInns
 local opened = false
 ns.Album.ShowInns = function() opened = true end
@@ -768,3 +774,38 @@ assert(opened and not toast.frame:IsShown())
 ns.Album.ShowInns = oldShowInns
 """)
 print("Visa alert: opaque backdrop and passport click verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local toast = ns.Toast
+local balor = ns.SeriesByKey("balor")
+ns.Fire("PACK_EARNED", balor, 1, "explore", true)
+toast:Step(.2)
+assert(toast.state == "hold" and toast.frame.loot:IsShown())
+assert(toast.frame.loot.label:GetText() == ns.L["Booster earned"])
+assert(toast.frame.loot.name:GetText() == ns.Collection:SeriesName(balor))
+assertOpaqueBackground(toast.frame.loot.bg)
+local oldOpen = ns.OpenBooster
+local opened
+ns.OpenBooster = function(options) opened = options.series end
+this, arg1 = toast.frame, "LeftButton"
+toast.frame:GetScript("OnClick")()
+assert(opened == balor and not toast.frame:IsShown())
+ns.OpenBooster = oldOpen
+
+toast:Push({ title = "Test", name = "Achievement", icon = { "StampRing" } })
+assert(toast.frame.ach:IsShown() and not toast.frame.loot:IsShown())
+assertOpaqueBackground(toast.frame.ach.bg)
+toast:Next(true)
+
+ns.Live:Build()
+assertOpaqueBackground(ns.Live.frame.bg)
+assertOpaqueBackground(ns.Live.mover.toast.textures[1])
+assertOpaqueBackground(ns.Live.mover.live.textures[1])
+assertOpaqueBackground(ns.Search:Build().textures[1])
+assertOpaqueBackground(ns.RestoreUI:Panel().textures[1])
+ns.CopiesUI:OpenPicker({ card = balor.list[1] })
+assertOpaqueBackground(ns.CopiesUI.picker.textures[1])
+ns.CopiesUI:ClosePicker()
+""")
+print("Booster, achievement and guild alerts plus related legacy panels use opaque client textures")
