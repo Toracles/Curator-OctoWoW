@@ -313,6 +313,122 @@ def case_film_speed(text):
     return replace(text, '(now - self.t2) / (self.phase', '(now - self.t2) * self.speed / (self.phase')
 
 
+def contract_ceremony(text):
+    text = replace(text, 'function B:BuildContractScene()', '''-- Crop the parchment artwork to its moving edges on the 1.12 client.
+local function CropSheetTexture(tex, paper, bottom, top, height, center, v0, v1)
+	local sourceTop = center + height / 2
+	local low = math.max(bottom, sourceTop - height)
+	local high = math.min(top, sourceTop)
+	if high - low < 1 then
+		tex:Hide()
+		return
+	end
+	tex:ClearAllPoints()
+	tex:SetPoint("TOP", paper, "CENTER", 0, high)
+	tex:SetHeight(high - low)
+	local range = v1 - v0
+	tex:SetTexCoord(0, 1, v0 + (sourceTop - high) * range / height,
+		v0 + (sourceTop - low) * range / height)
+	tex:Show()
+end
+
+local function CropSheet(paper, bottom, top)
+	CropSheetTexture(paper.tex, paper, bottom, top, P, 0, octoConstants.PAPER_V0, octoConstants.PAPER_V1)
+	CropSheetTexture(paper.inner, paper, bottom, top, P * 0.8, 10, 0, 1)
+end
+
+local function InkAbove(edge, baseline)
+	return math.max(0, math.min(1, (baseline + 10 - edge) / 20))
+end
+
+function B:BuildContractScene()''')
+    text = replace(text, '\tpaper.tex:SetAllPoints()\n\tpaper.tex:SetTexture',
+                   '\tpaper.tex:SetWidth(P)\n\tpaper.tex:SetTexture')
+    text = replace(text, '-- the parchment, its texts and what burns it away (the mask is in the same frame)',
+                   '-- the parchment, its text and the burning edge')
+    text = cut(text, '\tpaper.mask = CuratorOctoFull.CreateMaskTexture(paper)', '\tpaper.edge = paper:CreateTexture')
+    text = replace(text, '\tCuratorOctoFull.AddMaskTexture(paper.inner, paper.mask)\n', '')
+    text = replace(text, '\tct.roll:SetHeight(h)\n\tct.rodTop:ClearAllPoints()',
+                   '\tct.roll:SetHeight(h)\n\tCropSheet(ct.paper, -h / 2, h / 2)\n\tct.rodTop:ClearAllPoints()')
+    text = replace(text, '\tpaper.title:SetAlpha(1)\n\tpaper.line:SetAlpha(1)\n\tpaper.mult:SetAlpha(1)\n\tpaper.mask:ClearAllPoints()\n\tpaper.mask:SetPoint("CENTER", paper, "CENTER", 0, -P * 0.66)',
+                   '\tpaper.title:SetAlpha(0)\n\tpaper.line:SetAlpha(0)\n\tpaper.mult:SetAlpha(0)')
+    text = replace(text, '\t\tUnroll(ct, e)\n\t\tct.rodTop:SetAlpha',
+        '''		Unroll(ct, e)
+		local edge = P * e / 2
+		paper.title:SetAlpha(InkAbove(-edge, -P * 0.37))
+		paper.line:SetAlpha(InkAbove(-edge, -P * 0.25))
+		paper.mult:SetAlpha(InkAbove(-edge, -32))
+		ct.rodTop:SetAlpha''')
+    text = cut(text, '\t\tns.Tween(0.4, function(e)\n\t\t\tpaper.title:SetAlpha(1 - e)', '\t\tpaper.edge:SetVertexColor(fire')
+    text = replace(text, '\t\t\tpaper.mask:ClearAllPoints()\n\t\t\tpaper.mask:SetPoint("CENTER", paper, "CENTER", 0, m)',
+        '''			CropSheet(paper, m, P / 2)
+			paper.title:SetAlpha(InkAbove(m, P * 0.37))
+			paper.line:SetAlpha(InkAbove(m, P * 0.25))
+			paper.mult:SetAlpha(InkAbove(m, -12))''')
+    start = '\t\t\tct.rodBot:Hide()\n\t\tend, Ease.linear, self)\n\t\t-- (a flash of gold'
+    end = '\n-- The new cards rise out of the fire'
+    left = text.index(start)
+    return text[:left] + '''			ct.rodBot:Hide()
+			self:Flash(fire, 0.22, 0.4)
+			self:Ring(0, octoConstants.CT_Y, fire, 640, 0.6, 0.5, 0, "Shock")
+			if case then
+				self:CaseContractDeal()
+			else
+				self:ContractDeal()
+			end
+		end, Ease.linear, self)
+	end, self)
+end
+''' + text[text.index(end, left):]
+
+
+def case_contract_result(text):
+    text = replace(text, '-- The card that comes, its place to click, its words (made the first time).',
+        '''-- Leave space for the three result lines in both window sizes.
+function B:PlaceCaseResult()
+	local s = self.frame
+	local ct = s.ct
+	if self.mode ~= "caseContract" or not (ct and ct.wonLabels) then
+		return
+	end
+	local scale = math.min(self.uiK or 1, 1.5)
+	ns.SetFont(ct.wonName, 21 * scale, "OUTLINE")
+	ns.SetFont(ct.wonRank, 13 * scale, "OUTLINE")
+	ns.SetFont(ct.wonExtra, 13 * scale, "OUTLINE")
+	s.summary:ClearAllPoints()
+	local summaryScale = s.summary.GetScale and s.summary:GetScale() or 1
+	s.summary:SetPoint("CENTER", s, "CENTER", 0, -231 / (summaryScale or 1))
+end
+
+-- The card that comes, its place to click, its words (made the first time).''')
+    text = replace(text, '\tct.wonName = FontOf(ct, 21)\n\tct.wonName:SetPoint("CENTER", s, "CENTER", 0, WON_Y - WON_H / 2 - 34)\n\tct.wonRank = FontOf(ct, 13)',
+        '''	local labels = CreateFrame("Frame", nil, ct)
+	labels:SetFrameLevel(s:GetFrameLevel() + 61)
+	CuratorOctoFull.SetSize(labels, 520, 108)
+	labels:SetPoint("TOP", s, "CENTER", 0, WON_Y - WON_H / 2 - 13)
+	ns.Skin.OpaqueBackground(labels, 0)
+	labels:Hide()
+	ct.wonLabels = labels
+	ct.wonName = FontOf(labels, 21)
+	ct.wonName:SetPoint("TOP", labels, "TOP", 0, -11)
+	ct.wonRank = FontOf(labels, 13)''')
+    text = replace(text, '\tct.wonExtra = FontOf(ct, 13)', '\tct.wonExtra = FontOf(labels, 13)')
+    text = replace(text, '\tfor _, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do\n\t\tfs:SetAlpha(0)\n\tend\n', '')
+    text = replace(text, '\tfor _, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do\n\t\tfs:SetAlpha(0)\n\tend\n', '\tct.wonLabels:Hide()\n')
+    text = replace(text, '\tself:CaseWonCard()\n\tself.state = "contract"', '\tself:CaseWonCard()\n\tself:PlaceCaseResult()\n\tself.state = "contract"')
+    text = cut(text, '\tfor k, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do',
+               '\tns.Delay(0.95, function()')
+    return replace(text, '\tns.Delay(0.95, function()\n\t\tself:CaseDone()',
+        '''	B.U.FadeIn(ct.wonLabels, 0.3, self)
+	ns.Delay(0.95, function()
+		self:CaseDone()''')
+
+
+def contract_booster_layout(text):
+    return replace(booster_preview(text), '\tAt(s.summary, "CENTER", s, "CENTER", 0, -190)',
+        '\tAt(s.summary, "CENTER", s, "CENTER", 0, -190)\n\tif self.PlaceCaseResult then self:PlaceCaseResult() end')
+
+
 def opaque_dialog(text, anchor, frame="f", inset=6):
     text = replace(text, '\t\t\tbgFile = "Interface\\\\DialogFrame\\\\UI-DialogBox-Background-Dark",\n', '')
     return replace(text, anchor, f"\tS.OpaqueBackground({frame}, {inset})\n" + anchor)
@@ -709,7 +825,9 @@ def apply(root: Path):
     changes = {
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
-        "UI/Booster.lua": booster_preview,
+        "UI/Booster.lua": contract_booster_layout,
+        "UI/Contract.lua": contract_ceremony,
+        "UI/CaseContract.lua": case_contract_result,
         "Inns.lua": inns_clock,
         "UI/Inns.lua": inns_panel,
         "UI/Tavern.lua": tavern_bet_modal,

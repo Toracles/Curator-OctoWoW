@@ -1632,6 +1632,22 @@ function B:CaseGiven(i, w)
 	return c
 end
 
+-- Leave space for the three result lines in both window sizes.
+function B:PlaceCaseResult()
+	local s = self.frame
+	local ct = s.ct
+	if self.mode ~= "caseContract" or not (ct and ct.wonLabels) then
+		return
+	end
+	local scale = math.min(self.uiK or 1, 1.5)
+	ns.SetFont(ct.wonName, 21 * scale, "OUTLINE")
+	ns.SetFont(ct.wonRank, 13 * scale, "OUTLINE")
+	ns.SetFont(ct.wonExtra, 13 * scale, "OUTLINE")
+	s.summary:ClearAllPoints()
+	local summaryScale = s.summary.GetScale and s.summary:GetScale() or 1
+	s.summary:SetPoint("CENTER", s, "CENTER", 0, -231 / (summaryScale or 1))
+end
+
 -- The card that comes, its place to click, its words (made the first time).
 function B:CaseWonCard()
 	local s = self.frame
@@ -1661,15 +1677,19 @@ function B:CaseWonCard()
 	hit:Hide()
 	ct.wonHit = hit
 	-- its words under it: its name, its rank and its collection, its condition and its finish
-	ct.wonName = FontOf(ct, 21)
-	ct.wonName:SetPoint("CENTER", s, "CENTER", 0, WON_Y - WON_H / 2 - 34)
-	ct.wonRank = FontOf(ct, 13)
+	local labels = CreateFrame("Frame", nil, ct)
+	labels:SetFrameLevel(s:GetFrameLevel() + 61)
+	CuratorOctoFull.SetSize(labels, 520, 108)
+	labels:SetPoint("TOP", s, "CENTER", 0, WON_Y - WON_H / 2 - 13)
+	ns.Skin.OpaqueBackground(labels, 0)
+	labels:Hide()
+	ct.wonLabels = labels
+	ct.wonName = FontOf(labels, 21)
+	ct.wonName:SetPoint("TOP", labels, "TOP", 0, -11)
+	ct.wonRank = FontOf(labels, 13)
 	ct.wonRank:SetPoint("TOP", ct.wonName, "BOTTOM", 0, -5)
-	ct.wonExtra = FontOf(ct, 13)
+	ct.wonExtra = FontOf(labels, 13)
 	ct.wonExtra:SetPoint("TOP", ct.wonRank, "BOTTOM", 0, -4)
-	for _, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do
-		fs:SetAlpha(0)
-	end
 	-- (waiting face down, a click anywhere turns it over: not the click that cut the ceremony short)
 	CuratorOctoFull.HookScript(s, "OnMouseDown", function()
 		if B.state == "caseCard" and GetTime() - (B.caseReadyAt or 0) > 0.2 then
@@ -1712,9 +1732,7 @@ function B:CaseContractReset()
 	ct.won:SetScale(1)
 	ct.won:Hide()
 	ct.wonHit:Hide()
-	for _, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do
-		fs:SetAlpha(0)
-	end
+	ct.wonLabels:Hide()
 end
 
 -- A contract of the cards of the cases signed (rec: the card that came; given: the copies given, as they were): the
@@ -1751,6 +1769,7 @@ function B:OpenCaseContract(rec, given)
 		c:Hide()
 	end
 	self:CaseWonCard()
+	self:PlaceCaseResult()
 	self.state = "contract"
 	if not s:IsShown() then
 		s:SetAlpha(0)
@@ -1946,11 +1965,7 @@ function B:CaseRevealed()
 	ct.wonRank:SetTextColor(col[1], col[2], col[3])
 	ct.wonExtra:SetText(Said(rec))
 	ct.wonExtra:SetTextColor(0.92, 0.92, 0.94)
-	for k, fs in ipairs({ ct.wonName, ct.wonRank, ct.wonExtra }) do
-		local k, fs = k, fs; ns.Tween(0.3, function(e)
-			fs:SetAlpha(e)
-		end, nil, Ease.outQuad, self, 0.3 + 0.12 * (k - 1))
-	end
+	B.U.FadeIn(ct.wonLabels, 0.3, self)
 	ns.Delay(0.95, function()
 		self:CaseDone()
 	end, self)

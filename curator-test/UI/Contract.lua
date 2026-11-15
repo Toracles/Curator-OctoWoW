@@ -3136,6 +3136,33 @@ local function Level(self)
 	return math.min(CuratorOctoFull.Length(ns.RARITY), (r and (r.up or (r.rarity + 1))) or 2)
 end
 
+-- Crop the parchment artwork to its moving edges on the 1.12 client.
+local function CropSheetTexture(tex, paper, bottom, top, height, center, v0, v1)
+	local sourceTop = center + height / 2
+	local low = math.max(bottom, sourceTop - height)
+	local high = math.min(top, sourceTop)
+	if high - low < 1 then
+		tex:Hide()
+		return
+	end
+	tex:ClearAllPoints()
+	tex:SetPoint("TOP", paper, "CENTER", 0, high)
+	tex:SetHeight(high - low)
+	local range = v1 - v0
+	tex:SetTexCoord(0, 1, v0 + (sourceTop - high) * range / height,
+		v0 + (sourceTop - low) * range / height)
+	tex:Show()
+end
+
+local function CropSheet(paper, bottom, top)
+	CropSheetTexture(paper.tex, paper, bottom, top, P, 0, octoConstants.PAPER_V0, octoConstants.PAPER_V1)
+	CropSheetTexture(paper.inner, paper, bottom, top, P * 0.8, 10, 0, 1)
+end
+
+local function InkAbove(edge, baseline)
+	return math.max(0, math.min(1, (baseline + 10 - edge) / 20))
+end
+
 function B:BuildContractScene()
 	local s = self.frame
 	if s.ct then
@@ -3154,7 +3181,7 @@ function B:BuildContractScene()
 		CuratorOctoFull.SetClipsChildren(roll, true)
 	end
 	ct.roll = roll
-	-- the parchment, its texts and what burns it away (the mask is in the same frame)
+	-- the parchment, its text and the burning edge
 	local paper = CreateFrame("Frame", nil, roll)
 	CuratorOctoFull.SetSize(paper, P, P)
 	paper:SetPoint("CENTER", s, "CENTER", 0, octoConstants.CT_Y)
@@ -3166,15 +3193,9 @@ function B:BuildContractScene()
 	paper.glow:SetVertexColor(1, 0.8, 0.5)
 	paper.glow:SetAlpha(0)
 	paper.tex = paper:CreateTexture(nil, "ARTWORK")
-	paper.tex:SetAllPoints()
+	paper.tex:SetWidth(P)
 	paper.tex:SetTexture(octoConstants.MEDIA .. "Contract")
 	paper.tex:SetTexCoord(0, 1, octoConstants.PAPER_V0, octoConstants.PAPER_V1)
-	paper.mask = CuratorOctoFull.CreateMaskTexture(paper)
-	paper.mask:SetTexture(octoConstants.MEDIA .. "BurnMask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-	-- the burning line is in the middle of the mask: three parchments high, it covers the whole
-	-- sheet while the line is still under it, and the glowing edge (an eighth of the mask) follows it
-	CuratorOctoFull.SetSize(paper.mask, P * 0.8, P * 3)
-	CuratorOctoFull.AddMaskTexture(paper.tex, paper.mask)
 	paper.edge = paper:CreateTexture(nil, "OVERLAY", nil, 3)
 	paper.edge:SetTexture(octoConstants.MEDIA .. "BurnEdge")
 	paper.edge:SetBlendMode("ADD")
@@ -3187,7 +3208,6 @@ function B:BuildContractScene()
 	paper.inner:SetPoint("CENTER", 0, 10)
 	CuratorOctoFull.SetSize(paper.inner, P * 0.8, P * 0.8)
 	paper.inner:SetAlpha(0)
-	CuratorOctoFull.AddMaskTexture(paper.inner, paper.mask)
 	paper.title = paper:CreateFontString(nil, "OVERLAY")
 	ns.SetFont(paper.title, 19)
 	paper.title:SetPoint("CENTER", paper, "TOP", 0, -P * 0.13)
@@ -3291,6 +3311,7 @@ end
 local function Unroll(ct, k)
 	local h = math.max(2, P * k)
 	ct.roll:SetHeight(h)
+	CropSheet(ct.paper, -h / 2, h / 2)
 	ct.rodTop:ClearAllPoints()
 	ct.rodTop:SetPoint("CENTER", B.frame, "CENTER", 0, octoConstants.CT_Y + h / 2)
 	ct.rodBot:ClearAllPoints()
@@ -3400,11 +3421,9 @@ function B:ContractTimeline()
 	paper.title:SetText(n > 1 and string.format(L["%d exchange contracts"], n) or L["Exchange contract"])
 	Fit(paper.line, case and result.line or Deal(result.rarity, n, true, result.size, result.up), 14, P * 0.8)
 	paper.mult:SetText(n > 1 and ("x" .. n) or "")
-	paper.title:SetAlpha(1)
-	paper.line:SetAlpha(1)
-	paper.mult:SetAlpha(1)
-	paper.mask:ClearAllPoints()
-	paper.mask:SetPoint("CENTER", paper, "CENTER", 0, -P * 0.66)
+	paper.title:SetAlpha(0)
+	paper.line:SetAlpha(0)
+	paper.mult:SetAlpha(0)
 	paper.edge:Hide()
 	paper.seal:Hide()
 	paper.glow:SetVertexColor(col[1], col[2], col[3])
@@ -3421,6 +3440,10 @@ function B:ContractTimeline()
 	-- the parchment unrolls from its middle
 	ns.Tween(0.6, function(e, raw)
 		Unroll(ct, e)
+		local edge = P * e / 2
+		paper.title:SetAlpha(InkAbove(-edge, -P * 0.37))
+		paper.line:SetAlpha(InkAbove(-edge, -P * 0.25))
+		paper.mult:SetAlpha(InkAbove(-edge, -32))
 		ct.rodTop:SetAlpha(math.min(1, raw * 5))
 		ct.rodBot:SetAlpha(math.min(1, raw * 5))
 	end, nil, Ease.outCubic, self, 0.1)
@@ -3565,19 +3588,16 @@ function B:ContractTimeline()
 	local fire = octoConstants.FIRE[lvl] or octoConstants.FIRE[1]
 	ns.Delay(tBurn, function()
 		ns.Play(ns.SND.burn)
-		ns.Tween(0.4, function(e)
-			paper.title:SetAlpha(1 - e)
-			paper.line:SetAlpha(1 - e)
-			paper.mult:SetAlpha(1 - e)
-		end, nil, Ease.outQuad, self)
 		paper.edge:SetVertexColor(fire[1], fire[2], fire[3])
 		paper.edge:Show()
 		local sealGone = false
 		local nextEmber = 0
 		ns.Tween(1.7, function(e, raw)
 			local m = -P * 0.66 + P * 1.32 * e
-			paper.mask:ClearAllPoints()
-			paper.mask:SetPoint("CENTER", paper, "CENTER", 0, m)
+			CropSheet(paper, m, P / 2)
+			paper.title:SetAlpha(InkAbove(m, P * 0.37))
+			paper.line:SetAlpha(InkAbove(m, P * 0.25))
+			paper.mult:SetAlpha(InkAbove(m, -12))
 			paper.edge:ClearAllPoints()
 			paper.edge:SetPoint("CENTER", paper, "CENTER", 0, m)
 			paper.edge:SetAlpha(math.min(1, raw * 6) * math.min(1, (1 - raw) * 6))
@@ -3602,19 +3622,14 @@ function B:ContractTimeline()
 			paper.edge:Hide()
 			ct.rodTop:Hide()
 			ct.rodBot:Hide()
-		end, Ease.linear, self)
-		-- (a flash of gold as the last of it goes)
-		ns.Delay(1.45, function()
-			self:Flash({ fire[1], fire[2], fire[3] }, 0.22, 0.4)
+			self:Flash(fire, 0.22, 0.4)
 			self:Ring(0, octoConstants.CT_Y, fire, 640, 0.6, 0.5, 0, "Shock")
-		end, self)
-	end, self)
-	ns.Delay(tBurn + 1.35, function()
-		if case then
-			self:CaseContractDeal()
-		else
-			self:ContractDeal()
-		end
+			if case then
+				self:CaseContractDeal()
+			else
+				self:ContractDeal()
+			end
+		end, Ease.linear, self)
 	end, self)
 end
 

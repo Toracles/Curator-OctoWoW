@@ -1258,3 +1258,66 @@ crate.frame:Hide()
 crate.Reveal = reveal
 """)
 print("Case opening: single and accelerated queues, 20 reveals, safe interruption and stock checks verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local b, cases = ns.Booster, ns.Cases
+b:Build()
+b:BuildContractScene()
+local scene, ct = b.frame, b.frame.ct
+local paper = ct.paper
+paper.tex.SetHeight = function(self, height) self.sheetHeight = height end
+paper.title.SetAlpha = function(self, alpha) self.inkAlpha = alpha end
+cases:Add("paladin1", 1)
+ns.Rubies:Gain(cases:KeyPrice(), "gift")
+assert(cases:BuyKey("paladin1", 1))
+local rec = assert(cases:Open("paladin1"))
+rec.f = nil
+b:OpenCaseContract(rec, {})
+assert(b.state == "contract" and paper.tex.sheetHeight == 2 and paper.title.inkAlpha == 0)
+assert(not ct.wonLabels:IsShown())
+stepFrames(18)
+assert(paper.tex.sheetHeight == b.CT.P and paper.title.inkAlpha == 1)
+local sawBurn = false
+for i = 1, 270 do
+    if b.state ~= "contract" then break end
+    stepFrames(1)
+    if paper:IsShown() and paper.edge:IsShown() and paper.tex.sheetHeight < b.CT.P then
+        sawBurn = true
+    end
+end
+assert(sawBurn and b.state == "caseDeal" and not paper:IsShown())
+assert(not ct.rodTop:IsShown() and not ct.rodBot:IsShown() and not paper.edge:IsShown())
+stepFrames(20)
+assert(b.state == "caseCard" and not ct.wonLabels:IsShown() and ct.wonHit:IsShown())
+b:CaseReveal()
+stepFrames(4)
+assert(b.state == "caseReveal" and not ct.wonLabels:IsShown())
+stepFrames(7)
+assert(ct.wonLabels:IsShown() and ct.wonName:GetText() ~= "" and ct.wonRank:GetText() ~= "")
+assertOpaqueBackground(ct.wonLabels.textures[1])
+assert(not scene.again:IsShown())
+stepFrames(26)
+assert(b.state == "caseDone" and scene.again:IsShown() and scene.album:IsShown())
+assert(scene.summary.anchor[5] < ct.wonLabels.anchor[5] - 108)
+scene:Hide()
+b:OpenCaseContract(rec, {})
+b:ContractSkip()
+assert(b.state == "caseCard" and not paper:IsShown() and not ct.wonLabels:IsShown())
+scene:Hide()
+local series = ns.SeriesByKey("balor")
+local card = series.list[1]
+b:OpenContract({card = card, given = {card.key}, odds = {{series = series}},
+    rarity = 1, up = 2, n = 1, size = 10, count = 1, new = true})
+assert(paper.tex.sheetHeight == 2 and paper.title.inkAlpha == 0)
+for i = 1, 300 do
+    if b.state ~= "contract" then break end
+    stepFrames(1)
+end
+assert(b.state == "dealing" and not paper:IsShown() and not paper.edge:IsShown())
+assert(not ct.rodTop:IsShown() and not ct.rodBot:IsShown())
+stepFrames(45)
+assert(b.state == "cards" and scene.hint:GetText() ~= "")
+scene:Hide()
+""")
+print("Contracts: cropped parchment, burn before deal, synchronized case reward labels and skip verified")

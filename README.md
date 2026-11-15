@@ -16,7 +16,7 @@ Hoard is optional and only used for legacy save migration. DXVK, HD packs, Super
 ## Install or update
 
 1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.
-2. Close OctoWoW before applying the [cumulative alpha.29 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.29/Curator-OctoWoW-correctif-alpha.29.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
+2. Close OctoWoW before applying the [cumulative alpha.30 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.30/Curator-OctoWoW-correctif-alpha.30.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
 3. Launch OctoWoW, enable **Curator** on the character selection screen, and enter `/curator`. Set English or French in `/curator options`.
 
 For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
@@ -44,7 +44,7 @@ Each verified quest turn-in grants **20 booster points** and can advance active 
 | Preview a booster opening | `/curator boosters` → **Test**. Uses no booster and grants no rewards. |
 | Open collection cases | Open one case at its normal speed, or choose **5×**, **10×** or **20×** for faster consecutive reveals. Closing the scene stops the remaining openings. |
 | Resize or move the booster bar | Mouse wheel over the bar to change width, Ctrl + wheel to scale, Shift + drag to move. Use `/curator bar width 240` for an exact width or `/curator bar reset` to reset it. |
-| Trade duplicates for a higher-rarity card | **Contracts** or `/curator contract` |
+| Trade duplicates for a higher-rarity card | **Contracts** or `/curator contract`. The parchment burns away before the reward appears. For case contracts, the reward details appear when you flip the card. |
 | Open the player trade interface | Target a player and enter `/curator trade`, or use `/curator trade Name`. With no target, the command opens the trade list. |
 | Open language and interface settings | `/curator options` |
 | Redeem a gift code | `/curator gift` or **Boosters → Gift code**. Paste the code, check the rewards, then select **Redeem**. |

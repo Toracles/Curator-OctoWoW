@@ -792,6 +792,7 @@ function B:PlaceUI()
 	s.close:ClearAllPoints()
 	s.close:SetPoint("LEFT", s.again, "RIGHT", 14, 0)
 	At(s.summary, "CENTER", s, "CENTER", 0, -190)
+	if self.PlaceCaseResult then self:PlaceCaseResult() end
 	self:PlaceHint(self.hintY or -206)
 	-- (1.6.0) the omen, under the button that opens them all; its two choices side by side; a card
 	-- drawn again, under the buttons of the end

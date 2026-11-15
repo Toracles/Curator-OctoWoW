@@ -1,13 +1,13 @@
-## Ouverture des caisses en série
+## Animation des contrats
 
-- Ouvre une caisse ou enchaîne **5, 10 ou 20 caisses** de la même édition. Chaque caisse garde son animation de défilement et sa propre révélation.
-- L’ouverture individuelle garde sa vitesse habituelle. Les séries accélèrent l’animation et affichent leur progression.
-- Les boutons de série s’activent selon le stock de caisses et de clés. Fermer la scène arrête les ouvertures restantes.
+- Sur le client 1.12.1, le parchemin suit les rouleaux en s’ouvrant. Le texte disparaît au passage du feu.
+- Pour les contrats de boosters et de caisses, les cartes arrivent à la fin de la brûlure.
+- Pour les contrats de caisses, le nom, le rang et les détails apparaissent ensemble au retournement de la carte, sur un fond opaque.
 - Quitte OctoWoW avant d’appliquer le correctif cumulatif. Pour une première installation, extrais d’abord le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2).
 
-## Batch case opening
+## Contract animations
 
-- Open one case, or open **5, 10 or 20 cases** of the same edition in sequence. Each case keeps its spin animation and individual reveal.
-- Single openings keep their usual pace. Batch animations run faster and show opening progress.
-- Batch buttons depend on your case and key stock. Closing the scene stops the remaining openings.
+- On the 1.12.1 client, the parchment follows the rods as it unfolds. Its text fades as the fire reaches it.
+- Booster and case contracts now deal their rewards after the burn finishes.
+- In case contracts, the name, rank and details appear together when the card flips, on an opaque background.
 - Exit OctoWoW before applying the cumulative patch. First-time players should extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) first.
