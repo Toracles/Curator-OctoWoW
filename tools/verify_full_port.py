@@ -729,3 +729,24 @@ assert(string.find(gallery.textures[1].textureFile, "Cartes\\", 1, true))
 GetLocale = oldLocale
 """)
 print("Gallery: French and English artworks selected correctly")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local toast = ns.Toast
+toast:Hold()
+toast.queue = {}
+ns.Fire("INN_VISA", 6740, 3)
+toast:Step(.2)
+assert(toast.state == "hold")
+assert(toast.frame.loot.label:GetText() == string.format(ns.L["New visa: %d"], 3))
+local background = toast.frame.loot.bg
+assert(background.drawLayer == "BACKGROUND" and background.textureAlpha == 1)
+local oldShowInns = ns.Album.ShowInns
+local opened = false
+ns.Album.ShowInns = function() opened = true end
+this, arg1 = toast.frame, "LeftButton"
+toast.frame:GetScript("OnClick")()
+assert(opened and not toast.frame:IsShown())
+ns.Album.ShowInns = oldShowInns
+""")
+print("Visa alert: opaque backdrop and passport click verified")

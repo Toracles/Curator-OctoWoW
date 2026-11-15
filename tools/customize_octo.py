@@ -226,6 +226,18 @@ def ruby_ledger(text):
             r.when:SetText(ago and (ago < 60 and L["now"] or string.format(L["%s ago"], ns.Duration(ago))) or "—")''')
 
 
+def loot_toast(text):
+    return replace(text, r'''	l.bg = l:CreateTexture(nil, "BACKGROUND")
+	l.bg:SetTexture("Interface\\LootFrame\\LootToast")
+	l.bg:SetTexCoord(0.28222656, 0.55175781, 0.578125, 0.953125)
+	CuratorOctoFull.SetSize(l.bg, LOOT_W, LOOT_H)
+	l.bg:SetPoint("CENTER")''', r'''	l:SetBackdrop({ edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 16 })
+	l.bg = l:CreateTexture(nil, "BACKGROUND")
+	l.bg:SetPoint("TOPLEFT", l, "TOPLEFT", 5, -5)
+	l.bg:SetPoint("BOTTOMRIGHT", l, "BOTTOMRIGHT", -5, 5)
+	ns.ColorTexture(l.bg, 0.025, 0.027, 0.035, 1)''')
+
+
 def friendly_prices(root):
     changes = {
         "Rubies.lua": [
@@ -296,6 +308,7 @@ def apply(root: Path):
         "UI/Gossip.lua": gossip_panel,
         "UI/Crate.lua": crate_art_layers,
         "UI/Rubies.lua": ruby_ledger,
+        "UI/Toast.lua": loot_toast,
         "UI/Skin.lua": lambda text: replace(text,
             '\t\tlocal title = S.Text(f, "GameFontNormal")',
             '''\t\tlocal background = f:CreateTexture(nil, "BACKGROUND")
