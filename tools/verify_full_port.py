@@ -92,6 +92,11 @@ widget = function(parent, layeredRegion)
  return frame
 end
 UIParent, Minimap, DEFAULT_CHAT_FRAME, GameTooltip = widget(), widget(), widget(), widget()
+unitTooltipCallbacks = {}
+TooltipDataProcessor = { AddTooltipPostCall = function(kind, callback)
+    assert(kind == 2)
+    table.insert(unitTooltipCallbacks, callback)
+end }
 function assertOpaqueBackground(texture)
  assert(texture.drawLayer == "BACKGROUND")
  assert(texture.textureFile == "Interface\\Buttons\\WHITE8X8" and texture.vertexAlpha == 1)
@@ -1000,3 +1005,35 @@ assert(not live.current and not dialog:IsShown() and string.find(last(), "/C/dec
 wire.Send, wire.Drop, ns.db.trades = oldSend, oldDrop, oldTrades
 """)
 print("Live trade: invitation, bilateral preview, replay protection and explicit final acceptance verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+ns.Album:Hide()
+assert(table.getn(unitTooltipCallbacks) == 1 and unitTooltipCallbacks[1] == ns.Talents.OnCreatureTooltip)
+local tip = GameTooltip
+local oldUnit, oldLine = tip.GetUnit, tip.AddLine
+local oldExists, oldPlayer, oldSame, oldName = UnitExists, UnitIsPlayer, UnitIsUnit, UnitName
+local oldAsk, oldProfile = ns.Guild.Ask, ns.Guild.Profile
+local lines, asks = {}, 0
+local unit = "player"
+UnitExists = function() return true end
+UnitIsPlayer = function() return true end
+UnitIsUnit = function(a, b) return a == b end
+UnitName = function(u) return u == "player" and "Tester" or "Other Person" end
+tip.GetUnit = function() return UnitName(unit), unit end
+tip.AddLine = function(_, line) table.insert(lines, line) end
+ns.Guild.Ask = function() asks = asks + 1 end
+ns.Guild.Profile = function() return { owned = 113, points = 70, xp = 1000 }, false end
+tip:Show()
+tip:AddLine("Player")
+for _, target in ipairs({ "player", "target" }) do
+    unit = target
+    for _, callback in ipairs(unitTooltipCallbacks) do callback(tip) end
+end
+ns.Fire("PLAYER_INFO", "Other-Person")
+assert(table.getn(lines) == 1 and lines[1] == "Player" and asks == 0)
+tip.GetUnit, tip.AddLine = oldUnit, oldLine
+UnitExists, UnitIsPlayer, UnitIsUnit, UnitName = oldExists, oldPlayer, oldSame, oldName
+ns.Guild.Ask, ns.Guild.Profile = oldAsk, oldProfile
+""")
+print("Stock player tooltips stay unchanged, including after player profile messages")

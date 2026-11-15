@@ -370,6 +370,13 @@ def append_port(text, name):
     return text.rstrip() + "\n\n" + (FULL_PORT / name).read_text(encoding="utf8")
 
 
+def players_ui(text):
+    text = cut(text, "-- The line of the tooltip:", "-- Opening a collection")
+    text = cut(text, 'local MYTHIC_ICON =', '-- "Name-Realm" of a unit')
+    text = cut(text, "-- The other players:", "local P = {}")
+    return append_port(text, "PortraitTrade.lua")
+
+
 def trade_protocol(text):
     text = replace(text, 'local OPS = { P = "OnOffer",', 'local OPS = { L = "OnLive", P = "OnOffer",')
     text = replace(text, 'return table.concat({ "P", rec.id, rec.rev, ns.db.uid,',
@@ -503,7 +510,7 @@ def apply(root: Path):
         "UI/Save.lua": lambda text: header_icon_button(text, "b"),
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
-        "UI/Players.lua": lambda text: append_port(text, "PortraitTrade.lua"),
+        "UI/Players.lua": players_ui,
         "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",
