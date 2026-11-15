@@ -1,9 +1,9 @@
-## Compatibilité des interfaces avec le client 1.12.1
+## Affichage des cartes dans les albums
 
-- Adaptation des scripts des fenêtres et boutons aux événements 1.12.1. Les nouveaux gestionnaires conservent les scripts déjà installés sur le même objet.
-- Adaptation des mesures de texte et de cadres, ainsi que des appels optionnels sur les boutons, textures et champs de saisie.
-- Fond opaque pour les fenêtres sur le client 1.12.1 afin que les éléments du HUD restent derrière leur contenu.
+- Correction du blocage dans la grille des cartes quand le client ne dispose pas de `SetPortraitZoom` ou des autres réglages facultatifs de caméra et d’animation.
+- Les cartes sans identifiant de modèle s’affichent avec leur cadre. Le jeu conserve le cadrage par défaut lorsque les réglages de caméra sont indisponibles.
+- Le retournement standard reste disponible quand la cinématique de créature ne peut pas démarrer.
 
-Les 221 fichiers compilent en Lua 5.0. Les tests simulés couvrent trente commandes d’interface, l’inventaire de boosters vide, le redimensionnement de la barre à la molette et une ouverture de booster jusqu’au retournement des cartes. Le rendu, les cinématiques et les interactions entre joueurs restent à valider dans OctoWoW.
+Les 221 scripts compilent en Lua 5.0. Les tests simulés couvrent les 57 cartes de Balor, la première page de chaque album et l’ouverture standard des boosters. Le rendu en jeu reste à vérifier.
 
-Installer d’abord [le ZIP de base alpha.2](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), puis extraire ce correctif cumulatif dans `Interface/AddOns`, jeu fermé. Si Curator est déjà installé depuis le ZIP de base, appliquer directement ce correctif.
+Installer [le ZIP de base alpha.2](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), puis appliquer ce correctif cumulatif dans `Interface/AddOns`. Si Curator est déjà installé depuis le ZIP de base, appliquer directement ce correctif et taper `/reload`.

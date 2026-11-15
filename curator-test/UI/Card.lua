@@ -592,10 +592,10 @@ function Probe:Frame(i)
 		CuratorOctoFull.SetScript(f, "OnModelLoaded", function(m)
 			local _, black = Lights()
 			if black then
-				m:SetLight(true, black)
+				CuratorOctoFull.SetLight(m, true, black)
 			end
-			m:SetParticlesEnabled(false)
-			m:SetCamDistanceScale(8)
+			CuratorOctoFull.SetParticlesEnabled(m, false)
+			CuratorOctoFull.SetCamDistanceScale(m, 8)
 			Probe:Loaded(m)
 		end)
 		f:Hide()
@@ -716,26 +716,26 @@ function ApplyModelLook(m)
 	end
 	local db = ns.db or {}
 	CuratorOctoFull.SetRotation(m, db.plain and 0 or (m.facing or 0.4))
-	m:SetPortraitZoom(db.zoom or m.zoom or 0)
-	m:SetCamDistanceScale(db.cam or m.cam or 1)
+	CuratorOctoFull.SetPortraitZoom(m, db.zoom or m.zoom or 0)
+	CuratorOctoFull.SetCamDistanceScale(m, db.cam or m.cam or 1)
 	local normal, black = Lights()
 	if db.plain and normal then
 		-- diagnostics: the client's own lighting, model facing the camera
-		m:SetLight(false, normal)
-		m:SetParticlesEnabled(true)
-		m:SetPaused(false)
+		CuratorOctoFull.SetLight(m, false, normal)
+		CuratorOctoFull.SetParticlesEnabled(m, true)
+		CuratorOctoFull.SetPaused(m, false)
 	elseif m.silhouette then
 		if black then
-			m:SetLight(true, black)
+			CuratorOctoFull.SetLight(m, true, black)
 		end
-		m:SetParticlesEnabled(false)
-		m:SetPaused(true)
+		CuratorOctoFull.SetParticlesEnabled(m, false)
+		CuratorOctoFull.SetPaused(m, true)
 	else
 		if normal then
-			m:SetLight(true, normal)
+			CuratorOctoFull.SetLight(m, true, normal)
 		end
-		m:SetParticlesEnabled(true)
-		m:SetPaused(Still())
+		CuratorOctoFull.SetParticlesEnabled(m, true)
+		CuratorOctoFull.SetPaused(m, Still())
 	end
 end
 
@@ -919,7 +919,7 @@ function ns.NewCard(parent, size)
 		m = CreateFrame("PlayerModel", nil, art)
 		m:SetAllPoints()
 		m:SetFrameLevel(lvl + 5)
-		CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)
+		m.hasLoadScript = CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)
 			ApplyModelLook(self)
 			self.loaded = true
 			-- a reveal animation asked for while the creature was still loading
@@ -1548,7 +1548,7 @@ function Card:SetCard(card, opts)
 		self.see3D:SetText(L[self.live3D and "See the card" or "See in 3D"])
 	end
 	-- the creature
-	m.display = (not por or self.live3D) and card.display or nil
+	m.display = (not por or self.live3D) and card.display and card.display > 0 and card.display or nil
 	m.silhouette = not owned
 	m.facing = opts.facing or 0.4
 	m.pendingAnim = nil
@@ -1621,7 +1621,8 @@ function Card:ReloadModel()
 		m:ClearModel()
 		m:SetDisplayInfo(m.display)
 		ApplyModelLook(m)
-		m:SetAnimation(0)
+		if m.SetAnimation then m:SetAnimation(0) end
+		if not m.hasLoadScript then m.loaded = true end
 	else
 		m:ClearModel()
 	end
@@ -2951,7 +2952,7 @@ function Card:Animate(owner, force)
 	end
 	for _, anim in ipairs(list) do
 		local ok, has = pcall(m.HasAnimation, m, anim)
-		if ok and has then
+		if ok and has and m.SetAnimation then
 			m:SetAnimation(anim)
 			ns.Delay(back, function()
 				m:SetAnimation(0)

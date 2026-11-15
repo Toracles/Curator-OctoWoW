@@ -108,6 +108,7 @@ function convert(source, file) {
                 node.base.indexer === ":" && ["SetScript", "SetSize", "SetColorTexture", "SetShown", "SetClipsChildren",
                  "CreateMaskTexture", "AddMaskTexture", "RemoveMaskTexture", "HookScript", "GetSize", "GetRect", "GetStringHeight",
                  "SetMotionScriptsWhileDisabled", "SetClampedToScreen", "SetAutoFocus", "SetDesaturated", "SetRotation", "GetRotation", "SetEnabled", "SetWordWrap", "SetMaxLines",
+                 "SetPortraitZoom", "SetCamDistanceScale", "SetParticlesEnabled", "SetPaused", "SetLight",
                  "byte", "char", "find", "format", "gmatch", "gsub", "len", "lower", "match", "rep", "sub", "upper"].includes(node.base.identifier.name)) {
             // Keep script signatures in the upstream code; pass legacy event globals through at the boundary.
             const base = node.base.base;
@@ -160,10 +161,22 @@ function convert(source, file) {
             (_, pattern) => 'string.gsub(fmt, "(' + pattern + ')", "%%%1")');
     }
     if (file === "Beta.lua") result = result.replace("return not self:ForeverClient()", "return not CuratorOctoFull.IsOctoClient() and not self:ForeverClient()");
-    if (file === "UI\\Card.lua" || file === "UI/Card.lua")
-        result = result.replace("elseif m.display then\n\t\tm:ClearModel()", "elseif m.display and m.SetDisplayInfo then\n\t\tm:ClearModel()");
+    if (file === "UI\\Card.lua" || file === "UI/Card.lua") {
+        result = result.replace('CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)',
+            'm.hasLoadScript = CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)');
+        result = result.replace("m.display = (not por or self.live3D) and card.display or nil",
+            "m.display = (not por or self.live3D) and card.display and card.display > 0 and card.display or nil");
+        result = result.replace("elseif m.display then\n\t\tm:ClearModel()\n\t\tm:SetDisplayInfo(m.display)\n\t\tApplyModelLook(m)\n\t\tm:SetAnimation(0)",
+            `elseif m.display and m.SetDisplayInfo then
+		m:ClearModel()
+		m:SetDisplayInfo(m.display)
+		ApplyModelLook(m)
+		if m.SetAnimation then m:SetAnimation(0) end
+		if not m.hasLoadScript then m.loaded = true end`);
+        result = result.replace("if ok and has then\n\t\t\tm:SetAnimation(anim)", "if ok and has and m.SetAnimation then\n\t\t\tm:SetAnimation(anim)");
+    }
     if (file === "UI\\Cinematic.lua" || file === "UI/Cinematic.lua")
-        result = result.replace("local f = self.frame\n\tns.CancelOwner(self)\n\tself:HideCards()", "local f = self.frame\n\tif not (f.scene or f.model.SetDisplayInfo) then return false end\n\tns.CancelOwner(self)\n\tself:HideCards()");
+        result = result.replace("local f = self.frame\n\tns.CancelOwner(self)\n\tself:HideCards()", "local f = self.frame\n\tif not (card.display and card.display > 0 and (f.scene or (f.model.SetDisplayInfo and f.model.SetAnimation))) then return false end\n\tns.CancelOwner(self)\n\tself:HideCards()");
     if (file === "UI\\Hud.lua" || file === "UI/Hud.lua") {
         result = result.replace("local enable = b.SetEnabled", `local enable = b.SetEnabled or function(button, on)
         if on then button:Enable() else button:Disable() end

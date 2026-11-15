@@ -302,3 +302,23 @@ function ns.SetAutoFocus(editBox, enabled)
     if editBox.SetAutoFocus then return editBox:SetAutoFocus(enabled) end
     if not enabled and editBox.ClearFocus then editBox:ClearFocus() end
 end
+
+function ns.SetPortraitZoom(model, zoom)
+    if model.SetPortraitZoom then model:SetPortraitZoom(zoom) end
+end
+
+function ns.SetCamDistanceScale(model, scale)
+    if model.SetCamDistanceScale then model:SetCamDistanceScale(scale) end
+end
+
+function ns.SetParticlesEnabled(model, enabled)
+    if model.SetParticlesEnabled then model:SetParticlesEnabled(enabled) end
+end
+
+function ns.SetPaused(model, paused)
+    if model.SetPaused then model:SetPaused(paused) end
+end
+
+function ns.SetLight(model, enabled, light)
+    if model.SetLight then return pcall(model.SetLight, model, enabled, light) end
+end

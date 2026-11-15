@@ -26,6 +26,8 @@ end
 local unavailable = {SetEnabled=true, SetWordWrap=true, SetMaxLines=true, HookScript=true, GetSize=true,
  GetRect=true, GetStringHeight=true, SetMotionScriptsWhileDisabled=true, SetClampedToScreen=true, SetAutoFocus=true,
  SetDesaturated=true, SetVertexOffset=true, SetShown=true, SetSize=true, SetColorTexture=true, SetClipsChildren=true,
+ SetPortraitZoom=true, SetCamDistanceScale=true, SetPaused=true, SetParticlesEnabled=true, SetLight=true,
+ HasAnimation=true, SetAnimation=true,
  Low=true, High=true, Text=true, CreateMaskTexture=true, AddMaskTexture=true}
 local methods = {
  RegisterEvent = function(self, event) registrations[self][event] = true end,
@@ -70,11 +72,19 @@ widget = function(parent)
  return frame
 end
 UIParent, Minimap, DEFAULT_CHAT_FRAME, GameTooltip = widget(), widget(), widget(), widget()
-CreateFrame = function(_,name,parent,template)
+CreateFrame = function(kind,name,parent,template)
  local modern = {SecureActionButtonTemplate=true, BackdropTemplate=true, PortraitFrameTemplate=true, LargeSideTabButtonTemplate=true,
      CollectionsBackgroundTemplate=true, InsetFrameTemplate=true, WowStyle1DropdownTemplate=true, CheckboxWithLabelTemplate=true, ColoredProgressBarTemplate=true}
  assert(not modern[template], "Unsupported inherited template: " .. tostring(template))
+ assert(kind ~= "ModelScene", "Unsupported frame type: ModelScene")
  local frame=widget(parent)
+ if kind == "PlayerModel" then
+  frame.SetDisplayInfo = function(self, display)
+   assert(type(display) == "number" and display > 0, "Invalid creature display ID")
+   self.testDisplay = display
+  end
+  frame.ClearModel = function(self) self.testDisplay = nil end
+ end
  if name then _G[name]=frame end
  return frame
 end
@@ -306,3 +316,53 @@ frame:GetScript("OnUpdate")()
 assert(table.concat(order, ",") == "original,hook")
 """)
 print("Thirty UI commands and legacy event chaining verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local album = ns.Album
+local function countCards()
+    local count = 0
+    for _, slot in ipairs(album.frame.slots) do
+        if slot:IsShown() and slot.card then count = count + 1 end
+    end
+    return count
+end
+album:ShowSeries(ns.SeriesByKey("balor"))
+assert(album.page == 1 and countCards() > 0)
+local first = countCards()
+local total = first
+for page = 2, math.ceil(57 / first) do
+    album:Page(1)
+    stepFrames(60)
+    assert(album.page == page and countCards() > 0)
+    total = total + countCards()
+end
+assert(total == 57)
+for page = album.page - 1, 1, -1 do
+    album:Page(-1)
+    stepFrames(60)
+    assert(album.page == page)
+end
+assert(album.page == 1 and countCards() == first)
+album:ShowSeries(ns.SeriesByKey("elwynn"))
+local slot = album.frame.slots[1]
+assert(slot:IsShown() and slot.card)
+local testCard = {}
+for key, value in pairs(slot.card) do testCard[key] = value end
+testCard.display = 1974
+ns.Portraits[1974] = nil
+slot:SetCard(testCard, { owned = true })
+assert(slot.model.testDisplay == 1974 and slot.model.loaded)
+ns.ReframeCards()
+testCard.display = 0
+slot:SetCard(testCard, { owned = true })
+assert(not slot.model.testDisplay)
+for _, series in ipairs(ns.Series) do
+    if series.list and table.getn(series.list) > 0 then
+        local ok, err = pcall(album.ShowSeries, album, series)
+        assert(ok, series.key .. ": " .. tostring(err))
+        assert(countCards() > 0, series.key)
+    end
+end
+""")
+print("All 57 Balor cards, every album's first page and optional model controls verified")

@@ -634,17 +634,17 @@ function Cin:ApplyLook()
 		local black = Light(st, false)
 		if black then
 			black.diffuseIntensity = 0
-			m:SetLight(true, black)
+			CuratorOctoFull.SetLight(m, true, black)
 		end
-		m:SetParticlesEnabled(false)
+		CuratorOctoFull.SetParticlesEnabled(m, false)
 		return
 	end
 	local light = Light(self.style, self.lit)
 	if light then
-		m:SetLight(true, light)
+		CuratorOctoFull.SetLight(m, true, light)
 	end
-	m:SetParticlesEnabled(self.role ~= nil or (self.lit ~= nil and self.lit ~= false))
-	m:SetPaused(false)
+	CuratorOctoFull.SetParticlesEnabled(m, self.role ~= nil or (self.lit ~= nil and self.lit ~= false))
+	CuratorOctoFull.SetPaused(m, false)
 end
 
 function Cin:SetLit(on)
@@ -982,7 +982,7 @@ function Cin:Play(card, opts, onReveal, onDone)
 	end
 	self:Build()
 	local f = self.frame
-	if not (f.scene or f.model.SetDisplayInfo) then return false end
+	if not (card.display and card.display > 0 and (f.scene or (f.model.SetDisplayInfo and f.model.SetAnimation))) then return false end
 	ns.CancelOwner(self)
 	self:HideCards()
 	self.card, self.opts, self.onReveal, self.onDone = card, opts or {}, onReveal, onDone
@@ -2122,8 +2122,8 @@ function Cin:Tick(elapsed)
 	if f.scene then
 		self:SceneCamera()
 	else
-		m:SetPortraitZoom(math.max(0, math.min(1, cam.zoom)))
-		m:SetCamDistanceScale(cam.dist * (self.camK or 1))
+		CuratorOctoFull.SetPortraitZoom(m, math.max(0, math.min(1, cam.zoom)))
+		CuratorOctoFull.SetCamDistanceScale(m, cam.dist * (self.camK or 1))
 		CuratorOctoFull.SetRotation(m, cam.rot)
 	end
 	-- the shake of the blows
