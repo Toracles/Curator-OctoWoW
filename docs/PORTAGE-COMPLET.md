@@ -1,22 +1,20 @@
 
 # Portage complet de Curator 1.14.3
 
-La cible est Curator en jeu sur OctoWoW, avec une installation manuelle. La galerie et l'alpha simplifiée servent de prototypes. Le chantier principal convertit l'archive officielle dans l'ordre de son fichier TOC.
+Suivi de la préversion alpha.25 pour OctoWoW sur le client 1.12.1. L’installation associe le ZIP de base au correctif cumulatif. La galerie bilingue s’installe séparément.
 
 | Fonction | État |
 | --- | --- |
-| Chargement et connexion | 226 fichiers compilés par Lua 5.0.3. Chargement et événements ADDON_LOADED et PLAYER_LOGIN simulés en Lua 5.1. |
-| Albums, inventaire et sauvegarde | Moteur original chargé. Six albums OctoWoW et 903 cartes ajoutés. Zephras retiré du TOC. Sauvegarde avec des variables propres au port. Les autres données Forever restent à comparer aux données OctoWoW. |
-| Boosters et ouverture | Le moteur original atteint la fin de la distribution et du retournement des huit cartes avec Lua 5.0.3 et Lua 5.1, avec les API du jeu simulées. Les cartes, le rendu des effets et les cinématiques restent à valider sur le client 1.12.1. |
-| Progression, contrats, talents, hauts faits, quêtes, finitions, restauration et autres vues de collection | Modules conservés. Les messages Vanilla de quête et de découverte créditent les points une fois dans les tests. Les autres événements et interfaces restent à tester en jeu. |
-| Échanges entre joueurs, guilde, commerce et revente | Adaptateur du canal Vanilla ajouté. Un envoi a été simulé. Le protocole et les échanges complets restent à valider entre deux joueurs. |
+| Chargement et connexion | 221 fichiers Lua compilés avec Lua 5.0. Le chargement et les événements `ADDON_LOADED` et `PLAYER_LOGIN` sont simulés. |
+| Albums, inventaire et sauvegarde | Moteur original et sauvegardes locales. 20 albums OctoWoW et 1 269 cartes en plus des albums Vanilla. Le catalogue propre au serveur d’origine et les éléments de bêta ont été retirés. |
+| Boosters et ouverture | Distribution et retournement des huit cartes testés avec les API simulées. Aperçu d’ouverture gratuit et barre ajustable. Le rendu et les cinématiques restent à vérifier en jeu. |
+| Progression et économie | Contrats, talents, hauts faits, quêtes, finitions, expertise et restauration adaptés. Tarifs locaux en rubis divisés par deux et clés de caisse par quatre. |
+| Rattrapage | Niveaux, découvertes et quêtes rendues confirmés. Le registre du compte et celui du personnage préviennent les doubles crédits. Les objectifs Curator actifs de rendu de quêtes progressent après confirmation. |
+| Interface | Correctifs de modèles, de fonds et de superpositions. Guide dans l’en-tête, actions Curator intégrées au dialogue Vanilla des aubergistes et infobulles de joueurs au format du jeu. |
+| Échanges entre joueurs | Canal Vanilla, invitation depuis le portrait et aperçu partagé testés en simulation. La validation complète à deux joueurs reste à faire sur OctoWoW. |
+| Langues et galerie | Anglais et français dans l’addon principal. La galerie propose 259 cartes illustrées dans chaque langue. |
 | Application Windows et services associés | Hors périmètre. La synchronisation et la restauration en ligne ainsi que la Bourse officielle reposent sur ce service. |
 
-Depuis le dépôt, préparer le chantier avec tools/stage_full_port.py, tools/convert_full_port.cjs puis tools/generate_full_catalogue.py. Exécuter tools/verify_full_port.py depuis le dossier du dépôt. Le convertisseur utilise luaparse 0.3.1 dans .port-runtime/package, le banc de test utilise Lupa avec Lua 5.1 dans .test-runtime. L'archive d'origine reste à la racine de l'espace de travail. Les sources converties et le relevé des médias et API sont générés dans full-port-work.
+Depuis le dépôt, préparer le chantier avec `tools/stage_full_port.py`, `tools/convert_full_port.cjs` puis `tools/generate_full_catalogue.py`. Exécuter `tools/verify_full_port.py` pour les tests simulés et `tools/check_lua50.py` puis `tools/run_lua50_smoke.py` avec Lua 5.0. Le convertisseur utilise luaparse 0.3.1 dans `.port-runtime/package`. Le banc de test utilise Lupa avec Lua 5.1 dans `.test-runtime`. L’archive d’origine reste à la racine de l’espace de travail. Les sources converties et le relevé des médias et API sont générés dans `full-port-work`.
 
-Le banc de test simule les appels d'interface et les événements. La suite consiste à valider les API et les fichiers médias sur le client 1.12.1, puis ouvrir les albums et jouer les séquences originales jusqu'à l'enregistrement de la collection. Vérifier ensuite les fonctions multijoueurs avec deux clients.
-
-
-
-
-
+Pour reproduire le parcours en jeu, ouvrir l’inventaire et plusieurs albums, utiliser l’aperçu de booster, tester le rattrapage, puis vérifier la sauvegarde après une reconnexion. Tester l’invitation, l’aperçu et la confirmation d’un échange avec deux clients.

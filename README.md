@@ -1,48 +1,50 @@
 # Curator OctoWoW
 
-Portage de Curator 1.14.3, adapté par CloudNine_Ex pour OctoWoW 1.18.1 sur le client 1.12.1. Cette version de test reprend le moteur original de collection et d’ouverture des boosters. Elle s’installe manuellement et utilise une sauvegarde locale.
+**English** · [Français](README.fr.md)
 
-## Installation de la version de test
+Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, and open boosters with Curator’s original reveal animations. The port is a prerelease with local saves and runs entirely in the game client.
 
-1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
-2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.25](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.25) au même emplacement.
-3. Relancer le jeu, activer **Curator OctoWoW** à la sélection des personnages et taper `/curator`.
+## Install or update
 
-Les tests hors jeu couvrent les 221 fichiers Lua, le chargement, la connexion simulée, trente commandes d’interface et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.
+1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.
+2. Extract the [cumulative alpha.25 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.25/Curator-OctoWoW-correctif-alpha.25.zip) into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
+3. Launch OctoWoW, enable **Curator** on the character selection screen, and enter `/curator`. Set English or French in `/curator options`.
 
-Le port intègre 20 albums OctoWoW et 1 269 cartes associées, en plus des albums Vanilla vérifiés avec Questie-Octo. La synchronisation et la Bourse officielle restent hors périmètre.
+For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
 
-## Rattrapage d’un personnage existant
+## What’s in the port
 
-Le panneau apparaît après la connexion lorsqu’un rattrapage est disponible. Il détaille les niveaux, les découvertes, les quêtes du jeu rendues, les objectifs Curator qui peuvent être terminés, les points et les boosters. Récupérer ou refuser demande une confirmation. Fermer le panneau reporte le choix. Un refus confirmé est définitif pour les récompenses affichées. Pour rouvrir le panneau, taper `/curator rattrapage` ou `/curator catchup`.
+- **Catalogue and collection.** Vanilla albums plus 20 OctoWoW albums with 1,269 cards across zones, dungeons, and raids. The port replaces the previous server-specific catalogue and removes retired beta screens and achievements. Creature display IDs were matched to the OctoWoW client where available.
+- **Boosters and cases.** The original booster-opening and card-reveal flow, an adjustable booster bar, and a free **Test** button in the booster screen. The collection also includes cases, card finishes, appraisal, protective cases, and restoration.
+- **Progress and economy.** Collector levels, quests, achievements, talents, duplicate contracts, and the innkeeper’s loyalty card, visas, and bets. Local ruby prices are halved, and a case key costs 250 rubies at the base rate.
+- **Player trades.** Start a live invitation from the blue **Trade (Curator)** entry on a player portrait. After they accept the invitation, both players can preview the cards and boosters being offered. The initiator sends the final offer, and the recipient reviews and accepts it before the transfer. Both players need alpha.23 or later for the live preview. Classic offers remain available through `/curator trade`.
+- **Vanilla interface fixes.** Startup and model API compatibility, a reorganized album header and Guide button, and corrected case artwork layering. Alerts, bank panels, and the ruby ledger have opaque backgrounds. Innkeeper actions sit in the native dialogue, with fixes for loyalty stamp animations, dates, and overlapping bet windows. Player tooltips use the game’s own content.
 
-Chaque quête rendue confirmée par le client ou par l’historique de Questie-Octo donne 20 points de booster, une fois par personnage. Elle peut avancer les objectifs Curator actifs qui demandent de rendre des quêtes. Les objectifs terminés alimentent les hauts faits Curator habituels. Le rattrapage utilise des boosters à choisir, puisque l’historique ne donne pas le lieu du rendu. Les anciennes périodes, les rubis de rendu et les tirages de caisses ne sont pas reconstruits.
+## Catch up on earlier progress
 
-Les anciennes versions ne mémorisaient pas quels passages de niveau avaient déjà rapporté des points. Si l’ancien addon t’a déjà crédité jusqu’au niveau 30, lance `/curator rattrapage 30` la première fois. Les lieux déjà enregistrés et les niveaux suivis depuis alpha.15 sont dédupliqués. Les cartes sans données d’exploration, les lieux qu’une portion de carte ne permet pas de distinguer et l’historique des combats d’élite restent hors import.
+Enter `/curator catchup` to preview uncredited levels, discoveries, and game quests turned in. Claiming and declining each ask for confirmation. Closing the panel postpones the choice. The addon keeps a receipt in both the account and character saves to prevent repeat credits after updates.
 
-Le registre des crédits est écrit dans la sauvegarde Curator du compte et dans une sauvegarde Curator propre au personnage, sous `WTF`. Curator fusionne les deux copies et reprend les crédits des versions précédentes.
+Each verified quest turn-in grants **20 booster points** and can advance active Curator objectives that ask you to turn in quests. Completed objectives count toward the corresponding achievements. The client or Questie-Octo supplies the quest history. Past quest-board periods, original turn-in rubies, and past elite kills are outside the import. If an early build already granted levels without recording them, use `/curator catchup 30` with the last level it credited in place of `30`.
 
-## Prix et langues
+## Quick controls
 
-Les prix locaux en rubis sont divisés par deux. Les clés de caisse sont divisées par quatre, soit 250 rubis au prix de base. Les prix positifs sont arrondis au rubis le plus proche avec un minimum d’un rubis.
+| Action | Control |
+| --- | --- |
+| Open the collection | `/curator` |
+| Preview a booster opening | `/curator boosters` → **Test**. Uses no booster and grants no rewards. |
+| Resize or move the booster bar | Mouse wheel over the bar to change width, Ctrl + wheel to scale, Shift + drag to move. Use `/curator bar width 240` for an exact width or `/curator bar reset` to reset it. |
+| Trade duplicates for a higher-rarity card | **Contracts** or `/curator contract` |
+| Open the player trade interface | Target a player and enter `/curator trade`, or use `/curator trade Name`. With no target, the command opens the trade list. |
+| Open language and interface settings | `/curator options` |
 
-La langue de Curator se choisit dans `/curator options`. La galerie est un addon séparé, disponible dans la [release alpha.17](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.17). Après avoir extrait `CuratorOctoGalerie` dans `Interface/AddOns`, relancer complètement le jeu, ouvrir `/curatorgalerie` ou `/curatorgallery`, puis utiliser le bouton **English / Français**. Les intitulés repris du catalogue gardent leur nom de référence.
+## Prerelease status and sources
 
-## Barre de boosters
+The automated Lua 5.0 suite covers loading, collection screens, booster reveals, catch-up, and simulated trade invitations and previews. Rendering and a complete trade between two players still need live client verification. This port uses local saves. The original Windows companion, online sync and restore, and the official Exchange are outside its scope.
 
-Ouvrir `/curator boosters` et cliquer sur **Tester** à gauche du booster pour jouer l’animation de l’album affiché. Cet aperçu ne dépense aucun booster et ne rapporte ni carte ni expérience.
+- [Release notes and downloads](https://github.com/Toracles/Curator-OctoWoW/releases)
+- [Addon scripts and licenses](curator-test) · [Port source](full-port) · [Build and test tools](tools) · [Porting notes in French](docs/PORTAGE-COMPLET.md)
+- [Questie-Octo catalogue data and notices](data) · [Creature display ID mappings](data/OctoDisplayIDs.tsv)
 
-Survoler la barre et tourner la molette pour modifier sa largeur. Ctrl + molette règle son échelle. Maj + glisser déplace la barre. Utiliser `/curator bar width 240` pour une largeur précise et `/curator bar reset` pour rétablir les réglages par défaut.
+The original Curator code, artwork, and data retain the rights stated in the [addon license](curator-test/LICENSE.txt) and [data notice](curator-test/Data/NOTICE.txt).
 
-## Sources et archives
-
-- [curator-test](curator-test) contient les scripts exacts de la version corrigée, avec le fichier TOC et les licences. Les textures et les sons sont inclus dans le ZIP de base alpha.2.
-- [full-port](full-port) et [tools](tools) contiennent les adaptations et les outils de construction et de test.
-- [docs/PORTAGE-COMPLET.md](docs/PORTAGE-COMPLET.md) décrit le suivi par fonctionnalité.
-- [data](data) contient le catalogue issu de Questie-Octo et ses notices.
-- [OctoDisplayIDs.tsv](data/OctoDisplayIDs.tsv) associe les PNJ aux modèles de la base OctoWoW et de l’export Turtle WoW de ShellLab. Les correspondances ShellLab ont été vérifiées par ID et par nom. Chaque modèle ajouté est présent dans `CreatureDisplayInfo.dbc` du client OctoWoW. [Base OctoWoW](https://octowow.st/db/), [export ShellLab](https://github.com/oplancelot/ShellLab/blob/main/data/shelllab.db)
-- [addon/CuratorOcto](addon/CuratorOcto) conserve le prototype de collection et d’ouverture.
-
-Les médias et le code d’origine de Curator conservent les droits indiqués dans les licences incluses.
-
-![Aperçu de la galerie initiale](docs/Apercu.png)
+![Preview of the original OctoWoW gallery](docs/Apercu.png)
