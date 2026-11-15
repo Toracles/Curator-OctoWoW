@@ -4,6 +4,15 @@
 
 Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, and open boosters with Curator’s original reveal animations. The port is a prerelease with local saves and runs entirely in the game client.
 
+## Requirements
+
+- **Base installation.** Use the OctoWoW 1.12.1 client and install the base ZIP before applying the cumulative patch. The addon has no mandatory addon dependencies in its TOC.
+- **3D models and exploration catch-up.** Enable `ClassicAPI.dll` to supply the creature model and exploration APIs. Start OctoWoW through the launcher configured to load ClassicAPI. For manual setup, put the DLL alongside `WoW.exe`, add it to `dlls.txt`, and launch via `VanillaFixes.exe`. [ClassicAPI installation](https://github.com/brues-code/ClassicAPI#installation) · [OctoWoW Modernization Tool](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md)
+- **Quest catch-up.** This feature needs completed-quest history from the client or from Questie-Octo. Questie-Octo is optional if the client already exposes that history. [Questie-Octo](https://github.com/SandreaSub/Questie-Octo)
+- **Live trades.** Both players need Curator OctoWoW alpha.23 or later.
+
+Hoard is optional and only used for legacy save migration. DXVK, HD packs, SuperWoW, and Nampower are separate client options. The original Curator Windows companion and development tools are unnecessary when installing from the release ZIPs.
+
 ## Install or update
 
 1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.

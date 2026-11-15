@@ -4,6 +4,15 @@
 
 Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le client WoW 1.12.1**. Collectionne les cartes de créatures, complète les albums par zone et ouvre des boosters avec les animations originales de Curator. Cette préversion fonctionne entièrement dans le jeu et utilise des sauvegardes locales.
 
+## Prérequis
+
+- **Installation de base.** Utilise le client OctoWoW 1.12.1 et installe le ZIP de base avant le correctif cumulatif. Le fichier TOC de Curator ne déclare aucun autre addon obligatoire.
+- **Modèles 3D et rattrapage de l’exploration.** Active `ClassicAPI.dll` pour disposer des API de modèles de créatures et d’exploration. Démarre OctoWoW avec le launcher configuré pour charger ClassicAPI. En installation manuelle, place la DLL à côté de `WoW.exe`, ajoute-la dans `dlls.txt`, puis lance le jeu avec `VanillaFixes.exe`. [Installation de ClassicAPI](https://github.com/brues-code/ClassicAPI#installation) · [Modernization Tool d’OctoWoW](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md)
+- **Rattrapage des quêtes.** Il utilise l’historique des quêtes rendues du client ou celui de Questie-Octo. Questie-Octo est facultatif si le client fournit déjà cet historique. [Questie-Octo](https://github.com/SandreaSub/Questie-Octo)
+- **Échanges en direct.** Les deux joueurs doivent utiliser Curator OctoWoW alpha.23 ou une version ultérieure.
+
+Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXVK, les packs HD, SuperWoW et Nampower sont des options distinctes du client. L’installation par ZIP se suffit à elle-même pour les fichiers de Curator, sans application Windows compagnon ni outils de développement.
+
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
