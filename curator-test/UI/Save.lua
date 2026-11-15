@@ -314,8 +314,8 @@ end
 function SV:Tooltip(owner)
 	GameTooltip:SetOwner(owner, "ANCHOR_BOTTOMLEFT")
 	GameTooltip:AddLine(L["Save your collection"], 1, 1, 1)
-	GameTooltip:AddLine(L["The interface reloads, and the game writes your collection to its files (a few seconds)."], 0.85, 0.85, 0.85, true)
-	GameTooltip:AddLine(L["The game writes it only then, or when you log out: if the game closes on its own, what came since is lost."], 0.85, 0.85, 0.85, true)
+	GameTooltip:AddLine(L["Log out to the character selection screen to save your collection."], 0.85, 0.85, 0.85, true)
+	GameTooltip:AddLine(L["If the game crashes, progress since your last save may be lost."], 0.85, 0.85, 0.85, true)
 	GameTooltip:AddLine(" ")
 	local lines = self:Lines()
 	if CuratorOctoFull.Length(lines) > 0 then
@@ -352,13 +352,13 @@ function SV:Can(say)
 	end
 	if Fighting() then
 		if say then
-			ns.Print(L["Not during a fight: saving reloads the interface. Save once the fight is over."])
+			ns.Print(L["Save once the fight is over."])
 		end
 		return false
 	end
 	if self:Turning() then
 		if say then
-			ns.Print(L["Once the cards are turned over: saving reloads the interface."])
+			ns.Print(L["Save once the cards have been revealed."])
 		end
 		return false
 	end
@@ -371,33 +371,54 @@ function SV:Note()
 	ns.db.saveNote = { t = Now(), c = g.cards, o = g.opened, e = g.earned, l = g.levels, a = g.ach, x = math.floor(g.xp), r = math.floor(g.rubies) }
 end
 
--- On the 1.12 client the native reload writes the account and character saves.
-function SV:Now()
-	if self.nativeReload or not self:Can(true) then
+local SAVE_LOGOUT = "CURATOR_SAVE_LOGOUT"
+local LOGOUT_FALLBACK = "Use /logout to return to the character selection screen and save your collection."
+
+function SV:ConfirmLogout()
+	if not self:Can(true) then
 		return false
 	end
-	if type(ReloadUI) ~= "function" then
-		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+	if type(Logout) ~= "function" then
+		ns.Print(L[LOGOUT_FALLBACK])
 		return false
 	end
-	local previous = ns.db.saveNote
-	self:Note()
-	local note = ns.db.saveNote
-	self.nativeReload = note
-	local function failed()
-		if self.nativeReload ~= note then return end
-		self.nativeReload = nil
-		if ns.db and ns.db.saveNote == note then ns.db.saveNote = previous end
-		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
-	end
-	local ok, result = pcall(ReloadUI)
+	self.saveOnLogout = true
+	local ok, result = pcall(Logout)
 	if not ok or result == false then
-		failed()
+		self.saveOnLogout = nil
+		ns.Print(L[LOGOUT_FALLBACK])
 		return false
 	end
-	After(3, failed)
 	return true
 end
+
+function SV:Now()
+	if not self:Can(true) then
+		return false
+	end
+	if type(StaticPopupDialogs) ~= "table" or type(StaticPopup_Show) ~= "function" then
+		ns.Print(L[LOGOUT_FALLBACK])
+		return false
+	end
+	StaticPopupDialogs[SAVE_LOGOUT] = {
+		text = L["Save your collection and return to the character selection screen?"],
+		button1 = L["Save and log out"],
+		button2 = L["Cancel"],
+		OnAccept = function() SV:ConfirmLogout() end,
+		timeout = 0,
+		whileDead = 1,
+		hideOnEscape = 1,
+	}
+	StaticPopup_Show(SAVE_LOGOUT)
+	return true
+end
+
+ns.On("LOGOUT", function()
+	if SV.saveOnLogout and ns.db then
+		SV.saveOnLogout = nil
+		SV:Note()
+	end
+end)
 
 -------------------------------------------------------------------------------
 -- The key: the reload by a macro of the game
@@ -472,8 +493,8 @@ end
 -- nothing, click = after a click). False: not now (a fight, nothing to lay it on).
 function SV:Cover(target, opts)
 	opts = opts or {}
-	-- Save actions can call ReloadUI directly in OctoWoW.
-	if type(ReloadUI) == "function" and opts.save ~= false then return false end
+	-- Only the language prompt uses the reload macro.
+	if opts.save ~= false then return false end
 	if not (Calm() and target and target.IsVisible and target:IsVisible()) or (opts.when and not opts.when(target)) then
 		return false
 	end
@@ -632,7 +653,7 @@ function SV:Remind(card, finish)
 			title = L["Not saved yet!"],
 			name = C:Name(card),
 			color = r and r.text or GOLD,
-			line = L["Click: save it now (the interface reloads)."],
+			line = L["Click to save and log out."],
 			card = card,
 			finish = finish,
 		}
@@ -641,7 +662,7 @@ function SV:Remind(card, finish)
 			title = string.format(L["Not saved for %s"], ns.Duration(self:Age())),
 			name = self:Short(),
 			color = GOLD,
-			line = L["Not in safety yet. Click: save it (the interface reloads)."],
+			line = L["Click to save and log out."],
 			tex = SV.ICON,
 		}
 	end
@@ -820,7 +841,6 @@ end
 -------------------------------------------------------------------------------
 -- The start of a session: the save loaded is the one on the disk. The save asked for before the reload, told.
 function SV:Start()
-	self.nativeReload = nil
 	self.since = GetTime()
 	local db = ns.db
 	local note = db and db.saveNote

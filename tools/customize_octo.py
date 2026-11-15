@@ -366,6 +366,25 @@ def header_icon_button(text, button):
                    f"CuratorOctoFull.SetSize({button}.icon, 16, 16)\n{indent}{button}.icon:SetPoint(\"CENTER\")")
 
 
+SAVE_TEXT = {
+    "Log out to the character selection screen to save your collection.": "Déconnecte-toi jusqu’à l’écran de sélection des personnages pour sauvegarder ta collection.",
+    "If the game crashes, progress since your last save may be lost.": "Si le jeu plante, les progrès depuis ta dernière sauvegarde peuvent être perdus.",
+    "Save once the fight is over.": "Sauvegarde une fois le combat terminé.",
+    "Save once the cards have been revealed.": "Sauvegarde une fois les cartes révélées.",
+    "Save your collection and return to the character selection screen?": "Sauvegarder ta collection et revenir à l’écran de sélection des personnages ?",
+    "Save and log out": "Sauvegarder et se déconnecter",
+    "Use /logout to return to the character selection screen and save your collection.": "Utilise /logout pour revenir à l’écran de sélection des personnages et sauvegarder ta collection.",
+    "Click to save and log out.": "Clique pour sauvegarder et te déconnecter.",
+    "/curator save: save your collection by logging out": "/curator save : sauvegarde ta collection en te déconnectant",
+    "Log out to save your side of the trade.": "Déconnecte-toi pour sauvegarder ta part de l’échange.",
+}
+
+
+def save_locale(text):
+    entries = "".join(f'\t["{key}"] = "{value}",\n' for key, value in SAVE_TEXT.items())
+    return text.rstrip() + '\n\nAdd("frFR", {\n' + entries + '})\n'
+
+
 def native_save(text):
     text = header_icon_button(text, "b")
     text = text.replace("InCombatLockdown and InCombatLockdown()", "Fighting()")
@@ -382,40 +401,72 @@ local function Now()''')
     start = "-- The save asked for where no macro of the game reloads"
     end = "-------------------------------------------------------------------------------\n-- The key: the reload by a macro of the game"
     text = cut(text, start, end)
-    text = replace(text, end, '''-- On the 1.12 client the native reload writes the account and character saves.
-function SV:Now()
-	if self.nativeReload or not self:Can(true) then
+    text = replace(text, end, '''local SAVE_LOGOUT = "CURATOR_SAVE_LOGOUT"
+local LOGOUT_FALLBACK = "Use /logout to return to the character selection screen and save your collection."
+
+function SV:ConfirmLogout()
+	if not self:Can(true) then
 		return false
 	end
-	if type(ReloadUI) ~= "function" then
-		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
+	if type(Logout) ~= "function" then
+		ns.Print(L[LOGOUT_FALLBACK])
 		return false
 	end
-	local previous = ns.db.saveNote
-	self:Note()
-	local note = ns.db.saveNote
-	self.nativeReload = note
-	local function failed()
-		if self.nativeReload ~= note then return end
-		self.nativeReload = nil
-		if ns.db and ns.db.saveNote == note then ns.db.saveNote = previous end
-		ns.Print(L["The game did not reload the interface: type /reload to save your collection."])
-	end
-	local ok, result = pcall(ReloadUI)
+	self.saveOnLogout = true
+	local ok, result = pcall(Logout)
 	if not ok or result == false then
-		failed()
+		self.saveOnLogout = nil
+		ns.Print(L[LOGOUT_FALLBACK])
 		return false
 	end
-	After(3, failed)
 	return true
 end
 
+function SV:Now()
+	if not self:Can(true) then
+		return false
+	end
+	if type(StaticPopupDialogs) ~= "table" or type(StaticPopup_Show) ~= "function" then
+		ns.Print(L[LOGOUT_FALLBACK])
+		return false
+	end
+	StaticPopupDialogs[SAVE_LOGOUT] = {
+		text = L["Save your collection and return to the character selection screen?"],
+		button1 = L["Save and log out"],
+		button2 = L["Cancel"],
+		OnAccept = function() SV:ConfirmLogout() end,
+		timeout = 0,
+		whileDead = 1,
+		hideOnEscape = 1,
+	}
+	StaticPopup_Show(SAVE_LOGOUT)
+	return true
+end
+
+ns.On("LOGOUT", function()
+	if SV.saveOnLogout and ns.db then
+		SV.saveOnLogout = nil
+		SV:Note()
+	end
+end)
+
 ''' + end)
     text = replace(text, "\topts = opts or {}\n\tif not (Calm()", '''\topts = opts or {}
-	-- Save actions can call ReloadUI directly in OctoWoW.
-	if type(ReloadUI) == "function" and opts.save ~= false then return false end
+	-- Only the language prompt uses the reload macro.
+	if opts.save ~= false then return false end
 	if not (Calm()''')
-    return replace(text, "function SV:Start()\n", "function SV:Start()\n\tself.nativeReload = nil\n")
+    for old, new in (
+        ("The interface reloads, and the game writes your collection to its files (a few seconds).",
+         "Log out to the character selection screen to save your collection."),
+        ("The game writes it only then, or when you log out: if the game closes on its own, what came since is lost.",
+         "If the game crashes, progress since your last save may be lost."),
+        ("Not during a fight: saving reloads the interface. Save once the fight is over.", "Save once the fight is over."),
+        ("Once the cards are turned over: saving reloads the interface.", "Save once the cards have been revealed."),
+        ("Click: save it now (the interface reloads).", "Click to save and log out."),
+        ("Not in safety yet. Click: save it (the interface reloads).", "Click to save and log out."),
+    ):
+        text = replace(text, f'L["{old}"]', f'L["{new}"]')
+    return text
 
 
 def append_port(text, name):
@@ -465,6 +516,9 @@ def trade_protocol(text):
 
 
 def trade_live_ui(text):
+    text = replace(text,
+        'string.format(L["Reloads your interface: your game saves the trade, and what %s received from you is free on their side at once."], who)',
+        'L["Log out to save your side of the trade."]')
     for old, new in (
         ('function A:CloseTrade()\n\tlocal e = self.ed',
          'function A:CloseTrade()\n\tlocal e = self.ed\n'
@@ -561,7 +615,9 @@ def apply(root: Path):
         "UI/Toast.lua": loot_toast,
         "UI/Live.lua": live_alerts,
         "UI/Skin.lua": skin_backgrounds,
-        "Core.lua": lambda text: replace(replace(text, "barAt = true, barHide = true }",
+        "Core.lua": lambda text: replace(replace(replace(text,
+            "/curator save: save your collection now (the interface reloads)",
+            "/curator save: save your collection by logging out"), "barAt = true, barHide = true }",
             "barAt = true, barHide = true, barWidth = true }"),
             '\telseif cmd == "boosters" or cmd == "booster"',
             '\telseif cmd == "catchup" or cmd == "rattrapage" then\n\t\tns.Rewards:OpenCatchUp(arg)\n'
@@ -581,6 +637,7 @@ def apply(root: Path):
         "UI/Tour.lua": guide_button,
         "UI/Options.lua": lambda text: header_icon_button(text, "g"),
         "UI/Save.lua": native_save,
+        "Locale112.lua": save_locale,
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
         "UI/Players.lua": players_ui,

@@ -2855,3 +2855,16 @@ Add("zhCN", {
 Add("zhTW", {
 	["%s is banned from Curator: no trade nor duel with them."] = "%s：該角色已被 Curator 封禁，無法交換或決鬥。",
 })
+
+Add("frFR", {
+	["Log out to the character selection screen to save your collection."] = "Déconnecte-toi jusqu’à l’écran de sélection des personnages pour sauvegarder ta collection.",
+	["If the game crashes, progress since your last save may be lost."] = "Si le jeu plante, les progrès depuis ta dernière sauvegarde peuvent être perdus.",
+	["Save once the fight is over."] = "Sauvegarde une fois le combat terminé.",
+	["Save once the cards have been revealed."] = "Sauvegarde une fois les cartes révélées.",
+	["Save your collection and return to the character selection screen?"] = "Sauvegarder ta collection et revenir à l’écran de sélection des personnages ?",
+	["Save and log out"] = "Sauvegarder et se déconnecter",
+	["Use /logout to return to the character selection screen and save your collection."] = "Utilise /logout pour revenir à l’écran de sélection des personnages et sauvegarder ta collection.",
+	["Click to save and log out."] = "Clique pour sauvegarder et te déconnecter.",
+	["/curator save: save your collection by logging out"] = "/curator save : sauvegarde ta collection en te déconnectant",
+	["Log out to save your side of the trade."] = "Déconnecte-toi pour sauvegarder ta part de l’échange.",
+})

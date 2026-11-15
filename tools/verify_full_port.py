@@ -1110,44 +1110,55 @@ lua.execute(r"""
 local ns = CuratorOctoFull
 local save, button = ns.Save, ns.Album.frame.save
 local count, lines = 0, {}
-local oldReload, oldCombat, oldPrint, oldTurning = ReloadUI, UnitAffectingCombat, ns.Print, save.Turning
+local oldLogout, oldPopup, oldReload = Logout, StaticPopup_Show, ReloadUI
+local oldCombat, oldPrint, oldTurning = UnitAffectingCombat, ns.Print, save.Turning
+local shown
 local function click()
     this, arg1 = button, "LeftButton"
     button:GetScript("OnClick")()
 end
 ns.Print = function(message) table.insert(lines, message) end
-ReloadUI = function()
-    assert(type(ns.db.saveNote) == "table")
+StaticPopup_Show = function(key) shown = assert(StaticPopupDialogs[key]) end
+ReloadUI = function() error("Collection save must never reload") end
+Logout = function()
+    assert(not ns.db.saveNote)
     count = count + 1
 end
 assert(not save:Cover(button, save.SCROLL))
 click()
-assert(count == 1 and save.nativeReload == ns.db.saveNote)
+assert(shown and shown.button2 == ns.L["Cancel"] and count == 0 and not ns.db.saveNote)
+shown = nil -- dismissing the dialog leaves the collection and session alone
+assert(count == 0 and not save.saveOnLogout)
 click()
-assert(count == 1 and table.getn(lines) == 0)
+shown.OnAccept()
+assert(count == 1 and save.saveOnLogout and not ns.db.saveNote and table.getn(lines) == 0)
+ns.Fire("LOGOUT")
+assert(not save.saveOnLogout and type(ns.db.saveNote) == "table")
 save:Start()
-assert(not ns.db.saveNote and not save.nativeReload and lines[1] == ns.L["Your collection is saved."])
+assert(not ns.db.saveNote and lines[1] == ns.L["Your collection is saved."])
 
+shown = nil
 UnitAffectingCombat = function(unit) assert(unit == "player"); return 1 end
 click()
-assert(count == 1 and not ns.db.saveNote)
+assert(count == 1 and not shown and not ns.db.saveNote)
 UnitAffectingCombat = nil
 save.Turning = function() return true end
 click()
-assert(count == 1 and not ns.db.saveNote)
+assert(count == 1 and not shown and not ns.db.saveNote)
 save.Turning = oldTurning
 
-ReloadUI = function() error("Reload rejected") end
-click()
-assert(not ns.db.saveNote and not save.nativeReload)
-local fallback = ns.L["The game did not reload the interface: type /reload to save your collection."]
-assert(lines[table.getn(lines)] == fallback)
-ReloadUI = function() end
+Logout = function() error("Logout rejected") end
 SlashCmdList.CURATOR("save")
-assert(save.nativeReload and ns.db.saveNote)
-stepFrames(66)
-assert(not save.nativeReload and not ns.db.saveNote)
+assert(shown and count == 1 and not save.saveOnLogout)
+shown.OnAccept()
+assert(not ns.db.saveNote and not save.saveOnLogout)
+local fallback = ns.L["Use /logout to return to the character selection screen and save your collection."]
 assert(lines[table.getn(lines)] == fallback)
+local locale = ns.locale
+ns.SetLocale("frFR")
+assert(ns.L["Save and log out"] == "Sauvegarder et se déconnecter")
+ns.SetLocale(locale)
+Logout, StaticPopup_Show = oldLogout, oldPopup
 ns.Print, ReloadUI, UnitAffectingCombat = oldPrint, oldReload, oldCombat
 """)
-print("Collection save: title button calls native reload, confirms on login and handles blocked reloads")
+print("Collection save: confirmation, native logout, session guards and login receipt verified")

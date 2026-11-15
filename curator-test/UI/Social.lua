@@ -2803,7 +2803,7 @@ function A:RefreshTradeEditor()
 		if self.action == "reload" then
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
 			GameTooltip:AddLine(L["Save on my side"], 1, 1, 1)
-			GameTooltip:AddLine(string.format(L["Reloads your interface: your game saves the trade, and what %s received from you is free on their side at once."], who), 0.85, 0.85, 0.85, true)
+			GameTooltip:AddLine(L["Log out to save your side of the trade."], 0.85, 0.85, 0.85, true)
 			GameTooltip:Show()
 			-- (1.13.0, after its third test: its click through a macro of the game, which alone still reloads the interface)
 			if ns.Save and ns.Save.Cover then
