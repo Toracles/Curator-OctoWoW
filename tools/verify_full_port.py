@@ -721,8 +721,8 @@ ns.ApplyLanguage()
 assert(ns.locale == "frFR")
 local f = configure()
 assert(f:IsShown() and f.TitleText:GetText() == "Rattrapage de progression")
-assert(f.rows[1].value:GetText() == "3" and f.rows[3].value:GetText() == "120")
-assert(f.rows[4].value:GetText() == "1" and f.rows[6].value:GetText() == "20%")
+assert(f.rows[1].value:GetText() == "3" and f.rows[5].value:GetText() == "120")
+assert(f.rows[6].value:GetText() == "1" and f.rows[8].value:GetText() == "20%")
 local offers = ns.Level:OfferCount()
 click(f.right)
 assert(f.decision == "take" and f.right:GetText() == "Confirmer la récupération")
@@ -1037,3 +1037,71 @@ UnitExists, UnitIsPlayer, UnitIsUnit, UnitName = oldExists, oldPlayer, oldSame, 
 ns.Guild.Ask, ns.Guild.Profile = oldAsk, oldProfile
 """)
 print("Stock player tooltips stay unchanged, including after player profile messages")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local rewards, board = ns.Rewards, ns.Quests
+UnitLevel = function() return 4 end
+CuratorOctoCatchUpDB, ns.db.chars, ns.db.bar = nil, {}, 20
+local character = rewards:Char()
+character.octoLevelFloor, character.octoCatchUpDecided = 4, true
+character.quests[4001] = true
+character.octoQuests = { ["Previously credited by title"] = true }
+local history = { [4001] = true, [4002] = true, [4003] = true, ["4003"] = true,
+    [4004] = 1, [4005] = true, [4006] = true, [4007] = false }
+QuestieOcto = {
+    Completion = { ready = true, history = history },
+    DatabaseAPI = { GetQuestTitle = function(_, id)
+        if id == 4002 then return "Previously credited by title" end
+        return "Test title " .. id
+    end },
+}
+local q = { k = "quest", n = 5, got = 1 }
+local kill = { k = "kill", n = 1, got = 0 }
+ns.db.quests = { daily = { list = { q, kill } } }
+board.checked = GetTime()
+local earned = ns.Stats().q_day or 0
+local plan = rewards:PlanCatchUp()
+assert(plan.decided and not plan.questsDecided and plan.questsScanned)
+assert(table.getn(plan.quests) == 4 and plan.quests[1] == 4003 and plan.quests[4] == 4006)
+assert(plan.questTasks == 1 and plan.points == 80 and plan.offers == 1 and plan.bar == 0)
+local offers = ns.Level:OfferCount()
+rewards:OpenCatchUp("", true)
+local panel = CuratorCatchUpPanel
+assert(panel:IsShown() and panel.rows[3].value:GetText() == "4" and panel.rows[4].value:GetText() == "1")
+local function click(button)
+    this = button
+    button:GetScript("OnClick")()
+end
+click(panel.right)
+assert(not q.done and ns.Level:OfferCount() == offers)
+click(panel.right)
+assert(q.done and q.got == 5 and kill.got == 0 and ns.Stats().q_day == earned + 1)
+assert(ns.Level:OfferCount() == offers + 1 and not panel:IsShown())
+assert(CuratorOctoCatchUpDB.quests[4002] and CuratorOctoCatchUpDB.quests[4006])
+local ruby = ns.Rubies:Balance()
+rewards:OnQuestTurnedIn(4003, 0, 10000)
+assert(traceEvent("CHAT_MSG_SYSTEM", "Test title 4003 completed.") == "")
+assert(ns.Rubies:Balance() == ruby and ns.Level:OfferCount() == offers + 1)
+ns.db.chars = {}
+assert(table.getn(rewards:PlanCatchUp().quests) == 0)
+CuratorOctoCatchUpDB = nil
+assert(table.getn(rewards:PlanCatchUp().quests) == 0)
+
+QuestieOcto = nil
+GetQuestsCompleted = function(output)
+    if not output then error("This client fills a table") end
+    output[4010] = true
+end
+rewards.octoQuestQueryPending = true
+assert(not rewards:PlanCatchUp().questsScanned)
+rewards.octoQuestQueryPending = nil
+C_QuestLog = { GetTitleForQuestID = function(id) return "Previously unseen " .. id end }
+plan = rewards:PlanCatchUp()
+assert(plan.questsScanned and plan.quests[1] == 4010)
+assert(rewards:ApplyCatchUp(plan, false))
+assert(table.getn(rewards:PlanCatchUp().quests) == 0 and ns.Level:OfferCount() == offers + 1)
+rewards:OnQuestTurnedIn(4010, 0, 10000)
+assert(ns.Rubies:Balance() == ruby)
+""")
+print("Quest catch-up: confirmed turn-ins, board and achievement counters, legacy receipts and permanent refusal verified")

@@ -1,18 +1,21 @@
 do
     local labels = {
         title = { "Progress catch-up", "Rattrapage de progression" },
-        intro = { "Claim rewards for levels reached and places explored before Curator tracked them.",
-            "Récupère les récompenses des niveaux atteints et des lieux découverts avant leur suivi par Curator." },
+        intro = { "Claim rewards for levels, discoveries and quests turned in before Curator tracked them.",
+            "Récupère les récompenses des niveaux, découvertes et quêtes rendues avant leur suivi par Curator." },
         askTake = { "Confirm that you want to claim the rewards below.", "Confirme que tu veux récupérer les récompenses ci-dessous." },
         askSkip = { "Confirm that you want to give up the rewards below. This choice is final for these rewards.",
             "Confirme que tu veux renoncer aux récompenses ci-dessous. Ce choix est définitif pour ces récompenses." },
         levels = { "Levels to credit", "Niveaux à créditer" },
         places = { "Discoveries to credit", "Découvertes à créditer" },
+        quests = { "Game quests turned in", "Quêtes du jeu rendues" },
+        questTasks = { "Curator turn-in objectives completed", "Objectifs Curator de rendu terminés" },
         points = { "Booster points", "Points de booster" },
         offers = { "Rewards to choose", "Récompenses à choisir" },
         packs = { "Zone boosters", "Boosters de zone" },
         bar = { "Booster bar after claiming", "Barre de boosters après récupération" },
         missing = { "Exploration data is unavailable for this session.", "Les données d’exploration sont indisponibles pour cette session." },
+        missingQuests = { "Quest history is unavailable or incomplete.", "L’historique des quêtes est indisponible ou incomplet." },
         zero = { "There are no pending catch-up rewards.", "Il n’y a aucune récompense de rattrapage en attente." },
         take = { "Claim rewards", "Récupérer" },
         skip = { "Decline rewards", "Refuser" },
@@ -30,7 +33,7 @@ do
         return labels[key][ns.locale == "frFR" and 2 or 1]
     end
 
-    local rows = { "levels", "places", "points", "offers", "packs", "bar" }
+    local rows = { "levels", "places", "quests", "questTasks", "points", "offers", "packs", "bar" }
     local frame
     local function paint(plan, decision, message)
         frame.plan, frame.decision = plan, decision
@@ -38,14 +41,19 @@ do
         frame:SetTitle(text("title"))
         frame.intro:SetText(text(message or (empty and "zero") or (decision == "take" and "askTake")
             or (decision == "skip" and "askSkip") or "intro"))
-        local values = { table.getn(plan.levels), plan.places, plan.points, plan.offers, plan.packs, ns.Num(plan.bar) .. "%" }
+        local values = { table.getn(plan.levels), plan.places, table.getn(plan.quests), plan.questTasks,
+            plan.points, plan.offers, plan.packs, ns.Num(plan.bar) .. "%" }
         if not plan.scanned then values[2] = "—" end
+        if not plan.questsScanned and values[3] == 0 then values[3], values[4] = "—", "—" end
         for i, key in ipairs(rows) do
             local row = frame.rows[i]
             row.label:SetText(text(key))
             row.value:SetText(values[i])
         end
-        frame.note:SetText(plan.scanned and "" or text("missing"))
+        local notes = {}
+        if not plan.scanned then table.insert(notes, text("missing")) end
+        if not plan.questsScanned then table.insert(notes, text("missingQuests")) end
+        frame.note:SetText(table.concat(notes, "\n"))
         frame.left:SetLabel(text(empty and "close" or decision and "back" or "skip"))
         frame.right:SetLabel(text(decision == "skip" and "yesSkip" or decision == "take" and "yesTake" or "take"))
         ns.SetShown(frame.right, not empty)
@@ -53,7 +61,7 @@ do
 
     local function build()
         local skin = ns.Skin
-        frame = skin.Window("CuratorCatchUpPanel", 510, 348)
+        frame = skin.Window("CuratorCatchUpPanel", 530, 412)
         frame:SetPoint("CENTER", UIParent, "CENTER", 0, 45)
         frame:SetFrameStrata("DIALOG")
         frame:EnableMouse(true)
@@ -61,11 +69,11 @@ do
         table.insert(UISpecialFrames, "CuratorCatchUpPanel")
         frame.intro = skin.Text(frame, "GameFontHighlight", "LEFT")
         frame.intro:SetPoint("TOPLEFT", 28, -48)
-        frame.intro:SetWidth(454)
+        frame.intro:SetWidth(474)
         ns.SetWordWrap(frame.intro, true)
         local summary = CreateFrame("Frame", nil, frame)
         summary:SetPoint("TOPLEFT", 25, -100)
-        summary:SetPoint("BOTTOMRIGHT", -25, 86)
+        summary:SetPoint("BOTTOMRIGHT", -25, 101)
         local background = summary:CreateTexture(nil, "BACKGROUND")
         background:SetAllPoints()
         ns.ColorTexture(background, .075, .08, .11, 1)
@@ -79,7 +87,7 @@ do
         end
         frame.note = skin.Text(frame, "GameFontHighlightSmall", "LEFT")
         frame.note:SetPoint("BOTTOMLEFT", 28, 65)
-        frame.note:SetWidth(454)
+        frame.note:SetWidth(474)
         frame.left = skin.Button(frame, "", 190, 30)
         frame.left:SetPoint("BOTTOMLEFT", 26, 24)
         frame.right = skin.Button(frame, "", 225, 30)
@@ -114,14 +122,59 @@ do
             if errorKey and not automatic then ns.Print(text(errorKey)) end
             return
         end
-        if automatic and (plan.decided or plan.points == 0) then return end
+        if automatic then
+            local progressPending = not plan.decided and (table.getn(plan.levels) > 0 or plan.places > 0)
+            local questsPending = not plan.questsDecided and table.getn(plan.quests) > 0
+            if not (progressPending or questsPending) then return end
+        end
         if not frame then build() end
         frame.argument = argument
         paint(plan)
         frame:Show()
     end
 
+    local function historyReady()
+        ns.Delay(0.2, function()
+            if frame and frame:IsShown() then
+                local plan = rewards:PlanCatchUp(frame.argument)
+                if plan and plan.signature ~= frame.plan.signature then paint(plan, nil, "changed")
+                elseif plan then paint(plan, frame.decision) end
+            else
+                rewards:OpenCatchUp("", true)
+            end
+        end)
+    end
+
+    local events = CreateFrame("Frame")
+    events:SetScript("OnEvent", function()
+        if not rewards.octoQuestQueryPending then return end
+        rewards.octoQuestQueryPending = nil
+        historyReady()
+    end)
     ns.On("LOGIN", function()
+        local questie = QuestieOcto
+        if questie and questie.Completion and questie.RegisterMessage then
+            local listener = {}
+            function listener:CompletionReady()
+                if self.completed then return end
+                self.completed = true
+                historyReady()
+            end
+            function listener:DatabaseReady()
+                if questie.Completion.ready then historyReady() end
+            end
+            questie:RegisterMessage("COMPLETION_READY", listener, "CompletionReady")
+            questie:RegisterMessage("DATABASE_API_READY", listener, "DatabaseReady")
+        elseif bulkQuestAPI() and QueryQuestsCompleted then
+            rewards.octoQuestQueryPending = true
+            local registered = pcall(events.RegisterEvent, events, "QUEST_QUERY_COMPLETE")
+            if not registered or not pcall(QueryQuestsCompleted) then rewards.octoQuestQueryPending = nil end
+            ns.Delay(8, function()
+                if not rewards.octoQuestQueryPending then return end
+                rewards.octoQuestQueryPending = nil
+                historyReady()
+            end)
+        end
         ns.Delay(2, function() rewards:OpenCatchUp("", true) end)
     end)
 end

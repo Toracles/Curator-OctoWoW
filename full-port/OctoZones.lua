@@ -64,7 +64,7 @@ function rewards:ZoneSeries()
     end
 end
 
-local creditFields = { "octoLevelCredits", "octoPlaces", "octoExploredAreas" }
+local creditFields = { "octoLevelCredits", "octoPlaces", "octoExploredAreas", "quests", "octoQuests" }
 
 -- The collection and the separate character save each carry a copy of the receipts.
 -- Merge the alpha.15 data and keep receipts if either save is restored or reset.
@@ -85,7 +85,71 @@ local function creditState(character)
     state.octoLevelFloor, character.octoLevelFloor = floor, floor
     local decided = state.octoCatchUpDecided or character.octoCatchUpDecided
     state.octoCatchUpDecided, character.octoCatchUpDecided = decided, decided
+    local questDecided = state.octoQuestCatchUpDecided or character.octoQuestCatchUpDecided
+    state.octoQuestCatchUpDecided, character.octoQuestCatchUpDecided = questDecided, questDecided
     return state
+end
+
+local function questTitle(id)
+    local db = QuestieOcto and QuestieOcto.DatabaseAPI
+    local title = db and db.GetQuestTitle and db:GetQuestTitle(id)
+    if not title and C_QuestLog and C_QuestLog.GetTitleForQuestID then
+        title = C_QuestLog.GetTitleForQuestID(id)
+    end
+    if type(title) == "string" and title ~= "" and title ~= ("Quest " .. id) then return title end
+end
+
+local nativeQuestTurnIn = rewards.OnQuestTurnedIn
+function rewards:OnQuestTurnedIn(id, xp, money)
+    local state = creditState(self:Char())
+    if type(id) == "number" and not state.quests[id] and next(state.octoQuests) then
+        local title = questTitle(id)
+        if title and state.octoQuests[title] then
+            state.quests[id] = true
+            return
+        end
+    end
+    return nativeQuestTurnIn(self, id, xp, money)
+end
+
+local function bulkQuestAPI()
+    return GetQuestsCompleted or (C_QuestLog and C_QuestLog.GetQuestsCompleted)
+end
+
+local function completedQuests()
+    local completion = QuestieOcto and QuestieOcto.Completion
+    if completion and completion.ready and type(completion.history) == "table" then return completion.history end
+    if rewards.octoQuestQueryPending or (completion and completion.querying) then return end
+    local api = bulkQuestAPI()
+    if not api then return end
+    local ok, quests = pcall(api)
+    if ok and type(quests) == "table" then return quests end
+    local output = {}
+    ok = pcall(api, output)
+    if ok and next(output) then return output end
+end
+
+local function scanQuests(state)
+    local completed = completedQuests()
+    if not completed then return {}, false end
+    local ids, seen, complete = {}, {}, true
+    local legacy = next(state.octoQuests) ~= nil
+    for key, value in pairs(completed) do
+        local id = tonumber(key)
+        if (value == true or value == 1) and id and id > 0 and id == math.floor(id) and not seen[id] and not state.quests[id] then
+            seen[id] = true
+            local title = legacy and questTitle(id)
+            if legacy and not title then
+                complete = false
+            elseif not (title and state.octoQuests[title]) then
+                table.insert(ids, id)
+            else
+                state.quests[id] = true
+            end
+        end
+    end
+    table.sort(ids)
+    return ids, complete
 end
 
 ns.On("LOGIN", function()
@@ -174,18 +238,24 @@ function rewards:PlanCatchUp(argument)
         if not state.octoLevelCredits[reached] then table.insert(levels, reached) end
     end
     local groups, places, scanned = scanPlaces(state)
+    local quests, questsScanned = scanQuests(state)
+    local questCount = table.getn(quests)
+    local questTasks = ns.Quests and ns.Quests:CatchUpQuestCount(questCount) or 0
     local levelPoints = table.getn(levels) * self.POINTS.level
+    local questPoints = questCount * self.POINTS.quest
     local entryBar = self:Bar("world", true)
-    local bar = entryBar + levelPoints
+    local bar = entryBar + levelPoints + questPoints
     local offers = math.floor(bar / ns.PACK_POINTS)
     bar = ns.Mod(bar, ns.PACK_POINTS)
     local packs = math.floor((bar + places * self.POINTS.explore) / ns.PACK_POINTS)
-    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ",") }
+    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ","),
+        table.concat(quests, ","), tostring(questTasks) }
     for _, group in ipairs(groups) do
         for _, place in ipairs(group.places) do table.insert(signature, tostring(place.area)) end
     end
     return { floor = floor, levels = levels, places = places, groups = groups, scanned = scanned, decided = state.octoCatchUpDecided,
-        offers = offers, packs = packs, points = levelPoints + places * self.POINTS.explore,
+        quests = quests, questsScanned = questsScanned, questTasks = questTasks, questsDecided = state.octoQuestCatchUpDecided,
+        offers = offers, packs = packs, points = levelPoints + questPoints + places * self.POINTS.explore,
         bar = ns.Mod(bar + places * self.POINTS.explore, ns.PACK_POINTS), signature = table.concat(signature, ":") }
 end
 
@@ -196,9 +266,19 @@ function rewards:ApplyCatchUp(plan, accepted)
     state.octoLevelFloor, character.octoLevelFloor = plan.floor, plan.floor
     state.octoCatchUpDecided, character.octoCatchUpDecided = true, true
     for _, level in ipairs(plan.levels) do state.octoLevelCredits[level] = true end
-    if accepted and table.getn(plan.levels) > 0 then
-        -- The old level events have no zone. Full bars grant a booster choice.
-        self:Fill(nil, table.getn(plan.levels) * self.POINTS.level, "catchup", false, true)
+    local questCount = 0
+    for _, id in ipairs(plan.quests) do
+        if not state.quests[id] then
+            state.quests[id] = true
+            questCount = questCount + 1
+        end
+    end
+    if questCount > 0 then state.octoQuestCatchUpDecided, character.octoQuestCatchUpDecided = true, true end
+    local choicePoints = table.getn(plan.levels) * self.POINTS.level + questCount * self.POINTS.quest
+    if accepted and choicePoints > 0 then
+        -- Past level-ups and turn-ins have no reliable location.
+        self:Fill(nil, choicePoints, "catchup", false, true)
+        if questCount > 0 and ns.Quests then ns.Quests:Add("quest", questCount) end
     end
     for _, group in ipairs(plan.groups) do
         for _, place in ipairs(group.places) do
@@ -247,10 +327,11 @@ messages:SetScript("OnEvent", function()
     local message = arg1
     local character = rewards:Char()
     local quest = capture(message, questPattern)
-    if quest and (not C_QuestLog or not C_QuestLog.GetQuestIDForLogIndex) then
-        character.octoQuests = character.octoQuests or {}
-        if character.octoQuests[quest] then return end
-        character.octoQuests[quest] = true
+    if quest and not bulkQuestAPI() and not (C_QuestLog and C_QuestLog.GetQuestIDForLogIndex)
+        and not (QuestieOcto and QuestieOcto.Completion) then
+        local state = creditState(character)
+        if state.octoQuests[quest] then return end
+        state.octoQuests[quest] = true
         local series = rewards:WorldSeries()
         local points = rewards.POINTS.quest
         if ns.Talents then points = ns.Talents:QuestPoints(points, series) end

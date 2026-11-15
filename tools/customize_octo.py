@@ -377,6 +377,27 @@ def players_ui(text):
     return append_port(text, "PortraitTrade.lua")
 
 
+def quest_catch_up(text):
+    anchor = "-- Something done (kind: what a quest counts)"
+    return replace(text, anchor, '''-- Active Curator objectives a batch of historical quest turn-ins can complete.
+function Q:CatchUpQuestCount(n)
+	if n <= 0 then return 0 end
+	self:Check()
+	local count = 0
+	for _, board in ipairs(BOARDS) do
+		local entry = ns.db.quests[board.key]
+		for _, q in ipairs((entry and entry.list) or {}) do
+			if Counts(q, "quest") and (q.got or 0) + n >= q.n then
+				count = count + 1
+			end
+		end
+	end
+	return count
+end
+
+''' + anchor)
+
+
 def trade_protocol(text):
     text = replace(text, 'local OPS = { P = "OnOffer",', 'local OPS = { L = "OnLive", P = "OnOffer",')
     text = replace(text, 'return table.concat({ "P", rec.id, rec.rev, ns.db.uid,',
@@ -511,6 +532,7 @@ def apply(root: Path):
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
         "UI/Players.lua": players_ui,
+        "Quests.lua": quest_catch_up,
         "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",

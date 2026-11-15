@@ -64,7 +64,7 @@ function rewards:ZoneSeries()
     end
 end
 
-local creditFields = { "octoLevelCredits", "octoPlaces", "octoExploredAreas" }
+local creditFields = { "octoLevelCredits", "octoPlaces", "octoExploredAreas", "quests", "octoQuests" }
 
 -- The collection and the separate character save each carry a copy of the receipts.
 -- Merge the alpha.15 data and keep receipts if either save is restored or reset.
@@ -85,7 +85,71 @@ local function creditState(character)
     state.octoLevelFloor, character.octoLevelFloor = floor, floor
     local decided = state.octoCatchUpDecided or character.octoCatchUpDecided
     state.octoCatchUpDecided, character.octoCatchUpDecided = decided, decided
+    local questDecided = state.octoQuestCatchUpDecided or character.octoQuestCatchUpDecided
+    state.octoQuestCatchUpDecided, character.octoQuestCatchUpDecided = questDecided, questDecided
     return state
+end
+
+local function questTitle(id)
+    local db = QuestieOcto and QuestieOcto.DatabaseAPI
+    local title = db and db.GetQuestTitle and db:GetQuestTitle(id)
+    if not title and C_QuestLog and C_QuestLog.GetTitleForQuestID then
+        title = C_QuestLog.GetTitleForQuestID(id)
+    end
+    if type(title) == "string" and title ~= "" and title ~= ("Quest " .. id) then return title end
+end
+
+local nativeQuestTurnIn = rewards.OnQuestTurnedIn
+function rewards:OnQuestTurnedIn(id, xp, money)
+    local state = creditState(self:Char())
+    if type(id) == "number" and not state.quests[id] and next(state.octoQuests) then
+        local title = questTitle(id)
+        if title and state.octoQuests[title] then
+            state.quests[id] = true
+            return
+        end
+    end
+    return nativeQuestTurnIn(self, id, xp, money)
+end
+
+local function bulkQuestAPI()
+    return GetQuestsCompleted or (C_QuestLog and C_QuestLog.GetQuestsCompleted)
+end
+
+local function completedQuests()
+    local completion = QuestieOcto and QuestieOcto.Completion
+    if completion and completion.ready and type(completion.history) == "table" then return completion.history end
+    if rewards.octoQuestQueryPending or (completion and completion.querying) then return end
+    local api = bulkQuestAPI()
+    if not api then return end
+    local ok, quests = pcall(api)
+    if ok and type(quests) == "table" then return quests end
+    local output = {}
+    ok = pcall(api, output)
+    if ok and next(output) then return output end
+end
+
+local function scanQuests(state)
+    local completed = completedQuests()
+    if not completed then return {}, false end
+    local ids, seen, complete = {}, {}, true
+    local legacy = next(state.octoQuests) ~= nil
+    for key, value in pairs(completed) do
+        local id = tonumber(key)
+        if (value == true or value == 1) and id and id > 0 and id == math.floor(id) and not seen[id] and not state.quests[id] then
+            seen[id] = true
+            local title = legacy and questTitle(id)
+            if legacy and not title then
+                complete = false
+            elseif not (title and state.octoQuests[title]) then
+                table.insert(ids, id)
+            else
+                state.quests[id] = true
+            end
+        end
+    end
+    table.sort(ids)
+    return ids, complete
 end
 
 ns.On("LOGIN", function()
@@ -174,18 +238,24 @@ function rewards:PlanCatchUp(argument)
         if not state.octoLevelCredits[reached] then table.insert(levels, reached) end
     end
     local groups, places, scanned = scanPlaces(state)
+    local quests, questsScanned = scanQuests(state)
+    local questCount = table.getn(quests)
+    local questTasks = ns.Quests and ns.Quests:CatchUpQuestCount(questCount) or 0
     local levelPoints = table.getn(levels) * self.POINTS.level
+    local questPoints = questCount * self.POINTS.quest
     local entryBar = self:Bar("world", true)
-    local bar = entryBar + levelPoints
+    local bar = entryBar + levelPoints + questPoints
     local offers = math.floor(bar / ns.PACK_POINTS)
     bar = ns.Mod(bar, ns.PACK_POINTS)
     local packs = math.floor((bar + places * self.POINTS.explore) / ns.PACK_POINTS)
-    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ",") }
+    local signature = { tostring(floor), tostring(entryBar), table.concat(levels, ","),
+        table.concat(quests, ","), tostring(questTasks) }
     for _, group in ipairs(groups) do
         for _, place in ipairs(group.places) do table.insert(signature, tostring(place.area)) end
     end
     return { floor = floor, levels = levels, places = places, groups = groups, scanned = scanned, decided = state.octoCatchUpDecided,
-        offers = offers, packs = packs, points = levelPoints + places * self.POINTS.explore,
+        quests = quests, questsScanned = questsScanned, questTasks = questTasks, questsDecided = state.octoQuestCatchUpDecided,
+        offers = offers, packs = packs, points = levelPoints + questPoints + places * self.POINTS.explore,
         bar = ns.Mod(bar + places * self.POINTS.explore, ns.PACK_POINTS), signature = table.concat(signature, ":") }
 end
 
@@ -196,9 +266,19 @@ function rewards:ApplyCatchUp(plan, accepted)
     state.octoLevelFloor, character.octoLevelFloor = plan.floor, plan.floor
     state.octoCatchUpDecided, character.octoCatchUpDecided = true, true
     for _, level in ipairs(plan.levels) do state.octoLevelCredits[level] = true end
-    if accepted and table.getn(plan.levels) > 0 then
-        -- The old level events have no zone. Full bars grant a booster choice.
-        self:Fill(nil, table.getn(plan.levels) * self.POINTS.level, "catchup", false, true)
+    local questCount = 0
+    for _, id in ipairs(plan.quests) do
+        if not state.quests[id] then
+            state.quests[id] = true
+            questCount = questCount + 1
+        end
+    end
+    if questCount > 0 then state.octoQuestCatchUpDecided, character.octoQuestCatchUpDecided = true, true end
+    local choicePoints = table.getn(plan.levels) * self.POINTS.level + questCount * self.POINTS.quest
+    if accepted and choicePoints > 0 then
+        -- Past level-ups and turn-ins have no reliable location.
+        self:Fill(nil, choicePoints, "catchup", false, true)
+        if questCount > 0 and ns.Quests then ns.Quests:Add("quest", questCount) end
     end
     for _, group in ipairs(plan.groups) do
         for _, place in ipairs(group.places) do
@@ -247,10 +327,11 @@ messages:SetScript("OnEvent", function()
     local message = arg1
     local character = rewards:Char()
     local quest = capture(message, questPattern)
-    if quest and (not C_QuestLog or not C_QuestLog.GetQuestIDForLogIndex) then
-        character.octoQuests = character.octoQuests or {}
-        if character.octoQuests[quest] then return end
-        character.octoQuests[quest] = true
+    if quest and not bulkQuestAPI() and not (C_QuestLog and C_QuestLog.GetQuestIDForLogIndex)
+        and not (QuestieOcto and QuestieOcto.Completion) then
+        local state = creditState(character)
+        if state.octoQuests[quest] then return end
+        state.octoQuests[quest] = true
         local series = rewards:WorldSeries()
         local points = rewards.POINTS.quest
         if ns.Talents then points = ns.Talents:QuestPoints(points, series) end
@@ -276,18 +357,21 @@ end)
 do
     local labels = {
         title = { "Progress catch-up", "Rattrapage de progression" },
-        intro = { "Claim rewards for levels reached and places explored before Curator tracked them.",
-            "Récupère les récompenses des niveaux atteints et des lieux découverts avant leur suivi par Curator." },
+        intro = { "Claim rewards for levels, discoveries and quests turned in before Curator tracked them.",
+            "Récupère les récompenses des niveaux, découvertes et quêtes rendues avant leur suivi par Curator." },
         askTake = { "Confirm that you want to claim the rewards below.", "Confirme que tu veux récupérer les récompenses ci-dessous." },
         askSkip = { "Confirm that you want to give up the rewards below. This choice is final for these rewards.",
             "Confirme que tu veux renoncer aux récompenses ci-dessous. Ce choix est définitif pour ces récompenses." },
         levels = { "Levels to credit", "Niveaux à créditer" },
         places = { "Discoveries to credit", "Découvertes à créditer" },
+        quests = { "Game quests turned in", "Quêtes du jeu rendues" },
+        questTasks = { "Curator turn-in objectives completed", "Objectifs Curator de rendu terminés" },
         points = { "Booster points", "Points de booster" },
         offers = { "Rewards to choose", "Récompenses à choisir" },
         packs = { "Zone boosters", "Boosters de zone" },
         bar = { "Booster bar after claiming", "Barre de boosters après récupération" },
         missing = { "Exploration data is unavailable for this session.", "Les données d’exploration sont indisponibles pour cette session." },
+        missingQuests = { "Quest history is unavailable or incomplete.", "L’historique des quêtes est indisponible ou incomplet." },
         zero = { "There are no pending catch-up rewards.", "Il n’y a aucune récompense de rattrapage en attente." },
         take = { "Claim rewards", "Récupérer" },
         skip = { "Decline rewards", "Refuser" },
@@ -305,7 +389,7 @@ do
         return labels[key][ns.locale == "frFR" and 2 or 1]
     end
 
-    local rows = { "levels", "places", "points", "offers", "packs", "bar" }
+    local rows = { "levels", "places", "quests", "questTasks", "points", "offers", "packs", "bar" }
     local frame
     local function paint(plan, decision, message)
         frame.plan, frame.decision = plan, decision
@@ -313,14 +397,19 @@ do
         frame:SetTitle(text("title"))
         frame.intro:SetText(text(message or (empty and "zero") or (decision == "take" and "askTake")
             or (decision == "skip" and "askSkip") or "intro"))
-        local values = { table.getn(plan.levels), plan.places, plan.points, plan.offers, plan.packs, ns.Num(plan.bar) .. "%" }
+        local values = { table.getn(plan.levels), plan.places, table.getn(plan.quests), plan.questTasks,
+            plan.points, plan.offers, plan.packs, ns.Num(plan.bar) .. "%" }
         if not plan.scanned then values[2] = "—" end
+        if not plan.questsScanned and values[3] == 0 then values[3], values[4] = "—", "—" end
         for i, key in ipairs(rows) do
             local row = frame.rows[i]
             row.label:SetText(text(key))
             row.value:SetText(values[i])
         end
-        frame.note:SetText(plan.scanned and "" or text("missing"))
+        local notes = {}
+        if not plan.scanned then table.insert(notes, text("missing")) end
+        if not plan.questsScanned then table.insert(notes, text("missingQuests")) end
+        frame.note:SetText(table.concat(notes, "\n"))
         frame.left:SetLabel(text(empty and "close" or decision and "back" or "skip"))
         frame.right:SetLabel(text(decision == "skip" and "yesSkip" or decision == "take" and "yesTake" or "take"))
         ns.SetShown(frame.right, not empty)
@@ -328,7 +417,7 @@ do
 
     local function build()
         local skin = ns.Skin
-        frame = skin.Window("CuratorCatchUpPanel", 510, 348)
+        frame = skin.Window("CuratorCatchUpPanel", 530, 412)
         frame:SetPoint("CENTER", UIParent, "CENTER", 0, 45)
         frame:SetFrameStrata("DIALOG")
         frame:EnableMouse(true)
@@ -336,11 +425,11 @@ do
         table.insert(UISpecialFrames, "CuratorCatchUpPanel")
         frame.intro = skin.Text(frame, "GameFontHighlight", "LEFT")
         frame.intro:SetPoint("TOPLEFT", 28, -48)
-        frame.intro:SetWidth(454)
+        frame.intro:SetWidth(474)
         ns.SetWordWrap(frame.intro, true)
         local summary = CreateFrame("Frame", nil, frame)
         summary:SetPoint("TOPLEFT", 25, -100)
-        summary:SetPoint("BOTTOMRIGHT", -25, 86)
+        summary:SetPoint("BOTTOMRIGHT", -25, 101)
         local background = summary:CreateTexture(nil, "BACKGROUND")
         background:SetAllPoints()
         ns.ColorTexture(background, .075, .08, .11, 1)
@@ -354,7 +443,7 @@ do
         end
         frame.note = skin.Text(frame, "GameFontHighlightSmall", "LEFT")
         frame.note:SetPoint("BOTTOMLEFT", 28, 65)
-        frame.note:SetWidth(454)
+        frame.note:SetWidth(474)
         frame.left = skin.Button(frame, "", 190, 30)
         frame.left:SetPoint("BOTTOMLEFT", 26, 24)
         frame.right = skin.Button(frame, "", 225, 30)
@@ -389,14 +478,59 @@ do
             if errorKey and not automatic then ns.Print(text(errorKey)) end
             return
         end
-        if automatic and (plan.decided or plan.points == 0) then return end
+        if automatic then
+            local progressPending = not plan.decided and (table.getn(plan.levels) > 0 or plan.places > 0)
+            local questsPending = not plan.questsDecided and table.getn(plan.quests) > 0
+            if not (progressPending or questsPending) then return end
+        end
         if not frame then build() end
         frame.argument = argument
         paint(plan)
         frame:Show()
     end
 
+    local function historyReady()
+        ns.Delay(0.2, function()
+            if frame and frame:IsShown() then
+                local plan = rewards:PlanCatchUp(frame.argument)
+                if plan and plan.signature ~= frame.plan.signature then paint(plan, nil, "changed")
+                elseif plan then paint(plan, frame.decision) end
+            else
+                rewards:OpenCatchUp("", true)
+            end
+        end)
+    end
+
+    local events = CreateFrame("Frame")
+    events:SetScript("OnEvent", function()
+        if not rewards.octoQuestQueryPending then return end
+        rewards.octoQuestQueryPending = nil
+        historyReady()
+    end)
     ns.On("LOGIN", function()
+        local questie = QuestieOcto
+        if questie and questie.Completion and questie.RegisterMessage then
+            local listener = {}
+            function listener:CompletionReady()
+                if self.completed then return end
+                self.completed = true
+                historyReady()
+            end
+            function listener:DatabaseReady()
+                if questie.Completion.ready then historyReady() end
+            end
+            questie:RegisterMessage("COMPLETION_READY", listener, "CompletionReady")
+            questie:RegisterMessage("DATABASE_API_READY", listener, "DatabaseReady")
+        elseif bulkQuestAPI() and QueryQuestsCompleted then
+            rewards.octoQuestQueryPending = true
+            local registered = pcall(events.RegisterEvent, events, "QUEST_QUERY_COMPLETE")
+            if not registered or not pcall(QueryQuestsCompleted) then rewards.octoQuestQueryPending = nil end
+            ns.Delay(8, function()
+                if not rewards.octoQuestQueryPending then return end
+                rewards.octoQuestQueryPending = nil
+                historyReady()
+            end)
+        end
         ns.Delay(2, function() rewards:OpenCatchUp("", true) end)
     end)
 end

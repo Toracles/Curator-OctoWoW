@@ -5,7 +5,7 @@ Portage de Curator 1.14.3, adapté par CloudNine_Ex pour OctoWoW 1.18.1 sur le c
 ## Installation de la version de test
 
 1. Télécharger [Curator-OctoWoW-test-1.12.1.zip](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip).
-2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.24](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.24) au même emplacement.
+2. Quitter le jeu, extraire le dossier Curator dans Interface/AddOns, puis appliquer [le correctif cumulatif alpha.25](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.25) au même emplacement.
 3. Relancer le jeu, activer **Curator OctoWoW** à la sélection des personnages et taper `/curator`.
 
 Les tests hors jeu couvrent les 221 fichiers Lua, le chargement, la connexion simulée, trente commandes d’interface et une ouverture complète jusqu’au retournement des huit cartes. Sur OctoWoW, le rendu, les cinématiques, les événements de combat, la sauvegarde après reconnexion et les échanges entre joueurs restent à valider.
@@ -14,7 +14,9 @@ Le port intègre 20 albums OctoWoW et 1 269 cartes associées, en plus des album
 
 ## Rattrapage d’un personnage existant
 
-Le panneau apparaît après la connexion lorsqu’un rattrapage est disponible. Il détaille les niveaux, les découvertes, les points, les récompenses à choisir, les boosters de zone et la progression de la barre. Récupérer ou refuser demande une confirmation. Fermer le panneau reporte le choix. Un refus confirmé est définitif pour les récompenses affichées. Pour rouvrir le panneau, taper `/curator rattrapage` ou `/curator catchup`.
+Le panneau apparaît après la connexion lorsqu’un rattrapage est disponible. Il détaille les niveaux, les découvertes, les quêtes du jeu rendues, les objectifs Curator qui peuvent être terminés, les points et les boosters. Récupérer ou refuser demande une confirmation. Fermer le panneau reporte le choix. Un refus confirmé est définitif pour les récompenses affichées. Pour rouvrir le panneau, taper `/curator rattrapage` ou `/curator catchup`.
+
+Chaque quête rendue confirmée par le client ou par l’historique de Questie-Octo donne 20 points de booster, une fois par personnage. Elle peut avancer les objectifs Curator actifs qui demandent de rendre des quêtes. Les objectifs terminés alimentent les hauts faits Curator habituels. Le rattrapage utilise des boosters à choisir, puisque l’historique ne donne pas le lieu du rendu. Les anciennes périodes, les rubis de rendu et les tirages de caisses ne sont pas reconstruits.
 
 Les anciennes versions ne mémorisaient pas quels passages de niveau avaient déjà rapporté des points. Si l’ancien addon t’a déjà crédité jusqu’au niveau 30, lance `/curator rattrapage 30` la première fois. Les lieux déjà enregistrés et les niveaux suivis depuis alpha.15 sont dédupliqués. Les cartes sans données d’exploration, les lieux qu’une portion de carte ne permet pas de distinguer et l’historique des combats d’élite restent hors import.
 

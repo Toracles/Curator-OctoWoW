@@ -1012,6 +1012,22 @@ local function Counts(q, kind, arg)
 	return arg == q.a
 end
 
+-- Active Curator objectives a batch of historical quest turn-ins can complete.
+function Q:CatchUpQuestCount(n)
+	if n <= 0 then return 0 end
+	self:Check()
+	local count = 0
+	for _, board in ipairs(BOARDS) do
+		local entry = ns.db.quests[board.key]
+		for _, q in ipairs((entry and entry.list) or {}) do
+			if Counts(q, "quest") and (q.got or 0) + n >= q.n then
+				count = count + 1
+			end
+		end
+	end
+	return count
+end
+
 -- Something done (kind: what a quest counts) n times (arg: which one, for the kinds among several): the
 -- quests that count it move on; those done give their rewards.
 -- (1.14.0, after its test, his word: what a reroll does counts for no quest, Reroll.lua: RR:Blocks; a quarter of it
