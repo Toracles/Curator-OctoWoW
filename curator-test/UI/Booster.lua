@@ -733,7 +733,9 @@ function B:ApplySize()
 	CuratorOctoFull.SetClampedToScreen(s, small)
 	s:EnableMouseWheel(small)
 	if s.SetClipsChildren then
-		CuratorOctoFull.SetClipsChildren(s, small)
+		-- A narrowed viewport displaces the legacy models in the compact scene.
+		local card = self.cards and self.cards[1]
+		CuratorOctoFull.SetClipsChildren(s, small and card ~= nil and card.model.actor ~= nil)
 	end
 	-- its frame: the gold border of the game's dialogs, as thick as theirs whatever the scale
 	if small then

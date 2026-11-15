@@ -2132,9 +2132,6 @@ function A:BuildDetail()
 	d:SetPoint("BOTTOMRIGHT", -3, 3)
 	d:SetFrameLevel(f.body:GetFrameLevel() + 30)
 	d:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	if d.SetClipsChildren then
-		CuratorOctoFull.SetClipsChildren(d, true)
-	end
 	-- the photo of its place, darkened, its edges in the shade
 	d.bg = d:CreateTexture(nil, "BACKGROUND")
 	d.bg:SetAllPoints()
@@ -2197,6 +2194,7 @@ function A:BuildDetail()
 	CuratorOctoFull.SetSize(d.holder, 1, 1)
 	d.holder:SetPoint("CENTER", d.seat, "CENTER")
 	local card = ns.NewCard(d.holder, "huge")
+	CuratorOctoFull.SetClipsChildren(d, card.model.actor ~= nil)
 	card:SetPoint("CENTER", d.holder, "CENTER")
 	ns.Inspect:Attach(card, d.holder, { zoom = { 0.85, 1.25, 1 } })
 	d:EnableMouseWheel(true)

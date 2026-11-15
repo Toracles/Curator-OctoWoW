@@ -89,6 +89,17 @@ local methods = {
 function simulateVertexOffsets(enabled)
  methods.SetVertexOffset = enabled and noop or nil
 end
+function simulateClippedViewports(enabled)
+ methods.SetClipsChildren = enabled and function(self, clips) self.clipsChildren = clips end or nil
+end
+function assertModelInsideArtwork(model, art)
+ assert(model.artworkWindow == art and model.allPointsTarget == art)
+ local parent = model:GetParent()
+ while parent do
+  assert(not parent.clipsChildren, "Native model inherits a narrowed viewport")
+  parent = parent:GetParent()
+ end
+end
 widget = function(parent, layeredRegion)
  local frame = setmetatable({parent=parent}, {__index=function(_, key)
      if layeredRegion and (key == "GetScale" or key == "GetEffectiveScale") then return nil end
@@ -259,11 +270,14 @@ local booster, album = ns.Booster, ns.Album
 local series = ns.SeriesByKey("northwind")
 zone = "Northwind"
 album:ShowBoosters()
+simulateClippedViewports(true)
+local compact = ns.db.compact
 local function click(button)
     this, arg1 = button, "LeftButton"
     button:GetScript("OnClick")()
 end
 for _, stock in ipairs({0, 2}) do
+    ns.db.compact = stock > 0
     ns.db.packs[series.key] = stock
     local collection = ns.Seal({ cards = ns.db.cards })
     local xp = ns.Level:XP()
@@ -282,7 +296,9 @@ for _, stock in ipairs({0, 2}) do
         local card = booster.cards[i]
         if pick.card.display and pick.card.display > 0 and not pick.card.art then
             assert(card.openingModel and card.model.testDisplay == pick.card.display)
-            assert(card.model.artworkWindow == card.art and card.model.anchor[2] == UIParent and card.model:IsShown())
+            assert(card.model:IsShown())
+            assertModelInsideArtwork(card.model, card.art)
+            assert(card.art.clipsChildren and card.model:GetParent() == card.front)
             shownModels = shownModels + 1
         end
     end
@@ -301,7 +317,7 @@ for _, stock in ipairs({0, 2}) do
         local inspect = booster.frame.inspect
         assert(inspect:IsShown() and inspect.info.name:GetText() ~= "")
         assert(inspect.card.model.testDisplay == display and inspect.card.model:IsShown())
-        assert(inspect.card.model.artworkWindow == inspect.card.art and inspect.card.model.anchor[2] == UIParent)
+        assertModelInsideArtwork(inspect.card.model, inspect.card.art)
         assert(not inspect.card.held and not inspect.card.see3D:IsShown())
         assert(not source.model:IsShown())
         click(inspect.back)
@@ -318,6 +334,8 @@ for _, stock in ipairs({0, 2}) do
     click(booster.frame.album)
     assert(not booster:Showing() and album.frame:IsShown() and album.mode == "boosters")
 end
+ns.db.compact = compact
+simulateClippedViewports(false)
 ns.db.packs[series.key] = nil
 album:Hide()
 """)
@@ -1385,6 +1403,7 @@ local data = {}
 for key, value in pairs(source) do data[key] = value end
 local display = 1974
 local oldPortrait = ns.Portraits[display]
+simulateClippedViewports(true)
 ns.Portraits[display] = {0, 1, 0, 1}
 data.display, data.art = display, nil
 local card = ns.NewCard(UIParent, "big")
@@ -1396,31 +1415,14 @@ assert(not card.model:IsShown() and not card.model.testDisplay)
 card:Flip(0.34)
 stepFrames(12)
 assert(card.model.testDisplay == display and card.model:IsShown() and not card.art.portrait:IsShown())
-assert(card.model.artworkWindow == card.art and card.model.anchor[2] == UIParent)
-local viewportX, viewportY, viewportWidth, viewportHeight = 120, 180, 132, 108
-card.art.GetLeft = function() return viewportX end
-card.art.GetBottom = function() return viewportY end
-card.art.GetWidth = function() return viewportWidth end
-card.art.GetHeight = function() return viewportHeight end
+assertModelInsideArtwork(card.model, card.art)
 card:SetScale(0.75)
-local cameraRefreshes = 0
-card.model.RefreshCamera = function() cameraRefreshes = cameraRefreshes + 1 end
-stepFrames(1)
-assert(card.model.anchor[4] == 90 and card.model.anchor[5] == 135)
-assert(card.model.viewport[3] == 99 and card.model.viewport[4] == 81)
-assert(math.abs(card.model:GetEffectiveScale() - 1) < 0.001 and cameraRefreshes == 1)
-viewportX, viewportY = 200, 240
-stepFrames(1)
-assert(card.model.anchor[4] == 150 and card.model.anchor[5] == 180 and cameraRefreshes == 1)
-card:SetScale(0.5)
-stepFrames(1)
-assert(card.model.anchor[4] == 100 and card.model.anchor[5] == 120)
-assert(card.model.viewport[3] == 66 and card.model.viewport[4] == 54 and cameraRefreshes == 2)
+assert(card.model:GetEffectiveScale() == card.art:GetEffectiveScale())
 local can3D = ns.Can3D
 simulateVertexOffsets(true)
 ns.Can3D = function() return true end
 card:SetPose(0.35, 0.12)
-assert(card.model.anchor[2] == UIParent)
+assertModelInsideArtwork(card.model, card.art)
 card:SetPose(math.pi, 0)
 assert(not card.model:IsShown())
 card:ShowSide("front")
@@ -1437,7 +1439,8 @@ for row = 0, crate.itemRows - 1 do
         local entry = tile.pick and tile.pick.entry
         if tile:IsShown() and entry and entry.kind == "npc" and entry.display then
             assert(tile.creature and tile.creature.testDisplay == entry.display and not tile.art:IsShown())
-            assert(tile.creature.artworkWindow:GetParent() == tile and tile.creature.anchor[2] == UIParent)
+            assert(tile.creature.artworkWindow:GetParent() == tile)
+            assertModelInsideArtwork(tile.creature, tile.creature.artworkWindow)
             npc, npcTile = entry, tile
         end
     end
@@ -1450,7 +1453,7 @@ npcTile:GetScript("OnMouseUp")()
 local inspect = crate.frame.inspect
 assert(inspect:IsShown() and inspect.pick == npcTile.pick and not crate.frame.panel:IsShown())
 assert(inspect.name:GetText() ~= "" and inspect.card.scene.testDisplay == npc.display)
-assert(inspect.card.scene.artworkWindow == inspect.card.win and inspect.card.scene.anchor[2] == UIParent)
+assertModelInsideArtwork(inspect.card.scene, inspect.card.win)
 local hold = inspect.card.turn
 this, arg1 = inspect, 1
 inspect:GetScript("OnMouseWheel")()
@@ -1476,9 +1479,9 @@ crate.frame:Hide()
 local prize = ns.CrateCard.New(UIParent, 200)
 prize:Set({tier = 1, entry = npc, opening3D = true}, crate.RANKS)
 assert(prize.scene:IsShown() and prize.scene.testDisplay == npc.display)
-assert(prize.scene.artworkWindow == prize.win and prize.scene.anchor[2] == UIParent)
+assertModelInsideArtwork(prize.scene, prize.win)
 prize:SetPose(0.35, 0.12)
-assert(prize.scene.anchor[2] == UIParent)
+assertModelInsideArtwork(prize.scene, prize.win)
 prize:SetPose(math.pi, 0)
 assert(not prize.win:IsShown())
 
@@ -1490,6 +1493,7 @@ ns.CrateCard.Arm(arm, {id = 17182})
 assert(arm.ready and arm.model.testItem == 17182 and arm.model.allPointsTarget == arm)
 GetItemInfo, ns.Can3D, ns.Portraits[display] = oldItemInfo, can3D, oldPortrait
 simulateVertexOffsets(false)
+simulateClippedViewports(false)
 card:Hide()
 prize:Hide()
 arm:Hide()

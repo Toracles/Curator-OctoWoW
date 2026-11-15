@@ -2609,7 +2609,7 @@ function M:Hold(on)
 		if self.weapon and not self.flatWeapon then
 			ArmIcon(self, not (self.arm and self.arm.ready))
 		end
-		CuratorOctoFull.SetClipsChildren(win, true)
+		CuratorOctoFull.SetClipsChildren(win, false)
 		-- (1.14.0, after its second test) its case, when it is in one: held with it
 		if self.slab and self.slabInfo then
 			self:SlabHeld()
@@ -2660,7 +2660,7 @@ function M:Hold(on)
 		Place(win, self, unpack(WIN))
 		win:Show()
 		for _, m in ipairs({ self.scene or false, self.dress or false, self.arm or false }) do
-			if m and not m.artworkWindow then
+			if m then
 				m:ClearAllPoints()
 				m:SetAllPoints(win)
 			end
@@ -2790,7 +2790,7 @@ function M:SetPose(yaw, pitch)
 		CuratorOctoFull.SetSize(win, 0.01, 0.01)
 	end
 	for _, m in ipairs({ self.scene or false, self.dress or false, self.arm or false }) do
-		if m and not m.artworkWindow then
+		if m then
 			m:ClearAllPoints()
 			m:SetAllPoints(win)
 		end
