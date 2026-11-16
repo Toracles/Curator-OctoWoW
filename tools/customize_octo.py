@@ -1103,7 +1103,88 @@ def opening_booster_models(text):
     text = replace(text, "CuratorOctoFull.SetClipsChildren(s, small)", """-- A narrowed viewport displaces the legacy models in the compact scene.
 		local card = self.cards and self.cards[1]
 		CuratorOctoFull.SetClipsChildren(s, small and card ~= nil and card.model.actor ~= nil)""")
-    return replace(text, "if r >= 5 then\n\t\t-- (1.13.0:", "if r >= 5 and not c.openingModel then\n\t\t-- (1.13.0:")
+    return replace(text, "if r >= 5 then\n\t\t-- (1.13.0:",
+                   "if r >= 6 or (r == 5 and not c.openingModel) then\n\t\t-- (1.13.0:")
+
+
+def cinematic_entrances(text):
+    text = replace(text, "local function BuildBanner(parent)", """local function BuildLegacyBanner(b)
+	CuratorOctoFull.SetSize(b, 440, 100)
+	b.trim = Tex(b, "BACKGROUND", 0)
+	b.trim:SetAllPoints(b)
+	b.back = Tex(b, "BACKGROUND", 1)
+	b.back:SetPoint("TOPLEFT", b, "TOPLEFT", 2, -2)
+	b.back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", -2, 2)
+	CuratorOctoFull.ColorTexture(b.back, 0.045, 0.025, 0.02, 0.96)
+	b.gem = Tex(b, "ARTWORK", 0, "Gem6")
+	CuratorOctoFull.SetSize(b.gem, 25, 25)
+	b.gem:SetPoint("TOP", b, "TOP", 0, 12)
+	b.title = S.Text(b, "GameFontNormalHuge")
+	b.title:SetPoint("TOP", b, "TOP", 0, -20)
+	b.title:SetWidth(404)
+	CuratorOctoFull.SetWordWrap(b.title, false)
+	b.sub = S.Text(b, "GameFontNormalLarge")
+	b.sub:SetPoint("TOP", b.title, "BOTTOM", 0, -5)
+	b.line = S.Text(b, "GameFontHighlight")
+	b.line:SetPoint("TOP", b.sub, "BOTTOM", 0, -5)
+	b.line:SetWidth(404)
+	b.line:SetTextColor(0.86, 0.86, 0.86)
+	b.legacy = true
+	b:Hide()
+	return b
+end
+
+local function BuildBanner(parent)""")
+    text = replace(text, "\tCuratorOctoFull.SetSize(b, 440, 156)", """	if not (S.HasAtlas("BossBanner-BgBanner-Top") and S.HasAtlas("BossBanner-BgBanner-Bottom")
+		and S.HasAtlas("BossBanner-BgBanner-Mid") and S.HasAtlas("BossBanner-BottomFillagree")) then
+		return BuildLegacyBanner(b)
+	end
+	CuratorOctoFull.SetSize(b, 440, 156)""")
+    text = cut(text, "\t-- a band of dark behind the texts, where a client has no banner", "\t-- in its middle on top:")
+    text = replace(text, 'FitFont(b.title, "QuestFont_Enormous",', 'FitFont(b.title, b.legacy and "GameFontNormalHuge" or "QuestFont_Enormous",')
+    text = replace(text, "\tlocal glow = self.style.tint\n", """	local glow = self.style.tint
+	if b.legacy then
+		CuratorOctoFull.ColorTexture(b.trim, glow[1], glow[2], glow[3], 0.85)
+		b.gem:SetTexture(MEDIA .. "Gem" .. self.card.rarity)
+		b:SetAlpha(0)
+		b:Show()
+		self:Fade(b, 1, 0.28)
+		return
+	end
+""")
+    text = replace(text, "\tif b.back then\n\t\tself:Fade(b.back, 1, 0.3, nil, 0.1)\n\tend\n", "")
+    text = replace(text, "\tCuratorOctoFull.SetSize(st, 1, 1)\n\tst:SetPoint(\"CENTER\")", "\tst:SetAllPoints(f)")
+    text = replace(text, '\tCuratorOctoFull.SetSize(f.backdrop, W, H)\n\tf.backdrop:SetPoint("CENTER", f.stage, "CENTER")',
+                   '\tf.backdrop:SetAllPoints(f.stage)')
+    text = replace(text, '\tf.stage:ClearAllPoints()\n\tf.stage:SetPoint("CENTER", f, "CENTER", sx, sy)',
+                   '\tf.stage:ClearAllPoints()\n\tf.stage:SetPoint("TOPLEFT", f, "TOPLEFT", sx, sy)\n'
+                   '\tf.stage:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", sx, sy)')
+    text = replace(text, "CuratorOctoFull.SetClipsChildren(f, win ~= nil)",
+                   "CuratorOctoFull.SetClipsChildren(f, win ~= nil and f.scene ~= nil)")
+    text = replace(text, 'CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)',
+                   'm.hasLoadScript = CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)')
+    text = replace(text, """	if card.display and card.display > 0 then
+		m:SetDisplayInfo(card.display)
+	end
+	m:SetAnimation(0)""", """	local loaded = false
+	if m.SetDisplayInfo then
+		local ok, result = pcall(m.SetDisplayInfo, m, card.display)
+		loaded = ok and result ~= false
+	end
+	if not loaded and not f.scene then
+		self:Stop()
+		return false
+	end
+	if not m.hasLoadScript then m.loaded = loaded end
+	if loaded and m.SetAnimation then m:SetAnimation(0) end""")
+    text = replace(text, "\tself:ApplyLook()\n\tself.anim = 0",
+                   "\tself:ApplyLook()\n\tif not f.scene and m.loaded and not m.hasLoadScript then self:WearAura() end\n\tself.anim = 0")
+    return replace(text, """		local look = C:FinishLook(card, self.opts.finish)
+		if look then
+			-- waves of lightning (thunderforged), of all the colours of a prism (titanforged)
+			local waves = FINISH_WAVES[look]""", """		local waves = FINISH_WAVES[C:FinishLook(card, self.opts.finish)]
+		if waves then
+			-- waves of lightning (thunderforged), of all the colours of a prism (titanforged)""")
 
 
 def opening_case_contract_models(text):
@@ -1210,6 +1291,7 @@ def apply(root: Path):
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
         "UI/Card.lua": opening_card_models,
+        "UI/Cinematic.lua": cinematic_entrances,
         "UI/Inspect.lua": booster_inspection,
         "UI/Booster.lua": lambda text: opening_booster_models(contract_booster_layout(text)),
         "UI/Contract.lua": lambda text: replace(replace(contract_ceremony(text),

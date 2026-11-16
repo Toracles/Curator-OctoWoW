@@ -314,8 +314,38 @@ local function Tex(parent, layer, sub, file, blend)
 end
 
 -- The banner of the bosses (the one the game shows when a boss falls), for the name of the card.
+local function BuildLegacyBanner(b)
+	CuratorOctoFull.SetSize(b, 440, 100)
+	b.trim = Tex(b, "BACKGROUND", 0)
+	b.trim:SetAllPoints(b)
+	b.back = Tex(b, "BACKGROUND", 1)
+	b.back:SetPoint("TOPLEFT", b, "TOPLEFT", 2, -2)
+	b.back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", -2, 2)
+	CuratorOctoFull.ColorTexture(b.back, 0.045, 0.025, 0.02, 0.96)
+	b.gem = Tex(b, "ARTWORK", 0, "Gem6")
+	CuratorOctoFull.SetSize(b.gem, 25, 25)
+	b.gem:SetPoint("TOP", b, "TOP", 0, 12)
+	b.title = S.Text(b, "GameFontNormalHuge")
+	b.title:SetPoint("TOP", b, "TOP", 0, -20)
+	b.title:SetWidth(404)
+	CuratorOctoFull.SetWordWrap(b.title, false)
+	b.sub = S.Text(b, "GameFontNormalLarge")
+	b.sub:SetPoint("TOP", b.title, "BOTTOM", 0, -5)
+	b.line = S.Text(b, "GameFontHighlight")
+	b.line:SetPoint("TOP", b.sub, "BOTTOM", 0, -5)
+	b.line:SetWidth(404)
+	b.line:SetTextColor(0.86, 0.86, 0.86)
+	b.legacy = true
+	b:Hide()
+	return b
+end
+
 local function BuildBanner(parent)
 	local b = CreateFrame("Frame", nil, parent)
+	if not (S.HasAtlas("BossBanner-BgBanner-Top") and S.HasAtlas("BossBanner-BgBanner-Bottom")
+		and S.HasAtlas("BossBanner-BgBanner-Mid") and S.HasAtlas("BossBanner-BottomFillagree")) then
+		return BuildLegacyBanner(b)
+	end
 	CuratorOctoFull.SetSize(b, 440, 156)
 	local function Piece(layer, sub, atlas, blend)
 		local t = b:CreateTexture(nil, layer, nil, sub)
@@ -344,14 +374,6 @@ local function BuildBanner(parent)
 	b.midGlow = Piece("BACKGROUND", 1, "BossBanner-BgBanner-Mid", "ADD")
 	b.midGlow:SetPoint("TOPLEFT", b.topGlow, "TOPLEFT", 0, -34)
 	b.midGlow:SetPoint("BOTTOMRIGHT", b.bottomGlow, "BOTTOMRIGHT", 0, 25)
-	-- a band of dark behind the texts, where a client has no banner of the bosses
-	if b.top.missing then
-		b.back = b:CreateTexture(nil, "BACKGROUND")
-		b.back:SetPoint("TOPLEFT", 10, -60)
-		b.back:SetPoint("BOTTOMRIGHT", -10, 30)
-		CuratorOctoFull.ColorTexture(b.back, 0, 0, 0, 0.65)
-		b.back:SetAlpha(0)
-	end
 	-- in its middle on top: the skull of the bosses (mythic cards) or the gem of the rarity in the
 	-- ring of the portraits (legendary cards)
 	b.skull = Piece("OVERLAY", 0, "BossBanner-SkullCircle")
@@ -410,8 +432,7 @@ function Cin:Build()
 
 	-- the stage: the place of the album behind, the light behind the creature, the creature
 	local st = CreateFrame("Frame", nil, f)
-	CuratorOctoFull.SetSize(st, 1, 1)
-	st:SetPoint("CENTER")
+	st:SetAllPoints(f)
 	st:SetFrameLevel(f:GetFrameLevel() + 2)
 	f.stage = st
 	f.backdrop = Tex(st, "BACKGROUND", -6)
@@ -436,7 +457,7 @@ function Cin:Build()
 	-- model frame shows it)
 	local m = CreateFrame("PlayerModel", nil, st)
 	m:SetFrameLevel(st:GetFrameLevel() + 3)
-	CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)
+	m.hasLoadScript = CuratorOctoFull.SetScript(m, "OnModelLoaded", function(self)
 		self.loaded = true
 		Cin:ApplyLook()
 		if not Cin.frame.scene then
@@ -793,7 +814,7 @@ function Cin:Place()
 		f:SetAllPoints(UIParent)
 	end
 	if f.SetClipsChildren then
-		CuratorOctoFull.SetClipsChildren(f, win ~= nil)
+		CuratorOctoFull.SetClipsChildren(f, win ~= nil and f.scene ~= nil)
 	end
 	self.small = win ~= nil
 	-- (the line that says how to skip: as large as the buttons of the small window)
@@ -818,8 +839,7 @@ function Cin:Layout()
 	local band = H * BAR
 	CuratorOctoFull.SetSize(f.top, W, band)
 	CuratorOctoFull.SetSize(f.bottom, W, band)
-	CuratorOctoFull.SetSize(f.backdrop, W, H)
-	f.backdrop:SetPoint("CENTER", f.stage, "CENTER")
+	f.backdrop:SetAllPoints(f.stage)
 	f.tint:SetAllPoints(f.backdrop)
 	f.shade:SetAllPoints(f.backdrop)
 	CuratorOctoFull.SetSize(f.floor, W * 0.85, H * 0.32)
@@ -868,7 +888,7 @@ function Cin:ShowBanner()
 	local b = self.frame.banner
 	local mythic = self.style.skull
 	local col = ns.RARITY[self.card.rarity]
-	FitFont(b.title, "QuestFont_Enormous", C:Name(self.card), 410, 30, 18)
+	FitFont(b.title, b.legacy and "GameFontNormalHuge" or "QuestFont_Enormous", C:Name(self.card), 410, 30, 18)
 	b.title:SetTextColor(1, 0.82, 0.1)
 	local sub = L[col.label]
 	local f = C:FinishName(self.card, self.opts.finish)
@@ -881,6 +901,14 @@ function Cin:ShowBanner()
 	local where = C:SeriesName(self.card.series)
 	b.line:SetText((line ~= "" and (line .. "  ·  ") or "") .. where)
 	local glow = self.style.tint
+	if b.legacy then
+		CuratorOctoFull.ColorTexture(b.trim, glow[1], glow[2], glow[3], 0.85)
+		b.gem:SetTexture(MEDIA .. "Gem" .. self.card.rarity)
+		b:SetAlpha(0)
+		b:Show()
+		self:Fade(b, 1, 0.28)
+		return
+	end
 	for _, t in ipairs({ b.topGlow, b.bottomGlow, b.midGlow }) do
 		t:SetVertexColor(glow[1], glow[2], glow[3])
 	end
@@ -936,9 +964,6 @@ function Cin:ShowBanner()
 			end
 			t:SetAlpha(math.min(1, e * 1.4))
 		end, nil, Ease.outCubic, self, 0.1)
-	end
-	if b.back then
-		self:Fade(b.back, 1, 0.3, nil, 0.1)
 	end
 	b.bottomFill:SetAlpha(0)
 	self:Fade(b.bottomFill, 1, 0.15)
@@ -1041,10 +1066,17 @@ function Cin:Play(card, opts, onReveal, onDone)
 	m.loaded, m.pending = false, nil
 	m:Show()
 	m:ClearModel()
-	if card.display and card.display > 0 then
-		m:SetDisplayInfo(card.display)
+	local loaded = false
+	if m.SetDisplayInfo then
+		local ok, result = pcall(m.SetDisplayInfo, m, card.display)
+		loaded = ok and result ~= false
 	end
-	m:SetAnimation(0)
+	if not loaded and not f.scene then
+		self:Stop()
+		return false
+	end
+	if not m.hasLoadScript then m.loaded = loaded end
+	if loaded and m.SetAnimation then m:SetAnimation(0) end
 	self.box, self.K, self.measured, self.measureTries, self.pose = nil, nil, false, 0, nil
 	if f.scene then
 		local actor = f.actor
@@ -1072,6 +1104,7 @@ function Cin:Play(card, opts, onReveal, onDone)
 		end
 	end
 	self:ApplyLook()
+	if not f.scene and m.loaded and not m.hasLoadScript then self:WearAura() end
 	self.anim = 0
 
 	-- the sounds of the creature: its cry, its roar, its blow (see Data/Cinematic.lua)
@@ -1371,10 +1404,9 @@ function Cin:Begin()
 				self.sparks:Burst(0, cy, col, 30, self.H * 0.25, 1.2, 20)
 			end, self)
 		end
-		local look = C:FinishLook(card, self.opts.finish)
-		if look then
+		local waves = FINISH_WAVES[C:FinishLook(card, self.opts.finish)]
+		if waves then
 			-- waves of lightning (thunderforged), of all the colours of a prism (titanforged)
-			local waves = FINISH_WAVES[look]
 			for k, rc in ipairs(waves) do
 				local k, rc = k, rc; self:Ring(rc, self.H * (0.5 + 0.1 * k), 0.9, 0.4, 0.3 + 0.07 * k)
 				ns.Delay(0.3 + 0.06 * k, function()
@@ -2134,7 +2166,8 @@ function Cin:Tick(elapsed)
 		sx, sy = (math.random() - 0.5) * 2 * k, (math.random() - 0.5) * 2 * k
 	end
 	f.stage:ClearAllPoints()
-	f.stage:SetPoint("CENTER", f, "CENTER", sx, sy)
+	f.stage:SetPoint("TOPLEFT", f, "TOPLEFT", sx, sy)
+	f.stage:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", sx, sy)
 	-- the place of the album, slowly closer
 	local crop = self.crop
 	if crop then

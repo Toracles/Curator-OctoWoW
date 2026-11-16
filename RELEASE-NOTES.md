@@ -1,11 +1,13 @@
-## Décalage des modèles 3D
+## Entrées Mythic
 
-- Les modèles de créatures restent ancrés au cadre de leur illustration. Leur rendu utilise une zone séparée de la découpe des éléments décoratifs, qui décalait les modèles sur le client 1.12.1.
-- Les tests Lua couvrent les boosters en plein écran et en mode compact, l’inspection et les caisses. Le rendu graphique reste à confirmer en jeu.
+- Les cartes Mythic avec un modèle rejouent leur cinématique à la révélation dans un booster lorsque l’option des cinématiques est activée.
+- Le bandeau du client 1.12.1 affiche le nom, la rareté, la finition éventuelle et l’album sans dépendre des textures de boss. Le décor remplit la largeur de la scène.
+- Les modèles s’animent sur le client 1.12.1 et la révélation peut continuer si le modèle de la cinématique est indisponible. Les finitions corrompues et le clic pour passer sont couverts par les tests Lua.
 - Pour une première installation, extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), puis applique ce correctif cumulatif avec le jeu fermé.
 
-## 3D model offset
+## Mythic entrances
 
-- Creature models stay anchored to their artwork. They render outside the decoration clipping region that displaced models on the 1.12.1 client.
-- Lua tests cover full-screen and compact boosters, inspection, and cases. Graphical rendering still needs live verification.
+- Mythic cards with models play their entrance on booster reveals when cinematics are enabled.
+- The 1.12.1 title banner shows the name, rarity, finish if present, and album using local assets. The scene backdrop fills the screen width.
+- Legacy models animate and the card can still be revealed if the entrance model is unavailable. Lua tests cover corrupted finishes and click to skip.
 - For a first installation, extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2), then apply this cumulative patch with the game closed.

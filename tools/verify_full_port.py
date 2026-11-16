@@ -1499,3 +1499,64 @@ prize:Hide()
 arm:Hide()
 """)
 print("Opening models: automatic reveal, stable window anchors, case thumbnails and legacy weapon/portrait fallbacks verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local cin, booster = ns.Cinematic, ns.Booster
+local thrall
+for _, card in ipairs(ns.SeriesByKey("durotar").list) do
+    if card.npc == 4949 then thrall = card; break end
+end
+assert(thrall and thrall.rarity == 6)
+cin:Build()
+local f, banner = cin.frame, cin.frame.banner
+assert(banner.legacy and not banner:IsShown())
+assert(banner.title.anchor[2] == banner and banner.sub.anchor[2] == banner.title and banner.line.anchor[2] == banner.sub)
+banner.SetAlpha = function(self, alpha) self.testAlpha = alpha end
+banner.GetAlpha = function(self) return self.testAlpha or 1 end
+f.model.HasAnimation = function() return true end
+f.model.SetAnimation = function(self, id) self.testAnim = id end
+local revealed, finished = 0, 0
+local function reveal() revealed = revealed + 1 end
+local function finish() finished = finished + 1 end
+assert(cin:Play(thrall, {finish = "corrupt"}, reveal, finish))
+assert(f.model.loaded and f.model.testDisplay == thrall.display and f.backdrop.allPointsTarget == f.stage)
+for i = 1, 500 do
+    if banner:IsShown() and banner.testAlpha == 1 then break end
+    stepFrames(1)
+end
+assert(banner:IsShown() and banner.testAlpha == 1)
+assert(banner.title:GetText() == ns.Collection:Name(thrall))
+assert(string.find(banner.sub:GetText(), ns.L[ns.RARITY[6].label], 1, true))
+assert(f.model.testAnim ~= 0, "The cinematic never animated its legacy model")
+stepFrames(90)
+assert(not cin:IsPlaying() and revealed == 1 and finished == 1)
+assert(cin:Play(thrall, {}, reveal, finish))
+stepFrames(12)
+this = f
+f:GetScript("OnMouseUp")()
+stepFrames(30)
+assert(not cin:IsPlaying() and revealed == 2 and finished == 2)
+local loadDisplay = f.model.SetDisplayInfo
+f.model.SetDisplayInfo = function() return false end
+assert(not cin:Play(thrall, {}, reveal, finish))
+assert(not f:IsShown() and not cin:IsPlaying() and revealed == 2 and finished == 2)
+f.model.SetDisplayInfo = loadDisplay
+
+booster:Open(thrall.series, {test = true})
+booster:Tear()
+booster.picks = {{card = thrall, count = 1, new = true}}
+booster:Burst()
+for i = 1, 160 do
+    if cin:IsPlaying() then break end
+    stepFrames(1)
+end
+assert(cin:IsPlaying() and cin.card == thrall)
+assert(not booster.cards[1].revealed)
+cin:Skip()
+stepFrames(80)
+assert(booster.cards[1].revealed and booster.cards[1].model.testDisplay == thrall.display)
+assertModelInsideArtwork(booster.cards[1].model, booster.cards[1].art)
+booster.frame:Hide()
+""")
+print("Mythic entrances: legacy banner, animation, corrupted finish, skip, failed load and booster reveal verified")

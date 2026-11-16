@@ -2602,7 +2602,7 @@ function B:AfterWind(c, r, auto, rise, grow)
 	if r >= 4 or c.hallowBack then
 		c.back.cracks:SetAlpha(1)
 	end
-	if r >= 5 and not c.openingModel then
+	if r >= 6 or (r == 5 and not c.openingModel) then
 		-- (1.13.0: a card of a picture, the Hardcup Saison 3, makes no entrance: the music goes on)
 		local art = c.pick.card.art
 		if cin and cin:Enabled() and self.StopMusic and not (art and art.fill) then
