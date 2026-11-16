@@ -4,9 +4,9 @@
 
 Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, open boosters and cases, and trade with other players. The current prerelease is **alpha.38**. Collection saves are local. [License scope](LICENSE-SCOPE.md)
 
-![Elwynn Forest booster preview in OctoWoW with eight revealed creature cards and their 3D models](docs/curator-octowow-booster.webp)
+![Elwynn Forest booster preview in OctoWoW with eight revealed creature cards and their 3D models](docs/curator-octowow-booster-detail.webp)
 
-*Elwynn Forest booster preview captured in OctoWoW.*
+*Elwynn Forest booster preview captured in OctoWoW.* [Full screenshot](docs/curator-octowow-booster.webp)
 
 ## Requirements
 

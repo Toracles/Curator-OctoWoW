@@ -4,9 +4,9 @@
 
 Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le client WoW 1.12.1**. Collectionne les cartes de créatures, complète les albums, ouvre des boosters et des caisses, et échange avec d’autres joueurs. La préversion actuelle est **alpha.38**. La collection est sauvegardée localement. [Périmètre de la licence](LICENSE-SCOPE.md#français)
 
-![Aperçu d’un booster de la forêt d’Elwynn dans OctoWoW avec huit cartes révélées et leurs modèles 3D](docs/curator-octowow-booster.webp)
+![Aperçu d’un booster de la forêt d’Elwynn dans OctoWoW avec huit cartes révélées et leurs modèles 3D](docs/curator-octowow-booster-detail.webp)
 
-*Aperçu d’un booster de la forêt d’Elwynn, capturé dans OctoWoW.*
+*Aperçu d’un booster de la forêt d’Elwynn, capturé dans OctoWoW.* [Capture complète](docs/curator-octowow-booster.webp)
 
 ## Prérequis
 
