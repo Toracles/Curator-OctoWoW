@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.35](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.35/Curator-OctoWoW-correctif-alpha.35.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.36](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.36/Curator-OctoWoW-correctif-alpha.36.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
@@ -28,6 +28,16 @@ Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](h
 - **Progression et économie.** Niveaux de collectionneur, quêtes, hauts faits, talents, contrats de doublons, fidélité à l’auberge, visas et paris. Les prix locaux en rubis sont divisés par deux et le prix de base d’une clé de caisse est de 250 rubis.
 - **Échanges entre joueurs.** Le bouton bleu **Échange (Curator)** du menu de portrait envoie une invitation. Une fois celle-ci acceptée, chacun voit les cartes et les boosters proposés par l’autre. La personne qui invite envoie l’offre finale, puis le destinataire en vérifie le contenu avant de l’accepter. L’aperçu en direct demande alpha.23 ou une version ultérieure des deux côtés. Les offres classiques restent accessibles avec `/curator trade`.
 - **Correctifs d’interface Vanilla.** Compatibilité au démarrage et pour les modèles, en-tête des albums réorganisé avec bouton Guide et ordre d’affichage des illustrations de caisse corrigé. Les notifications, les panneaux de banque et le registre des rubis ont un fond opaque. Les actions Curator sont intégrées au dialogue natif de l’aubergiste, avec des correctifs pour l’animation des tampons, les dates et le chevauchement du panneau de pari. Les infobulles de joueurs reprennent le format du jeu.
+
+## Voix Mythic optionnelles
+
+Avec le jeu fermé, exécute le script du ZIP du correctif dans PowerShell. Il utilise FFmpeg pour préparer un court extrait de Thrall depuis ton installation de SoftSpoken Stories. L’audio reste sur ton ordinateur.
+
+```powershell
+& .\tools\prepare-softspoken-voice.ps1 -GameRoot 'C:\Games\OctoWoW'
+```
+
+Si FFmpeg est absent du PATH, indique son chemin complet avec `-FFmpeg`. Relance le jeu et active **Voix Mythic via SoftSpoken** dans les options de Curator. L’extrait est en anglais, avec des sous-titres en anglais ou en français. Curator utilise ses voix d’origine pour les autres cartes ou lorsque SoftSpoken ne peut pas démarrer l’extrait immédiatement. Sur le client 1.12.1, passer une réplique jouée par SoftSpoken peut couper brièvement d’autres effets sonores.
 
 ## Rattraper la progression d’un personnage
 

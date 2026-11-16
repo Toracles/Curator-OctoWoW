@@ -1187,6 +1187,26 @@ local function BuildBanner(parent)""")
 			-- waves of lightning (thunderforged), of all the colours of a prism (titanforged)""")
 
 
+def softspoken_entrances(text):
+    text = replace(text, "function Cin:Prologue()",
+                   (FULL_PORT / "SoftSpokenEntrance.lua").read_text(encoding="utf8") + "\n\nfunction Cin:Prologue()")
+    text = replace(text, "\t\t\tif cue.voice then", "\t\t\tif self:PlaySoftSpoken() then return end\n\t\t\tif cue.voice then")
+    text = replace(text, "\tlocal speaking = false\n\tif self.voice", "\tlocal speaking = self.spokenActive == true\n\tif self.voice")
+    text = replace(text, "\tself.lineOver = true\n\tlocal f = self.frame\n\tself:Fade(f.say, 0, 0.35)",
+                   "\tself.lineOver = true\n\tself:StopSoftSpoken()\n\tlocal f = self.frame\n\tself:Fade(f.say, 0, 0.35)")
+    text = replace(text, '\tself.phase = "out"\n\tlocal f = self.frame', '\tself.phase = "out"\n\tself:StopSoftSpoken()\n\tlocal f = self.frame')
+    return replace(text, "function Cin:Finish()\n\tself:ShowCards()", "function Cin:Finish()\n\tself:StopSoftSpoken()\n\tself:ShowCards()")
+
+
+def softspoken_option(text):
+    text = replace(text, "CuratorOctoFull.SetSize(p, 620, 606)", "CuratorOctoFull.SetSize(p, 620, 628)")
+    text = replace(text, 'S.Window("CuratorOptionsWindow", 640, 670)', 'S.Window("CuratorOptionsWindow", 640, 692)')
+    return replace(text, '\t-- (1.14.0, his word) the creatures of the cards as a still picture', """	{ key = "softSpokenMythic", label = "Mythic voices via SoftSpoken",
+		get = function() return ns.db.softSpokenMythic == true end,
+		set = function(on) ns.db.softSpokenMythic = on or nil end },
+	-- (1.14.0, his word) the creatures of the cards as a still picture""")
+
+
 def opening_case_contract_models(text):
     text = replace(text, 'local function Dress(c, w, desc)', 'local function Dress(c, w, desc, opening3D)')
     text = replace(text, 'c:Set(pick, CR.RANKS)', 'c:Set(pick, CR.RANKS, opening3D)')
@@ -1291,7 +1311,7 @@ def apply(root: Path):
         "UI/BoosterBar.lua": booster_bar,
         "UI/Boosters.lua": booster_test_button,
         "UI/Card.lua": opening_card_models,
-        "UI/Cinematic.lua": cinematic_entrances,
+        "UI/Cinematic.lua": lambda text: softspoken_entrances(cinematic_entrances(text)),
         "UI/Inspect.lua": booster_inspection,
         "UI/Booster.lua": lambda text: opening_booster_models(contract_booster_layout(text)),
         "UI/Contract.lua": lambda text: replace(replace(contract_ceremony(text),
@@ -1321,7 +1341,8 @@ def apply(root: Path):
             "barAt = true, barHide = true, barWidth = true }"),
             '\telseif cmd == "boosters" or cmd == "booster"',
             '\telseif cmd == "catchup" or cmd == "rattrapage" then\n\t\tns.Rewards:OpenCatchUp(arg)\n'
-            '\telseif cmd == "boosters" or cmd == "booster"'),
+            '\telseif cmd == "boosters" or cmd == "booster"')
+            .replace("cinematic = true, entrances = true", "cinematic = true, softSpokenMythic = true, entrances = true", 1),
         "Rewards.lua": lambda text: replace(text, 'R:Add(R:WorldSeries(), POINTS.level, "level")',
                                                'R:OctoLevelUp((unpack(arg, 1, arg.n)))'),
         "Achievements.lua": lambda text: re.sub(
@@ -1335,11 +1356,13 @@ def apply(root: Path):
             progress_header(text, "f.qEmblem", "f.qXP", "f.qNote").replace("Hud.Emblem(f, 56)", "Hud.Emblem(f, 46)", 1),
             'f.sub:SetPoint("TOPLEFT", 64, -55)', 'f.sub:SetPoint("TOPLEFT", 64, self.U.SUB_Y)'),
         "UI/Tour.lua": guide_button,
-        "UI/Options.lua": lambda text: header_icon_button(text, "g"),
+        "UI/Options.lua": lambda text: softspoken_option(header_icon_button(text, "g")),
         "UI/Save.lua": native_save,
         "Data/FeedKey.lua": lambda text: append_port(text, "OctoGiftKey.lua"),
         "Gifts.lua": octo_gifts,
-        "Locale112.lua": save_locale,
+        "Locale112.lua": lambda text: save_locale(text) + '\nAdd("frFR", {\n'
+            '\t["Mythic voices via SoftSpoken"] = "Voix Mythic via SoftSpoken",\n})\n',
+        "Curator.toc": lambda text: replace(text, "## OptionalDeps: Hoard", "## OptionalDeps: Hoard, SoftSpoken, CuratorSoftSpokenVoices"),
         "Trade.lua": trade_protocol,
         "UI/Social.lua": trade_live_ui,
         "UI/Players.lua": players_ui,

@@ -1560,3 +1560,104 @@ assertModelInsideArtwork(booster.cards[1].model, booster.cards[1].art)
 booster.frame:Hide()
 """)
 print("Mythic entrances: legacy banner, animation, corrupted finish, skip, failed load and booster reveal verified")
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local cin, thrall = ns.Cinematic
+for _, card in ipairs(ns.SeriesByKey("durotar").list) do
+    if card.npc == 4949 then thrall = card; break end
+end
+local oldPlay, oldLocale = ns.Play, ns.locale
+local oldApi, oldVoices = Spoken, CuratorSoftSpokenVoices
+local oldOption = ns.db.softSpokenMythic
+local seal = ns.Seal(ns.db)
+local native, registered, starts, removals = 0, 0, 0, 0
+local busy, paused, active, defer = false, false, nil, false
+local source = {
+    CanPlay = function() return true end,
+    Enqueue = function(self, clip)
+        starts = starts + 1
+        active = clip
+        if not defer then clip.startCallback(clip) end
+        return clip
+    end,
+    Remove = function(self, clip)
+        if clip ~= active then return end
+        active = nil
+        removals = removals + 1
+        clip.stopCallback(clip, false)
+    end,
+}
+local api = {
+    IsCompatible = function(_, version) return version == 1 end,
+    GetQueueSize = function() return busy and 1 or 0 end,
+    IsPaused = function() return paused end,
+    GetSource = function() return registered == 1 and source or nil end,
+    RegisterSource = function(_, key)
+        assert(key == "curator-mythic")
+        registered = registered + 1
+        return source
+    end,
+}
+Spoken = api
+CuratorSoftSpokenVoices = {
+    [4949] = {path = "test.mp3", length = 4.08, enUS = "English subtitle", frFR = "Sous-titre français"},
+}
+ns.Play = function(sound)
+    if sound == 5880 then native = native + 1 end
+    return oldPlay(sound)
+end
+local option
+for _, check in ipairs(ns.Options:Panel().checks) do
+    if check.sw.key == "softSpokenMythic" then option = check.sw end
+end
+assert(option and not option.get())
+local function start()
+    assert(cin:Play(thrall, {}))
+    stepFrames(14)
+end
+start()
+assert(native == 1 and starts == 0 and registered == 0)
+cin:Stop()
+option.set(true)
+assert(option.get() and ns.Seal(ns.db) == seal)
+busy = true
+start()
+assert(native == 2 and starts == 0)
+cin:Stop()
+busy, paused = false, true
+start()
+assert(native == 3 and starts == 0)
+cin:Stop()
+paused = false
+Spoken = nil
+start()
+assert(native == 4 and starts == 0)
+cin:Stop()
+Spoken = api
+ns.locale = "frFR"
+start()
+assert(active and starts == 1 and registered == 1 and native == 4)
+assert(cin.frame.say:GetText() == "Sous-titre français")
+stepFrames(50)
+assert(not cin.t0 and cin.spokenActive)
+local ended = active
+active = nil
+ended.stopCallback(ended, true)
+stepFrames(18)
+assert(cin.t0 and not cin.spokenClip and removals == 0)
+cin:Stop()
+start()
+cin:Skip()
+assert(not active and removals == 1)
+stepFrames(30)
+assert(not cin:IsPlaying())
+defer = true
+start()
+assert(not active and removals == 2 and native == 5)
+cin:Stop()
+ns.Play, ns.locale = oldPlay, oldLocale
+Spoken, CuratorSoftSpokenVoices = oldApi, oldVoices
+ns.db.softSpokenMythic = oldOption
+""")
+print("SoftSpoken: opt-in setting, synchronized captions, busy and unavailable fallback, and skip verified")

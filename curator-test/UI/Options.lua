@@ -200,6 +200,9 @@ local SWITCHES = {
 		set = function(on)
 			ns.db.cinematic = on and true or false
 		end },
+	{ key = "softSpokenMythic", label = "Mythic voices via SoftSpoken",
+		get = function() return ns.db.softSpokenMythic == true end,
+		set = function(on) ns.db.softSpokenMythic = on or nil end },
 	-- (1.14.0, his word) the creatures of the cards as a still picture, cut out on the backdrop (UI/Card.lua, Still)
 	{ key = "still", label = "The creatures of the cards as a still picture",
 		get = function() return ns.db.still == true end,
@@ -488,7 +491,7 @@ function O:Panel()
 	end
 	local p = CreateFrame("Frame", "CuratorOptions", UIParent)
 	-- (1.12.1: two switches more, the reminders to save and the chat channel, a little closer together)
-	CuratorOctoFull.SetSize(p, 620, 606)
+	CuratorOctoFull.SetSize(p, 620, 628)
 	p:Hide()
 	p.name = "Curator"
 	p.title = S.Text(p, "GameFontNormalLarge", "LEFT")
@@ -754,7 +757,7 @@ end
 function O:Window()
 	local w = self.window
 	if not w then
-		w = S.Window("CuratorOptionsWindow", 640, 670)
+		w = S.Window("CuratorOptionsWindow", 640, 692)
 		w:SetPoint("CENTER")
 		w:SetFrameStrata("DIALOG")
 		w:SetToplevel(true)

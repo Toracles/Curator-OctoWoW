@@ -1,5 +1,5 @@
 ## Interface: 11200
-## Title: Curator
+## Title: Curator OctoWoW
 ## Notes: Collect cards of the creatures of Azeroth: open boosters, fill your album zone by zone, show it off.
 ## Notes-frFR: Collectionne les cartes des créatures d'Azeroth : ouvre des boosters, remplis ton album zone par zone, montre-le.
 ## Notes-deDE: Sammle Karten der Kreaturen Azeroths: öffne Booster, fülle dein Album Zone für Zone, zeig es her.
@@ -18,7 +18,7 @@
 ## IconTexture: Interface\AddOns\Curator\Media\Icon
 ## SavedVariables: CuratorOctoFullDB, CuratorOctoFullExport
 ## SavedVariablesPerCharacter: CuratorOctoCatchUpDB
-## OptionalDeps: Hoard
+## OptionalDeps: Hoard, SoftSpoken, CuratorSoftSpokenVoices
 ## AddonCompartmentFunc: Curator_OnAddonCompartmentClick
 
 OctoCompat.lua

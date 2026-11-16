@@ -2870,3 +2870,7 @@ Add("frFR", {
 	["/curator save: save your collection by logging out"] = "/curator save : sauvegarde ta collection en te déconnectant",
 	["Log out to save your side of the trade."] = "Déconnecte-toi pour sauvegarder ta part de l’échange.",
 })
+
+Add("frFR", {
+	["Mythic voices via SoftSpoken"] = "Voix Mythic via SoftSpoken",
+})

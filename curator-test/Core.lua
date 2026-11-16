@@ -404,7 +404,7 @@ end
 -- (1.1: compact, compactAt, compactW: the boosters in a small window, where it is and how wide; tour:
 -- the guided tour of the album was seen; 1.2: barAt, barHide: where the booster bar was moved, hidden)
 local UNSEALED = { seal = true, guild = true, met = true, minimap = true, announce = true, keepOne = true,
-	plain = true, cam = true, zoom = true, version = true, farm = true, cinematic = true, entrances = true, fresh = true,
+	plain = true, cam = true, zoom = true, version = true, farm = true, cinematic = true, softSpokenMythic = true, entrances = true, fresh = true,
 	strangers = true, presence = true, seen = true, scan = true, scanRef = true, scanMap = true,
 	compact = true, compactAt = true, compactW = true, tour = true, barAt = true, barHide = true, barWidth = true }
 -- (scanRef, scanMap: left by a tool of the admin build of 0.23.2, out of the seal for good)

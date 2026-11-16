@@ -16,7 +16,7 @@ Hoard is optional and only used for legacy save migration. DXVK, HD packs, Super
 ## Install or update
 
 1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.
-2. Close OctoWoW before applying the [cumulative alpha.35 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.35/Curator-OctoWoW-correctif-alpha.35.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
+2. Close OctoWoW before applying the [cumulative alpha.36 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.36/Curator-OctoWoW-correctif-alpha.36.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
 3. Launch OctoWoW, enable **Curator** on the character selection screen, and enter `/curator`. Set English or French in `/curator options`.
 
 For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
@@ -28,6 +28,16 @@ For the optional bilingual gallery, extract [the gallery ZIP](https://github.com
 - **Progress and economy.** Collector levels, quests, achievements, talents, duplicate contracts, and the innkeeper’s loyalty card, visas, and bets. Local ruby prices are halved, and a case key costs 250 rubies at the base rate.
 - **Player trades.** Start a live invitation from the blue **Trade (Curator)** entry on a player portrait. After they accept the invitation, both players can preview the cards and boosters being offered. The initiator sends the final offer, and the recipient reviews and accepts it before the transfer. Both players need alpha.23 or later for the live preview. Classic offers remain available through `/curator trade`.
 - **Vanilla interface fixes.** Startup and model API compatibility, a reorganized album header and Guide button, and corrected case artwork layering. Alerts, bank panels, and the ruby ledger have opaque backgrounds. Innkeeper actions sit in the native dialogue, with fixes for loyalty stamp animations, dates, and overlapping bet windows. Player tooltips use the game’s own content.
+
+## Optional Mythic voices
+
+With the game closed, run the script from the patch ZIP in PowerShell. It uses FFmpeg to prepare a short Thrall clip from your installed copy of SoftSpoken Stories. The audio stays on your computer.
+
+```powershell
+& .\tools\prepare-softspoken-voice.ps1 -GameRoot 'C:\Games\OctoWoW'
+```
+
+If FFmpeg is outside your PATH, pass its full path with `-FFmpeg`. Relaunch the game and enable **Mythic voices via SoftSpoken** in Curator options. The clip is in English with English or French captions. Curator uses its original voice for the other cards or whenever SoftSpoken cannot start the clip immediately. On the 1.12.1 client, skipping a line SoftSpoken is playing may briefly interrupt other sound effects.
 
 ## Catch up on earlier progress
 
