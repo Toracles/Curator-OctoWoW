@@ -1,13 +1,27 @@
-## Doublage Mythic français et anglais
+## Français
 
-- Le pack SoftSpoken optionnel contient 148 pistes et couvre les 75 cartes Mythic avec une entrée. Les deux cartes de Kel’Thuzad partagent leur réplique.
-- Les pistes sont générées avec Piper. La langue de Curator sélectionne le doublage et les sous-titres. Gath’Ilzogg prononce « Prosternez-vous devant moi ! » en français et « Bow before me! » en anglais.
-- Installe le correctif cumulatif, puis extrais le ZIP optionnel dans `Interface/AddOns`. Active **Voix Mythic via SoftSpoken** dans les options de Curator. Les voix d’origine prennent le relais si SoftSpoken ne peut pas jouer la piste.
-- Pour une première installation, extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) avant le correctif.
+Curator OctoWoW v0.5.0 réunit l’addon, ses illustrations, ses sons et tous les correctifs jusqu’à alpha.38 dans un seul ZIP. Il sert à la fois pour une première installation et pour une mise à jour sur OctoWoW 1.18.1 avec le client WoW 1.12.1.
 
-## English and French Mythic voice pack
+- Collection Vanilla et 20 albums OctoWoW avec 1 269 cartes supplémentaires.
+- Boosters animés avec aperçu gratuit, barre ajustable, inspection avec modèles 3D disponibles et caisses ouvrables par lots de 1, 5, 10 ou 20.
+- Entrées Mythic, contrats animés, prix réduits, récompenses rétroactives avec confirmation et registre anti-doublons.
+- Échange de cartes avec invitation depuis le portrait et aperçu des offres, dialogue natif de l’aubergiste et correctifs d’affichage des panneaux.
+- Interface en anglais et en français. Galerie illustrée bilingue et pack SoftSpoken pour les entrées Mythic disponibles séparément.
 
-- The optional SoftSpoken pack contains 148 recordings and covers all 75 Mythic cards with entrances. The two Kel’Thuzad cards share a line.
-- Piper generated both dubs. Curator’s interface language selects speech and captions. Gath’Ilzogg says “Bow before me!” in English and “Prosternez-vous devant moi !” in French.
-- Install the cumulative patch, then extract the optional ZIP into `Interface/AddOns`. Enable **Mythic voices via SoftSpoken** in Curator options. The original audio plays whenever SoftSpoken cannot play the clip.
-- For a first installation, extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.2) before applying the patch.
+Jeu fermé, extrais `Curator-OctoWoW-v0.5.0.zip` dans `Interface/AddOns`. Pour une mise à jour, remplace le dossier `Curator` et conserve le dossier `WTF` pour tes sauvegardes. Les prochaines versions, y compris les alphas, fourniront également un ZIP complet avec leurs correctifs intégrés.
+
+[README français et prérequis](https://github.com/Toracles/Curator-OctoWoW/blob/v0.5.0/README.fr.md)
+
+## English
+
+Curator OctoWoW v0.5.0 bundles the addon, artwork, sounds and all fixes through alpha.38 in one ZIP. Use it for a fresh installation or an update on OctoWoW 1.18.1 with the WoW 1.12.1 client.
+
+- Vanilla collection and 20 OctoWoW albums with 1,269 additional cards.
+- Animated boosters with a free preview, an adjustable progress bar, card inspection with available 3D models, and case batches of 1, 5, 10 or 20.
+- Mythic entrances, animated contracts, reduced prices, and catch-up rewards with confirmation and saved receipts that prevent duplicate credit.
+- Card trades with portrait invitations and shared offer previews, native innkeeper menus, and panel rendering fixes.
+- English and French interface. The optional bilingual illustrated gallery and SoftSpoken Mythic voice pack are separate downloads.
+
+With the game closed, extract `Curator-OctoWoW-v0.5.0.zip` into `Interface/AddOns`. When updating, replace the `Curator` folder and keep `WTF` for your saves. Future releases, including alphas, will also ship a full ZIP with their fixes included.
+
+[English README and requirements](https://github.com/Toracles/Curator-OctoWoW/blob/v0.5.0/README.md)

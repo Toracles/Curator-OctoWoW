@@ -2,7 +2,9 @@
 
 [English](README.md) · **Français**
 
-Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le client WoW 1.12.1**. Collectionne les cartes de créatures, complète les albums, ouvre des boosters et des caisses, et échange avec d’autres joueurs. La préversion actuelle est **alpha.38**. La collection est sauvegardée localement. [Périmètre de la licence](LICENSE-SCOPE.md#français)
+Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le client WoW 1.12.1**. Collectionne les cartes de créatures, complète les albums, ouvre des boosters et des caisses, et échange avec d’autres joueurs. La collection est sauvegardée localement. [Périmètre de la licence](LICENSE-SCOPE.md#français)
+
+[Télécharger Curator OctoWoW v0.5.0](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-v0.5.0.zip)
 
 ![Aperçu d’un booster de la forêt d’Elwynn dans OctoWoW avec huit cartes révélées et leurs modèles 3D](docs/curator-octowow-booster-detail.webp)
 
@@ -12,7 +14,7 @@ Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le cl
 
 | Fonction | Prérequis |
 | --- | --- |
-| Addon de base | OctoWoW sur le client WoW 1.12.1, le ZIP de base et le correctif cumulatif. Le fichier TOC ne déclare aucun addon obligatoire. |
+| Addon de base | OctoWoW sur le client WoW 1.12.1 et le ZIP complet de la version. Le fichier TOC ne déclare aucun addon obligatoire. |
 | Modèles 3D disponibles et rattrapage de l’exploration | Charge `ClassicAPI.dll` via le launcher OctoWoW. L’installation de référence utilise **ClassicAPI 1.20.6**. Pour l’installer manuellement, place la DLL à côté de `WoW.exe`, ajoute-la à `dlls.txt` et démarre via VanillaFixes. [ClassicAPI](https://github.com/brues-code/ClassicAPI#installation) · [Modernization Tool d’OctoWoW](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md) |
 | Rattrapage des quêtes | Historique des quêtes rendues confirmé par le client ou [Questie-Octo](https://github.com/SandreaSub/Questie-Octo). |
 | Échanges en direct | Curator OctoWoW **alpha.23 ou plus récent** chez les deux joueurs. |
@@ -23,11 +25,11 @@ Hoard est facultatif et sert à importer une ancienne sauvegarde. DXVK, les pack
 
 ## Installer ou mettre à jour
 
-1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.38](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.38/Curator-OctoWoW-correctif-alpha.38.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
-3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
+1. Quitte OctoWoW et extrais le [ZIP complet v0.5.0](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-v0.5.0.zip) dans `Interface/AddOns`. Il contient l’addon, les illustrations, les sons et tous les correctifs.
+2. Pour une mise à jour, remplace le dossier `Interface/AddOns/Curator` existant par celui du ZIP. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+3. Vérifie que le fichier `Interface/AddOns/Curator/Curator.toc` est présent, puis lance OctoWoW. Active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
-Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
+Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
 
 ## Ce que contient le portage
 
@@ -40,7 +42,7 @@ Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](h
 
 ## Voix Mythic optionnelles
 
-Avec le jeu fermé, extrais `Curator-SoftSpoken-Mythic-Voices-EN-FR.zip` depuis la [version de Curator](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.38) dans `Interface/AddOns`. Relance le jeu avec SoftSpoken activé, puis coche **Voix Mythic via SoftSpoken** dans les options de Curator.
+Avec le jeu fermé, extrais le [ZIP des voix bilingues](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-SoftSpoken-Mythic-Voices-EN-FR.zip) dans `Interface/AddOns`. Relance le jeu avec SoftSpoken activé, puis coche **Voix Mythic via SoftSpoken** dans les options de Curator.
 
 Le pack couvre 75 cartes Mythic avec 74 répliques distinctes doublées en français et en anglais. La langue de Curator sélectionne la piste et les sous-titres. Curator utilise son audio d’origine si SoftSpoken ne peut pas démarrer la réplique immédiatement. Sur le client 1.12.1, passer une réplique jouée par SoftSpoken peut couper brièvement d’autres effets sonores. Les crédits des modèles vocaux Piper sont inclus dans le pack.
 
@@ -75,7 +77,7 @@ node tools/gift-code.cjs issue --to "Personnage-Royaume" --zone 1 --rubies 100 -
 
 Les autres options de récompense sont `--dungeon`, `--raid`, `--xp` et `--display ALBUM:NOMBRE` pour une clé d’album éligible. L’option `--note` ajoute un message.
 
-## État de la préversion et sources
+## Validation et sources
 
 Les tests automatisés Lua 5.0 vérifient les 221 fichiers Lua chargés et couvrent le démarrage, l’inspection, les boosters en plein écran et en mode compact, les lots de caisses et leur interruption, les contrats, le rattrapage, les codes cadeaux, les invitations d’échange et le choix des voix Mythic dans les deux langues. Les **148 fichiers audio** du pack facultatif et leurs entrées dans le manifeste ont été vérifiés. Le rendu, l’écoute en jeu et un échange complet à deux restent à confirmer sur OctoWoW.
 

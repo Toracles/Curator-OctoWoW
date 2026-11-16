@@ -2,7 +2,9 @@
 
 **English** · [Français](README.fr.md)
 
-Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, open boosters and cases, and trade with other players. The current prerelease is **alpha.38**. Collection saves are local. [License scope](LICENSE-SCOPE.md)
+Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, open boosters and cases, and trade with other players. Collection saves are local. [License scope](LICENSE-SCOPE.md)
+
+[Download Curator OctoWoW v0.5.0](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-v0.5.0.zip)
 
 ![Elwynn Forest booster preview in OctoWoW with eight revealed creature cards and their 3D models](docs/curator-octowow-booster-detail.webp)
 
@@ -12,7 +14,7 @@ Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 clie
 
 | Feature | Requirement |
 | --- | --- |
-| Base addon | OctoWoW on the WoW 1.12.1 client, the base ZIP and the cumulative patch. The TOC declares zero mandatory addon dependencies. |
+| Base addon | OctoWoW on the WoW 1.12.1 client and the full release ZIP. The TOC declares zero mandatory addon dependencies. |
 | Available 3D creature models and exploration catch-up | Load `ClassicAPI.dll` through your OctoWoW launcher. The reference installation uses **ClassicAPI 1.20.6**. For manual setup, place the DLL alongside `WoW.exe`, add it to `dlls.txt`, and launch through VanillaFixes. [ClassicAPI](https://github.com/brues-code/ClassicAPI#installation) · [OctoWoW Modernization Tool](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md) |
 | Quest catch-up | Confirmed turn-in history from the client or [Questie-Octo](https://github.com/SandreaSub/Questie-Octo). |
 | Live trades | Curator OctoWoW **alpha.23 or later** on both players’ clients. |
@@ -23,11 +25,11 @@ Hoard is optional and handles legacy save migration. DXVK, HD packs, SuperWoW an
 
 ## Install or update
 
-1. For a fresh installation, quit OctoWoW and extract the [base ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) into `Interface/AddOns`. This contains the full addon, artwork, and sounds.
-2. Close OctoWoW before applying the [cumulative alpha.38 patch](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.38/Curator-OctoWoW-correctif-alpha.38.zip). Extract it into the same directory and merge the `Curator` folders. If Curator is already installed from the base ZIP, this patch is all you need. Keep your character and account saves in `WTF`.
-3. Launch OctoWoW, enable **Curator** on the character selection screen, and enter `/curator`. Set English or French in `/curator options`.
+1. Quit OctoWoW and extract the [complete v0.5.0 ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-v0.5.0.zip) into `Interface/AddOns`. It includes the addon, artwork, sounds and all fixes.
+2. When updating, replace the existing `Interface/AddOns/Curator` folder with the one from the ZIP. Keep your character and account saves in `WTF`.
+3. Check for `Interface/AddOns/Curator/Curator.toc`, then launch OctoWoW. Enable **Curator** on the character selection screen and enter `/curator`. Set English or French in `/curator options`.
 
-For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
+For the optional bilingual gallery, extract [the gallery ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-OctoWoW-Galerie-FR-EN.zip) into `Interface/AddOns` and restart the game. Open it with `/curatorgallery` or `/curatorgalerie` and use **English / Français**. The gallery includes 259 illustrated cards in each language.
 
 ## What’s in the port
 
@@ -40,7 +42,7 @@ For the optional bilingual gallery, extract [the gallery ZIP](https://github.com
 
 ## Optional Mythic voices
 
-Extract `Curator-SoftSpoken-Mythic-Voices-EN-FR.zip` from the [Curator release](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.38) into `Interface/AddOns` with the game closed. Relaunch the game with SoftSpoken enabled, then enable **Mythic voices via SoftSpoken** in Curator options.
+Extract the [bilingual voice ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.0/Curator-SoftSpoken-Mythic-Voices-EN-FR.zip) into `Interface/AddOns` with the game closed. Relaunch the game with SoftSpoken enabled, then enable **Mythic voices via SoftSpoken** in Curator options.
 
 The pack covers 75 Mythic cards with 74 distinct lines recorded in both English and French. Curator's interface language selects the recording and captions. Curator uses its original audio when SoftSpoken cannot start the clip immediately. On the 1.12.1 client, skipping a line SoftSpoken is playing may briefly interrupt other sound effects. The pack includes credits for the two Piper voice models.
 
@@ -75,7 +77,7 @@ node tools/gift-code.cjs issue --to "Character-Realm" --zone 1 --rubies 100 --da
 
 Other reward options are `--dungeon`, `--raid`, `--xp` and `--display ALBUM:COUNT` for an eligible album key. Use `--note` to include a message.
 
-## Prerelease status and sources
+## Validation and sources
 
 The automated Lua 5.0 suite checks all 221 loaded Lua files and exercises startup, inspection, full-screen and compact booster reveals, case batches and cancellation, contracts, catch-up, gift redemption, trade invitations, and Mythic voice selection in both languages. The optional pack was checked for **148 audio files** and matching manifest entries. Live graphical rendering, in-game audio playback and a complete trade between two players still need verification on OctoWoW.
 
