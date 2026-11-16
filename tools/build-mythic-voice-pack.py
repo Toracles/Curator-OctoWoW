@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 CloudNine_Ex
+# SPDX-License-Identifier: GPL-3.0-only
+
 """Generate the optional bilingual SoftSpoken pack from Curator's Mythic catalogue."""
 
 import argparse

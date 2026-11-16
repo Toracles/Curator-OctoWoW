@@ -2,16 +2,20 @@
 
 **English** · [Français](README.fr.md)
 
-Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, and open boosters with Curator’s original reveal animations. The port is a prerelease with local saves and runs entirely in the game client.
+Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, open boosters and cases, and trade with other players. The current prerelease is **alpha.38**. Collection saves are local. [License scope](LICENSE-SCOPE.md)
 
 ## Requirements
 
-- **Base installation.** Use the OctoWoW 1.12.1 client and install the base ZIP before applying the cumulative patch. The addon has no mandatory addon dependencies in its TOC.
-- **3D models and exploration catch-up.** Enable `ClassicAPI.dll` to supply the creature model and exploration APIs. Start OctoWoW through the launcher configured to load ClassicAPI. For manual setup, put the DLL alongside `WoW.exe`, add it to `dlls.txt`, and launch via `VanillaFixes.exe`. [ClassicAPI installation](https://github.com/brues-code/ClassicAPI#installation) · [OctoWoW Modernization Tool](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md)
-- **Quest catch-up.** This feature needs completed-quest history from the client or from Questie-Octo. Questie-Octo is optional if the client already exposes that history. [Questie-Octo](https://github.com/SandreaSub/Questie-Octo)
-- **Live trades.** Both players need Curator OctoWoW alpha.23 or later.
+| Feature | Requirement |
+| --- | --- |
+| Base addon | OctoWoW on the WoW 1.12.1 client, the base ZIP and the cumulative patch. The TOC declares zero mandatory addon dependencies. |
+| Available 3D creature models and exploration catch-up | Load `ClassicAPI.dll` through your OctoWoW launcher. The reference installation uses **ClassicAPI 1.20.6**. For manual setup, place the DLL alongside `WoW.exe`, add it to `dlls.txt`, and launch through VanillaFixes. [ClassicAPI](https://github.com/brues-code/ClassicAPI#installation) · [OctoWoW Modernization Tool](https://octowow.st/git/Dusk/Modernization-Tool/src/branch/main/README.md) |
+| Quest catch-up | Confirmed turn-in history from the client or [Questie-Octo](https://github.com/SandreaSub/Questie-Octo). |
+| Live trades | Curator OctoWoW **alpha.23 or later** on both players’ clients. |
+| Optional Mythic voices | **SoftSpoken** with public API v1 (the reference installation uses **0.8.1-beta**) and the separate bilingual voice pack. |
+| Optional gallery | The separate English/French gallery ZIP. |
 
-Hoard is optional and only used for legacy save migration. DXVK, HD packs, SuperWoW, and Nampower are separate client options. The original Curator Windows companion and development tools are unnecessary when installing from the release ZIPs.
+Hoard is optional and handles legacy save migration. DXVK, HD packs, SuperWoW and Nampower are separate client options. The release ZIPs install directly into the game. Node.js, Python, Lua, Piper and FFmpeg are used for maintenance, testing or asset generation.
 
 ## Install or update
 
@@ -25,6 +29,7 @@ For the optional bilingual gallery, extract [the gallery ZIP](https://github.com
 
 - **Catalogue and collection.** Vanilla albums plus 20 OctoWoW albums with 1,269 cards across zones, dungeons, and raids. The port replaces the previous server-specific catalogue and removes retired beta screens and achievements. Creature display IDs were matched to the OctoWoW client where available.
 - **Boosters and cases.** Animated openings, an adjustable booster bar, and a free **Test** button that automatically reveals the cards. Available 3D models follow the card as it moves or flips. Case previews show available NPC models without hovering. The collection also includes card finishes, appraisal, protective cases, and restoration.
+- **Inspection and Mythic entrances.** Inspect a revealed card to turn it, flip it or zoom in. Mythic entrances play on reveal when cinematics are enabled, with a title banner adapted for the 1.12.1 client. Eligible cards can replay the entrance from the inspection view.
 - **Progress and economy.** Collector levels, quests, achievements, talents, duplicate contracts, and the innkeeper’s loyalty card, visas, and bets. Local ruby prices are halved, and a case key costs 250 rubies at the base rate.
 - **Player trades.** Start a live invitation from the blue **Trade (Curator)** entry on a player portrait. After they accept the invitation, both players can preview the cards and boosters being offered. The initiator sends the final offer, and the recipient reviews and accepts it before the transfer. Both players need alpha.23 or later for the live preview. Classic offers remain available through `/curator trade`.
 - **Vanilla interface fixes.** Startup and model API compatibility, a reorganized album header and Guide button, and corrected case artwork layering. Alerts, bank panels, and the ruby ledger have opaque backgrounds. Innkeeper actions sit in the native dialogue, with fixes for loyalty stamp animations, dates, and overlapping bet windows. Player tooltips use the game’s own content.
@@ -48,6 +53,7 @@ Each verified quest turn-in grants **20 booster points** and can advance active 
 | Open the collection | `/curator` |
 | Save the collection | Click the scroll in the title bar or use `/curator save`. Confirm the return to character selection to save. Curator confirms the save when you log back in shortly afterward. |
 | Preview a booster opening | `/curator boosters` → **Test**. Uses no booster and grants no rewards. |
+| Inspect a revealed card | Click a revealed booster card or select **Inspect** after a case. Drag to rotate, click to flip, and scroll to zoom. Use **Replay its entrance** where available. |
 | Open collection cases | Open one case at its normal speed, or choose **5×**, **10×** or **20×** for faster consecutive reveals. Closing the scene stops the remaining openings. |
 | Resize or move the booster bar | Mouse wheel over the bar to change width, Ctrl + wheel to scale, Shift + drag to move. Use `/curator bar width 240` for an exact width or `/curator bar reset` to reset it. |
 | Trade duplicates for a higher-rarity card | **Contracts** or `/curator contract`. The parchment burns away before the reward appears. For case contracts, the reward details appear when you flip the card. |
@@ -67,12 +73,16 @@ Other reward options are `--dungeon`, `--raid`, `--xp` and `--display ALBUM:COUN
 
 ## Prerelease status and sources
 
-The automated Lua 5.0 suite covers loading, collection screens, booster reveals, catch-up, and simulated trade invitations and previews. Rendering and a complete trade between two players still need live client verification. This port uses local saves. The original Windows companion, online sync and restore, and the official Exchange are outside its scope.
+The automated Lua 5.0 suite checks all 221 loaded Lua files and exercises startup, inspection, full-screen and compact booster reveals, case batches and cancellation, contracts, catch-up, gift redemption, trade invitations, and Mythic voice selection in both languages. The optional pack was checked for **148 audio files** and matching manifest entries. Live graphical rendering, in-game audio playback and a complete trade between two players still need verification on OctoWoW.
+
+Collection saves stay local. The Windows companion, online sync and restore, and the official Exchange are outside the port’s scope.
 
 - [Release notes and downloads](https://github.com/Toracles/Curator-OctoWoW/releases)
 - [Addon scripts and licenses](curator-test) · [Port source](full-port) · [Build and test tools](tools) · [Porting notes in French](docs/PORTAGE-COMPLET.md)
 - [Questie-Octo catalogue data and notices](data) · [Creature display ID mappings](data/OctoDisplayIDs.tsv)
 
-The original Curator code, artwork, and data retain the rights stated in the [addon license](curator-test/LICENSE.txt) and [data notice](curator-test/Data/NOTICE.txt).
+## License
+
+The marked standalone port utilities use [GNU GPL version 3](LICENSE). See the [license scope and upstream notices](LICENSE-SCOPE.md) for the original Curator addon, artwork, data and the optional voice pack.
 
 ![Preview of the original OctoWoW gallery](docs/Apercu.png)

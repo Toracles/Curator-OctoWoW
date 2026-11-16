@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 CloudNine_Ex
+# SPDX-License-Identifier: GPL-3.0-only
+
 param(
     [Parameter(Mandatory)]
     [string]$GameRoot,

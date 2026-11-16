@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 CloudNine_Ex
+// SPDX-License-Identifier: GPL-3.0-only
+
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
