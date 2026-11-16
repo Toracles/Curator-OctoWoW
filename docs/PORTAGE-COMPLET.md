@@ -1,7 +1,7 @@
 
 # Portage complet de Curator 1.14.3
 
-Suivi de la préversion alpha.36 pour OctoWoW sur le client 1.12.1. L’installation associe le ZIP de base au correctif cumulatif. La galerie bilingue s’installe séparément.
+Suivi de la préversion alpha.38 pour OctoWoW sur le client 1.12.1. L’installation associe le ZIP de base au correctif cumulatif. La galerie bilingue s’installe séparément.
 
 | Fonction | État |
 | --- | --- |

@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import sys
 from gift_code_fixture import gift_code_fixture
@@ -240,6 +241,34 @@ for event, arg in [("ADDON_LOADED", "Curator"), ("PLAYER_LOGIN", None)]:
     result = lua.globals().traceEvent(event, arg)
     print(f"{event}: {result or 'no mock error'}")
     assert not result, result
+
+if len(sys.argv) == 3 and sys.argv[1] == "--export-mythic-voices":
+    export = lua.eval("""function()
+        local ns = CuratorOctoFull
+        local result = {}
+        for _, card in pairs(ns.Cards) do
+            if card.rarity == 6 and card.display and card.display > 0 and not (card.art and card.art.fill) then
+                local id = card.real or card.npc
+                local entry = {id = id, key = card.key, series = card.series.key, kind = card.type, friendly = card.friendly}
+                local lines = ns.CinematicLines[id] or {}
+                for _, locale in ipairs({"enUS", "frFR"}) do
+                    ns.SetLocale(locale)
+                    local fallback, chat = ns.Cinematic.Cliche(card)
+                    entry[locale] = {name = ns.Collection:Name(card), text = lines[locale] or fallback,
+                        scripted = lines[locale] ~= nil, chat = lines[locale] and 1 or chat}
+                end
+                table.insert(result, entry)
+            end
+        end
+        return result
+    end""")
+    def dict_of(table):
+        return {key: dict_of(value) if hasattr(value, "items") else value for key, value in table.items()}
+    rows = sorted((dict_of(row) for _, row in export().items()), key=lambda row: (row["id"], row["series"]))
+    assert len({row["key"] for row in rows}) == len(rows)
+    Path(sys.argv[2]).write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf8")
+    print(f"Exported {len(rows)} Mythic voice entries")
+    sys.exit(0)
 
 
 
@@ -1654,10 +1683,48 @@ stepFrames(30)
 assert(not cin:IsPlaying())
 defer = true
 start()
+stepFrames(2)
 assert(not active and removals == 2 and native == 5)
 cin:Stop()
+local gath
+for _, card in ipairs(ns.SeriesByKey("redridge").list) do
+    if card.npc == 334 then gath = card; break end
+end
+assert(gath and gath.rarity == 6 and gath.display == 6050)
+assert(cin.Cliche(gath) == ns.L["Bow before me!"])
+local cries = 0
+ns.Play = function(sound)
+    if sound == gath.sound then cries = cries + 1 end
+    return oldPlay(sound)
+end
+defer = false
+assert(cin:Play(gath, {}))
+assert(not cin.cue.voice)
+stepFrames(16)
+assert(cries == 1 and starts == 3 and not active)
+stepFrames(600)
+assert(not cin:IsPlaying() and cin.frame.banner.title:GetText() == ns.Collection:Name(gath))
+CuratorSoftSpokenVoices[334] = {
+    enUS = {path = "gath-en-test.mp3", length = 2, text = "Bow before me!"},
+    frFR = {path = "gath-fr-test.mp3", length = 11, text = "Prosternez-vous devant moi !"},
+}
+assert(cin:Play(gath, {}))
+stepFrames(16)
+assert(active and active.key == "curator-mythic:334" and active.path == "gath-fr-test.mp3" and starts == 4)
+assert(cin.frame.say:GetText() == "Prosternez-vous devant moi !" and cries == 1)
+stepFrames(190)
+assert(cin.spokenActive and not cin.t0)
+cin:Skip()
+stepFrames(30)
+assert(not cin:IsPlaying() and not active and removals == 3)
+ns.locale = "enUS"
+assert(cin:Play(gath, {}))
+stepFrames(16)
+assert(active and active.path == "gath-en-test.mp3" and cin.frame.say:GetText() == "Bow before me!")
+cin:Stop()
+assert(not active and removals == 4)
 ns.Play, ns.locale = oldPlay, oldLocale
 Spoken, CuratorSoftSpokenVoices = oldApi, oldVoices
 ns.db.softSpokenMythic = oldOption
 """)
-print("SoftSpoken: opt-in setting, synchronized captions, busy and unavailable fallback, and skip verified")
+print("SoftSpoken: Thrall dialogue and Gath'Ilzogg's original cry or optional clip, fallback, captions and skip verified")

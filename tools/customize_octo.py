@@ -1190,8 +1190,32 @@ local function BuildBanner(parent)""")
 def softspoken_entrances(text):
     text = replace(text, "function Cin:Prologue()",
                    (FULL_PORT / "SoftSpokenEntrance.lua").read_text(encoding="utf8") + "\n\nfunction Cin:Prologue()")
-    text = replace(text, "\t\t\tif cue.voice then", "\t\t\tif self:PlaySoftSpoken() then return end\n\t\t\tif cue.voice then")
+    text = replace(text, '\tlocal f, card, role = self.frame, self.card, self.role\n'
+                   '\tlocal cue = self.cue or {}\n\tself.phase = "line"',
+                   '\tlocal f = self.frame\n\tself.phase = "line"')
+    text = replace(text, """	f.sayName:SetAlpha(0)
+	local line = role and role.line""", """	f.sayName:SetAlpha(0)
+	if self:SoftSpokenVoice() then
+		ns.Delay(0.55, function()
+			if not self:PlaySoftSpoken() then self:NativePrologue(0.55) end
+		end, self)
+	else
+		self:NativePrologue(0)
+	end
+end
+
+function Cin:NativePrologue(elapsed)
+	local card, role, cue = self.card, self.role, self.cue or {}
+	local line = role and role.line""")
+    start = text.index("function Cin:NativePrologue")
+    end = text.index("local SIGNS", start)
+    native = text[start:end]
+    for delay in ("0.55", "0.45", "0.6", "wait"):
+        native = replace(native, f"ns.Delay({delay},", f"ns.Delay(math.max(0, {delay} - elapsed),")
+    text = text[:start] + native + text[end:]
     text = replace(text, "\tlocal speaking = false\n\tif self.voice", "\tlocal speaking = self.spokenActive == true\n\tif self.voice")
+    text = replace(text, "\tif (not speaking and ln.t", "\tlocal limit = self.spokenClip and math.max(LINE_MAX, self.spokenClip.length + 1) or LINE_MAX\n\tif (not speaking and ln.t")
+    text = replace(text, "or ln.t > LINE_MAX then", "or ln.t > limit then")
     text = replace(text, "\tself.lineOver = true\n\tlocal f = self.frame\n\tself:Fade(f.say, 0, 0.35)",
                    "\tself.lineOver = true\n\tself:StopSoftSpoken()\n\tlocal f = self.frame\n\tself:Fade(f.say, 0, 0.35)")
     text = replace(text, '\tself.phase = "out"\n\tlocal f = self.frame', '\tself.phase = "out"\n\tself:StopSoftSpoken()\n\tlocal f = self.frame')

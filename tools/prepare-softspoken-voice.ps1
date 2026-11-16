@@ -17,6 +17,10 @@ if ((Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash -ne $expectedHash
 
 $encoder = (Get-Command -Name $FFmpeg -CommandType Application).Source
 $pack = Join-Path $addons 'CuratorSoftSpokenVoices'
+$tocPath = Join-Path $pack 'CuratorSoftSpokenVoices.toc'
+if ((Test-Path -LiteralPath $tocPath) -and ((Get-Content -LiteralPath $tocPath -Raw) -match '(?m)^## Version: [2-9]\d*\s*$')) {
+    throw 'The bilingual voice pack is already installed.'
+}
 New-Item -Path $pack -ItemType Directory -Force | Out-Null
 $temporary = Join-Path $pack 'thrall.tmp'
 & $encoder -hide_banner -loglevel error -y -i $source -t 4 -map 0:a:0 -map_metadata -1 -codec:a libmp3lame -b:a 64k -f mp3 $temporary
@@ -30,7 +34,7 @@ Move-Item -LiteralPath $temporary -Destination (Join-Path $pack 'thrall.mp3') -F
 ## Version: 1
 
 Voices.lua
-'@ | Set-Content -LiteralPath (Join-Path $pack 'CuratorSoftSpokenVoices.toc') -Encoding ascii
+'@ | Set-Content -LiteralPath $tocPath -Encoding ascii
 
 $manifest = @'
 CuratorSoftSpokenVoices = {

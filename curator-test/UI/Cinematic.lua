@@ -1141,16 +1141,22 @@ end
 local LINE_HOLD = 1.0  -- (once written: a moment to read it, at least)
 local LINE_MAX = 9     -- (whatever its voice: never longer)
 local CLICHE_HOLD = 1.3 -- (a line without a voice: a moment more to read it)
-function Cin:PlaySoftSpoken()
-	if not (ns.db and ns.db.softSpokenMythic == true and self.card.rarity == 6) then return false end
+function Cin:SoftSpokenVoice()
+	if not (ns.db and ns.db.softSpokenMythic == true and self.card.rarity == 6) then return end
 	local spoken = _G.Spoken
 	local voices = _G.CuratorSoftSpokenVoices
 	local voice = voices and voices[self.card.real or self.card.npc]
 	if not (voice and spoken and spoken.IsCompatible and spoken:IsCompatible(1)
 		and spoken.GetQueueSize and spoken:GetQueueSize() == 0
 		and spoken.IsPaused and not spoken:IsPaused()) then
-		return false
+		return
 	end
+	return voice, spoken
+end
+
+function Cin:PlaySoftSpoken()
+	local voice, spoken = self:SoftSpokenVoice()
+	if not voice then return false end
 	local source = spoken:GetSource("curator-mythic")
 	if not source then
 		source = spoken:RegisterSource("curator-mythic", {
@@ -1158,10 +1164,14 @@ function Cin:PlaySoftSpoken()
 		})
 	end
 	if not source:CanPlay() then return false end
-	local words = (ns.locale == "frFR" and voice.frFR) or voice.enUS
+	local localized = (ns.locale == "frFR" and voice.frFR) or voice.enUS
+	local recording = type(localized) == "table" and localized or voice
+	local words = recording.text or localized
+	if type(words) ~= "string" or type(recording.path) ~= "string"
+		or type(recording.length) ~= "number" or recording.length <= 0 then return false end
 	local clip = {
 		key = "curator-mythic:" .. (self.card.real or self.card.npc),
-		path = voice.path, length = voice.length,
+		path = recording.path, length = recording.length,
 		present = { header = C:Name(self.card), transcript = words, portrait = { kind = "none" } },
 	}
 	clip.startCallback = function()
@@ -1190,18 +1200,27 @@ end
 
 
 function Cin:Prologue()
-	local f, card, role = self.frame, self.card, self.role
-	local cue = self.cue or {}
+	local f = self.frame
 	self.phase = "line"
 	self.line, self.lineOver, self.t0 = nil, false, nil
 	f.veil:SetAlpha(1)
 	f.say:SetAlpha(0)
 	f.sayName:SetAlpha(0)
+	if self:SoftSpokenVoice() then
+		ns.Delay(0.55, function()
+			if not self:PlaySoftSpoken() then self:NativePrologue(0.55) end
+		end, self)
+	else
+		self:NativePrologue(0)
+	end
+end
+
+function Cin:NativePrologue(elapsed)
+	local card, role, cue = self.card, self.role, self.cue or {}
 	local line = role and role.line
 	local text = line and LineText(card.real or card.npc, line)
 	if cue.voice or text then
-		ns.Delay(0.55, function()
-			if self:PlaySoftSpoken() then return end
+		ns.Delay(math.max(0, 0.55 - elapsed), function()
 			if cue.voice then
 				local ok, handle = ns.Play(line[1])
 				self.voice = ok and handle or nil
@@ -1212,13 +1231,13 @@ function Cin:Prologue()
 	end
 	-- (a creature without a line of its own: its cry in the dark, and one of the lines such creatures say written there)
 	if cue.cry then
-		ns.Delay(0.45, function()
+		ns.Delay(math.max(0, 0.45 - elapsed), function()
 			ns.Play(cue.cry)
 		end, self)
 	end
 	local cliche, chat = Cliche(card)
 	if cliche then
-		ns.Delay(0.6, function()
+		ns.Delay(math.max(0, 0.6 - elapsed), function()
 			self:TypeLine(cliche, chat)
 			if self.line then
 				self.line.hold = CLICHE_HOLD
@@ -1230,7 +1249,7 @@ function Cin:Prologue()
 	if cue.cry then
 		wait = card.rarity >= 6 and 1.95 or 1.65
 	end
-	ns.Delay(wait, function()
+	ns.Delay(math.max(0, wait - elapsed), function()
 		self:Begin()
 	end, self)
 end
@@ -1336,7 +1355,8 @@ function Cin:LineTick(elapsed)
 		local ok, on = pcall(C_Sound.IsPlaying, self.voice)
 		speaking = ok and on == true
 	end
-	if (not speaking and ln.t - (ln.doneT or 0) >= (ln.hold or LINE_HOLD)) or ln.t > LINE_MAX then
+	local limit = self.spokenClip and math.max(LINE_MAX, self.spokenClip.length + 1) or LINE_MAX
+	if (not speaking and ln.t - (ln.doneT or 0) >= (ln.hold or LINE_HOLD)) or ln.t > limit then
 		self:EndLine()
 	end
 end

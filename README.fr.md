@@ -16,7 +16,7 @@ Hoard est facultatif et sert uniquement à importer une ancienne sauvegarde. DXV
 ## Installer ou mettre à jour
 
 1. Pour une première installation, quitte OctoWoW et extrais le [ZIP de base](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.2/Curator-OctoWoW-test-1.12.1.zip) dans `Interface/AddOns`. Il contient l’addon complet, les illustrations et les sons.
-2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.36](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.36/Curator-OctoWoW-correctif-alpha.36.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
+2. Quitte OctoWoW avant d’appliquer le [correctif cumulatif alpha.38](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.38/Curator-OctoWoW-correctif-alpha.38.zip). Extrais-le au même endroit et fusionne les dossiers `Curator`. Si Curator est déjà installé depuis le ZIP de base, le correctif suffit. Garde tes sauvegardes de compte et de personnage dans `WTF`.
 3. Lance OctoWoW, active **Curator** à la sélection des personnages et tape `/curator`. Choisis le français ou l’anglais dans `/curator options`.
 
 Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.2.0-alpha.17/Curator-OctoWoW-Galerie-FR-EN.zip) dans `Interface/AddOns` et relance le jeu. Ouvre-la avec `/curatorgalerie` ou `/curatorgallery`, puis utilise **English / Français**. La galerie contient 259 cartes illustrées dans chaque langue.
@@ -31,13 +31,9 @@ Pour installer la galerie bilingue facultative, extrais le [ZIP de la galerie](h
 
 ## Voix Mythic optionnelles
 
-Avec le jeu fermé, exécute le script du ZIP du correctif dans PowerShell. Il utilise FFmpeg pour préparer un court extrait de Thrall depuis ton installation de SoftSpoken Stories. L’audio reste sur ton ordinateur.
+Avec le jeu fermé, extrais `Curator-SoftSpoken-Mythic-Voices-EN-FR.zip` depuis la [version de Curator](https://github.com/Toracles/Curator-OctoWoW/releases/tag/v0.2.0-alpha.38) dans `Interface/AddOns`. Relance le jeu avec SoftSpoken activé, puis coche **Voix Mythic via SoftSpoken** dans les options de Curator.
 
-```powershell
-& .\tools\prepare-softspoken-voice.ps1 -GameRoot 'C:\Games\OctoWoW'
-```
-
-Si FFmpeg est absent du PATH, indique son chemin complet avec `-FFmpeg`. Relance le jeu et active **Voix Mythic via SoftSpoken** dans les options de Curator. L’extrait est en anglais, avec des sous-titres en anglais ou en français. Curator utilise ses voix d’origine pour les autres cartes ou lorsque SoftSpoken ne peut pas démarrer l’extrait immédiatement. Sur le client 1.12.1, passer une réplique jouée par SoftSpoken peut couper brièvement d’autres effets sonores.
+Le pack couvre 75 cartes Mythic avec 74 répliques distinctes doublées en français et en anglais. La langue de Curator sélectionne la piste et les sous-titres. Curator utilise son audio d’origine si SoftSpoken ne peut pas démarrer la réplique immédiatement. Sur le client 1.12.1, passer une réplique jouée par SoftSpoken peut couper brièvement d’autres effets sonores. Les crédits des modèles vocaux Piper sont inclus dans le pack.
 
 ## Rattraper la progression d’un personnage
 
