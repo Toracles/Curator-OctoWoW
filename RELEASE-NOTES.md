@@ -1,3 +1,21 @@
+# 0.5.1-alpha.3 — local / locale
+
+FR : Audit de performance avec collection simulée de 2 000 exemplaires. Réutilisation du dernier inventaire filtré/trié avec invalidation sur les événements et fonctions de mutation ; recomptage systématique conservé pour les ventes. Rafraîchissements visuels redondants regroupés à l’image suivante, sans différer les attributions ni échanges. Apparence d’une cellule calculée une fois. Préparation progressive cachée après connexion, en pause en combat. Sauvegardes, migrations, animations, EN/FR et contrôles d’intégrité conservés. Admin privé exclu. Les mesures Lua simulées ne sont pas des mesures de latence/FPS du client.
+
+EN: Performance audit using a simulated 2,000-copy collection. Reuses the last filtered/sorted inventory with event/API invalidation; sales always recalculate. Redundant paints coalesced on the next frame, without delaying grants or trades. Cell appearance calculated once. Progressive hidden preparation after login pauses in combat. Saves, migrations, animations, EN/FR and integrity guards preserved. Private admin excluded. Simulated Lua measurements are not client latency/FPS measurements.
+
+# 0.5.1-alpha.2 — local / locale
+
+FR : Première construction via minimap répartie sur plusieurs images (album et inventaire), indication d’ouverture annulable, réutilisation à la réouverture. Les cartes de guilde sont construites à la demande. Les doublons, filtres et totaux d’inventaire partagent une seule liste courante des exemplaires au lieu de trois reconstructions ; aucun cache persistant. Animations et sauvegardes conservées. Module admin privé exclu. Gain réel à confirmer dans le client.
+
+EN: First minimap construction spans multiple frames (album and inventory), with a cancellable opening notice and reuse on subsequent openings. Guild cards are created on demand. Inventory duplicates, filters and totals share one current copy list instead of three reconstructions; no persistent cache. Animations and saves preserved. Private admin excluded. Actual client improvement remains to be verified.
+
+# 0.5.1-alpha.1 — local / locale
+
+FR : Corrige les variantes de menus joueur Vanilla (objet/nom et visibilité plate/imbriquée). Diffère les options sans registre client et la création des vignettes de caisses hors écran. Animations et attribution des récompenses conservées. Validation en jeu et échange réel à deux joueurs à effectuer.
+
+EN: Supports Vanilla player menu variants (frame/name and flat/nested visibility). Defers options without a client registry and offscreen case tile creation. Preserves animations and reward handling. In-game and real two-player trade verification pending.
+
 ## Français
 
 Curator OctoWoW v0.5.0 réunit l’addon, ses illustrations, ses sons et tous les correctifs jusqu’à alpha.38 dans un seul ZIP. Il sert à la fois pour une première installation et pour une mise à jour sur OctoWoW 1.18.1 avec le client WoW 1.12.1.

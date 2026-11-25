@@ -2,6 +2,8 @@
 
 from pathlib import Path
 import re
+from performance_transform import responsive_album, responsive_inventory
+from album_open_transform import album_open, social_open, minimap_open, inventory_open
 
 FULL_PORT = Path(__file__).resolve().parents[1] / "full-port"
 
@@ -285,7 +287,16 @@ def crate_batch(text):
         '\t\tif self:AdvanceBatch() then return end\n\t\t-- (for real: another case while there is one')
     text = replace(text, 'function CR:Stop()\n\tns.CancelOwner(self)',
         'function CR:Stop()\n\tns.CancelOwner(self)\n\tself:ClearBatch()')
-    return append_port(text, "CrateBatch.lua")
+    return opening_performance(append_port(text, "CrateBatch.lua"))
+
+
+def opening_performance(text):
+    start = text.index("function CR:PlaceItems()")
+    end = text.index("\n-- What the case holds scrolled", start)
+    return text[:start] + 'function CR:PlaceItems()\n\tlocal f = self.frame\n\tlocal list = self.caseList or {}\n\tlocal iw, ih = self.itemW, self.itemH\n\tif not self.slots or CuratorOctoFull.Length(self.slots) ~= CuratorOctoFull.Length(list) then\n\t\tself:Slots()\n\tend\n\tlocal vis = self.visRows or self.itemRows\n\tlocal top = self.scroll or 0\n\tfor i, pick in ipairs(list) do\n\t\tlocal row, col = self.slots[i][1], self.slots[i][2]\n\t\tlocal it = f.items[i]\n\t\tif row >= top and row < top + vis then\n\t\t\tit = it or self:Item(i)\n\t\t\tself:DressItem(it, pick)\n\t\t\tit:ClearAllPoints()\n\t\t\tit:SetPoint("TOPLEFT", f.panel, "TOPLEFT", 24 + col * (iw + self.ITEM_GAP), -(12 + 18 + 12) - (row - top) * (ih + self.ITEM_TEXT + 8))\n\t\telseif it then\n\t\t\tit:Hide()\n\t\tend\n\tend\n\t-- Tiles for unvisited rows have not been allocated yet.\n\tfor i, it in pairs(f.items) do\n\t\tif i > CuratorOctoFull.Length(list) then it:Hide() end\n\tend\n\t-- (the bar of the scroll: its thumb as long as the rows shown are of them all, where they are)\n\tlocal p = f.panel\n\tlocal more = self.itemRows > vis\n\tCuratorOctoFull.SetShown(p.track, more)\n\tCuratorOctoFull.SetShown(p.thumb, more)\n\tif more then\n\t\tlocal h = p:GetHeight() - (12 + 18 + 12) - 8\n\t\tp.track:ClearAllPoints()\n\t\tp.track:SetPoint("TOPRIGHT", p, "TOPRIGHT", -8, -(12 + 18 + 12))\n\t\tCuratorOctoFull.SetSize(p.track, 3, h)\n\t\tlocal th = math.max(16, h * vis / self.itemRows)\n\t\tp.thumb:ClearAllPoints()\n\t\tp.thumb:SetPoint("TOP", p.track, "TOP", 0, -(h - th) * top / math.max(1, self.itemRows - vis))\n\t\tCuratorOctoFull.SetSize(p.thumb, 3, th)\n\tend\nend\n' + text[end:]
+
+def options_performance(text):
+    return replace(text, "\tlocal p = self:Panel()\n\tif Settings and Settings.RegisterCanvasLayoutCategory", '\t-- Vanilla: construct the standalone options panel only on demand.\n\tif not (Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory)\n\t\tand not InterfaceOptions_AddCategory then\n\t\treturn false\n\tend\n' + "\tlocal p = self:Panel()\n\tif Settings and Settings.RegisterCanvasLayoutCategory")
 
 
 def case_capacity(text):
@@ -1373,14 +1384,15 @@ def apply(root: Path):
             r'Def\(\{ id = "(beta|pioneer|hardcup)",[^\n]+\n[^\n]+\n[^\n]+\}\)',
             r'Def({ id = "\1", gone = true })', text, count=3).replace(
                 '{ key = "hardcup", ach = "hardcup", name = "Hardcup Survivor" },', ""),
-        "UI/Album.lua": lambda text: album_model_viewport(cut(album_header(text), "-- A beta build says so", "function A:Reveal()"))
-            .replace("\tself:BetaMark()\n", ""),
+        "UI/Album.lua": lambda text: responsive_album(album_open(album_model_viewport(cut(album_header(text), "-- A beta build says so", "function A:Reveal()"))
+            .replace("\tself:BetaMark()\n", ""))),
+        "UI/Inventory.lua": lambda text: responsive_inventory(inventory_open(text)),
         "UI/Achievements.lua": achievement_header,
         "UI/Quests.lua": lambda text: replace(
             progress_header(text, "f.qEmblem", "f.qXP", "f.qNote").replace("Hud.Emblem(f, 56)", "Hud.Emblem(f, 46)", 1),
             'f.sub:SetPoint("TOPLEFT", 64, -55)', 'f.sub:SetPoint("TOPLEFT", 64, self.U.SUB_Y)'),
         "UI/Tour.lua": guide_button,
-        "UI/Options.lua": lambda text: softspoken_option(header_icon_button(text, "g")),
+        "UI/Options.lua": lambda text: options_performance(softspoken_option(header_icon_button(text, "g"))),
         "UI/Save.lua": native_save,
         "Data/FeedKey.lua": lambda text: append_port(text, "OctoGiftKey.lua"),
         "Gifts.lua": octo_gifts,
@@ -1388,10 +1400,10 @@ def apply(root: Path):
             '\t["Mythic voices via SoftSpoken"] = "Voix Mythic via SoftSpoken",\n})\n',
         "Curator.toc": lambda text: replace(text, "## OptionalDeps: Hoard", "## OptionalDeps: Hoard, SoftSpoken, CuratorSoftSpokenVoices"),
         "Trade.lua": trade_protocol,
-        "UI/Social.lua": trade_live_ui,
+        "UI/Social.lua": lambda text: social_open(trade_live_ui(text)),
         "UI/Players.lua": players_ui,
         "Quests.lua": quest_catch_up,
-        "UI/Minimap.lua": lambda text: cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total"),
+        "UI/Minimap.lua": lambda text: minimap_open(cut(text, "\t\t-- (a beta build:", "\t\tlocal owned, total")),
         "UI/Site.lua": lambda text: cut(text, "-- (1.12.0, later) The end of the beta", "local W = {}")
             .replace("W.BETA_END = 1792620000\n", "").split("\n-- (1.12.0, later) The end of the beta", 1)[0] + "\n",
         "UI/Hallow.lua": lambda text: replace(text,

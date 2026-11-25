@@ -891,6 +891,7 @@ function A:BuildSocial()
 	gd.hint:SetTextColor(0.7, 0.7, 0.74)
 
 	-- the guild list: in the part on the right
+	self:BuildGuildRows()
 	f.list:SetParent(page)
 	f.list:ClearAllPoints()
 	f.list:SetPoint("TOPLEFT", page, "TOPLEFT", X0, 0)

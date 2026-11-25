@@ -199,7 +199,8 @@ UIDROPDOWNMENU_INIT_MENU = "TestPortraitDropDown"
 TestPortraitDropDown = {}
 function UnitPopup_HideButtons()
  for index in ipairs(UnitPopupMenus[TestPortraitDropDown.which]) do
-  UnitPopupShown[1][index] = 1
+  local shown = type(UnitPopupShown[1]) == "table" and UnitPopupShown[1] or UnitPopupShown
+  shown[index] = 1
  end
 end
 function UnitPopup_OnClick() return this.value end
@@ -241,6 +242,54 @@ for event, arg in [("ADDON_LOADED", "Curator"), ("PLAYER_LOGIN", None)]:
     result = lua.globals().traceEvent(event, arg)
     print(f"{event}: {result or 'no mock error'}")
     assert not result, result
+
+lua.execute(r"""
+local ns = CuratorOctoFull
+local a = ns.Album
+assert(not a.frame)
+local factory, made = ns.NewCard, 0
+ns.NewCard = function(parent, size) made = made + 1; return factory(parent, size) end
+-- Use the actual left-click route, including its Vanilla event arguments.
+this, arg1 = ns.MinimapButton.button, "LeftButton"
+ns.MinimapButton.button:GetScript("OnClick")()
+assert(a.buildJob and made == 0 and a.buildNotice:IsShown())
+-- A repeated click cancels the pending reveal, not the build.
+a:ToggleFromMinimap()
+assert(not a.openAfterBuild)
+a:ToggleFromMinimap()
+assert(a.openAfterBuild)
+local frames = 0
+while a.buildJob do
+    local before = made
+    a:ResumeBuild()
+    assert(made - before <= 1, "Multiple card frames built in update " .. frames .. ": " .. (made-before))
+    frames = frames + 1
+    assert(frames < 100)
+end
+assert(frames > 18 and a.frame:IsShown() and not a.buildNotice:IsShown())
+assert(not a.frame.list.rows[1])
+local before = made
+a:Hide()
+a:ToggleFromMinimap()
+assert(a.frame:IsShown() and made == before)
+a:BuildGuildRows()
+assert(table.getn(a.frame.list.rows) == 7 and made == before + 7)
+a:BuildGuildRows()
+assert(made == before + 7)
+-- Refreshing the inventory reuses one current snapshot, never a stale cache.
+local all, calls = ns.Copies.All, 0
+ns.Copies.All = function(self) calls = calls + 1; return all(self) end
+ns.InventoryUI:InvalidateSurvey()
+local survey = ns.InventoryUI:Survey()
+assert(calls == 1 and survey.copies)
+calls = 0
+a:RefreshInventory()
+assert(calls == 0)
+ns.Copies.All = all
+a:Hide()
+ns.NewCard = factory
+""")
+print("Minimap first opening: incremental construction, repeated clicks, reopen reuse and lazy guild cards verified")
 
 if len(sys.argv) == 3 and sys.argv[1] == "--export-mythic-voices":
     export = lua.eval("""function()
@@ -951,6 +1000,32 @@ assert(not tour.active)
 print("Album header: toolbar, progress rows, album navigation and Guide button verified")
 
 lua.execute(r"""
+local cr = CuratorOctoFull.CrateUI
+local created = 0
+local view = setmetatable({frame = {items = {}, panel = cr.frame.panel},
+    caseList = {}, slots = {}, itemRows = 100, visRows = 2, scroll = 0,
+    itemW = 100, itemH = 100}, {__index = cr})
+for i = 1, 100 do view.caseList[i] = {}; view.slots[i] = {i - 1, 0} end
+function view:Item(i)
+    created = created + 1
+    local tile = {Hide = function(self) self.hidden = true end,
+        ClearAllPoints = function() end, SetPoint = function() end}
+    self.frame.items[i] = tile
+    return tile
+end
+function view:DressItem(tile) tile.hidden = false end
+view:PlaceItems()
+assert(created == 2 and not view.frame.items[3])
+view.scroll = 50
+view:PlaceItems()
+assert(created == 4 and view.frame.items[1].hidden and view.frame.items[51])
+view.scroll = 0
+view:PlaceItems()
+assert(created == 4 and not view.frame.items[1].hidden and view.frame.items[51].hidden)
+""")
+print("Case layout: 100 entries allocate only two visible tiles; scrolling reuses sparse tiles")
+
+lua.execute(r"""
 local ns = CuratorOctoFull
 local menu, entry = TestPortraitDropDown, "CURATOR_TRADE"
 local oldName, oldFaction, oldExists, oldPlayer, oldSame = UnitName, UnitFactionGroup, UnitExists, UnitIsPlayer, UnitIsUnit
@@ -1000,6 +1075,18 @@ for _, unit in ipairs({ "player", "pet", "enemy", "missing" }) do
     show("PLAYER", unit)
     assert(UnitPopupShown[1][3] == 0)
 end
+-- Vanilla: frame-valued menu and flat visibility array.
+local originalShown, originalMenu = UnitPopupShown, UIDROPDOWNMENU_INIT_MENU
+UnitPopupShown = {}
+UIDROPDOWNMENU_INIT_MENU = menu
+show("PLAYER", "party1")
+assert(UnitPopupShown[3] == 1)
+opened = nil
+click(entry)
+assert(opened == "Hector-Dubois")
+show("PLAYER", "player")
+assert(UnitPopupShown[3] == 0)
+UnitPopupShown, UIDROPDOWNMENU_INIT_MENU = originalShown, originalMenu
 ns.SetLocale(locale)
 ns.LiveTradeUI.Invite = invite
 units.target = "Brindille Dupont"

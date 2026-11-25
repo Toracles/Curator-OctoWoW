@@ -1477,18 +1477,20 @@ function CR:PlaceItems()
 	local vis = self.visRows or self.itemRows
 	local top = self.scroll or 0
 	for i, pick in ipairs(list) do
-		local it = self:Item(i)
 		local row, col = self.slots[i][1], self.slots[i][2]
+		local it = f.items[i]
 		if row >= top and row < top + vis then
+			it = it or self:Item(i)
 			self:DressItem(it, pick)
 			it:ClearAllPoints()
 			it:SetPoint("TOPLEFT", f.panel, "TOPLEFT", 24 + col * (iw + self.ITEM_GAP), -(12 + 18 + 12) - (row - top) * (ih + self.ITEM_TEXT + 8))
-		else
+		elseif it then
 			it:Hide()
 		end
 	end
-	for i = CuratorOctoFull.Length(list) + 1, CuratorOctoFull.Length(f.items) do
-		f.items[i]:Hide()
+	-- Tiles for unvisited rows have not been allocated yet.
+	for i, it in pairs(f.items) do
+		if i > CuratorOctoFull.Length(list) then it:Hide() end
 	end
 	-- (the bar of the scroll: its thumb as long as the rows shown are of them all, where they are)
 	local p = f.panel

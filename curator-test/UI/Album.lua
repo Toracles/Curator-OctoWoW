@@ -123,6 +123,7 @@ A.U = {
 }
 
 function A:Build()
+	if self.buildJob and not self.buildRunning then self:FinishBuild(); return end
 	if self.frame then
 		return
 	end
@@ -361,6 +362,7 @@ function A:Build()
 			A:SlotClick(self, button)
 		end)
 		f.slots[i] = c
+		self:BuildStep()
 	end
 	-- a light that passes over the page when it turns, under the cards, kept inside the page (1.1.1: it
 	-- went over the edges of the window)
@@ -546,8 +548,12 @@ function A:Build()
 	end)
 
 	self:BuildGuild()
+	self:BuildStep()
 	self:BuildContents()
+	self:BuildStep()
 	self:BuildDetail()
+	self:BuildStep()
+	if self.buildRunning and self.BuildInventory then self:BuildInventory(); self:BuildStep() end
 
 	CuratorOctoFull.SetScript(f, "OnShow", function()
 		A:Refresh()
@@ -598,7 +604,7 @@ function A:Build()
 				if A:ClaimsPage() then
 					A:QuestsChanged()
 				else
-					A:Refresh()
+					A:RequestRefresh()
 				end
 			end
 		end)
@@ -618,7 +624,7 @@ function A:Build()
 			if A:ClaimsPage() then
 				A:QuestsChanged()
 			elseif A.mode == "boosters" then
-				A:Refresh()
+				A:RequestRefresh()
 			else
 				A:PaintBadges()
 			end
@@ -1316,6 +1322,7 @@ function A:ShowPager(shown)
 end
 
 function A:Refresh()
+	self:CancelRefresh()
 	local f = self.frame
 	local s = self:Series()
 	self:ShowGold(false)
@@ -2591,15 +2598,9 @@ end
 -------------------------------------------------------------------------------
 -- Guild page: who shares their albums, best collections first.
 -------------------------------------------------------------------------------
-function A:BuildGuild()
-	local f = self.frame
-	local list = CreateFrame("Frame", nil, f.body)
-	list:SetPoint("TOPLEFT", 16, -14)
-	list:SetPoint("BOTTOMRIGHT", -16, PAGER)
-	list:SetFrameLevel(f.body:GetFrameLevel() + 20)
-	list:Hide()
-	f.list = list
-	list.rows = {}
+function A:BuildGuildRows()
+	local list = self.frame.list
+	if list.rows[1] then return end
 	for i = 1, ROWS_PER_PAGE do
 		local i = i; local r = S.ListButton(list)
 		r:SetHeight(ROW_H - 8)
@@ -2650,6 +2651,18 @@ function A:BuildGuild()
 		end)
 		list.rows[i] = r
 	end
+	self:HookBack(list)
+end
+
+function A:BuildGuild()
+	local f = self.frame
+	local list = CreateFrame("Frame", nil, f.body)
+	list:SetPoint("TOPLEFT", 16, -14)
+	list:SetPoint("BOTTOMRIGHT", -16, PAGER)
+	list:SetFrameLevel(f.body:GetFrameLevel() + 20)
+	list:Hide()
+	f.list = list
+	list.rows = {}
 	list.empty = S.Text(list, "GameFontHighlight")
 	list.empty:SetPoint("CENTER", 0, 20)
 	list.empty:SetWidth(520)
@@ -2682,6 +2695,7 @@ function A:BuildGuild()
 end
 
 function A:RefreshGuild()
+	self:BuildGuildRows()
 	local f = self.frame
 	local s = self:Series()
 	for _, c in ipairs(f.slots) do
@@ -3023,6 +3037,7 @@ function A:BuildContents()
 		t:SetPoint("TOPLEFT", toc, "TOPLEFT", (CuratorOctoFull.Mod((i - 1) , TOC_COLS)) * (TILE_W + TILE_GX), GRID_Y - math.floor((i - 1) / TOC_COLS) * TILE_ROW)
 		t:Hide()
 		toc.rows[i] = t
+		self:BuildStep()
 	end
 	toc.empty = S.Text(toc, "GameFontDisable")
 	toc.empty:SetPoint("TOP", toc, "TOP", 0, GRID_Y - 120)
@@ -3775,6 +3790,7 @@ function A:Show()
 end
 
 function A:Hide()
+	self:CancelRefresh()
 	if self.frame and self.frame:IsShown() then
 		self.frame:Hide()
 		ns.Play(ns.SND.close)
@@ -3810,4 +3826,119 @@ for _, e in ipairs({ "PLAYER_INFO", "GUILD_CHANGED" }) do
 			A:Seen(name)
 		end
 	end)
+end
+
+-- First minimap opening builds at most one card/tile per rendered frame.
+-- Other entry points can finish a pending build synchronously before using it.
+function A:BuildStep()
+    if self.buildRunning and self.buildJob then coroutine.yield() end
+end
+
+function A:ResumeBuild()
+    self.buildRunning = true
+    local ok, err = coroutine.resume(self.buildJob)
+    self.buildRunning = nil
+    if not ok then
+        self.buildJob, self.openAfterBuild, self.prewarming = nil, nil, nil
+        self.buildError = err
+        if self.buildDriver then self.buildDriver:Hide() end
+        if self.buildNotice then self.buildNotice:Hide() end
+        if geterrorhandler then geterrorhandler()(err) end
+        return false
+    end
+    if coroutine.status(self.buildJob) == "dead" then
+        local open = self.openAfterBuild
+        self.buildJob, self.openAfterBuild, self.prewarming = nil, nil, nil
+        self.buildDriver:Hide()
+        self.buildNotice:Hide()
+        if open then self:Show() end
+    end
+    return true
+end
+
+function A:FinishBuild()
+    -- A slash command or another page supersedes a pending minimap opening.
+    self.openAfterBuild = nil
+    while self.buildJob do
+        if not self:ResumeBuild() then return end
+    end
+end
+
+function A:ToggleFromMinimap()
+    if self.buildJob then
+        self.prewarming = nil
+        self.openAfterBuild = not self.openAfterBuild
+        CuratorOctoFull.SetShown(self.buildNotice, self.openAfterBuild)
+        return
+    end
+    if self.buildError then
+        ns.Print(ns.locale == "frFR" and "Rechargez l'interface pour réessayer." or "Reload the interface to retry.")
+        return
+    end
+    if self.frame or not (coroutine and coroutine.create and coroutine.resume and coroutine.yield) then
+        return self:Toggle()
+    end
+    self:StartBuild(true)
+end
+
+function A:StartBuild(open)
+    if not self.buildDriver then
+        local driver = CreateFrame("Frame")
+        driver:Hide()
+        CuratorOctoFull.SetScript(driver, "OnUpdate", function()
+            if A.prewarming and UnitAffectingCombat and UnitAffectingCombat("player") then return end
+            A:ResumeBuild()
+        end)
+        self.buildDriver = driver
+        local notice = S.Window("CuratorOpening", 300, 80)
+        notice:SetPoint("CENTER")
+        notice:Hide()
+        local text = S.Text(notice, "GameFontNormal")
+        text:SetPoint("CENTER", 0, -6)
+        text:SetText(ns.locale == "frFR" and "Ouverture de Curator…" or "Opening Curator…")
+        self.buildNotice = notice
+        CuratorOctoFull.SetScript(notice.CloseButton, "OnClick", function() notice:Hide() end)
+        CuratorOctoFull.SetScript(notice, "OnHide", function()
+            if A.buildJob then A.openAfterBuild = nil end
+        end)
+        tinsert(UISpecialFrames, "CuratorOpening")
+    end
+    self.openAfterBuild = open or nil
+    self.buildJob = coroutine.create(function() self:Build() end)
+    CuratorOctoFull.SetShown(self.buildNotice, open)
+    self.buildDriver:Show()
+end
+
+-- Prepare the same hidden frames after login, without delaying login or granting anything.
+function A:WarmUp()
+    if self.frame or self.buildJob or self.buildError then return end
+    if not (coroutine and coroutine.create and coroutine.resume and coroutine.yield) then return end
+    self.prewarming = true
+    self:StartBuild(false)
+end
+ns.On("LOGIN", function()
+    ns.Delay(3, function() A:WarmUp() end)
+end)
+
+-- Data/reward events remain synchronous; only redundant painting is coalesced.
+function A:CancelRefresh()
+    self.refreshPending = nil
+    if self.refreshDriver then self.refreshDriver:Hide() end
+end
+function A:FlushRefresh()
+    if not self.refreshPending then return end
+    self:CancelRefresh()
+    if self.frame and self.frame:IsShown() then
+        if self:ClaimsPage() then self:QuestsChanged() else self:Refresh() end
+    end
+end
+function A:RequestRefresh()
+    if self.refreshPending or not (self.frame and self.frame:IsShown()) then return end
+    if not self.refreshDriver then
+        self.refreshDriver = CreateFrame("Frame")
+        self.refreshDriver:Hide()
+        CuratorOctoFull.SetScript(self.refreshDriver, "OnUpdate", function() A:FlushRefresh() end)
+    end
+    self.refreshPending = true
+    self.refreshDriver:Show()
 end

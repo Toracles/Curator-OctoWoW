@@ -176,8 +176,8 @@ end
 
 -- A card drawn as a copy (its creature loaded again only when it shows another). On a card this small, the label of
 -- its case says its name and its grade only (the rest too small to be read, too long for its room).
-local function Dress(c, card, rec)
-	local opts, info, sig = Look(card, rec)
+local function Dress(c, card, rec, opts, info, sig)
+	if not opts then opts, info, sig = Look(card, rec) end
 	if c.sig ~= sig then
 		c.sig = sig
 		c:SetCard(card, opts)
@@ -248,9 +248,9 @@ end
 -- (1.14.0, a player's word) The finest copy of each card (the one that stays when its duplicates go: its finest finish,
 -- the most precious, the oldest), and how many copies of each card there are.
 local FIN_RANK = { c = 4, h = 3, s = 2 }
-function IU:Keepers()
+function IU:Keepers(all)
 	local keeper, count = {}, {}
-	for _, x in ipairs(CP:All()) do
+	for _, x in ipairs(all or CP:All()) do
 		local k, r = x.card.key, x.rec
 		count[k] = (count[k] or 0) + 1
 		local b = keeper[k]
@@ -296,8 +296,9 @@ function IU:Survey()
 	-- (1.14.0, a player's word: the duplicates only, every copy but the finest of each card; the last copy of a card,
 	-- unique: said at the reseller)
 	local dupes = self.dupes and not only or false
-	local keeper, count = self:Keepers()
-	for _, x in ipairs(CP:All()) do
+	local all = CP:All()
+	local keeper, count = self:Keepers(all)
+	for _, x in ipairs(all) do
 		local card, rec = x.card, x.rec
 		x.dupe = keeper[card.key] ~= rec
 		x.unique = (count[card.key] or 0) <= 1
@@ -397,7 +398,7 @@ function IU:Survey()
 		end
 		lines = items
 	end
-	return { lines = lines, chips = chips, gems = gems, taken = taken }
+	return { lines = lines, chips = chips, gems = gems, taken = taken, copies = all }
 end
 
 -- The copies shown, in the order asked (every page).
@@ -1139,9 +1140,9 @@ function IU:PaintCell(cell, x)
 	cell.card:Show()
 	local card, rec = x.card, x.rec
 	local c = cell.card
-	local _, info = Look(card, rec)
+	local opts, info, sig = Look(card, rec)
 	Seat(cell, info ~= nil)
-	Dress(c, card, rec)
+	Dress(c, card, rec, opts, info, sig)
 	local st, left = self:State(card, rec)
 	local sell = self.sell ~= nil
 	local takes, why
@@ -1717,8 +1718,10 @@ function A:BuildInventory()
 	page.cells = {}
 	for i = 1, PER do
 		page.cells[i] = NewCell(page, i, x0)
+		self:BuildStep()
 	end
 	page.lens = NewLens(page)
+	self:BuildStep()
 	page.empty = S.Text(page, "GameFontHighlight")
 	page.empty:SetPoint("TOP", 0, -190)
 	page.empty:SetWidth(w - 120)
@@ -2210,7 +2213,7 @@ function A:RefreshInventory()
 	if sell then
 		self:SetTitle(L["Sell to the reseller"], L["He takes them for next to nothing, as many as you want."])
 	else
-		local all = CP:All()
+		local all = sv.copies
 		local graded = 0
 		for _, x in ipairs(all) do
 			if CP.Grade(x.rec) and x.rec.sl ~= false then
@@ -2592,7 +2595,7 @@ end
 
 local function Changed()
 	if A.frame and A.frame:IsShown() and A.mode == "inventory" and not (A.detail and A.detail:IsShown()) then
-		A:Refresh()
+		A:RequestRefresh()
 	end
 end
 ns.On("COPIES_CHANGED", Changed)
@@ -2611,3 +2614,48 @@ ns.On("RESELLER", function(here)
 		IU:PaintSell()
 	end
 end)
+
+-- Cache the last local view only. Never cache a reseller transaction.
+-- Cache records point at the real copies; all normal mutation routes invalidate it.
+function IU:InvalidateSurvey()
+    self.surveyCache = nil
+end
+local survey = IU.Survey
+function IU:Survey()
+    if self.sell then self:InvalidateSurvey(); return survey(self) end
+    local cache = self.surveyCache
+    if not (cache and cache.db == ns.db and cache.filter == self.filter
+        and cache.sort == self.sort and cache.rarity == self.rarity and cache.card == self.card
+        and cache.series == self.series and cache.dupes == self.dupes) then
+        local value = survey(self)
+        cache = { db = ns.db, filter = self.filter, sort = self.sort, rarity = self.rarity,
+            card = self.card, series = self.series, dupes = self.dupes, value = value }
+        self.surveyCache = cache
+    end
+    local value, chips, gems = cache.value, {}, {}
+    -- Header code adds object/case counts: keep cached counts immutable.
+    for k, v in pairs(value.chips) do chips[k] = v end
+    for k, v in pairs(value.gems) do gems[k] = v end
+    return { lines = value.lines, copies = value.copies, chips = chips, gems = gems, taken = value.taken }
+end
+for _, event in ipairs({ "LOADED", "CHANGED", "COPIES_CHANGED", "CASES_CHANGED", "DISPLAYS_CHANGED",
+    "GOLDEN_CHANGED", "TRADES_CHANGED", "LIVE_TRADE_CHANGED", "SHOWCASE_CHANGED", "TALENTS_CHANGED",
+    "MAIN_CHANGED", "FOREVER_RESET", "COPY_CERTIFIED", "COPY_RESTORED", "COPY_RESTORING",
+    "CASE_RESTORED", "CASE_RESTORING", "CARD_APPRAISED", "CARD_PURIFIED", "CARD_SEALED",
+    "BANK_CHANGED", "ENCHANTER_CHANGED", "MASTER_CHANGED", "CHEST_CHANGED" }) do
+    ns.On(event, function() IU:InvalidateSurvey() end)
+end
+-- Direct grants/removals invalidate even before their caller fires CHANGED.
+local function watch(object, keys)
+    for _, key in ipairs(keys) do
+        local old = object[key]
+        if old then
+            object[key] = function(self, ...)
+                IU:InvalidateSurvey()
+                return old(self, unpack(arg, 1, arg.n))
+            end
+        end
+    end
+end
+watch(C, { "Add" })
+watch(CP, { "Added", "Take", "Put", "Stamp", "Purified" })

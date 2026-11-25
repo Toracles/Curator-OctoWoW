@@ -1,0 +1,653 @@
+{
+  "date": "2026-11-25",
+  "scope": "Static hotspot inventory of all loaded runtime modules; targeted source review and behavioral simulations. Not a line-by-line correctness or security audit. No in-game CPU, FPS, texture or disk measurement.",
+  "loaded_lua_files": 221,
+  "onupdate_registration_sites": 96,
+  "fixture": "Lua 5.1 simulated APIs; 250 cards x 8 copies; not game latency",
+  "comparisons": {
+    "first_minimap": {
+      "before": {
+        "mock_cpu_ms": 54.0,
+        "lua_instructions_approx": 4672000,
+        "calls": {
+          "copies_reconcile": 771,
+          "new_card": 41,
+          "inventory_survey": 1,
+          "copies_all": 3,
+          "album_refresh": 1
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 55.0,
+        "lua_instructions_approx": 4687000,
+        "calls": {
+          "copies_reconcile": 771,
+          "new_card": 41,
+          "inventory_survey": 1,
+          "copies_all": 3,
+          "album_refresh": 1
+        }
+      },
+      "lua_instruction_reduction_percent": -0.3
+    },
+    "warm_reopen_5": {
+      "before": {
+        "mock_cpu_ms": 93.0,
+        "lua_instructions_approx": 15534000,
+        "calls": {
+          "copies_reconcile": 1355,
+          "album_refresh": 5,
+          "copies_all": 5,
+          "inventory_survey": 5
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 10.0,
+        "lua_instructions_approx": 1118000,
+        "calls": {
+          "copies_reconcile": 105,
+          "album_refresh": 5,
+          "inventory_survey": 5
+        }
+      },
+      "lua_instruction_reduction_percent": 92.8
+    },
+    "inventory_refresh_5": {
+      "before": {
+        "mock_cpu_ms": 114.0,
+        "lua_instructions_approx": 18623000,
+        "calls": {
+          "copies_reconcile": 1626,
+          "album_refresh": 6,
+          "copies_all": 6,
+          "inventory_survey": 6
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 9.0,
+        "lua_instructions_approx": 1324000,
+        "calls": {
+          "copies_reconcile": 126,
+          "album_refresh": 6,
+          "inventory_survey": 6
+        }
+      },
+      "lua_instruction_reduction_percent": 92.9
+    },
+    "inventory_pages_5": {
+      "before": {
+        "mock_cpu_ms": 147.0,
+        "lua_instructions_approx": 18495000,
+        "calls": {
+          "copies_reconcile": 1355,
+          "album_refresh": 5,
+          "copies_all": 5,
+          "inventory_survey": 5
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 40.0,
+        "lua_instructions_approx": 3754000,
+        "calls": {
+          "copies_reconcile": 105,
+          "album_refresh": 5,
+          "inventory_survey": 5
+        }
+      },
+      "lua_instruction_reduction_percent": 79.7
+    },
+    "album_navigation": {
+      "before": {
+        "mock_cpu_ms": 23.0,
+        "lua_instructions_approx": 2184000,
+        "calls": {
+          "copies_reconcile": 54,
+          "album_refresh": 5
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 21.0,
+        "lua_instructions_approx": 1956000,
+        "calls": {
+          "copies_reconcile": 54,
+          "album_refresh": 5
+        }
+      },
+      "lua_instruction_reduction_percent": 10.4
+    },
+    "profile": {
+      "before": {
+        "mock_cpu_ms": 11.0,
+        "lua_instructions_approx": 958000,
+        "calls": {
+          "album_progress": 85,
+          "album_refresh": 1,
+          "copies_reconcile": 9,
+          "new_card": 17
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 14.0,
+        "lua_instructions_approx": 960000,
+        "calls": {
+          "album_progress": 85,
+          "album_refresh": 1,
+          "copies_reconcile": 9,
+          "new_card": 17
+        }
+      },
+      "lua_instruction_reduction_percent": -0.2
+    },
+    "quests": {
+      "before": {
+        "mock_cpu_ms": 14.0,
+        "lua_instructions_approx": 1807000,
+        "calls": {
+          "album_progress": 168,
+          "album_refresh": 1
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 15.0,
+        "lua_instructions_approx": 1807000,
+        "calls": {
+          "album_progress": 168,
+          "album_refresh": 1
+        }
+      },
+      "lua_instruction_reduction_percent": 0.0
+    },
+    "achievements": {
+      "before": {
+        "mock_cpu_ms": 5.0,
+        "lua_instructions_approx": 426000,
+        "calls": {
+          "album_refresh": 1
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 7.0,
+        "lua_instructions_approx": 426000,
+        "calls": {
+          "album_refresh": 1
+        }
+      },
+      "lua_instruction_reduction_percent": 0.0
+    },
+    "cases_preview": {
+      "before": {
+        "mock_cpu_ms": 4.0,
+        "lua_instructions_approx": 341000,
+        "calls": {}
+      },
+      "after": {
+        "mock_cpu_ms": 5.0,
+        "lua_instructions_approx": 341000,
+        "calls": {}
+      },
+      "lua_instruction_reduction_percent": 0.0
+    },
+    "minimap_tooltip_5": {
+      "before": {
+        "mock_cpu_ms": 7.0,
+        "lua_instructions_approx": 915000,
+        "calls": {
+          "album_progress": 420
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 8.0,
+        "lua_instructions_approx": 915000,
+        "calls": {
+          "album_progress": 420
+        }
+      },
+      "lua_instruction_reduction_percent": 0.0
+    },
+    "event_burst": {
+      "before": {
+        "mock_cpu_ms": 294.0,
+        "lua_instructions_approx": 49955000,
+        "calls": {
+          "copies_reconcile": 4336,
+          "album_refresh": 16,
+          "copies_all": 16,
+          "inventory_survey": 16
+        }
+      },
+      "after": {
+        "mock_cpu_ms": 28.0,
+        "lua_instructions_approx": 3620000,
+        "calls": {
+          "copies_reconcile": 292,
+          "album_refresh": 2,
+          "copies_all": 1,
+          "inventory_survey": 2
+        }
+      },
+      "lua_instruction_reduction_percent": 92.8
+    },
+    "closed_events": {
+      "before": {
+        "mock_cpu_ms": 3.0,
+        "lua_instructions_approx": 81000,
+        "calls": {}
+      },
+      "after": {
+        "mock_cpu_ms": 2.0,
+        "lua_instructions_approx": 82000,
+        "calls": {}
+      },
+      "lua_instruction_reduction_percent": -1.2
+    }
+  },
+  "changes": [
+    "Last local inventory query cached with data/event/API invalidation; bypassed for reseller sales",
+    "Redundant album/inventory paints merged at next rendered frame; all data and reward callbacks still synchronous",
+    "Inventory cell appearance computed once per cell instead of twice",
+    "UI progressively prepared in background after login; pauses in combat and stays hidden"
+  ],
+  "reviewed_systems": {
+    "startup_compatibility": "Guard snapshots, saved-variable copy, migration and sealing preserved. Their cost is required work, not removed.",
+    "minimap_inventory": "Measured and optimized; warmup and cached reopen tested.",
+    "albums_profile_quests_achievements": "Opening scenarios measured; lazy page construction retained; claim animations bypass coalescing.",
+    "boosters_cases_contracts": "Existing signature reuse, lazy case tiles, animation pacing and reward-before-animation semantics retained; full regression coverage.",
+    "trade_gifts_restore_appraisal": "No change to acceptance, signatures, reward receipts or reconciliation; invalidation events covered.",
+    "networking": "Wire OnUpdate armed only while queued; polling period and protocol preserved.",
+    "animation_timers": "Fx and compatibility timers stop when empty; visible-card animations retained. Static list of callbacks below is an inventory, not a client cost measurement.",
+    "storage_localization_media": "No changes to saves, migrations, receipts, EN/FR, inherited notices, optional voice/gallery, private admin boundary."
+  },
+  "remaining_limits": [
+    "Cold media/model loads and first visits to secondary pages can still be perceptible; require in-game measurement.",
+    "No claim of globally instantaneous interactions or measured game FPS improvement.",
+    "Real two-player trade and client DXVK/HD instability remain unverified.",
+    "Cache requires native mutation functions/events; unsupported direct edits to ns.db must be followed by CHANGED or InvalidateSurvey().",
+    "Global and per-frame background costs have not been profiled in the real client."
+  ],
+  "onupdate_sites": [
+    {
+      "file": "curator-test\\OctoCompat.lua",
+      "line": 80
+    },
+    {
+      "file": "curator-test\\Wire.lua",
+      "line": 666
+    },
+    {
+      "file": "curator-test\\Wire.lua",
+      "line": 673
+    },
+    {
+      "file": "curator-test\\Talents.lua",
+      "line": 2845
+    },
+    {
+      "file": "curator-test\\Lodging.lua",
+      "line": 375
+    },
+    {
+      "file": "curator-test\\UI\\Fx.lua",
+      "line": 93
+    },
+    {
+      "file": "curator-test\\UI\\Hud.lua",
+      "line": 388
+    },
+    {
+      "file": "curator-test\\UI\\Hud.lua",
+      "line": 499
+    },
+    {
+      "file": "curator-test\\UI\\Hud.lua",
+      "line": 573
+    },
+    {
+      "file": "curator-test\\UI\\Hud.lua",
+      "line": 883
+    },
+    {
+      "file": "curator-test\\UI\\LevelUp.lua",
+      "line": 137
+    },
+    {
+      "file": "curator-test\\UI\\Offers.lua",
+      "line": 488
+    },
+    {
+      "file": "curator-test\\UI\\Complete.lua",
+      "line": 203
+    },
+    {
+      "file": "curator-test\\UI\\Card.lua",
+      "line": 465
+    },
+    {
+      "file": "curator-test\\UI\\Card.lua",
+      "line": 482
+    },
+    {
+      "file": "curator-test\\UI\\Card.lua",
+      "line": 489
+    },
+    {
+      "file": "curator-test\\UI\\Box3D.lua",
+      "line": 505
+    },
+    {
+      "file": "curator-test\\UI\\Box3D.lua",
+      "line": 1012
+    },
+    {
+      "file": "curator-test\\UI\\Box3D.lua",
+      "line": 1014
+    },
+    {
+      "file": "curator-test\\UI\\Toast.lua",
+      "line": 296
+    },
+    {
+      "file": "curator-test\\UI\\Cinematic.lua",
+      "line": 610
+    },
+    {
+      "file": "curator-test\\UI\\Booster.lua",
+      "line": 554
+    },
+    {
+      "file": "curator-test\\UI\\Inspect.lua",
+      "line": 472
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 592
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 2306
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 2670
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 3046
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 3888
+    },
+    {
+      "file": "curator-test\\UI\\Album.lua",
+      "line": 3940
+    },
+    {
+      "file": "curator-test\\UI\\Contract.lua",
+      "line": 903
+    },
+    {
+      "file": "curator-test\\UI\\Contract.lua",
+      "line": 2682
+    },
+    {
+      "file": "curator-test\\UI\\Contract.lua",
+      "line": 3243
+    },
+    {
+      "file": "curator-test\\UI\\Achievements.lua",
+      "line": 259
+    },
+    {
+      "file": "curator-test\\UI\\Achievements.lua",
+      "line": 443
+    },
+    {
+      "file": "curator-test\\UI\\Profile.lua",
+      "line": 774
+    },
+    {
+      "file": "curator-test\\UI\\Profile.lua",
+      "line": 843
+    },
+    {
+      "file": "curator-test\\UI\\Quests.lua",
+      "line": 281
+    },
+    {
+      "file": "curator-test\\UI\\Quests.lua",
+      "line": 380
+    },
+    {
+      "file": "curator-test\\UI\\Quests.lua",
+      "line": 561
+    },
+    {
+      "file": "curator-test\\UI\\Quests.lua",
+      "line": 1255
+    },
+    {
+      "file": "curator-test\\UI\\Social.lua",
+      "line": 954
+    },
+    {
+      "file": "curator-test\\UI\\Talents.lua",
+      "line": 965
+    },
+    {
+      "file": "curator-test\\UI\\Wheel.lua",
+      "line": 197
+    },
+    {
+      "file": "curator-test\\UI\\Golden.lua",
+      "line": 1329
+    },
+    {
+      "file": "curator-test\\UI\\Inns.lua",
+      "line": 508
+    },
+    {
+      "file": "curator-test\\UI\\Inns.lua",
+      "line": 1715
+    },
+    {
+      "file": "curator-test\\UI\\Tavern.lua",
+      "line": 167
+    },
+    {
+      "file": "curator-test\\UI\\Tavern.lua",
+      "line": 537
+    },
+    {
+      "file": "curator-test\\UI\\Tour.lua",
+      "line": 256
+    },
+    {
+      "file": "curator-test\\UI\\Links.lua",
+      "line": 672
+    },
+    {
+      "file": "curator-test\\UI\\PatternsView.lua",
+      "line": 173
+    },
+    {
+      "file": "curator-test\\UI\\Live.lua",
+      "line": 174
+    },
+    {
+      "file": "curator-test\\UI\\Minimap.lua",
+      "line": 89
+    },
+    {
+      "file": "curator-test\\UI\\Minimap.lua",
+      "line": 101
+    },
+    {
+      "file": "curator-test\\UI\\BoosterBar.lua",
+      "line": 258
+    },
+    {
+      "file": "curator-test\\UI\\Lodging.lua",
+      "line": 101
+    },
+    {
+      "file": "curator-test\\UI\\Lodging.lua",
+      "line": 110
+    },
+    {
+      "file": "curator-test\\UI\\Lodging.lua",
+      "line": 295
+    },
+    {
+      "file": "curator-test\\UI\\Reroll.lua",
+      "line": 728
+    },
+    {
+      "file": "curator-test\\UI\\Expertise.lua",
+      "line": 217
+    },
+    {
+      "file": "curator-test\\UI\\Expertise.lua",
+      "line": 444
+    },
+    {
+      "file": "curator-test\\UI\\Seal.lua",
+      "line": 344
+    },
+    {
+      "file": "curator-test\\UI\\Inventory.lua",
+      "line": 1577
+    },
+    {
+      "file": "curator-test\\UI\\Inventory.lua",
+      "line": 1735
+    },
+    {
+      "file": "curator-test\\UI\\Restore.lua",
+      "line": 373
+    },
+    {
+      "file": "curator-test\\UI\\Restore.lua",
+      "line": 1392
+    },
+    {
+      "file": "curator-test\\UI\\Restore.lua",
+      "line": 2484
+    },
+    {
+      "file": "curator-test\\UI\\Restore.lua",
+      "line": 2854
+    },
+    {
+      "file": "curator-test\\UI\\Restore.lua",
+      "line": 3045
+    },
+    {
+      "file": "curator-test\\UI\\Displays.lua",
+      "line": 311
+    },
+    {
+      "file": "curator-test\\UI\\Displays.lua",
+      "line": 1114
+    },
+    {
+      "file": "curator-test\\UI\\Displays.lua",
+      "line": 1516
+    },
+    {
+      "file": "curator-test\\UI\\Displays.lua",
+      "line": 1583
+    },
+    {
+      "file": "curator-test\\UI\\Reseller.lua",
+      "line": 293
+    },
+    {
+      "file": "curator-test\\UI\\Save.lua",
+      "line": 480
+    },
+    {
+      "file": "curator-test\\UI\\Save.lua",
+      "line": 818
+    },
+    {
+      "file": "curator-test\\UI\\Hallow.lua",
+      "line": 59
+    },
+    {
+      "file": "curator-test\\UI\\Hallow.lua",
+      "line": 62
+    },
+    {
+      "file": "curator-test\\UI\\CrateBox.lua",
+      "line": 592
+    },
+    {
+      "file": "curator-test\\UI\\CrateCard.lua",
+      "line": 463
+    },
+    {
+      "file": "curator-test\\UI\\CrateCard.lua",
+      "line": 465
+    },
+    {
+      "file": "curator-test\\UI\\CrateCard.lua",
+      "line": 503
+    },
+    {
+      "file": "curator-test\\UI\\CrateCard.lua",
+      "line": 1621
+    },
+    {
+      "file": "curator-test\\UI\\CaseFilm.lua",
+      "line": 60
+    },
+    {
+      "file": "curator-test\\UI\\CaseFilm.lua",
+      "line": 63
+    },
+    {
+      "file": "curator-test\\UI\\CaseFilm.lua",
+      "line": 83
+    },
+    {
+      "file": "curator-test\\UI\\CaseFilm.lua",
+      "line": 125
+    },
+    {
+      "file": "curator-test\\UI\\Crate.lua",
+      "line": 1042
+    },
+    {
+      "file": "curator-test\\UI\\Crate.lua",
+      "line": 1112
+    },
+    {
+      "file": "curator-test\\UI\\Crate.lua",
+      "line": 1122
+    },
+    {
+      "file": "curator-test\\UI\\CaseInventory.lua",
+      "line": 712
+    },
+    {
+      "file": "curator-test\\UI\\Mages.lua",
+      "line": 299
+    },
+    {
+      "file": "curator-test\\UI\\Mages.lua",
+      "line": 306
+    },
+    {
+      "file": "curator-test\\UI\\Mages.lua",
+      "line": 775
+    },
+    {
+      "file": "curator-test\\UI\\DiscoveryPage.lua",
+      "line": 332
+    },
+    {
+      "file": "curator-test\\UI\\Market.lua",
+      "line": 2126
+    }
+  ]
+}

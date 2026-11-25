@@ -1,5 +1,11 @@
 # Curator OctoWoW
 
+Local 0.5.1-alpha.3: inventory views reused until data or filters change, paints coalesced per frame, and progressive hidden preparation after login that pauses in combat. Improvements measured with simulated APIs; actual game responsiveness remains to be verified.
+
+Local 0.5.1-alpha.2: first minimap opening builds across frames, guild cards are created on demand, and inventory refresh reuses one current copy snapshot. Restart or reload after installation; real client timing remains to be verified.
+
+Local 0.5.1-alpha.1 fix: Vanilla menu variants supported; options built on demand when no client registry exists; offscreen case tiles deferred. Simulated validation; in-game verification pending.
+
 **English** · [Français](README.fr.md)
 
 Curator 1.14.3 ported by CloudNine_Ex to **OctoWoW 1.18.1 on the WoW 1.12.1 client**. Collect creature cards, fill regional albums, open boosters and cases, and trade with other players. Collection saves are local. [License scope](LICENSE-SCOPE.md)

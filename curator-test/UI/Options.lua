@@ -718,6 +718,11 @@ function O:Register()
 		return self.category ~= nil or self.legacy
 	end
 	self.registered = true
+	-- Vanilla: construct the standalone options panel only on demand.
+	if not (Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory)
+		and not InterfaceOptions_AddCategory then
+		return false
+	end
 	local p = self:Panel()
 	if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
 		local ok, cat = pcall(Settings.RegisterCanvasLayoutCategory, p, "Curator")

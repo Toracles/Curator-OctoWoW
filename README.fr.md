@@ -1,5 +1,11 @@
 # Curator OctoWoW
 
+Correctif local 0.5.1-alpha.3 : inventaire réutilisé jusqu’à modification des données/filtres, rafraîchissements regroupés par image et préparation progressive cachée après connexion, en pause pendant le combat. Gains mesurés sur API simulées ; fluidité du client à confirmer en jeu.
+
+Correctif local 0.5.1-alpha.2 : première ouverture par la minimap répartie sur plusieurs images, cartes de guilde créées à la demande et une seule reconstruction des exemplaires par rafraîchissement d’inventaire. Redémarrer ou recharger l’interface après installation ; temps réel à confirmer en jeu.
+
+Correctif local 0.5.1-alpha.1 : menu d’échange compatible avec les variantes Vanilla ; options créées à la demande sans registre client ; vignettes de caisses hors écran différées. Validation simulée, validation en jeu à effectuer.
+
 [English](README.md) · **Français**
 
 Portage de Curator 1.14.3 adapté par CloudNine_Ex à **OctoWoW 1.18.1 sur le client WoW 1.12.1**. Collectionne les cartes de créatures, complète les albums, ouvre des boosters et des caisses, et échange avec d’autres joueurs. La collection est sauvegardée localement. [Périmètre de la licence](LICENSE-SCOPE.md#français)

@@ -4,3 +4,7 @@ port-reference/
 .port-runtime/
 full-port-work/
 __pycache__/
+
+# Private maintainer companion: never commit or release.
+private-local/
+tools/test_local_admin.py

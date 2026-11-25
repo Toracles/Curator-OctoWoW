@@ -6,6 +6,12 @@ do
         return ns.locale == "frFR" and "Échange (Curator)" or "Trade (Curator)"
     end
 
+    local function activeMenu()
+        local menu = UIDROPDOWNMENU_INIT_MENU or UIDROPDOWNMENU_OPEN_MENU
+        if type(menu) == "string" then return _G[menu] end
+        return menu
+    end
+
     local function menuTarget(menu)
         if not (menu and portraitMenus[menu.which]) then return end
         local name = P:UnitName(menu.unit)
@@ -41,8 +47,10 @@ do
         local hideButtons = UnitPopup_HideButtons
         UnitPopup_HideButtons = function()
             hideButtons()
-            local menu = _G[UIDROPDOWNMENU_INIT_MENU]
-            local shown = UnitPopupShown[UIDROPDOWNMENU_MENU_LEVEL]
+            local menu = activeMenu()
+            local shown = UnitPopupShown
+            local level = shown[UIDROPDOWNMENU_MENU_LEVEL or 1]
+            if type(level) == "table" then shown = level end
             if not (menu and portraitMenus[menu.which] and shown) then return end
             local name = menuTarget(menu)
             menu.curatorTradeTarget = name
@@ -60,7 +68,7 @@ do
             if not (this and this.value == entry) then
                 return click(unpack(arg, 1, arg.n))
             end
-            local menu = _G[UIDROPDOWNMENU_INIT_MENU]
+            local menu = activeMenu()
             local name = menuTarget(menu)
             -- A portrait can change units while its menu is still open.
             if name and name == menu.curatorTradeTarget then

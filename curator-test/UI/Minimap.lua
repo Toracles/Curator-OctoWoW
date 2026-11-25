@@ -80,7 +80,7 @@ function M:Build()
 		if button == "RightButton" then
 			ns.OpenBooster()
 		else
-			ns.Album:Toggle()
+			ns.Album:ToggleFromMinimap()
 		end
 	end)
 	CuratorOctoFull.SetScript(b, "OnDragStart", function(self)
