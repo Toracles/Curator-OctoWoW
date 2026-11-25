@@ -1,4 +1,4 @@
-# 0.5.1-alpha.3 — local / locale
+# 0.5.1-alpha.3 — prerelease / préversion
 
 FR : Audit de performance avec collection simulée de 2 000 exemplaires. Réutilisation du dernier inventaire filtré/trié avec invalidation sur les événements et fonctions de mutation ; recomptage systématique conservé pour les ventes. Rafraîchissements visuels redondants regroupés à l’image suivante, sans différer les attributions ni échanges. Apparence d’une cellule calculée une fois. Préparation progressive cachée après connexion, en pause en combat. Sauvegardes, migrations, animations, EN/FR et contrôles d’intégrité conservés. Admin privé exclu. Les mesures Lua simulées ne sont pas des mesures de latence/FPS du client.
 

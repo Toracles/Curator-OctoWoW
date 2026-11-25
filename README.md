@@ -1,10 +1,6 @@
 # Curator OctoWoW
 
-Local 0.5.1-alpha.3: inventory views reused until data or filters change, paints coalesced per frame, and progressive hidden preparation after login that pauses in combat. Improvements measured with simulated APIs; actual game responsiveness remains to be verified.
-
-Local 0.5.1-alpha.2: first minimap opening builds across frames, guild cards are created on demand, and inventory refresh reuses one current copy snapshot. Restart or reload after installation; real client timing remains to be verified.
-
-Local 0.5.1-alpha.1 fix: Vanilla menu variants supported; options built on demand when no client registry exists; offscreen case tiles deferred. Simulated validation; in-game verification pending.
+**Prerelease v0.5.1-alpha.3** — [Complete ZIP](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.1-alpha.3/Curator-OctoWoW-v0.5.1-alpha.3.zip). Faster inventory navigation, progressive UI preparation and Vanilla menu fixes. Simulated benchmarks; in-game validation pending.
 
 **English** · [Français](README.fr.md)
 

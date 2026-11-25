@@ -1,10 +1,6 @@
 # Curator OctoWoW
 
-Correctif local 0.5.1-alpha.3 : inventaire réutilisé jusqu’à modification des données/filtres, rafraîchissements regroupés par image et préparation progressive cachée après connexion, en pause pendant le combat. Gains mesurés sur API simulées ; fluidité du client à confirmer en jeu.
-
-Correctif local 0.5.1-alpha.2 : première ouverture par la minimap répartie sur plusieurs images, cartes de guilde créées à la demande et une seule reconstruction des exemplaires par rafraîchissement d’inventaire. Redémarrer ou recharger l’interface après installation ; temps réel à confirmer en jeu.
-
-Correctif local 0.5.1-alpha.1 : menu d’échange compatible avec les variantes Vanilla ; options créées à la demande sans registre client ; vignettes de caisses hors écran différées. Validation simulée, validation en jeu à effectuer.
+**Préversion v0.5.1-alpha.3** — [ZIP complet](https://github.com/Toracles/Curator-OctoWoW/releases/download/v0.5.1-alpha.3/Curator-OctoWoW-v0.5.1-alpha.3.zip). Navigation d’inventaire optimisée, préparation progressive de l’interface et correctifs des menus Vanilla. Mesures simulées ; validation en jeu restante.
 
 [English](README.md) · **Français**
 
